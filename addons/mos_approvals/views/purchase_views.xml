@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_purchase_order_form_mos_approval" model="ir.ui.view">
+        <field name="name">purchase.order.form.mos.approval</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@id='draft_confirm']" position="before">
+                <button name="action_mos_submit_approval" type="object" string="Submit for approval" class="btn-primary"
+                        invisible="state not in ('draft', 'sent') or mos_approval_state in ('pending', 'approved')"/>
+                <button name="action_mos_recall_approval" type="object" string="Recall approval request"
+                        invisible="mos_approval_state != 'pending'"/>
+            </xpath>
+            <xpath expr="//field[@name='date_order']" position="after">
+                <field name="mos_approval_state" widget="badge" decoration-success="mos_approval_state == 'approved'" decoration-warning="mos_approval_state == 'pending'" decoration-danger="mos_approval_state in ('rejected', 'returned')"/>
+                <field name="mos_approval_request_id" invisible="not mos_approval_request_id"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

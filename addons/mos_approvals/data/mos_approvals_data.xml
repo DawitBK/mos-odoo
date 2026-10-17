@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_approval_request" model="ir.sequence">
+        <field name="name">MOS approval request</field>
+        <field name="code">mos.approval.request</field>
+        <field name="prefix">AP-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="cron_escalate_approvals" model="ir.cron">
+        <field name="name">MOS: escalate overdue approvals</field>
+        <field name="model_id" ref="model_mos_approval_step"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_escalate()</field>
+        <field name="interval_number">30</field>
+        <field name="interval_type">minutes</field>
+        <field name="active" eval="True"/>
+    </record>
+</odoo>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The matrix -->
+    <record id="view_mos_approval_rule_list" model="ir.ui.view">
+        <field name="name">mos.approval.rule.list</field>
+        <field name="model">mos.approval.rule</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="doc_type"/>
+                <field name="sequence"/>
+                <field name="amount_from"/>
+                <field name="amount_to"/>
+                <field name="site_id"/>
+                <field name="group_id"/>
+                <field name="fallback_group_id"/>
+                <field name="sla_hours"/>
+                <field name="allow_bulk"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_approval_rule" model="ir.actions.act_window">
+        <field name="name">Approval matrix</field>
+        <field name="res_model">mos.approval.rule</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- The comment dialog -->
+    <record id="view_mos_approval_decide_form" model="ir.ui.view">
+        <field name="name">mos.approval.decide.form</field>
+        <field name="model">mos.approval.decide</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="outcome"/>
+                    <field name="comment" placeholder="Why? (required to reject or send back)"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_approval_decide_approve" model="ir.actions.act_window">
+        <field name="name">Approve</field>
+        <field name="res_model">mos.approval.decide</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_step_id': active_id, 'default_outcome': 'approved'}</field>
+    </record>
+    <record id="action_mos_approval_decide_reject" model="ir.actions.act_window">
+        <field name="name">Reject</field>
+        <field name="res_model">mos.approval.decide</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_step_id': active_id, 'default_outcome': 'rejected'}</field>
+    </record>
+    <record id="action_mos_approval_decide_return" model="ir.actions.act_window">
+        <field name="name">Send back</field>
+        <field name="res_model">mos.approval.decide</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="context">{'default_step_id': active_id, 'default_outcome': 'returned'}</field>
+    </record>
+
+    <!-- The inbox: steps that wait for me -->
+    <record id="view_mos_approval_step_list" model="ir.ui.view">
+        <field name="name">mos.approval.step.list</field>
+        <field name="model">mos.approval.step</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-danger="escalated" js_class="">
+                <field name="doc_name"/>
+                <field name="amount"/>
+                <field name="requester_id"/>
+                <field name="sequence" string="Stage"/>
+                <field name="group_id"/>
+                <field name="due_at"/>
+                <field name="escalated" column_invisible="True"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_approval_step_form" model="ir.ui.view">
+        <field name="name">mos.approval.step.form</field>
+        <field name="model">mos.approval.step</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="%(action_mos_approval_decide_approve)d" string="Approve" type="action" class="btn-primary" invisible="state != 'pending'"/>
+                    <button name="%(action_mos_approval_decide_return)d" string="Send back" type="action" invisible="state != 'pending'"/>
+                    <button name="%(action_mos_approval_decide_reject)d" string="Reject" type="action" class="btn-danger" invisible="state != 'pending'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved"/>
+                </header>
+                <sheet>
+                    <h1><field name="doc_name"/></h1>
+                    <group>
+                        <group>
+                            <field name="amount"/>
+                            <field name="requester_id"/>
+                            <field name="group_id"/>
+                        </group>
+                        <group>
+                            <field name="due_at"/>
+                            <field name="escalated"/>
+                            <field name="decided_by_id"/>
+                            <field name="on_behalf_of_id"/>
+                            <field name="decided_at"/>
+                        </group>
+                    </group>
+                    <field name="comment" placeholder="Comment"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_approval_inbox" model="ir.actions.act_window">
+        <field name="name">Approvals inbox</field>
+        <field name="res_model">mos.approval.step</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('state', '=', 'pending'), ('eligible_user_ids', 'in', uid)]</field>
+        <field name="help" type="html"><p class="o_view_nocontent_smiling_face">Nothing is waiting for you.</p></field>
+    </record>
+    <record id="action_mos_approval_bulk" model="ir.actions.server">
+        <field name="name">Approve selected</field>
+        <field name="model_id" ref="model_mos_approval_step"/>
+        <field name="binding_model_id" ref="model_mos_approval_step"/>
+        <field name="state">code</field>
+        <field name="code">action = records.action_bulk_approve()</field>
+    </record>
+
+    <!-- Requests and their immutable history -->
+    <record id="view_mos_approval_request_list" model="ir.ui.view">
+        <field name="name">mos.approval.request.list</field>
+        <field name="model">mos.approval.request</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0" edit="0" decoration-success="state == 'approved'" decoration-danger="state in ('rejected', 'returned')" decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="doc_name"/>
+                <field name="amount"/>
+                <field name="requester_id"/>
+                <field name="submitted_at"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_approval_request_form" model="ir.ui.view">
+        <field name="name">mos.approval.request.form</field>
+        <field name="model">mos.approval.request</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" edit="0">
+                <header>
+                    <button name="action_recall" string="Recall" type="object" invisible="state != 'pending'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="pending,approved"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="doc_name"/>
+                            <field name="amount"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="requester_id"/>
+                            <field name="submitted_at"/>
+                            <field name="closed_at"/>
+                        </group>
+                    </group>
+                    <field name="step_ids">
+                        <list>
+                            <field name="sequence" string="Stage"/>
+                            <field name="group_id"/>
+                            <field name="state" widget="badge"/>
+                            <field name="decided_by_id"/>
+                            <field name="on_behalf_of_id"/>
+                            <field name="decided_at"/>
+                            <field name="comment"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_approval_request" model="ir.actions.act_window">
+        <field name="name">All approvals</field>
+        <field name="res_model">mos.approval.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Delegation -->
+    <record id="view_mos_approval_delegation_list" model="ir.ui.view">
+        <field name="name">mos.approval.delegation.list</field>
+        <field name="model">mos.approval.delegation</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="delegator_id"/>
+                <field name="delegate_id"/>
+                <field name="date_from"/>
+                <field name="date_to"/>
+                <field name="doc_type"/>
+                <field name="max_amount"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_approval_delegation" model="ir.actions.act_window">
+        <field name="name">Delegations</field>
+        <field name="res_model">mos.approval.delegation</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem id="menu_mos_approvals" name="Approvals" parent="mos_core.menu_mos_root" sequence="5"/>
+    <menuitem id="menu_mos_approval_inbox" name="Inbox" parent="menu_mos_approvals" action="action_mos_approval_inbox" sequence="10"/>
+    <menuitem id="menu_mos_approval_requests" name="All approvals" parent="menu_mos_approvals" action="action_mos_approval_request" sequence="20"/>
+    <menuitem id="menu_mos_approval_delegation" name="Delegations" parent="menu_mos_approvals" action="action_mos_approval_delegation" sequence="30"/>
+    <menuitem id="menu_mos_approval_rules" name="Approval matrix" parent="mos_core.menu_mos_config" action="action_mos_approval_rule" sequence="40"/>
+</odoo>

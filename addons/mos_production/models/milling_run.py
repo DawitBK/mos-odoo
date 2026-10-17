@@ -20,7 +20,7 @@ class MosMillingRun(models.Model):
 
     name = fields.Char(readonly=True, copy=False, default='New')
     site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
-    run_date = fields.Date(required=True, default=fields.Date.context_today)
+    run_date = fields.Date(required=True, default=lambda self: self._default_run_date())
     shift = fields.Selection([('day', 'Day'), ('night', 'Night')], default='day', required=True)
     state = fields.Selection([('draft', 'Planned'), ('done', 'Completed')], default='draft', required=True, readonly=True, tracking=True)
     input_ids = fields.One2many('mos.milling.input', 'run_id', string='Wheat drawn')
@@ -30,6 +30,11 @@ class MosMillingRun(models.Model):
     bran_kg = fields.Float(string='Bran and offal (kg)', compute='_compute_totals', store=True, digits=(14, 0))
     loss_kg = fields.Float(string='Loss (kg)', compute='_compute_totals', store=True, digits=(14, 0), help='Moisture, dust and weighing difference.')
     extraction_pct = fields.Float(string='Extraction (%)', compute='_compute_totals', store=True, digits=(5, 2))
+
+    def _default_run_date(self):
+        # The date at the mill (the site's time zone), not in Greenwich (FR-PLT-004).
+        site = self.env.user.mos_site_ids[:1] or self.env['mos.site'].search([], limit=1)
+        return site.business_date() if site else fields.Date.context_today(self)
 
     @api.depends('input_ids.qty_kg', 'output_ids.qty_kg', 'output_ids.kind')
     def _compute_totals(self):

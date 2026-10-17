@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_approval_rule_user,Approval rule: read,mos.approval.rule,mos_core.group_mos_user,r,
+access_mos_approval_rule_admin,Approval rule: administrators,mos.approval.rule,mos_core.group_mos_admin,crud,
+access_mos_approval_request_user,Approval request: the people involved,mos.approval.request,mos_core.group_mos_user,r,"['|', '|', ('requester_id', '=', user.id), ('step_ids.eligible_user_ids', 'in', user.id), ('step_ids.decided_by_id', '=', user.id)]"
+access_mos_approval_request_admin,Approval request: administrators read,mos.approval.request,mos_core.group_mos_admin,r,
+access_mos_approval_step_user,Approval step: the approvers,mos.approval.step,mos_core.group_mos_user,r,"['|', '|', ('eligible_user_ids', 'in', user.id), ('decided_by_id', '=', user.id), ('request_id.requester_id', '=', user.id)]"
+access_mos_approval_step_admin,Approval step: administrators read,mos.approval.step,mos_core.group_mos_admin,r,
+access_mos_approval_delegation_user,Delegation: own,mos.approval.delegation,mos_core.group_mos_user,crud,"['|', ('delegator_id', '=', user.id), ('delegate_id', '=', user.id)]"
+access_mos_approval_delegation_admin,Delegation: administrators,mos.approval.delegation,mos_core.group_mos_admin,r,
+access_mos_approval_decide_user,Decision dialog,mos.approval.decide,mos_core.group_mos_user,crud,
