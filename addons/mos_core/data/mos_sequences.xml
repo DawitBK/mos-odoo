@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Gap-free (implementation "no_gap"): weigh tickets and inspections never skip a number (FR-PLT-041). -->
+    <record id="seq_weigh_ticket" model="ir.sequence">
+        <field name="name">MOS weigh ticket</field>
+        <field name="code">mos.weigh.ticket</field>
+        <field name="prefix">WT-%(range_year)s-</field>
+        <field name="padding">6</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_gate_visit" model="ir.sequence">
+        <field name="name">MOS gate visit</field>
+        <field name="code">mos.gate.visit</field>
+        <field name="prefix">GV-%(range_year)s-</field>
+        <field name="padding">6</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_lab_inspection" model="ir.sequence">
+        <field name="name">MOS inspection</field>
+        <field name="code">mos.lab.inspection</field>
+        <field name="prefix">QI-%(range_year)s-</field>
+        <field name="padding">6</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+</odoo>

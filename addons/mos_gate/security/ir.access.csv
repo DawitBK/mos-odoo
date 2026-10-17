@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_gate_visit_user,Gate visit: assigned sites,mos.gate.visit,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_visit_guard,Gate visit: guard,mos.gate.visit,group_mos_gate_guard,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_visit_admin,Gate visit: administrators,mos.gate.visit,mos_core.group_mos_admin,cru,
+access_mos_weigh_ticket_user,Weigh ticket: assigned sites,mos.weigh.ticket,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_weigh_ticket_guard,Weigh ticket: guard,mos.weigh.ticket,group_mos_gate_guard,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_weigh_ticket_verifier,Weigh ticket: verifier,mos.weigh.ticket,group_mos_gate_verifier,ru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_weigh_ticket_admin,Weigh ticket: administrators,mos.weigh.ticket,mos_core.group_mos_admin,r,

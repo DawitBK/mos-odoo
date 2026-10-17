@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <!-- Shows the "sign in" button on the login page. The button's link is rebuilt by our controller:
+         it ignores the implicit-flow parameters Odoo appends and starts the code flow with PKCE. -->
+    <record id="provider_mos_sso" model="auth.oauth.provider">
+        <field name="name">SSO</field>
+        <field name="body">Sign in with SSO</field>
+        <field name="client_id">mos</field>
+        <field name="auth_endpoint">/mos/oidc/login</field>
+        <field name="validation_endpoint">/mos/oidc/unused</field>
+        <field name="enabled" eval="False"/>
+        <field name="sequence">1</field>
+    </record>
+</odoo>

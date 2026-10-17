@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_gate_visit_form_inbound" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.inbound</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <button name="action_start_weighing" position="after">
+                <button name="action_open_inspection" string="Open inspection" type="object" invisible="state not in ('weighing', 'weighed') or inspection_id"/>
+                <button name="action_prepare_grn" string="Prepare goods receipt" type="object" invisible="state != 'weighed' or grn_state != 'none'"/>
+                <button name="action_confirm_grn" string="Confirm goods receipt" type="object" class="btn-primary" invisible="grn_state != 'prepared'" groups="mos_inbound.group_mos_storekeeper"/>
+            </button>
+            <field name="net_weight" position="after">
+                <field name="inspection_id"/>
+                <field name="grn_picking_id"/>
+                <field name="grn_state"/>
+            </field>
+        </field>
+    </record>
+</odoo>

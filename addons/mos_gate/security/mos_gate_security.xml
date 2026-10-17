@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_mos_gate_guard" model="res.groups">
+        <field name="name">Gate guard</field>
+        <field name="sequence">30</field>
+        <field name="privilege_id" ref="mos_core.res_groups_privilege_mos"/>
+        <field name="implied_ids" eval="[(4, ref('mos_core.group_mos_user'))]"/>
+    </record>
+    <record id="group_mos_gate_verifier" model="res.groups">
+        <field name="name">Weight verifier</field>
+        <field name="sequence">31</field>
+        <field name="privilege_id" ref="mos_core.res_groups_privilege_mos"/>
+        <field name="implied_ids" eval="[(4, ref('mos_core.group_mos_user'))]"/>
+    </record>
+</odoo>

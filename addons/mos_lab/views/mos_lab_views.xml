@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_lab_spec_form" model="ir.ui.view">
+        <field name="name">mos.lab.spec.form</field>
+        <field name="model">mos.lab.spec</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_new_version" string="New version" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="version"/>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="unit"/>
+                            <field name="min_value"/>
+                            <field name="max_value"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_lab_spec_list" model="ir.ui.view">
+        <field name="name">mos.lab.spec.list</field>
+        <field name="model">mos.lab.spec</field>
+        <field name="arch" type="xml">
+            <list><field name="name"/><field name="state" widget="badge"/></list>
+        </field>
+    </record>
+    <record id="action_mos_lab_spec" model="ir.actions.act_window">
+        <field name="name">Specifications</field>
+        <field name="res_model">mos.lab.spec</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mos_lab_inspection_form" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit_results" string="Submit results" type="object" class="btn-primary" invisible="state != 'open'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="visit_id"/>
+                            <field name="product_id"/>
+                            <field name="spec_id"/>
+                        </group>
+                        <group>
+                            <field name="suggested_outcome" widget="badge"/>
+                            <field name="decision"/>
+                            <field name="deduction_pct"/>
+                            <field name="net_weight"/>
+                            <field name="payable_qty"/>
+                        </group>
+                    </group>
+                    <field name="result_ids">
+                        <list create="0" edit="0">
+                            <field name="line_id"/>
+                            <field name="value"/>
+                            <field name="passed"/>
+                            <field name="valid"/>
+                            <field name="invalid_cause"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_lab_inspection_list" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.list</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/><field name="visit_id"/><field name="product_id"/>
+                <field name="suggested_outcome" widget="badge"/><field name="decision"/><field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_lab_inspection" model="ir.actions.act_window">
+        <field name="name">Inspections</field>
+        <field name="res_model">mos.lab.inspection</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_mos_lab" name="Lab" parent="mos_core.menu_mos_root" sequence="20"/>
+    <menuitem id="menu_mos_lab_inspections" name="Inspections" parent="menu_mos_lab" action="action_mos_lab_inspection" sequence="10"/>
+    <menuitem id="menu_mos_lab_specs" name="Specifications" parent="menu_mos_lab" action="action_mos_lab_spec" sequence="20"/>
+</odoo>

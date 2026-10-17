@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mos_root" name="MOS" sequence="40" groups="group_mos_user"/>
+    <menuitem id="menu_mos_config" name="Configuration" parent="menu_mos_root" sequence="90" groups="group_mos_admin"/>
+    <menuitem id="menu_mos_sites" name="Sites" parent="menu_mos_config" action="action_mos_site" sequence="10"/>
+    <menuitem id="menu_mos_reasons" name="Reason codes" parent="menu_mos_config" action="action_mos_reason" sequence="20"/>
+    <menuitem id="menu_mos_audit" name="Audit log" parent="menu_mos_config" action="action_mos_audit" sequence="30"/>
+</odoo>

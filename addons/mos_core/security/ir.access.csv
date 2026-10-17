@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_site_user,MOS site: assigned sites,mos.site,group_mos_user,r,"[('id', 'in', user.mos_site_ids.ids)]"
+access_mos_site_admin,MOS site: administrators,mos.site,group_mos_admin,cru,
+access_mos_reason_user,MOS reason: read,mos.reason,group_mos_user,r,
+access_mos_reason_admin,MOS reason: administrators,mos.reason,group_mos_admin,cru,
+access_mos_audit_admin,MOS audit: administrators read,mos.audit.event,group_mos_admin,r,

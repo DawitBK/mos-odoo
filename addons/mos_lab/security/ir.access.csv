@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_lab_spec_user,Specification: read,mos.lab.spec,mos_core.group_mos_user,r,
+access_mos_lab_spec_manager,Specification: lab manager,mos.lab.spec,group_mos_lab_manager,cru,
+access_mos_lab_spec_line_user,Specification parameter: read,mos.lab.spec.line,mos_core.group_mos_user,r,
+access_mos_lab_spec_line_manager,Specification parameter: lab manager,mos.lab.spec.line,group_mos_lab_manager,crud,
+access_mos_lab_inspection_user,Inspection: assigned sites,mos.lab.inspection,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_inspection_analyst,Inspection: analyst,mos.lab.inspection,group_mos_lab_analyst,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_inspection_admin,Inspection: administrators,mos.lab.inspection,mos_core.group_mos_admin,r,
+access_mos_lab_result_user,Inspection result: assigned sites,mos.lab.result,mos_core.group_mos_user,r,"[('inspection_id.site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_result_analyst,Inspection result: analyst,mos.lab.result,group_mos_lab_analyst,cru,"[('inspection_id.site_id', 'in', user.mos_site_ids.ids)]"

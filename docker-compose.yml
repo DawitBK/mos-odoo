@@ -1,0 +1,45 @@
+# MOS on Odoo 20, for development and acceptance on one machine. Everything binds to 127.0.0.1.
+#   docker compose up -d db
+#   docker compose run --rm odoo odoo -d mos -i mos_core,mos_gate,mos_lab,mos_inbound --stop-after-init
+#   docker compose up -d odoo        # http://127.0.0.1:8069
+name: mos-odoo
+
+services:
+  db:
+    image: postgres:17
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: ${MOS_DB_PASSWORD:?set MOS_DB_PASSWORD}
+      POSTGRES_DB: postgres
+    ports:
+      - '127.0.0.1:${MOS_DB_PORT:-5450}:5432'
+    volumes:
+      - mos-db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U odoo']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  odoo:
+    image: odoo:20.0
+    restart: unless-stopped
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      HOST: db
+      USER: odoo
+      PASSWORD: ${MOS_DB_PASSWORD:?set MOS_DB_PASSWORD}
+    ports:
+      - '127.0.0.1:${MOS_ODOO_PORT:-8069}:8069'
+    volumes:
+      - ./addons:/mnt/extra-addons:ro
+      - ./config/odoo.conf:/etc/odoo/odoo.conf:ro
+      - ./tools:/mnt/tools:ro
+      - mos-files:/var/lib/odoo
+
+volumes:
+  mos-db:
+  mos-files:
