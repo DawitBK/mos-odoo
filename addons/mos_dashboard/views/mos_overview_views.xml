@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_overview_form" model="ir.ui.view">
+        <field name="name">mos.overview.form</field>
+        <field name="model">mos.overview</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0" duplicate="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Mill overview</h1>
+                        <h3 class="text-muted"><field name="title"/></h3>
+                    </div>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_trucks" type="object" class="oe_stat_button" icon="fa-truck">
+                            <field name="trucks_on_site" widget="statinfo" string="Trucks on site"/>
+                        </button>
+                        <button name="action_open_inspections" type="object" class="oe_stat_button" icon="fa-flask">
+                            <field name="inspections_open" widget="statinfo" string="Awaiting decision"/>
+                        </button>
+                        <button name="action_open_planned_runs" type="object" class="oe_stat_button" icon="fa-cogs">
+                            <field name="planned_runs" widget="statinfo" string="Planned runs"/>
+                        </button>
+                        <button name="action_open_silos" type="object" class="oe_stat_button" icon="fa-database">
+                            <field name="silo_fill_pct" widget="statinfo" string="% silo capacity used"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group string="Wheat received">
+                            <field name="received_today_kg" string="Today (kg)"/>
+                            <field name="received_month_kg" string="This month (kg)"/>
+                            <field name="rejected_month" string="Loads rejected this month"/>
+                            <field name="rejection_rate" string="Rejection rate (%)"/>
+                        </group>
+                        <group string="Milling">
+                            <field name="wheat_today_kg" string="Wheat milled today (kg)"/>
+                            <field name="flour_today_kg" string="Flour made today (kg)"/>
+                            <field name="extraction_30d" string="Extraction rate, last 30 days (%)"/>
+                            <field name="flour_stock_kg" string="Flour in stock (kg)"/>
+                        </group>
+                    </group>
+                    <separator string="Silos"/>
+                    <field name="silo_ids" nolabel="1" readonly="1">
+                        <list decoration-warning="status in ('high', 'low')" decoration-danger="status == 'full'" decoration-muted="status == 'empty'">
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="level_kg"/>
+                            <field name="capacity_kg"/>
+                            <field name="fill_pct" widget="progressbar"/>
+                            <field name="status" widget="badge" decoration-success="status == 'ok'" decoration-warning="status in ('low', 'high')" decoration-danger="status == 'full'"/>
+                        </list>
+                    </field>
+                    <separator string="Latest milling runs"/>
+                    <field name="run_ids" nolabel="1" readonly="1">
+                        <list decoration-muted="state == 'draft'">
+                            <field name="name"/>
+                            <field name="run_date"/>
+                            <field name="shift"/>
+                            <field name="wheat_kg"/>
+                            <field name="flour_kg"/>
+                            <field name="extraction_pct"/>
+                            <field name="state" widget="badge" decoration-success="state == 'done'" decoration-info="state == 'draft'"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_overview" name="Overview" parent="mos_core.menu_mos_root" action="action_mos_overview" sequence="1"/>
+</odoo>

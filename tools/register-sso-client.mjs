@@ -64,13 +64,23 @@ try {
   );
   const hash = await hashPassword(secrets['demo.password']);
   let created = 0;
-  for (const p of PEOPLE) {
+  const MOS_GROUP = 'CN=MOS_Users,OU=Groups,DC=examplecorp,DC=com';
+  const ADMIN_GROUP = 'CN=EDAMS_Admins,OU=Groups,DC=examplecorp,DC=com';
+  // Portal tile: the people in MOS_Users and the identity administrators see it (an app with no entitlement rows is open to everyone).
+  for (const dn of [MOS_GROUP, ADMIN_GROUP]) {
+    await db.query(`insert into idp_app_entitlements (relying_party, group_dn) values ('mos', $1) on conflict do nothing`, [dn]);
+  }
+  for (const p of PEOPLE.filter((x) => !x.odooOnly)) {
     const r = await db.query(
       `insert into idp_users (email, email_verified, given_name, family_name, password_hash, source, is_active, must_change_password)
        values ($1, true, $2, $3, $4, 'local', true, false) on conflict (email) do nothing`,
       [p.login, p.given, p.family, hash],
     );
     created += r.rowCount;
+    await db.query(
+      `insert into idp_user_groups (user_id, group_dn) select id, $2 from idp_users where email = $1 on conflict do nothing`,
+      [p.login, MOS_GROUP],
+    );
   }
   await db.query('commit');
   console.log(`client "mos" registered for ${redirects.join(', ')}; ${created} of ${PEOPLE.length} sign-in accounts created`);

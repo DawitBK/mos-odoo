@@ -4,7 +4,7 @@
     'category': 'Manufacturing/MOS',
     'summary': 'Inbound raw-material flow: gate, weighing, inspection and a system-prepared goods receipt',
     'license': 'LGPL-3',
-    'depends': ['mos_lab', 'purchase_stock'],
+    'depends': ['mos_lab', 'mos_silo', 'purchase_stock'],
     'data': [
         'security/mos_inbound_security.xml',
         'views/mos_inbound_views.xml',

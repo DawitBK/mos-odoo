@@ -9,6 +9,7 @@ class MosGateVisit(models.Model):
 
     _inherit = 'mos.gate.visit'
 
+    silo_id = fields.Many2one('mos.silo', string='Unload into silo', help='The receipt books the wheat into this silo.')
     inspection_ids = fields.One2many('mos.lab.inspection', 'visit_id', string='Inspections')
     inspection_id = fields.Many2one('mos.lab.inspection', compute='_compute_inspection', string='Inspection')
     grn_picking_id = fields.Many2one('stock.picking', string='Goods receipt', readonly=True, copy=False)
@@ -62,6 +63,15 @@ class MosGateVisit(models.Model):
         move = picking.move_ids.filtered(lambda m: m.product_id == insp.product_id)[:1]
         if not move:
             raise UserError(self.env._('The receipt has no line for %s.', insp.product_id.display_name))
+        silo = self.silo_id.sudo().fresh()
+        if silo:
+            # The wheat goes into the silo the guard sent the truck to; a silo cannot take more than it has room for.
+            if insp.payable_qty > silo.free_kg + 0.0001:
+                raise UserError(
+                    self.env._('Silo %(silo)s has only %(free)s kg free, the load is %(qty)s kg: choose another silo.', silo=silo.code, free=round(silo.free_kg), qty=round(insp.payable_qty))
+                )
+            picking.write({'location_dest_id': silo.location_id.id})
+            move.write({'location_dest_id': silo.location_id.id})
         move.write({'quantity': insp.payable_qty, 'picked': True})
         self.sudo().write({'grn_picking_id': picking.id, 'grn_state': 'prepared'})
         self.env['mos.audit.event'].record('grn_prepared', self, f'{picking.name}: {insp.payable_qty} kg')

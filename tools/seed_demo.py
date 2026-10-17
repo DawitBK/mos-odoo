@@ -1,21 +1,24 @@
-"""Demo data for MOS on Odoo. Run inside the Odoo shell (it provides ``env``):
+"""Demo data for MOS: a wheat flour mill. Run inside the Odoo shell (it provides ``env``):
 
     docker compose exec -T odoo odoo shell -d mos --db_host db --db_user odoo --db_password <password> --no-http < tools/seed_demo.py
 
-Creates a mill site, the MOS staff (logins match the identity provider accounts in mos-people.json), a wheat
-supplier, products with approved specifications, purchase orders, and gate visits at every stage, so the lists
-and dashboards are not empty. Safe to run twice: it skips what exists.
+Creates the mill (site, silos, wheat and flour products, specifications), the staff (logins match the identity provider
+accounts in mos-people.json), suppliers, a month of wheat deliveries that went through the real gate, lab and receipt flow,
+a month of milling runs with realistic extraction rates, and trucks at every stage today, so every screen has something
+on it. It skips itself when silos already exist (drop the database to start over).
 """
 
 import json
 import os
+import random
+from datetime import timedelta
 
-from odoo import Command
+from odoo import Command, fields
 
-ROOT = os.environ.get('MOS_TOOLS_DIR', '/mnt/tools')
-PEOPLE_FILE = os.path.join(ROOT, 'mos-people.json')
+random.seed(20261018)  # the same demo every time
+
+PEOPLE_FILE = os.path.join(os.environ.get('MOS_TOOLS_DIR', '/mnt/tools'), 'mos-people.json')
 PEOPLE = json.load(open(PEOPLE_FILE)) if os.path.exists(PEOPLE_FILE) else []
-
 GROUPS = {
     'admin': ['mos_core.group_mos_admin'],
     'guard': ['mos_gate.group_mos_gate_guard'],
@@ -26,12 +29,18 @@ GROUPS = {
     'buyer': ['purchase.group_purchase_user', 'mos_core.group_mos_user'],
 }
 
-warehouse = env['stock.warehouse'].search([], limit=1)
-site = env['mos.site'].search([('code', '=', 'MILL')]) or env['mos.site'].create(
-    {'name': 'Example Flour Mill', 'code': 'MILL', 'warehouse_id': warehouse.id}
-)
+if env['mos.silo'].search_count([]):
+    print('MOS demo data is already there; nothing to do.')
+    raise SystemExit(0)
 
-# --- people -----------------------------------------------------------------------------------------
+kg = env.ref('uom.product_uom_kgm')
+warehouse = env['stock.warehouse'].search([], limit=1)
+company = env.company
+company.name = 'Example Flour Mill'
+
+site = env['mos.site'].create({'name': 'Example Flour Mill', 'code': 'MILL', 'warehouse_id': warehouse.id})
+
+# --- people ---------------------------------------------------------------------------------------------------
 users = {}
 for person in PEOPLE:
     user = env['res.users'].search([('login', '=', person['login'])])
@@ -45,95 +54,242 @@ for person in PEOPLE:
             }
         )
     user.mos_site_ids = [Command.link(site.id)]
-    users[person['role']] = user
+    users.setdefault(person['role'], user)
+guard, verifier, analyst = users['guard'], users['verifier'], users['analyst']
+manager, store, buyer = users['labmanager'], users['storekeeper'], users['buyer']
 
-# --- reference data ----------------------------------------------------------------------------------
-for code, name in (('RW-SCALE', 'Scale drift'), ('RW-ENTRY', 'Keying error')):
-    if not env['mos.reason'].search([('domain', '=', 'reweigh'), ('code', '=', code)]):
-        env['mos.reason'].create({'domain': 'reweigh', 'code': code, 'name': name})
+# --- catalogue -----------------------------------------------------------------------------------------------
+Categ = env['product.category']
+all_goods = env.ref('product.product_category_goods', raise_if_not_found=False) or Categ.search([], limit=1)
+wheat_cat = Categ.create({'name': 'Wheat', 'parent_id': all_goods.id})
+flour_cat = Categ.create({'name': 'Flour', 'parent_id': all_goods.id})
+byprod_cat = Categ.create({'name': 'By-products', 'parent_id': all_goods.id})
 
-kg = env.ref('uom.product_uom_kgm')
 
-
-def product(name, cost):
-    found = env['product.product'].search([('name', '=', name)], limit=1)
-    return found or env['product.product'].create(
-        {'name': name, 'type': 'consu', 'is_storable': True, 'uom_id': kg.id, 'standard_price': cost, 'purchase_ok': True}
+def product(name, categ, cost, price=None):
+    return env['product.product'].create(
+        {
+            'name': name,
+            'type': 'consu',
+            'is_storable': True,
+            'uom_id': kg.id,
+            'categ_id': categ.id,
+            'standard_price': cost,
+            'list_price': price or cost * 1.3,
+            'purchase_ok': categ == wheat_cat,
+            'sale_ok': categ != wheat_cat,
+        }
     )
 
 
-def approved_spec(prod, lines):
-    spec = env['mos.lab.spec'].in_force(prod)
-    if spec:
-        return spec
-    spec = env['mos.lab.spec'].create(
+durum = product('Durum wheat (local)', wheat_cat, 0.42)
+bread = product('Bread wheat (local)', wheat_cat, 0.38)
+hrw = product('Hard red wheat (imported)', wheat_cat, 0.47)
+semolina = product('Semolina', flour_cat, 0.62)
+bread_flour = product('Bread flour 72%', flour_cat, 0.58)
+whole_flour = product('Whole-wheat flour', flour_cat, 0.55)
+bran = product('Wheat bran', byprod_cat, 0.16)
+offal = product('Wheat germ and offal', byprod_cat, 0.12)
+
+for code, name in (('RW-SCALE', 'Scale drift'), ('RW-ENTRY', 'Keying error'), ('RW-TARE', 'Wrong tare')):
+    env['mos.reason'].create({'domain': 'reweigh', 'code': code, 'name': name})
+
+
+def spec(prod, lines):
+    s = env['mos.lab.spec'].create(
         {'product_id': prod.id, 'line_ids': [Command.create({'name': n, 'unit': u, 'min_value': lo, 'max_value': hi}) for n, u, lo, hi in lines]}
     )
-    spec.action_approve()
-    return spec
+    s.action_approve()
+    return s
 
 
-wheat = product('Durum wheat', 24.0)
-maize = product('Yellow maize', 18.0)
-approved_spec(wheat, [('Moisture', '%', 0, 13.5), ('Hectolitre weight', 'kg/hl', 76, 90), ('Foreign matter', '%', 0, 2.0), ('Protein', '%', 11.5, 18)])
-approved_spec(maize, [('Moisture', '%', 0, 14.0), ('Aflatoxin', 'ppb', 0, 10), ('Broken kernels', '%', 0, 3.0)])
+COMMON = [('Moisture', '%', 0, 13.5), ('Hectolitre weight', 'kg/hl', 76, 90), ('Foreign matter', '%', 0, 2.0)]
+specs = {
+    durum: spec(durum, COMMON + [('Protein', '%', 12.5, 18), ('Wet gluten', '%', 28, 40), ('Falling number', 's', 250, 450)]),
+    bread: spec(bread, COMMON + [('Protein', '%', 11.0, 16), ('Wet gluten', '%', 26, 38), ('Falling number', 's', 220, 420)]),
+    hrw: spec(hrw, COMMON + [('Protein', '%', 12.5, 16.5), ('Wet gluten', '%', 28, 38), ('Falling number', 's', 250, 450)]),
+}
 
-suppliers = []
-for name in ('Highland Farmers Union', 'Rift Valley Grain Traders', 'Lakeside Cooperative'):
-    partner = env['res.partner'].search([('name', '=', name)], limit=1) or env['res.partner'].create({'name': name, 'supplier_rank': 1})
-    suppliers.append(partner)
+# --- silos and their opening stock ---------------------------------------------------------------------------
+SILOS = [
+    ('S01', 'Durum silo 1', durum, 800_000, 0.62),
+    ('S02', 'Durum silo 2', durum, 800_000, 0.41),
+    ('S03', 'Bread wheat silo 1', bread, 600_000, 0.70),
+    ('S04', 'Bread wheat silo 2', bread, 600_000, 0.35),
+    ('S05', 'Imported wheat silo 1', hrw, 400_000, 0.55),
+    ('S06', 'Imported wheat silo 2', hrw, 400_000, 0.18),
+]
+silos = {}
+for code, name, prod, cap, fill in SILOS:
+    silo = env['mos.silo'].create({'code': code, 'name': name, 'site_id': site.id, 'product_id': prod.id, 'capacity_kg': cap})
+    silos[code] = (silo, fill)
+    env['stock.quant'].sudo()._update_available_quantity(prod, silo.location_id, cap * fill * 0.9)  # the rest arrives by truck below
 
-# --- purchase orders and gate traffic ----------------------------------------------------------------
-buyer = users.get('buyer') or env.user
-existing = env['mos.gate.visit'].search_count([])
-if not existing:
-    plan = [
-        # supplier index, product, ordered kg, plate, stage
-        (0, wheat, 60000, 'AA-48213', 'exited'),
-        (1, wheat, 45000, 'AA-77620', 'exited'),
-        (2, maize, 38000, 'OR-31845', 'exited'),
-        (0, wheat, 50000, 'AA-91544', 'grn_prepared'),
-        (1, maize, 42000, 'AM-20977', 'inspecting'),
-        (2, wheat, 40000, 'OR-66013', 'weighed'),
-        (0, maize, 36000, 'AA-15502', 'weighing'),
-        (1, wheat, 30000, 'SN-44218', 'arrived'),
-    ]
-    guard, verifier = users['guard'], users['verifier']
-    analyst, manager, store = users['analyst'], users['labmanager'], users['storekeeper']
-    for i, (s, prod, qty, plate, stage) in enumerate(plan):
-        po = env['purchase.order'].with_user(buyer).create(
-            {'partner_id': suppliers[s].id, 'order_line': [Command.create({'product_id': prod.id, 'product_qty': qty, 'price_unit': prod.standard_price})]}
-        )
-        po.with_user(buyer).button_confirm()
-        visit = env['mos.gate.visit'].with_user(guard).create({'site_id': site.id, 'plate': plate, 'purchase_id': po.id, 'partner_id': suppliers[s].id, 'driver_name': ['Abel', 'Chaltu', 'Dawit', 'Eden', 'Fitsum', 'Genet', 'Habtamu', 'Ife'][i], 'transporter': 'Example Haulage'})
-        if stage == 'arrived':
-            continue
-        visit.action_start_weighing()
-        if stage == 'weighing':
-            visit.ticket_id.record_first(qty * 1.0 + 15000)
-            continue
-        gross, tare = qty + 15000.0 + i * 40, 15000.0 + i * 40
-        visit.ticket_id.record_first(gross)
-        visit.ticket_id.record_second(tare)
-        visit.ticket_id.with_user(verifier).verify_blind(gross, tare)
-        if stage == 'weighed':
-            continue
-        insp = visit.with_user(analyst).action_open_inspection().with_user(analyst)
-        spec = insp.spec_id
-        for line in spec.line_ids:
-            midpoint = (line.min_value + line.max_value) / 2
-            insp.record_result(line, round(midpoint if line.max_value else 0.0, 2))
-        if stage == 'inspecting':
-            continue
-        insp.action_submit_results()
-        insp.with_user(manager).decide('accept_deduction' if i % 2 else 'accept', 1.5 if i % 2 else 0.0, '')
-        visit = visit.with_user(guard)
-        visit.action_prepare_grn()
-        if stage == 'grn_prepared':
-            continue
+
+def set_level(silo, target):
+    delta = target - silo.fresh().level_kg
+    if abs(delta) > 0.5:
+        env['stock.quant'].sudo()._update_available_quantity(silo.product_id, silo.location_id, delta)
+
+
+# --- suppliers -----------------------------------------------------------------------------------------------
+supplier_names = ['Highland Farmers Cooperative Union', 'Rift Valley Grain Traders', 'Lakeside Agro Cooperative', 'Plains Commodity Brokers', 'Black Sea Grain Imports Ltd']
+suppliers = [env['res.partner'].create({'name': n, 'supplier_rank': 1, 'is_company': True}) for n in supplier_names]
+DRIVERS = ['Abel Tadesse', 'Chaltu Bekele', 'Dawit Hailu', 'Eden Girma', 'Fitsum Alemu', 'Genet Worku', 'Habtamu Kebede', 'Ifa Gemechu', 'Kebede Mamo', 'Lemlem Asfaw']
+HAULIERS = ['Rift Haulage', 'Sunrise Transport', 'Blue Nile Logistics', 'Highland Carriers']
+
+
+def plate():
+    return f"{random.choice(['AA', 'OR', 'AM', 'SN', 'TG'])}-{random.randint(10000, 99999)}"
+
+
+def pick_silo(prod, need):
+    for code, (silo, _fill) in silos.items():
+        if silo.product_id == prod and silo.fresh().free_kg >= need:
+            return silo
+    return None
+
+
+def truck(prod, supplier, qty, stage, moisture=None):
+    po = env['purchase.order'].with_user(buyer).create(
+        {'partner_id': supplier.id, 'order_line': [Command.create({'product_id': prod.id, 'product_qty': qty, 'price_unit': prod.standard_price})]}
+    )
+    po.with_user(buyer).button_confirm()
+    visit = env['mos.gate.visit'].with_user(guard).create(
+        {'site_id': site.id, 'plate': plate(), 'purchase_id': po.id, 'partner_id': supplier.id, 'driver_name': random.choice(DRIVERS), 'transporter': random.choice(HAULIERS)}
+    )
+    if stage == 'arrived':
+        return visit
+    visit.action_start_weighing()
+    tare = random.randrange(14000, 17500, 10)
+    gross = tare + qty * random.uniform(0.985, 1.0)
+    if stage == 'weighing':
+        visit.ticket_id.record_first(round(gross, 1))
+        return visit
+    visit.ticket_id.record_first(round(gross, 1))
+    visit.ticket_id.record_second(float(tare))
+    visit.ticket_id.with_user(verifier).verify_blind(round(gross, 1), float(tare))
+    if stage == 'weighed':
+        return visit
+    insp = visit.with_user(analyst).action_open_inspection().with_user(analyst)
+    for line in insp.spec_id.line_ids:
+        lo, hi = line.min_value, line.max_value
+        value = lo + (hi - lo) * random.uniform(0.25, 0.8)
+        if line.name == 'Moisture':
+            value = moisture if moisture is not None else random.uniform(10.8, 13.1)
+        insp.record_result(line, round(value, 2))
+    if stage == 'inspecting':
+        return visit
+    insp.action_submit_results()
+    if insp.suggested_outcome == 'fail':
+        insp.with_user(manager).decide('reject', note='Out of specification')
+    elif random.random() < 0.3:
+        insp.with_user(manager).decide('accept_deduction', random.choice([0.5, 1.0, 1.5, 2.0]), 'Slight foreign matter')
+    else:
+        insp.with_user(manager).decide('accept')
+    visit = visit.with_user(guard)
+    if insp.decision != 'reject':
+        silo = pick_silo(prod, insp.payable_qty)
+        if silo:
+            visit.sudo().silo_id = silo.id
+    visit.action_prepare_grn()
+    if stage == 'grn_prepared':
+        return visit
+    if visit.grn_state == 'prepared':
         visit.with_user(store).action_confirm_grn()
-        visit.action_clear_exit()
-        visit.action_exit()
+    visit.action_clear_exit()
+    visit.action_exit()
+    return visit
+
+
+# A month of deliveries through the real flow (dates are then spread over the month).
+history = []
+for i in range(36):
+    prod = random.choices([durum, bread, hrw], weights=[4, 4, 2])[0]
+    sup = suppliers[4] if prod == hrw else random.choice(suppliers[:4])
+    qty = random.choice([28000, 30000, 32000, 34000, 36000, 38000, 40000])
+    bad = 15.2 if i in (7, 19, 30) else None
+    history.append(truck(prod, sup, qty, 'exited', moisture=bad))
+now = fields.Datetime.now()
+for idx, visit in enumerate(history):
+    days = random.randint(1, 27)
+    stamp = now - timedelta(days=days, hours=random.randint(0, 9))
+    env.cr.execute('UPDATE mos_gate_visit SET arrived_at = %s, exited_at = %s WHERE id = %s', [stamp - timedelta(hours=2), stamp, visit.id])
+env['mos.gate.visit'].invalidate_model()
+
+# Trucks on site right now, one at each stage.
+live = [
+    (hrw, suppliers[4], 36000, 'arrived'),
+    (bread, suppliers[1], 32000, 'weighing'),
+    (durum, suppliers[0], 38000, 'weighed'),
+    (bread, suppliers[2], 34000, 'inspecting'),
+    (durum, suppliers[3], 30000, 'grn_prepared'),
+]
+for prod, sup, qty, stage in live:
+    truck(prod, sup, qty, stage)
+
+# --- a month of milling ------------------------------------------------------------------------------------
+MIXES = [  # which silos feed a run, and what comes out (flour product, share of the flour)
+    (['S01', 'S02'], durum, [(semolina, 0.85), (bread_flour, 0.15)]),
+    (['S03', 'S04'], bread, [(bread_flour, 0.88), (whole_flour, 0.12)]),
+    (['S05', 'S06', 'S03'], hrw, [(bread_flour, 0.92), (whole_flour, 0.08)]),
+]
+today = site.business_date()
+for back in range(29, 0, -1):
+    day = today - timedelta(days=back)
+    if day.weekday() == 6 and random.random() < 0.7:
+        continue  # Sundays are mostly down days
+    for shift in ('day', 'night') if random.random() < 0.75 else ('day',):
+        codes, main, outs = random.choice(MIXES)
+        wheat = random.randrange(170_000, 265_000, 1000)
+        extraction = random.uniform(0.742, 0.775)
+        flour = wheat * extraction
+        branq = wheat * random.uniform(0.180, 0.205)
+        offalq = wheat * random.uniform(0.008, 0.014)
+        inputs = []
+        remaining = wheat
+        for code in codes:
+            silo = silos[code][0]
+            part = round(remaining if code == codes[-1] else wheat / len(codes))
+            set_level(silo, max(silo.fresh().level_kg, part + 5000))  # the history assumes the silo was stocked
+            inputs.append(Command.create({'silo_id': silo.id, 'product_id': silo.product_id.id, 'qty_kg': part}))
+            remaining -= part
+        outputs = [Command.create({'product_id': p.id, 'kind': 'flour', 'qty_kg': round(flour * share)}) for p, share in outs]
+        outputs += [Command.create({'product_id': bran.id, 'kind': 'bran', 'qty_kg': round(branq)}), Command.create({'product_id': offal.id, 'kind': 'offal', 'qty_kg': round(offalq)})]
+        run = env['mos.milling.run'].create({'site_id': site.id, 'run_date': day, 'shift': shift, 'input_ids': inputs, 'output_ids': outputs})
+        run.action_complete()
+
+# Today: the morning run is done, the night run is planned.
+silo = silos['S03'][0]
+set_level(silo, max(silo.fresh().level_kg, 260_000))
+done_today = env['mos.milling.run'].create(
+    {
+        'site_id': site.id,
+        'run_date': today,
+        'shift': 'day',
+        'input_ids': [Command.create({'silo_id': silo.id, 'product_id': bread.id, 'qty_kg': 210_000})],
+        'output_ids': [
+            Command.create({'product_id': bread_flour.id, 'kind': 'flour', 'qty_kg': 150_800}),
+            Command.create({'product_id': whole_flour.id, 'kind': 'flour', 'qty_kg': 7_900}),
+            Command.create({'product_id': bran.id, 'kind': 'bran', 'qty_kg': 42_000}),
+            Command.create({'product_id': offal.id, 'kind': 'offal', 'qty_kg': 3_100}),
+        ],
+    }
+)
+done_today.action_complete()
+env['mos.milling.run'].create(
+    {'site_id': site.id, 'run_date': today, 'shift': 'night', 'input_ids': [Command.create({'silo_id': silos['S01'][0].id, 'product_id': durum.id, 'qty_kg': 220_000})]}
+)
+
+# --- put the silos at believable levels ------------------------------------------------------------------------
+for code, (silo, fill) in silos.items():
+    set_level(silo, silo.capacity_kg * fill)
 
 env.cr.commit()
-print('MOS demo data ready:', env['mos.gate.visit'].search_count([]), 'visits,', env['mos.lab.inspection'].search_count([]), 'inspections')
+print(
+    'MOS demo data ready:',
+    env['mos.gate.visit'].search_count([]), 'trucks,',
+    env['mos.lab.inspection'].search_count([]), 'inspections,',
+    env['mos.milling.run'].search_count([]), 'milling runs,',
+    env['mos.silo'].search_count([]), 'silos.',
+)

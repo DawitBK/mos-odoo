@@ -11,6 +11,7 @@
                 <button name="action_confirm_grn" string="Confirm goods receipt" type="object" class="btn-primary" invisible="grn_state != 'prepared'" groups="mos_inbound.group_mos_storekeeper"/>
             </button>
             <field name="net_weight" position="after">
+                <field name="silo_id"/>
                 <field name="inspection_id"/>
                 <field name="grn_picking_id"/>
                 <field name="grn_state"/>

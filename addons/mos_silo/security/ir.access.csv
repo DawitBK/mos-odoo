@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_silo_user,Silo: assigned sites,mos.silo,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_silo_admin,Silo: administrators,mos.silo,mos_core.group_mos_admin,cru,

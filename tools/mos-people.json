@@ -1,9 +1,51 @@
 [
-  { "login": "mos.admin@examplecorp.com", "given": "Maya", "family": "Admin", "role": "admin" },
-  { "login": "mos.guard@examplecorp.com", "given": "Gabriel", "family": "Gate", "role": "guard" },
-  { "login": "mos.verifier@examplecorp.com", "given": "Vera", "family": "Weighbridge", "role": "verifier" },
-  { "login": "mos.analyst@examplecorp.com", "given": "Aiden", "family": "Lab", "role": "analyst" },
-  { "login": "mos.labmanager@examplecorp.com", "given": "Lena", "family": "Quality", "role": "labmanager" },
-  { "login": "mos.storekeeper@examplecorp.com", "given": "Sam", "family": "Store", "role": "storekeeper" },
-  { "login": "mos.buyer@examplecorp.com", "given": "Bella", "family": "Procurement", "role": "buyer" }
+  {
+    "login": "mos.admin@examplecorp.com",
+    "given": "Maya",
+    "family": "Admin",
+    "role": "admin"
+  },
+  {
+    "login": "mos.guard@examplecorp.com",
+    "given": "Gabriel",
+    "family": "Gate",
+    "role": "guard"
+  },
+  {
+    "login": "mos.verifier@examplecorp.com",
+    "given": "Vera",
+    "family": "Weighbridge",
+    "role": "verifier"
+  },
+  {
+    "login": "mos.analyst@examplecorp.com",
+    "given": "Aiden",
+    "family": "Lab",
+    "role": "analyst"
+  },
+  {
+    "login": "mos.labmanager@examplecorp.com",
+    "given": "Lena",
+    "family": "Quality",
+    "role": "labmanager"
+  },
+  {
+    "login": "mos.storekeeper@examplecorp.com",
+    "given": "Sam",
+    "family": "Store",
+    "role": "storekeeper"
+  },
+  {
+    "login": "mos.buyer@examplecorp.com",
+    "given": "Bella",
+    "family": "Procurement",
+    "role": "buyer"
+  },
+  {
+    "login": "dawitbk01@gmail.com",
+    "given": "Platform",
+    "family": "Administrator",
+    "role": "admin",
+    "odooOnly": true
+  }
 ]

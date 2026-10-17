@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_silo_list" model="ir.ui.view">
+        <field name="name">mos.silo.list</field>
+        <field name="model">mos.silo</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="status == 'full'" decoration-warning="status in ('high', 'low')" decoration-muted="status == 'empty'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="level_kg" sum="Total"/>
+                <field name="capacity_kg" sum="Total"/>
+                <field name="fill_pct" widget="progressbar"/>
+                <field name="status" widget="badge" decoration-success="status == 'ok'" decoration-warning="status in ('low', 'high')" decoration-danger="status == 'full'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_silo_form" model="ir.ui.view">
+        <field name="name">mos.silo.form</field>
+        <field name="model">mos.silo</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_stock" type="object" class="oe_stat_button" icon="fa-cubes" invisible="not location_id">
+                            <field name="level_kg" widget="statinfo" string="kg in silo"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="site_id"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="capacity_kg"/>
+                            <field name="free_kg"/>
+                            <field name="fill_pct" widget="progressbar"/>
+                            <field name="status" widget="badge"/>
+                            <field name="location_id"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_silo_kanban" model="ir.ui.view">
+        <field name="name">mos.silo.kanban</field>
+        <field name="model">mos.silo</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <strong class="fs-4"><field name="code"/></strong>
+                            <field name="status" widget="badge" decoration-success="status == 'ok'" decoration-warning="status in ('low', 'high')" decoration-danger="status == 'full'"/>
+                        </div>
+                        <div class="text-muted"><field name="name"/> · <field name="product_id"/></div>
+                        <field name="fill_pct" widget="progressbar" class="mt-2"/>
+                        <div class="mt-1"><field name="level_kg"/> kg of <field name="capacity_kg"/> kg</div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_mos_silo" model="ir.actions.act_window">
+        <field name="name">Silos</field>
+        <field name="res_model">mos.silo</field>
+        <field name="view_mode">kanban,list,form</field>
+    </record>
+    <menuitem id="menu_mos_stock" name="Silos &amp; Stock" parent="mos_core.menu_mos_root" sequence="30"/>
+    <menuitem id="menu_mos_silos" name="Silos" parent="menu_mos_stock" action="action_mos_silo" sequence="10"/>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_overview_user,MOS overview: everyone who works in MOS,mos.overview,mos_core.group_mos_user,crud,
