@@ -122,6 +122,7 @@
     </record>
     <record id="action_mos_mrp_generate" model="ir.actions.server">
         <field name="name">Work out what to make and buy</field>
+        <field name="group_ids" eval="[(6, 0, [ref('mos_manufacturing.group_mos_production_supervisor'), ref('mos_procurement.group_mos_procurement_user'), ref('mos_core.group_mos_admin')])]"/>
         <field name="model_id" ref="model_mos_mrp_suggestion"/>
         <field name="state">code</field>
         <field name="code">model.generate()

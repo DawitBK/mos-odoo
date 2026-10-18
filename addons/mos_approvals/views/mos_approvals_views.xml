@@ -68,7 +68,7 @@
         <field name="name">mos.approval.step.list</field>
         <field name="model">mos.approval.step</field>
         <field name="arch" type="xml">
-            <list create="0" delete="0" edit="0" decoration-danger="escalated" js_class="">
+            <list create="0" delete="0" edit="0" decoration-danger="escalated">
                 <field name="doc_name"/>
                 <field name="amount"/>
                 <field name="requester_id"/>
