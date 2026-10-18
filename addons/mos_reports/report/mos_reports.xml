@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_weigh_ticket" model="ir.actions.report">
+        <field name="name">Weigh ticket</field>
+        <field name="model">mos.weigh.ticket</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_reports.report_weigh_ticket</field>
+        <field name="binding_model_id" ref="mos_gate.model_mos_weigh_ticket"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_exit_pass" model="ir.actions.report">
+        <field name="name">Exit pass</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_reports.report_exit_pass</field>
+        <field name="binding_model_id" ref="mos_gate.model_mos_gate_visit"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_gate_pass" model="ir.actions.report">
+        <field name="name">Material gate pass</field>
+        <field name="model">mos.gate.pass</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_reports.report_gate_pass</field>
+        <field name="binding_model_id" ref="mos_gate.model_mos_gate_pass"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_coa" model="ir.actions.report">
+        <field name="name">Certificate of analysis</field>
+        <field name="model">mos.lab.coa</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_reports.report_coa</field>
+        <field name="binding_model_id" ref="mos_lab.model_mos_lab_coa"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_voucher" model="ir.actions.report">
+        <field name="name">Payment voucher</field>
+        <field name="model">mos.payment.voucher</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_reports.report_voucher</field>
+        <field name="binding_model_id" ref="mos_payables.model_mos_payment_voucher"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_weigh_ticket">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="ticket">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Weigh ticket <span t-out="ticket.name"/></h2>
+                    <p><strong t-out="ticket.site_id.name"/> · <span t-out="ticket.state"/></p>
+                    <table class="table table-sm">
+                        <tr><th>Vehicle</th><td t-out="ticket.visit_id.plate"/><th>Visit</th><td t-out="ticket.visit_id.name"/></tr>
+                        <tr><th>Driver</th><td t-out="ticket.visit_id.driver_name"/><th>Transporter</th><td t-out="ticket.visit_id.transporter"/></tr>
+                        <tr><th>Direction</th><td t-out="ticket.direction"/><th>Supplier / customer</th><td t-out="ticket.visit_id.partner_id.display_name"/></tr>
+                        <tr><th>Gross</th><td><span t-out="ticket.gross_weight"/> kg</td><th>Tare</th><td><span t-out="ticket.tare_weight"/> kg<span t-if="ticket.tare_source == 'stored'"> (stored)</span></td></tr>
+                        <tr><th>Net</th><td colspan="3"><strong><span t-out="ticket.net_weight"/> kg</strong></td></tr>
+                    </table>
+                    <p>Weighed by <span t-out="ticket.first_by_id.name"/>, verified by <span t-out="ticket.verified_by_id.name or '—'"/>.</p>
+                    <p t-if="ticket.supersedes_id">Replaces <span t-out="ticket.supersedes_id.name"/>: <span t-out="ticket.reweigh_reason_id.name"/>.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_exit_pass">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="visit">
+                <div class="page" style="page-break-after: always; text-align: center;">
+                    <h2>Exit pass</h2>
+                    <h1 t-out="visit.plate"/>
+                    <p><span t-out="visit.name"/> · <span t-out="visit.site_id.name"/></p>
+                    <p>Net weight <strong><span t-out="visit.net_weight"/> kg</strong></p>
+                    <t t-if="visit.exit_code">
+                        <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ visit.exit_code }}&amp;width=240&amp;height=240" alt="QR" style="width: 240px; height: 240px;"/>
+                        <p><strong t-out="visit.exit_code"/></p>
+                    </t>
+                    <p t-else="">Exit has not been cleared yet.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_gate_pass">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="gp">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Material gate pass <span t-out="gp.name"/></h2>
+                    <p><span t-out="dict(gp._fields['kind'].selection)[gp.kind]"/> · <span t-out="gp.site_id.name"/></p>
+                    <table class="table table-sm">
+                        <tr><th>Carried by</th><td t-out="gp.carrier"/><th>Destination</th><td t-out="gp.destination"/></tr>
+                        <tr><th>Purpose</th><td colspan="3" t-out="gp.purpose"/></tr>
+                        <tr t-if="gp.kind == 'returnable'"><th>Expected back</th><td colspan="3" t-out="gp.expected_return"/></tr>
+                    </table>
+                    <table class="table table-sm">
+                        <thead><tr><th>Item</th><th>Quantity</th><th>Unit</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="gp.line_ids" t-as="line">
+                                <td t-out="line.name"/><td t-out="line.quantity"/><td t-out="line.unit"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p>Requested by <span t-out="gp.requested_by_id.name"/>, approved by <span t-out="gp.approved_by_id.name or '—'"/>.</p>
+                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ gp.name }}&amp;width=120&amp;height=120" alt="QR" style="width: 120px; height: 120px;"/>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_coa">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="coa">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Certificate of analysis <span t-out="coa.name"/></h2>
+                    <p t-if="coa.state == 'revoked'" style="color: red;"><strong>REVOKED: <span t-out="coa.revoke_reason"/></strong></p>
+                    <table class="table table-sm">
+                        <tr><th>Product</th><td t-out="coa.product_id.display_name"/><th>Customer</th><td t-out="coa.partner_id.display_name"/></tr>
+                        <tr><th>Delivery</th><td t-out="coa.visit_id.name"/><th>Vehicle</th><td t-out="coa.visit_id.plate"/></tr>
+                        <tr><th>Grade</th><td t-out="coa.grade_id.name or '—'"/><th>Quality score</th><td t-out="coa.score"/></tr>
+                    </table>
+                    <pre t-out="coa.results_text"/>
+                    <p>Issued by <span t-out="coa.issued_by_id.name"/> on <span t-out="coa.create_date" t-options="{'widget': 'date'}"/>.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_voucher">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="voucher">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Payment voucher <span t-out="voucher.name"/></h2>
+                    <p><span t-out="voucher.supplier_id.display_name"/> · <span t-out="voucher.date"/> · <span t-out="voucher.state"/></p>
+                    <table class="table table-sm">
+                        <thead><tr><th>Invoice</th><th>Gross</th><th>VAT</th><th>Withheld</th><th>Net</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="voucher.line_ids" t-as="line">
+                                <td t-out="line.invoice_id.supplier_ref"/><td t-out="line.gross"/><td t-out="line.vat"/><td t-out="line.wht"/><td t-out="line.net"/>
+                            </tr>
+                        </tbody>
+                        <tfoot><tr><th>Total</th><th t-out="voucher.gross_amount"/><th t-out="voucher.vat_amount"/><th t-out="voucher.wht_amount"/><th t-out="voucher.net_amount"/></tr></tfoot>
+                    </table>
+                    <p>Paid <span t-out="voucher.paid_amount"/>, remaining <span t-out="voucher.remaining_amount"/>.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

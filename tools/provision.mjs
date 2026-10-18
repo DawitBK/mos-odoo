@@ -59,7 +59,7 @@ if (reset) {
   must(drop, 'drop database');
 }
 console.log('installing the addons...');
-must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement', '--stop-after-init', '--without-demo=all'), 'install');
+must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_reports', '--stop-after-init', '--without-demo=all'), 'install');
 must(compose('up', '-d', 'odoo'), 'start odoo');
 await new Promise((r) => setTimeout(r, 8000));
 
@@ -76,6 +76,11 @@ console.log('loading procurement (approved suppliers, policies, requests)...');
 const procurement = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_procurement.py'), 'utf8'));
 must(procurement, 'procurement seed');
 console.log((procurement.stdout ?? '').trim().split('\n').slice(-1)[0]);
+
+console.log('loading gate, lab, inventory and control data...');
+const controls = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_controls.py'), 'utf8'));
+must(controls, 'controls seed');
+console.log((controls.stdout ?? '').trim().split('\n').slice(-1)[0]);
 
 console.log('configuring sign-in and passwords...');
 const configure = `
