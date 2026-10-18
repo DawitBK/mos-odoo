@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_rfq" model="ir.sequence">
+        <field name="name">MOS request for quotation</field>
+        <field name="code">mos.rfq</field>
+        <field name="prefix">RFQ-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_service_receipt" model="ir.sequence">
+        <field name="name">MOS service receipt</field>
+        <field name="code">mos.service.receipt</field>
+        <field name="prefix">SVC-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="cron_close_orders" model="ir.cron">
+        <field name="name">MOS: close orders that are received and invoiced</field>
+        <field name="model_id" ref="purchase.model_purchase_order"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_close_orders()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+    <record id="cron_expire_invites" model="ir.cron">
+        <field name="name">MOS: expire supplier invitations</field>
+        <field name="model_id" ref="model_mos_supplier_invite"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_expire()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>

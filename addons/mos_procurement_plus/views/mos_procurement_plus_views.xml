@@ -1,0 +1,310 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- RFQ -->
+    <record id="view_mos_rfq_list" model="ir.ui.view">
+        <field name="name">mos.rfq.list</field>
+        <field name="model">mos.rfq</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="site_id"/><field name="request_id"/><field name="deadline"/><field name="order_id"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_rfq_form" model="ir.ui.view">
+        <field name="name">mos.rfq.form</field>
+        <field name="model">mos.rfq</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_send" string="Send to the suppliers" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_open_award" string="Award" type="object" class="btn-primary" invisible="state != 'sent'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('awarded', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,awarded"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="request_id"/>
+                            <field name="deadline"/>
+                        </group>
+                        <group>
+                            <field name="invited_ids" widget="many2many_tags"/>
+                            <field name="order_id"/>
+                            <field name="award_reason" invisible="not award_reason"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom"><field name="product_id"/><field name="qty"/></list>
+                    </field>
+                    <field name="quote_ids">
+                        <list>
+                            <field name="partner_id"/>
+                            <field name="total"/>
+                            <field name="complete"/>
+                            <field name="lead_days"/>
+                            <field name="valid_until"/>
+                        </list>
+                        <form>
+                            <group>
+                                <field name="partner_id"/>
+                                <field name="lead_days"/>
+                                <field name="valid_until"/>
+                                <field name="note"/>
+                            </group>
+                            <field name="line_ids">
+                                <list editable="bottom">
+                                    <field name="rfq_line_id" domain="[('rfq_id', '=', parent.rfq_id)]"/>
+                                    <field name="unit_price"/>
+                                </list>
+                            </field>
+                        </form>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_rfq" model="ir.actions.act_window">
+        <field name="name">Requests for quotation</field>
+        <field name="res_model">mos.rfq</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_mos_rfq_award_wizard" model="ir.ui.view">
+        <field name="name">mos.rfq.award.wizard.form</field>
+        <field name="model">mos.rfq.award.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="rfq_id" invisible="1"/>
+                    <field name="quote_id" domain="[('rfq_id', '=', rfq_id), ('total', '&gt;', 0)]"/>
+                    <field name="reason" placeholder="Needed when it is not the lowest offer or there are too few offers"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Award the order" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Closure and service receipts -->
+    <record id="view_purchase_order_form_close" model="ir.ui.view">
+        <field name="name">purchase.order.form.mos.close</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_open_close_short" string="Close short" type="object" invisible="state != 'purchase' or mos_close_state != 'open'"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="mos_close_state" invisible="mos_close_state == 'open'"/>
+                <field name="mos_close_reason" invisible="not mos_close_reason"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_close_short_wizard" model="ir.ui.view">
+        <field name="name">mos.close.short.wizard.form</field>
+        <field name="model">mos.close.short.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="order_id" invisible="1"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Close the order short" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_service_receipt_list" model="ir.ui.view">
+        <field name="name">mos.service.receipt.list</field>
+        <field name="model">mos.service.receipt</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="order_id"/><field name="product_id"/><field name="qty"/><field name="note"/><field name="confirmed_by_id"/></list></field>
+    </record>
+    <record id="view_mos_service_receipt_form" model="ir.ui.view">
+        <field name="name">mos.service.receipt.form</field>
+        <field name="model">mos.service.receipt</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <field name="line_id" readonly="name != 'New'"/>
+                        <field name="qty" readonly="name != 'New'"/>
+                        <field name="note" readonly="name != 'New'"/>
+                        <field name="confirmed_by_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_service_receipt" model="ir.actions.act_window">
+        <field name="name">Service receipts</field>
+        <field name="res_model">mos.service.receipt</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Bags -->
+    <record id="view_mos_bag_type_list" model="ir.ui.view">
+        <field name="name">mos.bag.type.list</field>
+        <field name="model">mos.bag.type</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="name"/><field name="tare_kg"/></list></field>
+    </record>
+    <record id="action_mos_bag_type" model="ir.actions.act_window">
+        <field name="name">Bag types</field>
+        <field name="res_model">mos.bag.type</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_gate_visit_form_bags" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.bags</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='purchase_id']" position="after">
+                <field name="bag_type_id"/>
+                <field name="bag_count" invisible="not bag_type_id"/>
+                <field name="bag_tare_kg" invisible="not bag_type_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Invitations and registration -->
+    <record id="view_mos_supplier_invite_list" model="ir.ui.view">
+        <field name="name">mos.supplier.invite.list</field>
+        <field name="model">mos.supplier.invite</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state != 'open'">
+                <field name="name"/>
+                <field name="email"/>
+                <field name="expires_at"/>
+                <field name="partner_id"/>
+                <field name="state" widget="badge"/>
+                <button name="action_show_link" string="Show the link" type="object" icon="fa-link" invisible="state != 'open'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_supplier_invite_form" model="ir.ui.view">
+        <field name="name">mos.supplier.invite.form</field>
+        <field name="model">mos.supplier.invite</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_show_link" string="Show the link" type="object" class="btn-primary" invisible="state != 'open' or not id"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name"/>
+                        <field name="email"/>
+                        <field name="expires_at"/>
+                        <field name="partner_id"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_supplier_invite" model="ir.actions.act_window">
+        <field name="name">Supplier invitations</field>
+        <field name="res_model">mos.supplier.invite</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_mos_supplier_registration_form" model="ir.ui.view">
+        <field name="name">mos.supplier.registration.form</field>
+        <field name="model">mos.supplier.registration</field>
+        <field name="arch" type="xml">
+            <form>
+                <group string="1. Company">
+                    <field name="name"/>
+                    <field name="activity"/>
+                    <field name="self_billing"/>
+                </group>
+                <group string="2. Tax and licence">
+                    <field name="vat"/>
+                    <field name="trade_licence"/>
+                    <field name="licence_expires"/>
+                </group>
+                <group string="3. Contact">
+                    <field name="contact"/>
+                    <field name="phone"/>
+                    <field name="email"/>
+                    <field name="address"/>
+                </group>
+                <group string="4. Bank">
+                    <field name="bank_name"/>
+                    <field name="bank_account" password="1"/>
+                </group>
+                <footer>
+                    <button name="action_register" string="Register the supplier" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_supplier_registration" model="ir.actions.act_window">
+        <field name="name">Register a supplier</field>
+        <field name="res_model">mos.supplier.registration</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Reports -->
+    <record id="view_mos_po_outstanding_list" model="ir.ui.view">
+        <field name="name">mos.po.outstanding.list</field>
+        <field name="model">mos.po.outstanding</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="days_late &gt; 0" create="0">
+                <field name="order_id"/>
+                <field name="supplier_id"/>
+                <field name="product_id"/>
+                <field name="ordered" sum="Total"/>
+                <field name="received" sum="Total"/>
+                <field name="outstanding" sum="Total"/>
+                <field name="planned_date"/>
+                <field name="days_late"/>
+                <field name="value_outstanding" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_po_outstanding" model="ir.actions.act_window">
+        <field name="name">Outstanding deliveries</field>
+        <field name="res_model">mos.po.outstanding</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+    <record id="view_mos_pr_ageing_pivot" model="ir.ui.view">
+        <field name="name">mos.pr.ageing.pivot</field>
+        <field name="model">mos.pr.ageing</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="state" type="row"/>
+                <field name="count" type="measure"/>
+                <field name="amount" type="measure"/>
+                <field name="age_days" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_mos_pr_ageing" model="ir.actions.act_window">
+        <field name="name">Purchase request ageing</field>
+        <field name="res_model">mos.pr.ageing</field>
+        <field name="view_mode">pivot,list</field>
+    </record>
+    <record id="view_mos_price_history_list" model="ir.ui.view">
+        <field name="name">mos.price.history.list</field>
+        <field name="model">mos.price.history</field>
+        <field name="arch" type="xml"><list create="0"><field name="date"/><field name="product_id"/><field name="supplier_id"/><field name="order_id"/><field name="qty"/><field name="price"/></list></field>
+    </record>
+    <record id="action_mos_price_history" model="ir.actions.act_window">
+        <field name="name">Price history</field>
+        <field name="res_model">mos.price.history</field>
+        <field name="view_mode">list,pivot,graph</field>
+    </record>
+
+    <menuitem id="menu_mos_rfq" name="Requests for quotation" parent="mos_procurement.menu_mos_procurement" action="action_mos_rfq" sequence="12"/>
+    <menuitem id="menu_mos_service_receipts" name="Service receipts" parent="mos_procurement.menu_mos_procurement" action="action_mos_service_receipt" sequence="55"/>
+    <menuitem id="menu_mos_supplier_invites" name="Supplier invitations" parent="mos_procurement.menu_mos_procurement" action="action_mos_supplier_invite" sequence="22"/>
+    <menuitem id="menu_mos_supplier_registration" name="Register a supplier" parent="mos_procurement.menu_mos_procurement" action="action_mos_supplier_registration" sequence="21"/>
+    <menuitem id="menu_mos_procurement_reports" name="Procurement reports" parent="mos_procurement.menu_mos_procurement" sequence="80"/>
+    <menuitem id="menu_mos_po_outstanding" name="Outstanding deliveries" parent="menu_mos_procurement_reports" action="action_mos_po_outstanding" sequence="10"/>
+    <menuitem id="menu_mos_pr_ageing" name="Request ageing" parent="menu_mos_procurement_reports" action="action_mos_pr_ageing" sequence="20"/>
+    <menuitem id="menu_mos_price_history" name="Price history" parent="menu_mos_procurement_reports" action="action_mos_price_history" sequence="30"/>
+    <menuitem id="menu_mos_bag_types" name="Bag types" parent="mos_procurement.menu_mos_procurement_config" action="action_mos_bag_type" sequence="30"/>
+</odoo>

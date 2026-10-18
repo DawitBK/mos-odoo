@@ -28,10 +28,14 @@ for key, code, name in (
 ):
     env['mos.account.map'].create({'key': key, 'code': code, 'name': name})
 
+env.cr.commit()
+
 # a supplier that issues no invoices: from now on its receipts are self-billed
 farmer = env['res.partner'].search([('supplier_rank', '>', 0)], order='id desc', limit=1)
 if farmer:
     farmer.mos_self_billing = True
+
+env.cr.commit()
 
 # older postings go to the accountants; the recent ones are still open
 try:
