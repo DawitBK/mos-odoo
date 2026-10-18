@@ -24,3 +24,6 @@ access_mos_supplier_return_procurement_user,mos.supplier.return: procurement_use
 access_mos_grn_reassignment_user,mos.grn.reassignment: user,mos.grn.reassignment,mos_core.group_mos_user,r,
 access_mos_grn_reassignment_procurement_user,mos.grn.reassignment: procurement_user,mos.grn.reassignment,group_mos_procurement_user,cr,
 access_mos_grn_reassignment_procurement_manager,mos.grn.reassignment: procurement_manager,mos.grn.reassignment,group_mos_procurement_manager,cru,
+access_mos_supplier_status_wizard_user,Supplier standing dialog,mos.supplier.status.wizard,mos_core.group_mos_user,crud,
+access_mos_supplier_bank_verify_wizard_user,Bank call-back dialog,mos.supplier.bank.verify.wizard,mos_core.group_mos_user,crud,
+access_mos_supplier_return_credit_wizard_user,Return credit dialog,mos.supplier.return.credit.wizard,mos_core.group_mos_user,crud,

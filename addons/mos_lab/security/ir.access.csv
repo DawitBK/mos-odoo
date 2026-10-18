@@ -22,3 +22,5 @@ access_mos_lab_coa_user,Certificate of analysis: assigned sites,mos.lab.coa,mos_
 access_mos_lab_coa_manager,Certificate of analysis: lab manager,mos.lab.coa,group_mos_lab_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
 access_mos_lab_report_user,Lab report: assigned sites,mos.lab.report,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
 access_mos_lab_report_admin,Lab report: administrators,mos.lab.report,mos_core.group_mos_admin,r,
+access_mos_lab_decide_wizard_user,Usage decision dialog,mos.lab.decide.wizard,mos_core.group_mos_user,crud,
+access_mos_lab_invalidate_wizard_user,Invalidate result dialog,mos.lab.invalidate.wizard,mos_core.group_mos_user,crud,

@@ -4,8 +4,8 @@ set -euo pipefail
 export MSYS_NO_PATHCONV=1
 E="${1:?env file}"
 # Every module with tests; the install list pulls in their dependencies.
-MODULES="mos_core mos_gate mos_lab mos_inbound mos_silo mos_production mos_dashboard mos_approvals mos_payables mos_sales mos_procurement mos_inventory"
-INSTALL="mos_dashboard,mos_auth_oidc,mos_approvals,mos_payables,mos_sales,mos_procurement,mos_inventory"
+MODULES="mos_core mos_gate mos_lab mos_inbound mos_silo mos_production mos_dashboard mos_approvals mos_payables mos_sales mos_procurement mos_inventory mos_controls"
+INSTALL="mos_dashboard,mos_auth_oidc,mos_approvals,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls"
 TAGS=$(for m in $MODULES; do printf '/%s,' "$m"; done)
 PW=$(grep MOS_DB_PASSWORD "$E" | cut -d= -f2)
 docker compose --env-file "$E" up -d db >/dev/null

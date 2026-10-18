@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mos_controls" name="Controls" parent="mos_core.menu_mos_root" sequence="50"/>
+
+    <!-- Exceptions -->
+    <record id="view_mos_exception_list" model="ir.ui.view">
+        <field name="name">mos.exception.list</field>
+        <field name="model">mos.exception</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="overdue or severity == 'high'" decoration-muted="state in ('resolved', 'dismissed')">
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="severity" widget="badge"/>
+                <field name="summary"/>
+                <field name="site_id"/>
+                <field name="assignee_id"/>
+                <field name="due_date"/>
+                <field name="overdue" column_invisible="1"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_exception_form" model="ir.ui.view">
+        <field name="name">mos.exception.form</field>
+        <field name="model">mos.exception</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_record" string="Open the record" type="object" invisible="not res_id"/>
+                    <button name="action_assign" string="Take it" type="object" class="btn-primary" invisible="state != 'open'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="open,assigned,resolved"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="kind"/>
+                            <field name="severity"/>
+                            <field name="summary"/>
+                            <field name="site_id"/>
+                        </group>
+                        <group>
+                            <field name="assignee_id"/>
+                            <field name="due_date"/>
+                            <field name="resolution" invisible="not resolution"/>
+                            <field name="closed_at" invisible="not closed_at"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_exception_search" model="ir.ui.view">
+        <field name="name">mos.exception.search</field>
+        <field name="model">mos.exception</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="summary"/>
+                <filter name="mine" string="Assigned to me" domain="[('assignee_id', '=', uid)]"/>
+                <filter name="open" string="Not closed" domain="[('state', 'in', ('open', 'assigned'))]"/>
+                <filter name="overdue" string="Overdue" domain="[('overdue', '=', True)]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_severity" string="Severity" context="{'group_by': 'severity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_exception" model="ir.actions.act_window">
+        <field name="name">Exceptions</field>
+        <field name="res_model">mos.exception</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_open': 1}</field>
+    </record>
+
+    <!-- Period locks and date windows -->
+    <record id="view_mos_period_lock_list" model="ir.ui.view">
+        <field name="name">mos.period.lock.list</field>
+        <field name="model">mos.period.lock</field>
+        <field name="arch" type="xml">
+            <list create="0" delete="0">
+                <field name="area"/>
+                <field name="lock_date"/>
+                <field name="changed_by_id"/>
+                <field name="change_reason"/>
+                <button name="action_open_wizard" string="Close / reopen" type="object" icon="fa-lock"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_period_lock_wizard" model="ir.ui.view">
+        <field name="name">mos.period.lock.wizard.form</field>
+        <field name="model">mos.period.lock.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="lock_id" invisible="1"/>
+                    <field name="area"/>
+                    <field name="current"/>
+                    <field name="lock_date"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_period_lock" model="ir.actions.act_window">
+        <field name="name">Period close</field>
+        <field name="res_model">mos.period.lock</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_date_policy_list" model="ir.ui.view">
+        <field name="name">mos.date.policy.list</field>
+        <field name="model">mos.date.policy</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="area"/><field name="max_back_days"/><field name="max_forward_days"/></list></field>
+    </record>
+    <record id="action_mos_date_policy" model="ir.actions.act_window">
+        <field name="name">Date windows</field>
+        <field name="res_model">mos.date.policy</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Global search -->
+    <record id="view_mos_search_form" model="ir.ui.view">
+        <field name="name">mos.search.form</field>
+        <field name="model">mos.search</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="query" placeholder="Plate, ticket, order, invoice, supplier, approval..."/>
+                    <field name="count" invisible="count == 0"/>
+                </group>
+                <button name="action_search" string="Search" type="object" class="btn-primary"/>
+                <field name="result_ids" readonly="1">
+                    <list create="0" delete="0">
+                        <field name="kind"/>
+                        <field name="label"/>
+                        <button name="action_open" string="Open" type="object" icon="fa-arrow-right"/>
+                    </list>
+                </field>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_search" model="ir.actions.act_window">
+        <field name="name">Find anything</field>
+        <field name="res_model">mos.search</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_mos_search" name="Find anything" parent="menu_mos_controls" action="action_mos_search" sequence="5"/>
+    <menuitem id="menu_mos_exceptions" name="Exceptions" parent="menu_mos_controls" action="action_mos_exception" sequence="10"/>
+    <menuitem id="menu_mos_period_lock" name="Period close" parent="menu_mos_controls" action="action_mos_period_lock" sequence="20"/>
+    <menuitem id="menu_mos_date_policy" name="Date windows" parent="menu_mos_controls" action="action_mos_date_policy" sequence="30"/>
+</odoo>

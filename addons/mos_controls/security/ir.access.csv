@@ -1,0 +1,10 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_period_lock_user,Period lock: read,mos.period.lock,mos_core.group_mos_user,r,
+access_mos_period_lock_admin,Period lock: administrators,mos.period.lock,mos_core.group_mos_admin,r,
+access_mos_date_policy_user,Date window: read,mos.date.policy,mos_core.group_mos_user,r,
+access_mos_date_policy_admin,Date window: administrators,mos.date.policy,mos_core.group_mos_admin,crud,
+access_mos_exception_user,Exception: assigned sites,mos.exception,mos_core.group_mos_user,cru,"['|', ('site_id', '=', False), ('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_exception_admin,Exception: administrators,mos.exception,mos_core.group_mos_admin,cru,
+access_mos_period_lock_wizard_user,Period close dialog,mos.period.lock.wizard,mos_core.group_mos_user,crud,
+access_mos_search_user,Global search,mos.search,mos_core.group_mos_user,crud,
+access_mos_search_result_user,Global search hit,mos.search.result,mos_core.group_mos_user,crud,

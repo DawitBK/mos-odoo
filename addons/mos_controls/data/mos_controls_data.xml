@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_exception" model="ir.sequence">
+        <field name="name">MOS exception</field>
+        <field name="code">mos.exception</field>
+        <field name="prefix">EX-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="lock_payables" model="mos.period.lock"><field name="area">payables</field></record>
+    <record id="lock_receivables" model="mos.period.lock"><field name="area">receivables</field></record>
+    <record id="lock_inventory" model="mos.period.lock"><field name="area">inventory</field></record>
+    <record id="lock_production" model="mos.period.lock"><field name="area">production</field></record>
+    <record id="cron_exception_scan" model="ir.cron">
+        <field name="name">MOS: scan for process exceptions</field>
+        <field name="model_id" ref="model_mos_exception"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_scan()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+    </record>
+</odoo>
