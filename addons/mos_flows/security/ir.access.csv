@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_pv_draft_user,Payment from receipt: read,mos.pv.draft,mos_core.group_mos_user,r,
+access_mos_pv_draft_admin,Payment from receipt: administrators,mos.pv.draft,mos_core.group_mos_admin,cru,
+access_mos_flow_setting_user,Receiving modes: read,mos.flow.setting,mos_core.group_mos_user,r,
+access_mos_flow_setting_admin,Receiving modes: administrators,mos.flow.setting,mos_core.group_mos_admin,cru,
+access_mos_flow_intake_wizard_user,Lab intake dialog,mos.flow.intake.wizard,mos_lab.group_mos_lab_analyst,crud,

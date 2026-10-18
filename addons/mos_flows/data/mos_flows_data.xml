@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_pv_draft" model="ir.sequence">
+        <field name="name">MOS payment from receipt</field>
+        <field name="code">mos.pv.draft</field>
+        <field name="prefix">PD-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="flow_setting_default" model="mos.flow.setting">
+        <field name="grn_mode">confirm</field>
+        <field name="pv_mode">draft</field>
+    </record>
+    <record id="cron_pv_link" model="ir.cron">
+        <field name="name">MOS: draft vouchers for receipts whose invoice arrived</field>
+        <field name="model_id" ref="model_mos_pv_draft"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_link()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+    </record>
+</odoo>

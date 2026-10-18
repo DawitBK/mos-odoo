@@ -59,7 +59,7 @@ if (reset) {
   must(drop, 'drop database');
 }
 console.log('installing the addons...');
-must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_reports', '--stop-after-init', '--without-demo=all'), 'install');
+must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_reports', '--stop-after-init', '--without-demo=all'), 'install');
 must(compose('up', '-d', 'odoo'), 'start odoo');
 await new Promise((r) => setTimeout(r, 8000));
 

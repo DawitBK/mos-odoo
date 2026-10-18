@@ -76,7 +76,20 @@ class MosGateVisit(models.Model):
         move.write({'quantity': insp.payable_qty, 'picked': True})
         self.sudo().write({'grn_picking_id': picking.id, 'grn_state': 'prepared'})
         self.env['mos.audit.event'].record('grn_prepared', self, f'{picking.name}: {insp.payable_qty} kg')
+        self._mos_after_prepare()
         return picking
+
+    def _mos_after_prepare(self):
+        """Hook: the receipt has just been prepared (automatic mode confirms it here)."""
+        return None
+
+    def _mos_after_confirm(self):
+        """Hook: the receipt has just been confirmed (the payable side starts here)."""
+        return None
+
+    def _mos_inspection_before_exit(self):
+        """Hook: flow A waits for the usage decision before the truck leaves; other flows override this."""
+        return True
 
     def _mos_check_receipt(self, order, product, qty):
         """Hook for receipt policies (excess over the ordered quantity); raise UserError to refuse."""
@@ -95,11 +108,12 @@ class MosGateVisit(models.Model):
                 raise UserError(self.env._('The receipt needs attention in Inventory before it can be confirmed.'))
             visit.sudo().write({'grn_state': 'confirmed'})
             self.env['mos.audit.event'].record('grn_confirmed', visit, picking.name)
+            visit._mos_after_confirm()
 
     def _exit_blockers(self):
         problems = super()._exit_blockers()
         insp = self.inspection_id
-        if self.purpose == 'inbound_po':
+        if self.purpose == 'inbound_po' and self._mos_inspection_before_exit():
             if not insp or insp.state != 'decided':
                 problems.append(self.env._('the inspection has no usage decision'))
             elif insp.decision != 'reject' and self.grn_state != 'confirmed':

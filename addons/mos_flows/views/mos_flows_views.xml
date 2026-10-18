@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Visit: flow and delivery fields -->
+    <record id="view_mos_gate_visit_form_flows" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.flows</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='purpose']" position="after">
+                <field name="flow" readonly="state != 'arrived' and state != 'expected'"/>
+                <field name="delivery_note"/>
+                <field name="bags" invisible="flow == 'A'"/>
+                <field name="received_qty" invisible="flow != 'B'"/>
+                <field name="receipt_exception_note" invisible="not receipt_exception_note"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Intake wizard -->
+    <record id="view_mos_flow_intake_wizard" model="ir.ui.view">
+        <field name="name">mos.flow.intake.wizard.form</field>
+        <field name="model">mos.flow.intake.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="purchase_id"/>
+                        <field name="plate"/>
+                        <field name="driver_name"/>
+                        <field name="delivery_note"/>
+                        <field name="bags"/>
+                    </group>
+                    <group>
+                        <field name="gross"/>
+                        <field name="tare"/>
+                        <field name="silo_id"/>
+                    </group>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Open the inspection lot" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_flow_intake" model="ir.actions.act_window">
+        <field name="name">Lab intake (flow C)</field>
+        <field name="res_model">mos.flow.intake.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- Payments waiting on receipts -->
+    <record id="view_mos_pv_draft_list" model="ir.ui.view">
+        <field name="name">mos.pv.draft.list</field>
+        <field name="model">mos.pv.draft</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="state == 'awaiting_invoice'" create="0">
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="purchase_id"/>
+                <field name="supplier_id"/>
+                <field name="received_qty"/>
+                <field name="expected_gross"/>
+                <field name="invoice_id"/>
+                <field name="voucher_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_pv_draft" model="ir.actions.act_window">
+        <field name="name">Payments from receipts</field>
+        <field name="res_model">mos.pv.draft</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Modes -->
+    <record id="view_mos_flow_setting_form" model="ir.ui.view">
+        <field name="name">mos.flow.setting.form</field>
+        <field name="model">mos.flow.setting</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <sheet>
+                    <group>
+                        <field name="grn_mode"/>
+                        <field name="pv_mode"/>
+                    </group>
+                    <p class="text-muted">A change applies to deliveries that reach the step after it is saved; documents already in flight keep going as they were.</p>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_flow_setting" model="ir.actions.server">
+        <field name="name">Receiving automation</field>
+        <field name="model_id" ref="model_mos_flow_setting"/>
+        <field name="state">code</field>
+        <field name="code">action = {'type': 'ir.actions.act_window', 'res_model': 'mos.flow.setting', 'res_id': model._singleton().id, 'view_mode': 'form', 'target': 'current'}</field>
+    </record>
+
+    <menuitem id="menu_mos_flows" name="Receiving" parent="mos_core.menu_mos_root" sequence="25"/>
+    <menuitem id="menu_mos_flow_intake" name="Lab intake (flow C)" parent="menu_mos_flows" action="action_mos_flow_intake" sequence="10"/>
+    <menuitem id="menu_mos_pv_drafts" name="Payments from receipts" parent="menu_mos_flows" action="action_mos_pv_draft" sequence="20"/>
+    <menuitem id="menu_mos_flow_setting" name="Receiving automation" parent="mos_core.menu_mos_config" action="action_mos_flow_setting" sequence="50"/>
+</odoo>

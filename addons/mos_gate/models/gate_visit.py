@@ -182,8 +182,15 @@ class MosGateVisit(models.Model):
         """Hook for modules that add clearance rules (lab decision, open holds)."""
         self.ensure_one()
         problems = []
-        if self.state != 'weighed':
+        if not self._mos_requires_weighing():
+            if self.state not in ('arrived', 'weighing', 'weighed'):
+                problems.append(self.env._('the vehicle is not on site'))
+        elif self.state != 'weighed':
             problems.append(self.env._('the vehicle has not completed weighing'))
         elif not self.ticket_id or self.ticket_id.state != 'posted':
             problems.append(self.env._('the weigh ticket is not posted'))
         return problems
+
+    def _mos_requires_weighing(self):
+        """Hook: a flow that receives by count (packaged goods) does not need the weighbridge."""
+        return True
