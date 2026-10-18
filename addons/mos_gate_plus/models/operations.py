@@ -1,3 +1,5 @@
+from psycopg2.errors import ForeignKeyViolation
+
 from odoo import api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 
@@ -170,13 +172,19 @@ class MosGateVisitClearance(models.Model):
     def _log_clearance(self, result, reasons):
         """Record the attempt. A refusal rolls the request back, so the row is written on its own cursor to survive it."""
         self.ensure_one()
-        if tools.config.get('test_enable'):
-            # Test transactions are rolled back as a whole and a second connection cannot see their uncommitted rows.
-            self.env['mos.gate.clearance'].sudo().create({'visit_id': self.id, 'user_id': self.env.uid, 'result': result, 'reasons': reasons})
+        row = {'visit_id': self.id, 'user_id': self.env.uid, 'result': result, 'reasons': reasons}
+        if tools.config.get('test_enable') or result == 'cleared':
+            # Test transactions are rolled back as a whole and a second connection cannot see their uncommitted rows;
+            # a cleared exit is not rolled back, so it is written in the same transaction as the visit it belongs to.
+            self.env['mos.gate.clearance'].sudo().create(row)
         else:
-            with self.pool.cursor() as cr:
-                cr.execute(
-                    "INSERT INTO mos_gate_clearance (visit_id, user_id, at, result, reasons) VALUES (%s, %s, NOW() AT TIME ZONE 'UTC', %s, %s)",
-                    [self.id, self.env.uid, result, reasons],
-                )
+            try:
+                with self.pool.cursor() as cr:
+                    cr.execute(
+                        "INSERT INTO mos_gate_clearance (visit_id, user_id, at, result, reasons) VALUES (%s, %s, NOW() AT TIME ZONE 'UTC', %s, %s)",
+                        [self.id, self.env.uid, result, reasons],
+                    )
+            except ForeignKeyViolation:
+                # The visit itself is not committed yet (a script, not a request): the row goes in the caller's transaction.
+                self.env['mos.gate.clearance'].sudo().create(row)
         self.invalidate_recordset(['clearance_ids'])

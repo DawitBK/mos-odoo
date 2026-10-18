@@ -59,7 +59,7 @@ if (reset) {
   must(drop, 'drop database');
 }
 console.log('installing the addons...');
-must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_gate_plus,mos_production_plus,mos_finance_plus,mos_reports', '--stop-after-init', '--without-demo=all'), 'install');
+must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_gate_plus,mos_production_plus,mos_finance_plus,mos_procurement_plus,mos_reports,mos_platform_plus,mos_planning_plus', '--stop-after-init', '--without-demo=all'), 'install');
 must(compose('up', '-d', 'odoo'), 'start odoo');
 await new Promise((r) => setTimeout(r, 8000));
 
@@ -111,6 +111,11 @@ console.log('loading finance extras (account mapping, payment run, journal expor
 const finance = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_finance.py'), 'utf8'));
 must(finance, 'finance seed');
 console.log((finance.stdout ?? '').trim().split('\n').slice(-1)[0]);
+
+console.log('loading sourcing, platform and planning extras (RFQ, bag types, contract, routing, suggestions)...');
+const extras = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_extras.py'), 'utf8'));
+must(extras, 'extras seed');
+console.log((extras.stdout ?? '').trim().split('\n').slice(-1)[0]);
 
 console.log('configuring sign-in and passwords...');
 const configure = `
