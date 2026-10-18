@@ -83,5 +83,11 @@
     "family": "Administrator",
     "role": "admin",
     "odooOnly": true
+  },
+  {
+    "login": "mos.procurement@examplecorp.com",
+    "given": "Priya",
+    "family": "Procure",
+    "role": "procurement"
   }
 ]
