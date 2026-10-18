@@ -459,7 +459,7 @@
         <field name="model">mos.gate.incident</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Number, visit or plate" filter_domain="['|', '|', ('name', 'ilike', self), ('visit_id', 'ilike', self), ('visit_id.plate', 'ilike', self)]"/>
                 <field name="visit_id"/>
                 <field name="site_id"/>
                 <separator/>
@@ -576,7 +576,7 @@
         <field name="model">mos.grn.reassignment</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Number, visit or plate" filter_domain="['|', '|', ('name', 'ilike', self), ('visit_id', 'ilike', self), ('visit_id.plate', 'ilike', self)]"/>
                 <field name="reason"/>
                 <field name="visit_id"/>
                 <field name="from_order_id"/>
@@ -639,7 +639,7 @@
         <field name="model">mos.lab.coa</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Number, visit or plate" filter_domain="['|', '|', ('name', 'ilike', self), ('visit_id', 'ilike', self), ('visit_id.plate', 'ilike', self)]"/>
                 <field name="visit_id"/>
                 <field name="product_id"/>
                 <field name="grade_id"/>
@@ -674,7 +674,7 @@
         <field name="model">mos.lab.inspection</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Number, visit or plate" filter_domain="['|', '|', ('name', 'ilike', self), ('visit_id', 'ilike', self), ('visit_id.plate', 'ilike', self)]"/>
                 <field name="visit_id"/>
                 <field name="product_id"/>
                 <separator/>
@@ -1075,7 +1075,7 @@
         <field name="model">mos.pv.draft</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Number, visit or plate" filter_domain="['|', '|', ('name', 'ilike', self), ('visit_id', 'ilike', self), ('visit_id.plate', 'ilike', self)]"/>
                 <field name="visit_id"/>
                 <field name="purchase_id"/>
                 <field name="supplier_id"/>
@@ -1592,7 +1592,7 @@
         <field name="model">mos.weigh.ticket</field>
         <field name="arch" type="xml">
             <search>
-                <field name="name"/>
+                <field name="name" string="Number, visit or plate" filter_domain="['|', '|', ('name', 'ilike', self), ('visit_id', 'ilike', self), ('visit_id.plate', 'ilike', self)]"/>
                 <field name="visit_id"/>
                 <separator/>
                 <filter name="state_draft" string="Weighing" domain="[('state', '=', 'draft')]"/>

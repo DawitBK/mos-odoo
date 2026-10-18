@@ -71,6 +71,19 @@ async function pickFirst(page, field) {
   await item.click();
   return label;
 }
+const rpc = (page, model, method, args = [], kwargs = {}) =>
+  page.evaluate(
+    async ([model, method, args, kwargs]) => {
+      const r = await fetch(`/web/dataset/call_kw/${model}/${method}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', method: 'call', params: { model, method, args, kwargs } }) });
+      const j = await r.json();
+      if (j.error) throw new Error(j.error.data?.message || j.error.message);
+      return j.result;
+    },
+    [model, method, args, kwargs],
+  );
+let GROSS = 0;
+let TARE = 15000;
+let ORDERED = 0;
 const plate = `UI-${Date.now().toString().slice(-6)}`;
 
 // 1. The guard registers the truck
@@ -86,6 +99,12 @@ try {
   await pickFirst(guard.page, 'purchase_id');
   await guard.page.locator('.o_form_button_save').click();
   await settle(guard.page);
+  const visitId = Number(guard.page.url().split('/').pop());
+  const [{ purchase_id: poRef }] = await rpc(guard.page, 'mos.gate.visit', 'read', [[visitId], ['purchase_id']]);
+  const lines = await rpc(guard.page, 'purchase.order.line', 'search_read', [[['order_id', '=', poRef[0]]]], { fields: ['product_qty'] });
+  ORDERED = lines.reduce((a, l) => a + l.product_qty, 0);
+  GROSS = ORDERED + TARE;
+  console.log('  (the order is for ' + ORDERED + ' kg, so the truck weighs ' + GROSS + ' loaded and ' + TARE + ' empty)');
   check(!(await dialogError(guard.page)), 'the visit is saved (a guard shift is open, the order is picked)');
   await shot(guard.page, 'journey-1-visit');
 
@@ -97,11 +116,11 @@ try {
   check(true, 'the screen offers "Record the first weighing"');
   await firstButton.click();
   await guard.page.waitForSelector('.modal .o_form_view');
-  await guard.page.locator('.modal .o_field_widget[name="weight"] input').fill('50000');
+  await guard.page.locator('.modal .o_field_widget[name="weight"] input').fill(String(GROSS));
   await shot(guard.page, 'journey-2-first');
   await guard.page.locator('.modal footer button.btn-primary').click();
   await settle(guard.page, 1200);
-  check(!(await dialogError(guard.page)), 'the first weight (50,000 kg) is recorded');
+  check(!(await dialogError(guard.page)), 'the first weight (loaded truck) is recorded');
 
   const secondButton = guard.page.getByRole('button', { name: 'Record the second weighing' });
   await secondButton.waitFor({ timeout: 8000 });
@@ -109,10 +128,10 @@ try {
   await guard.page.waitForSelector('.modal .o_form_view');
   const hint = await guard.page.locator('.modal .alert').innerText();
   check(/empty truck/i.test(hint), `the dialog says what to weigh next ("${hint.trim()}")`);
-  await guard.page.locator('.modal .o_field_widget[name="weight"] input').fill('15000');
+  await guard.page.locator('.modal .o_field_widget[name="weight"] input').fill(String(TARE));
   await guard.page.locator('.modal footer button.btn-primary').click();
   await settle(guard.page, 1200);
-  check(!(await dialogError(guard.page)), 'the second weight (15,000 kg) is recorded');
+  check(!(await dialogError(guard.page)), 'the second weight (empty truck) is recorded');
   const verifyButton = guard.page.getByRole('button', { name: /Verify the weights/ });
   await verifyButton.waitFor({ timeout: 8000 });
   check(true, 'the ticket now waits for verification');
@@ -138,8 +157,8 @@ try {
   await verifier.page.waitForSelector('.modal .o_form_view');
   const text = (await verifier.page.locator('.modal').innerText()).replace(/\s+/g, ' ');
   check(!/50,?000|15,?000/.test(text), 'the verification dialog does not show the recorded weights');
-  await verifier.page.locator('.modal .o_field_widget[name="weight_gross"] input').fill('50000');
-  await verifier.page.locator('.modal .o_field_widget[name="weight_tare"] input').fill('14000');
+  await verifier.page.locator('.modal .o_field_widget[name="weight_gross"] input').fill(String(GROSS));
+  await verifier.page.locator('.modal .o_field_widget[name="weight_tare"] input').fill(String(TARE - 1000));
   await verifier.page.locator('.modal footer button.btn-primary').click();
   await settle(verifier.page, 1200);
   const wrong = await dialogError(verifier.page);
@@ -150,15 +169,15 @@ try {
   await verifier.page.waitForSelector('.o_form_view');
   await verifier.page.getByRole('button', { name: /Verify the weights/ }).click();
   await verifier.page.waitForSelector('.modal .o_form_view');
-  await verifier.page.locator('.modal .o_field_widget[name="weight_gross"] input').fill('50000');
-  await verifier.page.locator('.modal .o_field_widget[name="weight_tare"] input').fill('15000');
+  await verifier.page.locator('.modal .o_field_widget[name="weight_gross"] input').fill(String(GROSS));
+  await verifier.page.locator('.modal .o_field_widget[name="weight_tare"] input').fill(String(TARE));
   await verifier.page.locator('.modal footer button.btn-primary').click();
   await settle(verifier.page, 1500);
   check(!(await dialogError(verifier.page)), 'the right reading is accepted');
   await verifier.page.reload();
   await verifier.page.waitForSelector('.o_form_view');
   const net = await verifier.page.locator('.o_field_widget[name="net_weight"]').first().innerText();
-  check(/35,?000/.test(net), `the net weight is ${net.trim()} kg`);
+  check(Number(net.replace(/,/g, "")) === ORDERED, `the net weight is ${net.trim()} kg`);
   check((await verifier.page.locator('.o_statusbar_status .o_arrow_button_current').innerText()).toLowerCase().includes('weighed'), 'the visit is now "Weighed"');
   await shot(verifier.page, 'journey-4-done');
 } catch (error) {
@@ -167,16 +186,6 @@ try {
 }
 
 // Helpers for the rest of the delivery
-const rpc = (page, model, method, args = [], kwargs = {}) =>
-  page.evaluate(
-    async ([model, method, args, kwargs]) => {
-      const r = await fetch(`/web/dataset/call_kw/${model}/${method}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ jsonrpc: '2.0', method: 'call', params: { model, method, args, kwargs } }) });
-      const j = await r.json();
-      if (j.error) throw new Error(j.error.data?.message || j.error.message);
-      return j.result;
-    },
-    [model, method, args, kwargs],
-  );
 async function openVisit(page) {
   await menuAction(page, 'MOS/Gate/Visits');
   await page.locator('.o_searchview input').fill(plate);
@@ -215,7 +224,7 @@ try {
   const params = await rpc(analyst.page, 'mos.lab.spec.line', 'search_read', [[['spec_id', '=', inspection.spec_id[0]]]], { fields: ['name', 'min_value', 'max_value'] });
   check(params.length > 0, `the specification has ${params.length} parameter(s) to measure`);
   for (let i = 0; i < params.length; i += 1) {
-    await analyst.page.locator('.o_field_widget[name="result_ids"] .o_field_x2many_list_row_add a').click();
+    await analyst.page.getByText('Add a line').first().click();
     await settle(analyst.page, 500);
     const lineInput = analyst.page.locator('.o_selected_row .o_field_widget[name="line_id"] input');
     await lineInput.click();
