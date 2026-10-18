@@ -1,0 +1,11 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_delivery_order_user,Delivery order: read,mos.delivery.order,mos_core.group_mos_user,r,
+access_mos_delivery_order_rep,Delivery order: sales representative,mos.delivery.order,group_mos_sales_rep,cru,
+access_mos_delivery_order_guard,Delivery order: gate guard,mos.delivery.order,mos_gate.group_mos_gate_guard,ru,
+access_mos_customer_invoice_user,Customer invoice: read,mos.customer.invoice,mos_core.group_mos_user,r,
+access_mos_customer_invoice_rep,Customer invoice: sales representative,mos.customer.invoice,group_mos_sales_rep,ru,
+access_mos_receipt_user,Receipt: read,mos.receipt,mos_core.group_mos_user,r,
+access_mos_receipt_cashier,Receipt: cashier,mos.receipt,group_mos_sales_cashier,cr,
+access_mos_cash_session_user,Cash session: read,mos.cash.session,mos_core.group_mos_user,r,
+access_mos_cash_session_cashier,Cash session: cashier,mos.cash.session,group_mos_sales_cashier,cru,
+access_mos_customer_balance_user,Customer balance: read,mos.customer.balance,mos_core.group_mos_user,r,

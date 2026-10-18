@@ -25,9 +25,10 @@ class MosWeighTicket(models.Model):
         required=True,
         readonly=True,
     )
-    first_weight = fields.Float(string='First weighing (gross, kg)', digits=(12, 1), readonly=True)
+    direction = fields.Selection([('in', 'Inbound: gross first, then tare'), ('out', 'Outbound: tare first, then gross')], compute='_compute_direction', store=True)
+    first_weight = fields.Float(string='First weighing (kg)', digits=(12, 1), readonly=True)
     first_by_id = fields.Many2one('res.users', readonly=True)
-    second_weight = fields.Float(string='Second weighing (tare, kg)', digits=(12, 1), readonly=True)
+    second_weight = fields.Float(string='Second weighing (kg)', digits=(12, 1), readonly=True)
     second_by_id = fields.Many2one('res.users', readonly=True)
     gross_weight = fields.Float(digits=(12, 1), store=True, compute='_compute_net')
     tare_weight = fields.Float(digits=(12, 1), store=True, compute='_compute_net')
@@ -38,12 +39,18 @@ class MosWeighTicket(models.Model):
     superseded_by_id = fields.Many2one('mos.weigh.ticket', readonly=True)
     reweigh_reason_id = fields.Many2one('mos.reason', domain=[('domain', '=', 'reweigh')], readonly=True)
 
-    @api.depends('first_weight', 'second_weight')
+    @api.depends('visit_id.purpose')
+    def _compute_direction(self):
+        for t in self:
+            t.direction = 'out' if (t.visit_id.purpose or '').startswith('outbound') else 'in'
+
+    @api.depends('first_weight', 'second_weight', 'direction')
     def _compute_net(self):
         for t in self:
-            t.gross_weight = t.first_weight
-            t.tare_weight = t.second_weight
-            t.net_weight = t.first_weight - t.second_weight if t.first_weight and t.second_weight else 0.0
+            # A loaded truck arriving is weighed gross first; a truck coming to load is weighed empty (tare) first (FR-GATE-011).
+            gross, tare = (t.second_weight, t.first_weight) if t.direction == 'out' else (t.first_weight, t.second_weight)
+            t.gross_weight, t.tare_weight = gross, tare
+            t.net_weight = gross - tare if t.first_weight and t.second_weight else 0.0
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -65,7 +72,10 @@ class MosWeighTicket(models.Model):
         self.ensure_one()
         if self.state != 'draft' or not self.first_weight or self.second_weight:
             raise UserError(self.env._('Record the first weighing before the second, and only once.'))
-        if weight < 0 or weight >= self.first_weight:
+        if self.direction == 'out':
+            if weight <= self.first_weight:
+                raise UserError(self.env._('Outbound: the loaded weight (%(gross)s kg) must be above the empty weight (%(tare)s kg).', gross=weight, tare=self.first_weight))
+        elif weight < 0 or weight >= self.first_weight:
             raise UserError(
                 self.env._('Inbound: the tare (%(tare)s kg) must be lower than the gross (%(gross)s kg).', tare=weight, gross=self.first_weight)
             )

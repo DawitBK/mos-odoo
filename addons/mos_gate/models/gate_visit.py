@@ -14,7 +14,7 @@ class MosGateVisit(models.Model):
 
     name = fields.Char(default='New', readonly=True, copy=False)
     site_id = fields.Many2one('mos.site', required=True, tracking=True)
-    purpose = fields.Selection([('inbound_po', 'Inbound: PO delivery')], default='inbound_po', required=True)
+    purpose = fields.Selection([('inbound_po', 'Inbound: PO delivery'), ('outbound_do', 'Outbound: customer delivery')], default='inbound_po', required=True)
     plate = fields.Char(required=True, tracking=True)
     driver_name = fields.Char()
     transporter = fields.Char()
@@ -22,6 +22,7 @@ class MosGateVisit(models.Model):
     purchase_id = fields.Many2one('purchase.order', string='Purchase order')
     state = fields.Selection(
         [
+            ('expected', 'Expected'),
             ('arrived', 'Arrived'),
             ('weighing', 'Weighing'),
             ('weighed', 'Weighed'),
@@ -62,6 +63,13 @@ class MosGateVisit(models.Model):
             clash = self.search_count([('plate', '=', visit.plate), ('state', 'in', OPEN_STATES), ('id', '!=', visit.id)])
             if clash:
                 raise ValidationError(self.env._('Vehicle %s already has an open visit.', visit.plate))
+
+    def action_arrive(self):
+        """An expected truck reaches the gate (FR-GATE-004, 005)."""
+        for visit in self:
+            if visit.state != 'expected':
+                raise UserError(self.env._('Only an expected vehicle can be marked as arrived.'))
+            visit.write({'state': 'arrived', 'arrived_at': fields.Datetime.now()})
 
     def action_start_weighing(self):
         for visit in self:
