@@ -15,3 +15,4 @@ access_mos_close_checklist_user,mos.close.checklist: manager,mos.close.checklist
 access_mos_close_checklist_gm,mos.close.checklist: general manager,mos.close.checklist,mos_approvals.group_mos_general_manager,crud,
 access_mos_close_checklist_line_user,mos.close.checklist.line: manager,mos.close.checklist.line,mos_inventory.group_mos_inventory_manager,crud,
 access_mos_close_checklist_line_gm,mos.close.checklist.line: general manager,mos.close.checklist.line,mos_approvals.group_mos_general_manager,crud,
+access_mos_stock_history_user,mos.stock.history: user,mos.stock.history,mos_core.group_mos_user,r,

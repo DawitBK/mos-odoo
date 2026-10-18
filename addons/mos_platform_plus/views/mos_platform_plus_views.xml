@@ -212,7 +212,13 @@
                             <field name="opening" sum="Total"/>
                             <field name="received" sum="Total"/>
                             <field name="issued" sum="Total"/>
+                            <field name="adjusted" sum="Total"/>
                             <field name="closing" sum="Total"/>
+                            <field name="available" optional="show"/>
+                            <field name="reserved" optional="show"/>
+                            <field name="quarantine" optional="show"/>
+                            <field name="blocked" optional="show"/>
+                            <button name="action_history" type="object" string="History" icon="fa-history"/>
                         </list>
                     </field>
                 </sheet>
@@ -224,6 +230,24 @@
         <field name="res_model">mos.stock.balance</field>
         <field name="view_mode">form</field>
         <field name="target">current</field>
+    </record>
+
+    <record id="view_mos_stock_history_list" model="ir.ui.view">
+        <field name="name">mos.stock.history.list</field>
+        <field name="model">mos.stock.history</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="date"/>
+                <field name="product_id"/>
+                <field name="reference"/>
+                <field name="kind"/>
+                <field name="received"/>
+                <field name="issued"/>
+                <field name="adjustment"/>
+                <field name="balance_after"/>
+                <field name="user_id"/>
+            </list>
+        </field>
     </record>
 
     <!-- Close checklist -->

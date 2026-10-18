@@ -1,5 +1,5 @@
 import time
-from datetime import date
+from datetime import date, timedelta
 
 from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
@@ -180,7 +180,8 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
         balance.action_build()
         line = balance.line_ids.filtered(lambda l: l.product_id == self.wheat)
         self.assertEqual(len(line), 1)
-        self.assertAlmostEqual(line.closing, line.opening + line.received - line.issued, places=3)
+        self.assertAlmostEqual(line.closing, line.opening + line.received - line.issued + line.adjusted, places=3)
+        self.assertAlmostEqual(line.available + line.quarantine + line.blocked, line.closing, places=1, msg='the status columns add up to on-hand')
         self.assertAlmostEqual(line.closing, on_hand, places=1)
         with self.assertRaises(UserError):
             self.env['mos.stock.balance'].create({'date_from': '2026-10-02', 'date_to': '2026-10-01'}).action_build()
@@ -226,3 +227,43 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
         self.assertIn('Truck 3 days on site', mail.body_html)
         self.env['ir.config_parameter'].sudo().set_str('mos_platform_plus.digest_enabled', 'True')
         self.assertGreaterEqual(digest._cron_send(), 1)
+
+    def test_balance_separates_adjustments_and_keeps_a_history(self):
+        order = self._order(qty=40000.0)
+        self._receive(order, 'PLT-002')
+        location = self.env['stock.warehouse'].search([], limit=1).lot_stock_id
+        quant = self.env['stock.quant'].with_context(inventory_mode=True).create({'product_id': self.wheat.id, 'location_id': location.id, 'inventory_quantity': 1000.0})
+        quant.action_apply_inventory()  # a count correction down to 1,000 kg
+        self.env.flush_all()
+        balance = self.env['mos.stock.balance'].create({'date_from': fields.Date.today().replace(day=1), 'date_to': fields.Date.today()})
+        balance.action_build()
+        line = balance.line_ids.filtered(lambda l: l.product_id == self.wheat)
+        self.assertLess(line.adjusted, 0, 'the correction is an adjustment, not an issue')
+        self.assertAlmostEqual(line.closing, line.opening + line.received - line.issued + line.adjusted, places=3)
+        self.assertAlmostEqual(line.closing, 1000.0, places=1)
+        history = self.env['mos.stock.history'].search([('product_id', '=', self.wheat.id)], order='date, id')
+        self.assertEqual({'received', 'adjusted'}, set(history.mapped('kind')))
+        self.assertAlmostEqual(history[-1].balance_after, 1000.0, places=1, msg='the running balance ends where the stock stands')
+        self.assertEqual(line.action_history()['res_model'], 'mos.stock.history')
+
+    # -- Soft-closed periods ------------------------------------------------------------------------------------------
+    def test_soft_closed_period_needs_a_finance_manager_to_post(self):
+        fin = new_test_user(self.env, login='xplatfin', groups='mos_approvals.group_mos_finance_manager')
+        lock = self.env['mos.period.lock'].sudo().search([('area', '=', 'payables')], limit=1) or self.env['mos.period.lock'].sudo().create({'area': 'payables'})
+        yesterday = fields.Date.today() - timedelta(days=1)
+        with self.assertRaises(UserError):
+            lock.with_user(self.apclerk).set_soft_lock(yesterday)  # not a finance manager
+        lock.with_user(fin).set_soft_lock(yesterday, 'month-end review')
+        self.assertEqual(lock.soft_lock_date, yesterday)
+        locks = self.env['mos.period.lock']
+        with self.assertRaises(UserError):
+            locks.with_user(self.apclerk).check('payables', yesterday)  # the clerk can no longer post into it
+        locks.with_user(fin).check('payables', yesterday)  # the finance manager still can
+        locks.with_user(self.apclerk).check('payables', fields.Date.today())  # after the soft-close date is open
+        lock.sudo().write({'lock_date': yesterday})
+        with self.assertRaises(UserError):
+            locks.with_user(fin).check('payables', yesterday)  # once really closed, nobody can
+        with self.assertRaises(UserError):
+            lock.with_user(fin).set_soft_lock(yesterday - timedelta(days=5))  # cannot be earlier than the closing date
+        lock.with_user(fin).set_soft_lock(False, 'reopened')
+        self.assertFalse(lock.soft_lock_date)
