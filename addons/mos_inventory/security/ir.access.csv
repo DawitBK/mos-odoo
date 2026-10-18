@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_stock_adjustment_user,mos.stock.adjustment: group_mos_user,mos.stock.adjustment,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_adjustment_storekeeper,mos.stock.adjustment: group_mos_storekeeper,mos.stock.adjustment,mos_inbound.group_mos_storekeeper,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_adjustment_inventory_manager,mos.stock.adjustment: group_mos_inventory_manager,mos.stock.adjustment,group_mos_inventory_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_adjustment_admin,mos.stock.adjustment: group_mos_admin,mos.stock.adjustment,mos_core.group_mos_admin,r,
+access_mos_cycle_count_user,mos.cycle.count: group_mos_user,mos.cycle.count,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_cycle_count_storekeeper,mos.cycle.count: group_mos_storekeeper,mos.cycle.count,mos_inbound.group_mos_storekeeper,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_cycle_count_inventory_manager,mos.cycle.count: group_mos_inventory_manager,mos.cycle.count,group_mos_inventory_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_cycle_count_admin,mos.cycle.count: group_mos_admin,mos.cycle.count,mos_core.group_mos_admin,r,
+access_mos_stock_status_change_user,mos.stock.status.change: group_mos_user,mos.stock.status.change,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_status_change_storekeeper,mos.stock.status.change: group_mos_storekeeper,mos.stock.status.change,mos_inbound.group_mos_storekeeper,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_status_change_inventory_manager,mos.stock.status.change: group_mos_inventory_manager,mos.stock.status.change,group_mos_inventory_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_status_change_admin,mos.stock.status.change: group_mos_admin,mos.stock.status.change,mos_core.group_mos_admin,r,
+access_mos_stock_adjustment_line_user,mos.stock.adjustment.line: group_mos_user,mos.stock.adjustment.line,mos_core.group_mos_user,r,
+access_mos_stock_adjustment_line_storekeeper,mos.stock.adjustment.line: group_mos_storekeeper,mos.stock.adjustment.line,mos_inbound.group_mos_storekeeper,crud,
+access_mos_stock_adjustment_line_inventory_manager,mos.stock.adjustment.line: group_mos_inventory_manager,mos.stock.adjustment.line,group_mos_inventory_manager,crud,
+access_mos_cycle_count_line_user,mos.cycle.count.line: group_mos_user,mos.cycle.count.line,mos_core.group_mos_user,r,
+access_mos_cycle_count_line_storekeeper,mos.cycle.count.line: group_mos_storekeeper,mos.cycle.count.line,mos_inbound.group_mos_storekeeper,crud,
+access_mos_cycle_count_line_inventory_manager,mos.cycle.count.line: group_mos_inventory_manager,mos.cycle.count.line,group_mos_inventory_manager,crud,
+access_mos_reorder_report_user,mos.reorder.report: group_mos_user,mos.reorder.report,mos_core.group_mos_user,r,

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_stock_adjustment" model="ir.sequence">
+        <field name="name">MOS stock adjustment</field>
+        <field name="code">mos.stock.adjustment</field>
+        <field name="prefix">SA-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_stock_status_change" model="ir.sequence">
+        <field name="name">MOS stock status change</field>
+        <field name="code">mos.stock.status.change</field>
+        <field name="prefix">SS-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_cycle_count" model="ir.sequence">
+        <field name="name">MOS cycle count</field>
+        <field name="code">mos.cycle.count</field>
+        <field name="prefix">CC-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+</odoo>

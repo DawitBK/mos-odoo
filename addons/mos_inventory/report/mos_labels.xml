@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_product_label" model="ir.actions.report">
+        <field name="name">MOS product label</field>
+        <field name="model">product.product</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_inventory.report_product_label</field>
+        <field name="binding_model_id" ref="product.model_product_product"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_location_label" model="ir.actions.report">
+        <field name="name">MOS location label</field>
+        <field name="model">stock.location</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_inventory.report_location_label</field>
+        <field name="binding_model_id" ref="stock.model_stock_location"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_product_label">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="product">
+                <div class="page" style="page-break-after: always; text-align: center;">
+                    <h2 t-out="product.display_name"/>
+                    <p t-if="product.default_code" t-out="product.default_code"/>
+                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ product.default_code or product.display_name }}&amp;width=200&amp;height=200" alt="QR" style="width: 200px; height: 200px;"/>
+                    <p>Unit: <span t-out="product.uom_id.name"/></p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_location_label">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="location">
+                <div class="page" style="page-break-after: always; text-align: center;">
+                    <h2 t-out="location.complete_name"/>
+                    <p>Status: <span t-out="dict(location._fields['mos_stock_status'].selection)[location.mos_stock_status]"/></p>
+                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ location.barcode or location.complete_name }}&amp;width=200&amp;height=200" alt="QR" style="width: 200px; height: 200px;"/>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
