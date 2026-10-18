@@ -59,7 +59,7 @@ if (reset) {
   must(drop, 'drop database');
 }
 console.log('installing the addons...');
-must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_reports', '--stop-after-init', '--without-demo=all'), 'install');
+must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_gate_plus,mos_reports', '--stop-after-init', '--without-demo=all'), 'install');
 must(compose('up', '-d', 'odoo'), 'start odoo');
 await new Promise((r) => setTimeout(r, 8000));
 
@@ -96,6 +96,11 @@ console.log('loading quality (methods, instruments, QC policy)...');
 const quality = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_quality.py'), 'utf8'));
 must(quality, 'quality seed');
 console.log((quality.stdout ?? '').trim().split('\n').slice(-1)[0]);
+
+console.log('loading gate operations (posts, weighbridge, paper slips)...');
+const gate = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_gate.py'), 'utf8'));
+must(gate, 'gate seed');
+console.log((gate.stdout ?? '').trim().split('\n').slice(-1)[0]);
 
 console.log('configuring sign-in and passwords...');
 const configure = `

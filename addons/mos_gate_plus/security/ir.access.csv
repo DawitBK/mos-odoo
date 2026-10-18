@@ -1,0 +1,21 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_gate_post_user,mos.gate.post: user,mos.gate.post,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_post_admin,mos.gate.post: admin,mos.gate.post,mos_core.group_mos_admin,crud,
+access_mos_weighbridge_user,mos.weighbridge: user,mos.weighbridge,mos_core.group_mos_user,r,
+access_mos_weighbridge_admin,mos.weighbridge: admin,mos.weighbridge,mos_core.group_mos_admin,crud,
+access_mos_gate_tolerance_user,mos.gate.tolerance: user,mos.gate.tolerance,mos_core.group_mos_user,r,
+access_mos_gate_tolerance_gate_supervisor,mos.gate.tolerance: gate_supervisor,mos.gate.tolerance,mos_flows.group_mos_gate_supervisor,cru,
+access_mos_gate_tolerance_admin,mos.gate.tolerance: admin,mos.gate.tolerance,mos_core.group_mos_admin,crud,
+access_mos_gate_clearance_user,mos.gate.clearance: user,mos.gate.clearance,mos_core.group_mos_user,r,
+access_mos_gate_visit_tool_user,mos.gate.visit.tool: user,mos.gate.visit.tool,mos_core.group_mos_user,r,
+access_mos_gate_visit_tool_gate_guard,mos.gate.visit.tool: gate_guard,mos.gate.visit.tool,mos_gate.group_mos_gate_guard,crud,
+access_mos_paper_book_user,mos.paper.book: user,mos.paper.book,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_paper_book_gate_supervisor,mos.paper.book: gate_supervisor,mos.paper.book,mos_flows.group_mos_gate_supervisor,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_paper_book_admin,mos.paper.book: admin,mos.paper.book,mos_core.group_mos_admin,crud,
+access_mos_paper_slip_user,mos.paper.slip: user,mos.paper.slip,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_paper_slip_gate_guard,mos.paper.slip: gate_guard,mos.paper.slip,mos_gate.group_mos_gate_guard,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_paper_slip_gate_supervisor,mos.paper.slip: gate_supervisor,mos.paper.slip,mos_flows.group_mos_gate_supervisor,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_paper_slip_admin,mos.paper.slip: admin,mos.paper.slip,mos_core.group_mos_admin,crud,
+access_mos_gate_register_user,mos.gate.register: user,mos.gate.register,mos_core.group_mos_user,crud,
+access_mos_gate_arrival_user,mos.gate.arrival: user,mos.gate.arrival,mos_core.group_mos_user,crud,
+access_mos_gate_action_wizard_user,mos.gate.action.wizard: user,mos.gate.action.wizard,mos_core.group_mos_user,crud,

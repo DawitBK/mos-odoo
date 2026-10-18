@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_gate_register" model="ir.actions.report">
+        <field name="name">Daily gate register</field>
+        <field name="model">mos.gate.register</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_gate_plus.report_gate_register</field>
+        <field name="binding_model_id" ref="mos_gate_plus.model_mos_gate_register"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_gate_register">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="reg">
+                <div class="page">
+                    <h2>Gate register: <span t-out="reg.site_id.name"/>, <span t-out="reg.date"/></h2>
+                    <p><span t-out="reg.visits"/> visits · <span t-out="reg.net_total"/> kg weighed · <span t-out="reg.superseded"/> superseded tickets</p>
+                    <table class="table table-sm">
+                        <thead><tr><th>Visit</th><th>Plate</th><th>Purpose</th><th>Partner</th><th>In</th><th>Out</th><th>State</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="reg.visit_ids" t-as="v">
+                                <td t-out="v.name"/><td t-out="v.plate"/><td t-out="v.purpose"/><td t-out="v.partner_id.display_name"/>
+                                <td t-out="v.arrived_at" t-options="{'widget': 'datetime'}"/><td t-out="v.exited_at" t-options="{'widget': 'datetime'}"/><td t-out="v.state"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <h3>Weigh tickets</h3>
+                    <table class="table table-sm">
+                        <thead><tr><th>Ticket</th><th>Visit</th><th>Gross</th><th>Tare</th><th>Net</th><th>State</th></tr></thead>
+                        <tbody>
+                            <tr t-foreach="reg.ticket_ids" t-as="t">
+                                <td t-out="t.name"/><td t-out="t.visit_id.name"/><td t-out="t.gross_weight"/><td t-out="t.tare_weight"/><td t-out="t.net_weight"/><td t-out="t.state"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

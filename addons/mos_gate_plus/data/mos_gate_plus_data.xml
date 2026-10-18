@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="cron_expected_arrivals" model="ir.cron">
+        <field name="name">MOS: expected arrivals from purchase order delivery dates</field>
+        <field name="model_id" ref="mos_gate.model_mos_gate_visit"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_expected_arrivals()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+    </record>
+</odoo>

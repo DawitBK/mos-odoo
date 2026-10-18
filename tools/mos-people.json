@@ -101,5 +101,11 @@
     "given": "Sol",
     "family": "Sales",
     "role": "salesmanager"
+  },
+  {
+    "login": "mos.gatesup@examplecorp.com",
+    "given": "Gizachew",
+    "family": "Gate",
+    "role": "gatesup"
   }
 ]
