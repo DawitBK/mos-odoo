@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_supplier_notice_user,mos.supplier.notice: user,mos.supplier.notice,mos_core.group_mos_user,r,
+access_mos_supplier_notice_procurement,mos.supplier.notice: procurement,mos.supplier.notice,mos_procurement.group_mos_procurement_user,r,
+access_mos_supplier_notice_admin,mos.supplier.notice: admin,mos.supplier.notice,mos_core.group_mos_admin,crud,

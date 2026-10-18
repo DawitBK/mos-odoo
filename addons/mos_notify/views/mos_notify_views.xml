@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_supplier_notice_list" model="ir.ui.view">
+        <field name="name">mos.supplier.notice.list</field>
+        <field name="model">mos.supplier.notice</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" decoration-warning="state == 'no_email'" decoration-danger="state == 'failed'" decoration-success="state == 'sent'">
+                <field name="create_date"/>
+                <field name="partner_id"/>
+                <field name="kind"/>
+                <field name="subject"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_supplier_notice" model="ir.actions.act_window">
+        <field name="name">Supplier notices</field>
+        <field name="res_model">mos.supplier.notice</field>
+        <field name="view_mode">list</field>
+    </record>
+    <menuitem id="menu_mos_supplier_notice" name="Supplier notices" parent="mos_procurement.menu_mos_procurement" action="action_mos_supplier_notice" sequence="70"/>
+</odoo>
