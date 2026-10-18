@@ -1,0 +1,396 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_quality
+#: model:ir.model.fields,help:mos_quality.field_mos_lab_spec_line__formula
+msgid ""
+"A calculation from other lines, written with their codes: for example "
+"dry_gluten = wet_gluten * 0.33. Leave empty for a measured line."
+msgstr "ከሌሎች መስመሮች የተሰላ፣ በኮዳቸው የተጻፈ፡ ለምሳሌ dry_gluten = wet_gluten * 0.33። ለተለካ መስመር ባዶ ይተዉ።"
+
+#. module: mos_quality
+#: model:ir.model.fields,help:mos_quality.field_mos_lab_policy__skip_lot
+msgid ""
+"A supplier with a clean run of inspections is inspected only one delivery in"
+" N."
+msgstr "ተከታታይ ንጹህ ፍተሻ ያለው አቅራቢ ከ N ርክክቦች አንዱ ብቻ ይፈተሻል።"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_queue__age_hours
+msgid "Age Hours"
+msgstr "እድሜ (ሰዓታት)"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__kind__balance
+msgid "Balance"
+msgstr "ቀሪ ሂሳብ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_result__calculated
+msgid "Calculated"
+msgstr "የተሰላ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_instrument__interval_days
+msgid "Calibrate every (days)"
+msgstr "ልኬት በየ (ቀናት)"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_calibration__by
+msgid "Calibrated by (person or laboratory)"
+msgstr "ያስተካከለው (ሰው ወይም ላብራቶሪ)"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_instrument__calibration_ids
+msgid "Calibration"
+msgstr "ካሊብሬሽን"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_calibration__certificate_ref
+msgid "Certificate number"
+msgstr "የምስክር ወረቀት ቁጥር"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_policy__clean_streak
+msgid "Clean inspections needed"
+msgstr "ንጹህ ፍተሻዎች ያስፈልጋሉ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_instrument__code
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_method__code
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_spec_line__code
+msgid "Code"
+msgstr "ኮድ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__state__decided
+msgid "Decided"
+msgstr "ውሳኔ የተሰጠበት"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_method__description
+msgid "Description"
+msgstr "መግለጫ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_attachment__kind__other
+msgid "Document"
+msgstr "ሰነድ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__state__due_soon
+msgid "Due soon"
+msgstr "በቅርቡ የሚደርስ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__suggested_outcome__fail
+msgid "Fail"
+msgstr "ወድቋል"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_calibration__result__fail
+msgid "Failed"
+msgstr "አልተሳካም"
+
+#. module: mos_quality
+#: model:ir.model.fields,help:mos_quality.field_mos_lab_method__standard
+msgid "For example ICC 110/1, AACC 44-15."
+msgstr "ለምሳሌ ICC 110/1፣ AACC 44-15።"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_spec_line__formula
+msgid "Formula"
+msgstr "ቀመር"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_instrument__in_service
+msgid "In Service"
+msgstr "በአገልግሎት ላይ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__state__ok
+msgid "In calibration"
+msgstr "በካሊብሬሽን ላይ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__suggested_outcome__incomplete
+msgid "Incomplete"
+msgstr "ያልተሟላ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_policy__skip_every
+msgid "Inspect one delivery in"
+msgstr "ከ ... አንድ ርክክብ ፈትሽ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_policy__inspection_required
+msgid "Inspection Required"
+msgstr "ፍተሻ ያስፈልጋል"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_calibration__instrument_id
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_result__instrument_id
+msgid "Instrument"
+msgstr "መሣሪያ"
+
+#. module: mos_quality
+#: model:ir.actions.act_window,name:mos_quality.action_mos_lab_instrument
+#: model:ir.ui.menu,name:mos_quality.menu_mos_lab_instruments
+msgid "Instruments"
+msgstr "መሣሪያዎች"
+
+#. module: mos_quality
+#: model:ir.actions.act_window,name:mos_quality.action_mos_lab_queue
+#: model:ir.ui.menu,name:mos_quality.menu_mos_lab_queue
+msgid "Lab queue"
+msgstr "የላብራቶሪ ወረፋ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__kind__mill
+msgid "Laboratory mill"
+msgstr "የላብራቶሪ ወፍጮ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_instrument__last_calibrated
+msgid "Last Calibrated"
+msgstr "የመጨረሻ የተስተካከለበት"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__kind__moisture
+msgid "Moisture meter"
+msgstr "የእርጥበት መለኪያ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__state__never
+msgid "Never calibrated"
+msgstr "ፈጽሞ አልተስተካከለም"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_instrument__next_due
+msgid "Next Due"
+msgstr "ቀጣይ የሚደርስበት"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_inspection__priority__normal
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__priority__normal
+msgid "Normal"
+msgstr "መደበኛ"
+
+#. module: mos_quality
+#: model:ir.model.constraint,message:mos_quality.constraint_mos_lab_skip_counter_pair_uniq
+msgid "One counter per product and supplier."
+msgstr "በምርት እና በአቅራቢ አንድ ቆጣሪ።"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_queue__out_of_spec
+msgid "Out Of Spec"
+msgstr "ከመግለጫ ውጭ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__state__out_of_service
+msgid "Out of service"
+msgstr "ከአገልግሎት ውጭ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__kind__oven
+msgid "Oven"
+msgstr "መጋገሪያ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_instrument__state__overdue
+msgid "Overdue"
+msgstr "የዘገየ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_spec_line__parameter_id
+msgid "Parameter"
+msgstr "መለኪያ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__suggested_outcome__pass
+msgid "Pass"
+msgstr "አልፏል"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_calibration__result__pass
+msgid "Passed"
+msgstr "ያለፈ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_attachment__kind__photo
+msgid "Photo"
+msgstr "ፎቶ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_inspection__priority
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_queue__priority
+msgid "Priority"
+msgstr "ቅድሚያ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_policy__categ_id
+msgid "Product category"
+msgstr "የምርት ምድብ"
+
+#. module: mos_quality
+#: model:ir.actions.act_window,name:mos_quality.action_mos_lab_policy
+#: model:ir.ui.menu,name:mos_quality.menu_mos_lab_policy
+msgid "QC policy"
+msgstr "የጥራት ቁጥጥር ፖሊሲ"
+
+#. module: mos_quality
+#: model_terms:ir.ui.view,arch_db:mos_quality.report_sample_label
+msgid "QR"
+msgstr "QR"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_gate_visit__qc_waived
+msgid "Qc Waived"
+msgstr "የጥራት ቁጥጥር ተነስቷል"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_gate_visit__qc_waiver_checked
+msgid "Qc Waiver Checked"
+msgstr "የጥራት ቁጥጥር ነፃነት ተፈትሿል"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_gate_visit__qc_waiver_note
+msgid "Qc Waiver Note"
+msgstr "የጥራት ቁጥጥር ነፃነት ማስታወሻ"
+
+#. module: mos_quality
+#: model:ir.actions.act_window,name:mos_quality.action_mos_lab_parameter
+#: model:ir.ui.menu,name:mos_quality.menu_mos_lab_parameters
+msgid "Quality parameters"
+msgstr "የጥራት መለኪያዎች"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_method__standard
+msgid "Reference standard"
+msgstr "የማጣቀሻ ደረጃ"
+
+#. module: mos_quality
+#: model:ir.actions.report,name:mos_quality.action_report_sample_label
+msgid "Sample label"
+msgstr "የናሙና መለያ"
+
+#. module: mos_quality
+#: model_terms:ir.ui.view,arch_db:mos_quality.report_sample_label
+msgid "Shelf"
+msgstr "መደርደሪያ"
+
+#. module: mos_quality
+#: model:ir.model.fields,help:mos_quality.field_mos_lab_spec_line__code
+msgid "Short name used in formulas (letters, digits and underscores)."
+msgstr "በቀመሮች ውስጥ የሚጠቀም አጭር ስም (ፊደላት፣ አኃዞች እና ከስር ማስመሪያዎች)።"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_policy__skip_lot
+msgid "Skip-lot for proven suppliers"
+msgstr "ለተረጋገጡ አቅራቢዎች ዕጣ መዝለል"
+
+#. module: mos_quality
+#: model_terms:ir.ui.view,arch_db:mos_quality.report_sample_label
+msgid "Stored"
+msgstr "የተቀመጠ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_queue__suggested_outcome
+msgid "Suggested Outcome"
+msgstr "የተጠቆመ ውጤት"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_attachment__kind__coa
+msgid "Supplier's certificate of analysis"
+msgstr "የአቅራቢው የትንተና የምስክር ወረቀት"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_policy__coa_required
+msgid "Supplier's certificate of analysis required"
+msgstr "የአቅራቢው የትንተና የምስክር ወረቀት ያስፈልጋል"
+
+#. module: mos_quality
+#: model:ir.actions.act_window,name:mos_quality.action_mos_lab_method
+#: model:ir.ui.menu,name:mos_quality.menu_mos_lab_methods
+msgid "Test methods"
+msgstr "የፍተሻ ዘዴዎች"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__state__tested
+msgid "Tested"
+msgstr "የተፈተነ"
+
+#. module: mos_quality
+#: model:ir.model.constraint,message:mos_quality.constraint_mos_lab_instrument_code_uniq
+msgid "This instrument code already exists."
+msgstr "ይህ የመሣሪያ ኮድ አስቀድሞ አለ።"
+
+#. module: mos_quality
+#: model:ir.model.constraint,message:mos_quality.constraint_mos_lab_method_code_uniq
+msgid "This method code already exists."
+msgstr "ይህ የዘዴ ኮድ አስቀድሞ አለ።"
+
+#. module: mos_quality
+#: model:ir.model.constraint,message:mos_quality.constraint_mos_lab_parameter_name_uniq
+msgid "This parameter already exists."
+msgstr "ይህ መለኪያ አስቀድሞ አለ።"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_parameter__typical_max
+msgid "Typical Max"
+msgstr "ተለምዷዊ ከፍተኛ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_parameter__typical_min
+msgid "Typical Min"
+msgstr "ተለምዷዊ ዝቅተኛ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_inspection__priority__urgent
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__priority__urgent
+msgid "Urgent"
+msgstr "አስቸኳይ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_queue__waiting
+msgid "Waiting"
+msgstr "በመጠበቅ ላይ"
+
+#. module: mos_quality
+#: model_terms:ir.ui.view,arch_db:mos_quality.view_mos_lab_queue_list
+msgid "Waiting (h)"
+msgstr "መጠበቂያ (ሰዓት)"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__waiting__results
+msgid "Waiting for results"
+msgstr "ውጤት በመጠበቅ ላይ"
+
+#. module: mos_quality
+#: model:ir.model.fields.selection,name:mos_quality.selection__mos_lab_queue__waiting__decision
+msgid "Waiting for the decision"
+msgstr "ውሳኔ በመጠበቅ ላይ"
+
+#. module: mos_quality
+#: model:ir.model.fields,field_description:mos_quality.field_mos_lab_skip_counter__waived_in_row
+msgid "Waived In Row"
+msgstr "በረድፍ የተነሳ"
+
+#. module: mos_quality
+#: model_terms:ir.ui.view,arch_db:mos_quality.report_sample_label
+msgid "· delivery"
+msgstr "· ርክክብ"
+
+#. module: mos_quality
+#: model_terms:ir.ui.view,arch_db:mos_quality.report_sample_label
+msgid "· keep until"
+msgstr "· እስከ ... ድረስ ማቆየት"

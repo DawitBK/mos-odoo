@@ -1,0 +1,394 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__absorption_variance
+msgid "Absorption Variance"
+msgstr "የወጪ ሽፋን ልዩነት"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_mrp_suggestion_list
+msgid "Accept"
+msgstr "ተቀበል"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_mrp_suggestion__state__accepted
+msgid "Accepted"
+msgstr "ተቀባይነት ያገኘ"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_purchase_contract_form
+msgid "Activate"
+msgstr "አግብር"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__price
+msgid "Agreed price"
+msgstr "የተስማማ ዋጋ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_product_product__mos_free_qty
+msgid "Available to use"
+msgstr "ለአገልግሎት የሚውል"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_mrp_suggestion__kind__purchase
+msgid "Buy"
+msgstr "ግዛ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__order_ids
+msgid "Call-offs"
+msgstr "ከውል የሚወሰዱ ትእዛዞች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__called_off
+msgid "Called off"
+msgstr "ከውል የተወሰደ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_purchase_contract__state__closed
+msgid "Closed"
+msgstr "የተዘጋ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__closed_note
+msgid "Closed Note"
+msgstr "የመዝጊያ ማስታወሻ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_purchase_order__mos_contract_id
+msgid "Contract"
+msgstr "ውል"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__qty
+msgid "Contract quantity"
+msgstr "የውል መጠን"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_work_order_form_planning
+msgid "Conversion cost (positive variance = unfavourable)"
+msgstr "የልውውጥ ወጪ (አዎንታዊ ልዩነት = የማይመች)"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__conversion_cost_per_kg
+msgid "Conversion cost per kg of flour"
+msgstr "የዱቄት የማምረት ወጪ በኪ.ግ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_labour_log__cost
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_work_order_form_planning
+msgid "Cost"
+msgstr "ወጪ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__crew_size
+msgid "Crew Size"
+msgstr "የሠራተኞች ብዛት"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_mrp_suggestion_list
+msgid "Dismiss"
+msgstr "ውድቅ አድርግ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_mrp_suggestion__state__dismissed
+msgid "Dismissed"
+msgstr "ውድቅ የተደረገ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_work_order__overhead_incurred
+msgid "Entered by finance when the order is finished."
+msgstr "ትእዛዙ ሲያልቅ በፋይናንስ ይገባል።"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing__product_id
+msgid "Flour"
+msgstr "ዱቄት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_mrp_suggestion__peg
+msgid "For"
+msgstr "ለ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_labour_log__hours
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_work_order_form_planning
+msgid "Hours"
+msgstr "ሰዓታት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__labour_cost
+msgid "Labour Cost"
+msgstr "የሠራተኛ ወጪ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__labour_hours
+msgid "Labour Hours"
+msgstr "የሠራተኛ ሰዓታት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__labour_log_ids
+msgid "Labour Log"
+msgstr "የሠራተኛ መዝገብ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__labour_variance
+msgid "Labour Variance"
+msgstr "የሠራተኛ ወጪ ልዩነት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_centre__labour_rate_h
+msgid "Labour rate (per person-hour)"
+msgstr "የሠራተኛ ተመን (በሰው-ሰዓት)"
+
+#. module: mos_planning_plus
+#: model:ir.actions.server,name:mos_planning_plus.cron_release_reservations_ir_actions_server
+msgid "MOS: release finished stock reservations"
+msgstr "MOS፡ ያበቁ የክምችት ማስያዣዎችን ልቀቅ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_mrp_suggestion__kind__work_order
+msgid "Make"
+msgstr "አምርት"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_routing_form
+msgid "New version"
+msgstr "አዲስ ስሪት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing__op_ids
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__operation_sheet
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_work_order_form_planning
+msgid "Operations"
+msgstr "ሥራዎች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_labour_log__order_id
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_reservation__order_id
+msgid "Order"
+msgstr "ትእዛዝ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__overhead_absorbed
+msgid "Overhead Absorbed"
+msgstr "የተሸፈነ የላይ ወጪ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__overhead_incurred
+msgid "Overhead incurred"
+msgstr "የተከሰተ የላይ ወጪ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_centre__overhead_rate_h
+msgid "Overhead rate (per hour)"
+msgstr "የላይ ወጪ ተመን (በሰዓት)"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_mrp_suggestion__parent_id
+msgid "Parent"
+msgstr "ወላጅ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_work_order__crew_size
+msgid "People the standard assumes on this order."
+msgstr "መደበኛው በዚህ ትእዛዝ ላይ የሚገምታቸው ሰዎች።"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__planned_minutes
+msgid "Planned time (minutes)"
+msgstr "የታቀደ ጊዜ (ደቂቃዎች)"
+
+#. module: mos_planning_plus
+#: model:ir.actions.act_window,name:mos_planning_plus.action_mos_mrp_suggestion
+#: model:ir.ui.menu,name:mos_planning_plus.menu_mos_mrp_suggestions
+msgid "Planning suggestions"
+msgstr "የዕቅድ ጥቆማዎች"
+
+#. module: mos_planning_plus
+#: model:ir.actions.act_window,name:mos_planning_plus.action_mos_purchase_contract
+#: model:ir.ui.menu,name:mos_planning_plus.menu_mos_purchase_contracts
+msgid "Purchase contracts"
+msgstr "የግዢ ውሎች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_purchase_contract__quality_note
+msgid ""
+"Quality rules agreed with the supplier for deliveries under this contract."
+msgstr "በዚህ ውል ለሚደረጉ ርክክቦች ከአቅራቢው ጋር የተስማሙ የጥራት ደንቦች።"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__quality_note
+msgid "Quality terms"
+msgstr "የጥራት ውሎች"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_purchase_contract_form
+msgid "Quality terms agreed with the supplier"
+msgstr "ከአቅራቢው ጋር የተስማሙ የጥራት ውሎች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_labour_log__rate
+msgid "Rate per hour"
+msgstr "ተመን በሰዓት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_reservation__state__released
+msgid "Released"
+msgstr "የተለቀቀ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__remaining
+msgid "Remaining"
+msgstr "ቀሪ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing_op__reporting_point
+msgid "Reporting Point"
+msgstr "የሪፖርት ቦታ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_reservation__qty
+msgid "Reserved"
+msgstr "የተያዘ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_product_product__mos_reserved_qty
+msgid "Reserved for orders"
+msgstr "ለትእዛዞች የተያዘ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_mrp_suggestion__result
+msgid "Result"
+msgstr "ውጤት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields.selection,name:mos_planning_plus.selection__mos_routing__state__retired
+msgid "Retired"
+msgstr "ጡረታ የወጣ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing_op__routing_id
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__routing_id
+msgid "Routing"
+msgstr "የሥራ ቅደም ተከተል"
+
+#. module: mos_planning_plus
+#: model:ir.actions.act_window,name:mos_planning_plus.action_mos_routing
+#: model:ir.ui.menu,name:mos_planning_plus.menu_mos_routings
+msgid "Routings"
+msgstr "የሥራ ቅደም ተከተሎች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing_op__run_rate_kg_h
+msgid "Run rate (kg/hour)"
+msgstr "የሥራ ፍጥነት (ኪ.ግ/ሰዓት)"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing_op__setup_minutes
+msgid "Setup Minutes"
+msgstr "የዝግጅት ደቂቃዎች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__spec_id
+msgid "Specification"
+msgstr "ዝርዝር መግለጫ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__standard_labour
+msgid "Standard Labour"
+msgstr "መደበኛ የሠራተኛ ወጪ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_reservation__remaining
+msgid "Still held"
+msgstr "አሁንም የተያዘ"
+
+#. module: mos_planning_plus
+#: model:ir.actions.act_window,name:mos_planning_plus.action_mos_reservation
+#: model:ir.ui.menu,name:mos_planning_plus.menu_mos_reservations
+msgid "Stock reservations"
+msgstr "የክምችት ማስያዣዎች"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_mrp_suggestion__result
+msgid "The document that accepting it created."
+msgstr "መቀበሉ የፈጠረው ሰነድ።"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_mrp_suggestion__peg
+msgid "The sales orders, or the suggested work orders, this is for."
+msgstr "ይህ የሚሆንላቸው የሽያጭ ትእዛዞች ወይም የተጠቆሙ የሥራ ትእዛዞች።"
+
+#. module: mos_planning_plus
+#: model:ir.model.constraint,message:mos_planning_plus.constraint_mos_routing_version_uniq
+msgid "This routing version already exists."
+msgstr "ይህ የሥራ ቅደም ተከተል ስሪት አስቀድሞ አለ።"
+
+#. module: mos_planning_plus
+#: model_terms:ir.ui.view,arch_db:mos_planning_plus.view_mos_reservation_list
+msgid "Total"
+msgstr "ድምር"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__usage_variance
+msgid "Usage Variance"
+msgstr "የአጠቃቀም ልዩነት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__valid_from
+msgid "Valid From"
+msgstr "ከ ጀምሮ የሚሰራ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_purchase_contract__valid_to
+msgid "Valid To"
+msgstr "እስከ የሚሰራ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing__version
+msgid "Version"
+msgstr "ስሪት"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_work_centre__overhead_rate_h
+msgid ""
+"What running this centre for an hour absorbs of rent, power, depreciation "
+"and supervision."
+msgstr "ይህን ማዕከል ለአንድ ሰዓት ማስኬድ ከኪራይ፣ ከኃይል፣ ከዋጋ መቀነስ እና ከክትትል የሚሸፍነው።"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,help:mos_planning_plus.field_mos_routing_op__reporting_point
+msgid "Where output or progress is reported for this step."
+msgstr "ለዚህ ደረጃ ውጤት ወይም እድገት የሚሰጥበት ቦታ።"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_routing_op__work_centre_id
+msgid "Work Centre"
+msgstr "የሥራ ማዕከል"
+
+#. module: mos_planning_plus
+#: model:ir.actions.server,name:mos_planning_plus.action_mos_mrp_generate
+msgid "Work out what to make and buy"
+msgstr "ምን እንደሚመረት እና እንደሚገዛ አስላ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_labour_log__worker
+msgid "Worker"
+msgstr "ሠራተኛ"
+
+#. module: mos_planning_plus
+#: model:ir.model.fields,field_description:mos_planning_plus.field_mos_work_order__yield_variance
+msgid "Yield Variance"
+msgstr "የምርት መጠን ልዩነት"

@@ -1,0 +1,314 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_stock_plus
+#: model:ir.model.constraint,message:mos_stock_plus.constraint_mos_lot_attribute_value_once
+msgid "An attribute is recorded once per lot."
+msgstr "አንድ ባህሪ በአንድ ዕጣ አንድ ጊዜ ብቻ ይመዘገባል።"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute_value__attribute_id
+msgid "Attribute"
+msgstr "ባህሪ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__mos_attribute_ids
+msgid "Attributes"
+msgstr "ባህሪያት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_lot_expiry__status__available
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__stock_lot__mos_status__available
+msgid "Available"
+msgstr "ያለ"
+
+#. module: mos_stock_plus
+#: model_terms:ir.ui.view,arch_db:mos_stock_plus.view_stock_lot_form_mos
+msgid "Batch details"
+msgstr "የባች ዝርዝር"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute__category_id
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__mos_category_id
+msgid "Category"
+msgstr "ምድብ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute__choices
+msgid "Choices"
+msgstr "ምርጫዎች"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__days_in_transit
+msgid "Days In Transit"
+msgstr "በመንገድ ላይ ያሉ ቀናት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_expiry__days_left
+msgid "Days Left"
+msgstr "የቀሩ ቀናት"
+
+#. module: mos_stock_plus
+#: model_terms:ir.ui.view,arch_db:mos_stock_plus.view_mos_transfer_order_form
+msgid "Dispatch"
+msgstr "ላክ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__dispatch_picking_id
+msgid "Dispatch Picking"
+msgstr "የመላኪያ ዝውውር"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__dispatched_at
+msgid "Dispatched At"
+msgstr "የተላከበት ጊዜ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__dispatched_by_id
+msgid "Dispatched By"
+msgstr "የላከው"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__mos_expiry_date
+msgid "Expires"
+msgstr "ጊዜው ያበቃል"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_expiry__expiry
+msgid "Expiry"
+msgstr "ማብቂያ"
+
+#. module: mos_stock_plus
+#: model:ir.actions.act_window,name:mos_stock_plus.action_mos_lot_expiry
+#: model:ir.ui.menu,name:mos_stock_plus.menu_mos_lot_expiry
+msgid "Expiry list"
+msgstr "የማብቂያ ዝርዝር"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,help:mos_stock_plus.field_mos_lot_attribute__choices
+msgid "For \"one of a list\": the allowed values, separated by commas."
+msgstr "\"ከዝርዝር አንዱ\" ለሆነ፡ የሚፈቀዱ እሴቶች፣ በነጠላ ሰረዝ ተለይተው።"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__from_site_id
+msgid "From"
+msgstr "ከ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_transfer_order__state__dispatched
+msgid "In transit"
+msgstr "በመንገድ ላይ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__line_ids
+msgid "Items"
+msgstr "ዕቃዎች"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_counter__last
+msgid "Last"
+msgstr "የመጨረሻ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,help:mos_stock_plus.field_stock_lot__name
+msgid ""
+"Left as / the system gives it the next batch number: BATCH-yyyymmdd-nn."
+msgstr "በ / ከተተወ ሥርዓቱ ቀጣዩን የባች ቁጥር ይሰጠዋል፡ BATCH-yyyymmdd-nn።"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_expiry__location_id
+msgid "Location"
+msgstr "ቦታ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__loss_picking_id
+msgid "Loss Picking"
+msgstr "የኪሳራ ዝውውር"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__loss_reason_id
+msgid "Loss Reason"
+msgstr "የኪሳራ ምክንያት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute_value__lot_id
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_expiry__lot_id
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order_line__lot_id
+msgid "Lot"
+msgstr "ዕጣ"
+
+#. module: mos_stock_plus
+#: model:ir.actions.act_window,name:mos_stock_plus.action_mos_lot_attribute
+#: model:ir.ui.menu,name:mos_stock_plus.menu_mos_lot_attribute
+msgid "Lot attributes"
+msgstr "የዕጣ ባህሪያት"
+
+#. module: mos_stock_plus
+#: model:ir.model,name:mos_stock_plus.model_stock_lot
+msgid "Lot/Serial"
+msgstr "ዕጣ/ተራ ቁጥር"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__name
+msgid "Lot/Serial Number"
+msgstr "የዕጣ/ተራ ቁጥር"
+
+#. module: mos_stock_plus
+#: model:ir.actions.server,name:mos_stock_plus.cron_transfer_late_ir_actions_server
+msgid "MOS: flag transfers in transit too long"
+msgstr "MOS፡ ለረጅም ጊዜ በመንገድ ላይ ያሉ ዝውውሮችን ምልክት አድርግ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__mos_mfg_date
+msgid "Manufactured"
+msgstr "የተመረተ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_res_partner__mos_supplied_category_ids
+#: model:ir.model.fields,field_description:mos_stock_plus.field_res_users__mos_supplied_category_ids
+msgid "Material categories supplied"
+msgstr "የሚቀርቡ የዕቃ ምድቦች"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute__max_value
+msgid "Max Value"
+msgstr "ከፍተኛ እሴት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute__min_value
+msgid "Min Value"
+msgstr "ዝቅተኛ እሴት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__stock_lot__mos_status__none
+msgid "No stock"
+msgstr "ክምችት የለም"
+
+#. module: mos_stock_plus
+#: model:ir.model.constraint,message:mos_stock_plus.constraint_mos_lot_counter_day_uniq
+msgid "One counter per day."
+msgstr "በቀን አንድ ቆጣሪ።"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_lot_attribute__kind__choice
+msgid "One of a list"
+msgstr "ከዝርዝር አንዱ"
+
+#. module: mos_stock_plus
+#: model:ir.actions.act_window,name:mos_stock_plus.action_mos_service_category
+#: model:ir.ui.menu,name:mos_stock_plus.menu_mos_service_category
+msgid "Product and service categories"
+msgstr "የምርት እና የአገልግሎት ምድቦች"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_res_partner__mos_service_category_ids
+#: model:ir.model.fields,field_description:mos_stock_plus.field_res_users__mos_service_category_ids
+msgid "Provides"
+msgstr "ያቀርባል"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_lot_expiry__status__quarantine
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__stock_lot__mos_status__quarantine
+msgid "Quarantine"
+msgstr "ማቆያ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__receipt_picking_id
+msgid "Receipt Picking"
+msgstr "የመቀበያ ዝውውር"
+
+#. module: mos_stock_plus
+#: model_terms:ir.ui.view,arch_db:mos_stock_plus.view_mos_transfer_order_form
+msgid "Receive everything"
+msgstr "ሁሉንም ተቀበል"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_transfer_order__state__received
+#: model_terms:ir.ui.view,arch_db:mos_stock_plus.view_mos_transfer_order_form
+msgid "Received"
+msgstr "የተቀበለ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__received_at
+msgid "Received At"
+msgstr "የተቀበለበት ጊዜ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__received_by_id
+msgid "Received By"
+msgstr "የተቀበለው"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order_line__received_qty
+msgid "Received Qty"
+msgstr "የተቀበለ መጠን"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_attribute__required
+msgid "Required"
+msgstr "ያስፈልጋል"
+
+#. module: mos_stock_plus
+#: model_terms:ir.ui.view,arch_db:mos_stock_plus.view_mos_transfer_order_form
+msgid "Sent"
+msgstr "የተላከ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_service_category__kind__service
+msgid "Service"
+msgstr "አገልግሎት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__mos_parent_lot_id
+msgid "Split from"
+msgstr "የተከፈለው ከ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_lot_expiry__status
+msgid "Status"
+msgstr "ሁኔታ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_exception__kind__transit_late
+msgid "Stock in transit too long"
+msgstr "ለረጅም ጊዜ በመንገድ ላይ ያለ ክምችት"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_stock_lot__mos_supplier_lot
+msgid "Supplier's lot"
+msgstr "የአቅራቢው ዕጣ"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields.selection,name:mos_stock_plus.selection__mos_lot_attribute__kind__text
+msgid "Text"
+msgstr "ጽሑፍ"
+
+#. module: mos_stock_plus
+#: model:ir.model.constraint,message:mos_stock_plus.constraint_mos_service_category_name_uniq
+msgid "This category already exists."
+msgstr "ይህ ምድብ አስቀድሞ አለ።"
+
+#. module: mos_stock_plus
+#: model:ir.model.constraint,message:mos_stock_plus.constraint_mos_lot_attribute_name_uniq
+msgid "This category already has an attribute of that name."
+msgstr "ይህ ምድብ በዚህ ስም ያለ ባህሪ አስቀድሞ አለው።"
+
+#. module: mos_stock_plus
+#: model:ir.model.fields,field_description:mos_stock_plus.field_mos_transfer_order__to_site_id
+msgid "To"
+msgstr "ወደ"
+
+#. module: mos_stock_plus
+#: model:ir.actions.act_window,name:mos_stock_plus.action_mos_transfer_order
+#: model:ir.ui.menu,name:mos_stock_plus.menu_mos_transfers
+msgid "Transfers between sites"
+msgstr "በቦታዎች መካከል ዝውውሮች"

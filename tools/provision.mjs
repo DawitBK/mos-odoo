@@ -126,6 +126,8 @@ p.set_str('mos_auth_oidc.client_secret', ${JSON.stringify(clientSecret)})
 p.set_str('mos_auth_oidc.redirect_uri', ${JSON.stringify(mosOrigin + '/mos/oidc/callback')})
 p.set_str('web.base.url', ${JSON.stringify(mosOrigin)})
 env.ref('mos_auth_oidc.provider_mos_sso').sudo().enabled = True
+env['res.lang']._activate_lang('am_ET')
+env['ir.module.module']._load_module_terms(env['ir.module.module'].search([('name', '=like', 'mos_%'), ('state', '=', 'installed')]).mapped('name'), ['am_ET'], overwrite=True)
 ${password ? `
 for u in env['res.users'].sudo().search([('login', '=like', 'mos.%@examplecorp.com')]):
     u.password = ${JSON.stringify(password)}

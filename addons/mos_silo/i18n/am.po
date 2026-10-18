@@ -1,0 +1,117 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_silo
+#: model:ir.model.constraint,message:mos_silo.constraint_mos_silo_capacity_positive
+msgid "A silo needs a capacity above zero."
+msgstr "ሲሎ ከዜሮ በላይ አቅም ይፈልጋል።"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__capacity_kg
+msgid "Capacity (kg)"
+msgstr "አቅም (ኪ.ግ)"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__code
+msgid "Code"
+msgstr "ኮድ"
+
+#. module: mos_silo
+#: model:ir.model.fields.selection,name:mos_silo.selection__mos_silo__status__empty
+msgid "Empty"
+msgstr "ባዶ"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__fill_pct
+msgid "Filled (%)"
+msgstr "የተሞላ (%)"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__free_kg
+msgid "Free space (kg)"
+msgstr "ነፃ ቦታ (ኪ.ግ)"
+
+#. module: mos_silo
+#: model:ir.model.fields.selection,name:mos_silo.selection__mos_silo__status__full
+msgid "Full"
+msgstr "ሙሉ"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__product_id
+msgid "Grain"
+msgstr "እህል"
+
+#. module: mos_silo
+#: model:ir.model.fields.selection,name:mos_silo.selection__mos_silo__status__ok
+msgid "In use"
+msgstr "ጥቅም ላይ ያለ"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__level_kg
+msgid "Level (kg)"
+msgstr "ከፍታ (ኪ.ግ)"
+
+#. module: mos_silo
+#: model:ir.model.fields.selection,name:mos_silo.selection__mos_silo__status__low
+msgid "Low"
+msgstr "ዝቅተኛ"
+
+#. module: mos_silo
+#: model:ir.model.fields.selection,name:mos_silo.selection__mos_silo__status__high
+msgid "Nearly full"
+msgstr "ሊሞላ የተቃረበ"
+
+#. module: mos_silo
+#: model:ir.actions.act_window,name:mos_silo.action_mos_silo
+#: model:ir.ui.menu,name:mos_silo.menu_mos_silos
+msgid "Silos"
+msgstr "ሲሎዎች"
+
+#. module: mos_silo
+#: model:ir.ui.menu,name:mos_silo.menu_mos_stock
+msgid "Silos & Stock"
+msgstr "ሲሎዎች እና ክምችት"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__status
+msgid "Status"
+msgstr "ሁኔታ"
+
+#. module: mos_silo
+#: model:ir.model.fields,field_description:mos_silo.field_mos_silo__location_id
+msgid "Stock location"
+msgstr "የክምችት ቦታ"
+
+#. module: mos_silo
+#: model:ir.model.constraint,message:mos_silo.constraint_mos_silo_code_uniq
+msgid "The silo code must be unique per site."
+msgstr "የሲሎ ኮድ በአንድ ቦታ ውስጥ ልዩ መሆን አለበት።"
+
+#. module: mos_silo
+#: model:ir.model.fields,help:mos_silo.field_mos_silo__product_id
+msgid "What this silo is meant to hold; the level counts every product in it."
+msgstr "ይህ ሲሎ ሊይዘው የታሰበው፤ ከፍታው በውስጡ ያሉትን ሁሉንም ምርቶች ይቆጥራል።"
+
+#. module: mos_silo
+#: model_terms:ir.ui.view,arch_db:mos_silo.view_mos_silo_kanban
+msgid "kg"
+msgstr "ኪ.ግ"
+
+#. module: mos_silo
+#: model_terms:ir.ui.view,arch_db:mos_silo.view_mos_silo_form
+msgid "kg in silo"
+msgstr "ኪ.ግ በሲሎ ውስጥ"
+
+#. module: mos_silo
+#: model_terms:ir.ui.view,arch_db:mos_silo.view_mos_silo_kanban
+msgid "kg of"
+msgstr "ኪ.ግ የ"

@@ -267,3 +267,15 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
             lock.with_user(fin).set_soft_lock(yesterday - timedelta(days=5))  # cannot be earlier than the closing date
         lock.with_user(fin).set_soft_lock(False, 'reopened')
         self.assertFalse(lock.soft_lock_date)
+
+    # -- Amharic pack ----------------------------------------------------------------------------------------------
+    def test_the_amharic_pack_translates_menus_and_labels(self):
+        self.env['res.lang']._activate_lang('am_ET')
+        self.env['ir.module.module']._load_module_terms(['mos_core', 'mos_gate'], ['am_ET'], overwrite=True)
+        menu = self.env.ref('mos_core.menu_mos_sites')
+        self.assertEqual(menu.with_context(lang='am_ET').name, 'ቦታዎች')
+        self.assertEqual(menu.with_context(lang='en_US').name, 'Sites')
+        field = self.env['ir.model.fields']._get('mos.gate.visit', 'plate')
+        self.assertTrue(field.with_context(lang='am_ET').field_description)
+        arrived = dict(self.env['mos.gate.visit'].with_context(lang='am_ET').fields_get(['state'])['state']['selection'])['arrived']
+        self.assertEqual(arrived, 'ደርሷል')

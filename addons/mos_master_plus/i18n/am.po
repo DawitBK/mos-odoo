@@ -1,0 +1,288 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,help:mos_master_plus.field_res_partner__mos_individual
+#: model:ir.model.fields,help:mos_master_plus.field_res_users__mos_individual
+msgid ""
+"A farmer or trader without a company: a tax number is optional but an "
+"identifier is required."
+msgstr "ድርጅት የሌለው ገበሬ ወይም ነጋዴ፡ የግብር ቁጥር አማራጭ ነው ነገር ግን መታወቂያ ያስፈልጋል።"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_concession__decision__accept
+msgid "Accept as it is"
+msgstr "እንዳለ ተቀበል"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_concession__decision__accept_deduction
+msgid "Accept with a deduction"
+msgstr "በተቀናሽ ተቀበል"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_concession__state__applied
+msgid "Applied"
+msgstr "የተተገበረ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__mos_approval_request_id
+msgid "Approval"
+msgstr "ማጽደቅ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__mos_approval_state
+msgid "Approval status"
+msgstr "የማጽደቅ ሁኔታ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__report__audit_trail
+msgid "Audit trail"
+msgstr "የኦዲት ዱካ"
+
+#. module: mos_master_plus
+#: model:ir.actions.act_window,name:mos_master_plus.action_mos_report_job
+#: model:ir.ui.menu,name:mos_master_plus.menu_mos_report_job
+msgid "Background reports"
+msgstr "የጀርባ ሪፖርቶች"
+
+#. module: mos_master_plus
+#: model_terms:ir.ui.view,arch_db:mos_master_plus.view_mos_report_job_form
+msgid "Build now"
+msgstr "አሁን አዘጋጅ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_lab_inspection__concession_ids
+msgid "Concession"
+msgstr "የማቻቻያ ፈቃድ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__date_from
+msgid "Date From"
+msgstr "ቀን ከ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__date_to
+msgid "Date To"
+msgstr "ቀን እስከ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__decision
+msgid "Decision"
+msgstr "ውሳኔ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__deduction_pct
+msgid "Deduction asked (%)"
+msgstr "የተጠየቀ ተቀናሽ (%)"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__auto_deduction_pct
+msgid "Deduction by the rules (%)"
+msgstr "በደንቡ መሠረት ተቀናሽ (%)"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_item_conversion__effective_from
+msgid "Effective From"
+msgstr "ተፈጻሚ ከ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_item_conversion__effective_to
+msgid "Effective To"
+msgstr "ተፈጻሚ እስከ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__error
+msgid "Error"
+msgstr "ስህተት"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__state__failed
+msgid "Failed"
+msgstr "አልተሳካም"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__failed_params
+msgid "Failed Params"
+msgstr "ያልተሳኩ መለኪያዎች"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__file
+msgid "File"
+msgstr "ፋይል"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__filename
+msgid "Filename"
+msgstr "የፋይል ስም"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__finished_at
+msgid "Finished At"
+msgstr "የተጠናቀቀበት ጊዜ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,help:mos_master_plus.field_res_partner__mos_national_id
+#: model:ir.model.fields,help:mos_master_plus.field_res_users__mos_national_id
+msgid "For an individual supplier without a tax number."
+msgstr "የግብር ቁጥር ለሌለው ግለሰብ አቅራቢ።"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_item_conversion__factor
+msgid "Holds (item units)"
+msgstr "የሚይዘው (የዕቃ አሃዶች)"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,help:mos_master_plus.field_mos_item_conversion__use_count
+msgid "How many documents have used this conversion."
+msgstr "ይህን ልውውጥ የተጠቀሙ ሰነዶች ብዛት።"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_res_partner__mos_individual
+#: model:ir.model.fields,field_description:mos_master_plus.field_res_users__mos_individual
+msgid "Individual supplier"
+msgstr "ግለሰብ አቅራቢ"
+
+#. module: mos_master_plus
+#: model:ir.actions.act_window,name:mos_master_plus.action_mos_item_conversion
+#: model:ir.ui.menu,name:mos_master_plus.menu_mos_item_conversion
+msgid "Item conversions"
+msgstr "የዕቃ ልውውጦች"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__justification
+msgid "Justification"
+msgstr "ማመካኛ"
+
+#. module: mos_master_plus
+#: model:ir.actions.server,name:mos_master_plus.cron_report_jobs_ir_actions_server
+msgid "MOS: build queued reports"
+msgstr "MOS፡ በወረፋ ያሉ ሪፖርቶችን አዘጋጅ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_concession__severity__major
+msgid "Major"
+msgstr "ዋና (ከባድ)"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_concession__severity__minor
+msgid "Minor"
+msgstr "ቀላል"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_res_partner__mos_national_id
+#: model:ir.model.fields,field_description:mos_master_plus.field_res_users__mos_national_id
+msgid "National ID or other identifier"
+msgstr "ብሔራዊ መታወቂያ ወይም ሌላ መለያ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_item_conversion__unit_name
+msgid "Pack"
+msgstr "ጥቅል"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_res_partner__mos_duplicate_warning
+#: model:ir.model.fields,field_description:mos_master_plus.field_res_users__mos_duplicate_warning
+msgid "Possible duplicates"
+msgstr "ሊደገሙ የሚችሉ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_approval_delegation__doc_type__mos_concession_major
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_approval_rule__doc_type__mos_concession_major
+msgid "Quality concession (major)"
+msgstr "የጥራት ማቻቻያ (ዋና)"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_approval_delegation__doc_type__mos_concession
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_approval_rule__doc_type__mos_concession
+msgid "Quality concession (minor)"
+msgstr "የጥራት ማቻቻያ (ቀላል)"
+
+#. module: mos_master_plus
+#: model:ir.actions.act_window,name:mos_master_plus.action_mos_concession
+#: model:ir.ui.menu,name:mos_master_plus.menu_mos_concession
+msgid "Quality concessions"
+msgstr "የጥራት ማቻቻያዎች"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__state__queued
+msgid "Queued"
+msgstr "በወረፋ ያለ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__state__done
+msgid "Ready"
+msgstr "ዝግጁ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__report__receipt_valuation
+msgid "Receipt valuation"
+msgstr "የመቀበያ ዋጋ ግምት"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__report
+msgid "Report"
+msgstr "ሪፖርት"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__rows
+msgid "Rows"
+msgstr "ረድፎች"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__state__running
+msgid "Running"
+msgstr "በመሥራት ላይ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__severity
+msgid "Severity"
+msgstr "የክብደት ደረጃ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_report_job__started_at
+msgid "Started At"
+msgstr "የተጀመረበት ጊዜ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_report_job__report__stock_movements
+msgid "Stock movements (every finished move)"
+msgstr "የክምችት እንቅስቃሴዎች (ሁሉም የተጠናቀቁ)"
+
+#. module: mos_master_plus
+#: model_terms:ir.ui.view,arch_db:mos_master_plus.view_mos_concession_form
+msgid "Submit"
+msgstr "አስገባ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_item_conversion__use_count
+msgid "Use Count"
+msgstr "የአጠቃቀም ብዛት"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,field_description:mos_master_plus.field_mos_concession__amount
+msgid "Value given away"
+msgstr "የተሰጠ እሴት"
+
+#. module: mos_master_plus
+#: model:ir.model.fields.selection,name:mos_master_plus.selection__mos_concession__state__pending
+msgid "Waiting for approval"
+msgstr "ማጽደቅ በመጠበቅ ላይ"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,help:mos_master_plus.field_mos_concession__amount
+msgid "What the supplier is not charged compared with applying the rules."
+msgstr "ደንቡን ከመተግበር አንጻር አቅራቢው የማይከፍለው።"
+
+#. module: mos_master_plus
+#: model:ir.model.fields,help:mos_master_plus.field_mos_item_conversion__unit_name
+msgid "bag, bale, sack, drum..."
+msgstr "ከረጢት፣ ባሌ፣ ጆንያ፣ በርሜል..."

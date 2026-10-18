@@ -1,0 +1,682 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_gate_plus
+#: model:ir.model.constraint,message:mos_gate_plus.constraint_mos_paper_slip_number_uniq
+msgid "A slip number appears once in a book."
+msgstr "የወረቀት ቁጥር በአንድ ደብተር ውስጥ አንድ ጊዜ ብቻ ይታያል።"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_tolerance__action
+msgid "Action"
+msgstr "እርምጃ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_post__active
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_tolerance__active
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weighbridge__active
+msgid "Active"
+msgstr "ንቁ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_post__allows
+msgid "Allows"
+msgstr "ይፈቅዳል"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_gate_visit_form_plus
+msgid "Approve weight"
+msgstr "ክብደትን አጽድቅ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__arrived_at
+msgid "Arrived At"
+msgstr "የደረሰበት ጊዜ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_clearance__at
+msgid "At"
+msgstr "በ"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_paper_slip
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_paper_slips
+msgid "Back-entry of paper slips"
+msgstr "የወረቀት ደረሰኞች ወደ ኋላ መመዝገብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_tolerance__action__block
+msgid "Block exit until a supervisor approves"
+msgstr "ተቆጣጣሪ እስኪያጸድቅ መውጣትን አግድ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__book_id
+msgid "Book"
+msgstr "ደብተር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weighbridge__capacity_kg
+msgid "Capacity (kg)"
+msgstr "አቅም (ኪ.ግ)"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__clearance_ids
+msgid "Clearance"
+msgstr "የመውጫ ፈቃድ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__clearance_override_by_id
+msgid "Clearance Override By"
+msgstr "ፈቃድን የሻረው"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__clearance_override_reason
+msgid "Clearance Override Reason"
+msgstr "ፈቃድን የመሻር ምክንያት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_clearance__result__cleared
+msgid "Cleared"
+msgstr "የተፈቀደ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_post__code
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__code
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weighbridge__code
+msgid "Code"
+msgstr "ኮድ"
+
+#. module: mos_gate_plus
+#: model:ir.model,name:mos_gate_plus.model_res_partner
+msgid "Contact"
+msgstr "ተጠሪ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,help:mos_gate_plus.field_mos_gate_visit__expected_auto
+msgid "Created from a purchase order delivery date."
+msgstr "ከግዢ ትእዛዝ የማድረስ ቀን የተፈጠረ።"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_gate_register
+#: model:ir.actions.report,name:mos_gate_plus.action_report_gate_register
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_gate_register
+msgid "Daily gate register"
+msgstr "የዕለት በር መዝገብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_register__date
+msgid "Date"
+msgstr "ቀን"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_post__direction
+msgid "Direction"
+msgstr "አቅጣጫ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weighbridge__division_kg
+msgid "Division (kg)"
+msgstr "ክፍፍል (ኪ.ግ)"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_arrival__reference_doc
+msgid "Document brought"
+msgstr "ያመጣው ሰነድ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__reference_doc
+msgid "Document brought (delivery note, permit)"
+msgstr "ያመጣው ሰነድ (የማድረሻ ወረቀት፣ ፈቃድ)"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_arrival__driver_name
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__driver_name
+msgid "Driver Name"
+msgstr "የሹፌር ስም"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__driver_phone
+msgid "Driver Phone"
+msgstr "የሹፌር ስልክ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__driver_license
+msgid "Driver's licence or ID"
+msgstr "የሹፌር መንጃ ፈቃድ ወይም መታወቂያ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_paper_slip_form
+msgid "Enter into the system"
+msgstr "ወደ ሥርዓቱ አስገባ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_paper_slip__state__entered
+msgid "Entered"
+msgstr "የገባ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__entered_at
+msgid "Entered At"
+msgstr "የገባበት ጊዜ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__entered_by_id
+msgid "Entered By"
+msgstr "ያስገባው"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_post__direction__in
+msgid "Entry"
+msgstr "ግቤት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_post__direction__both
+msgid "Entry and exit"
+msgstr "መግቢያ እና መውጫ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_post__allows__all
+msgid "Every kind of visit"
+msgstr "ሁሉም ዓይነት ጉብኝቶች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_post__direction__out
+msgid "Exit"
+msgstr "መውጫ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__exited_at
+msgid "Exited At"
+msgstr "የወጣበት ጊዜ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__expected_auto
+msgid "Expected Auto"
+msgstr "በራስ-ሰር የሚጠበቅ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit_tool__explanation
+msgid "Explanation"
+msgstr "ማብራሪያ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_book__first_no
+msgid "First No"
+msgstr "የመጀመሪያ ቁጥር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__from_paper
+msgid "From Paper"
+msgstr "ከወረቀት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_arrival__gate_post_id
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__gate_post_id
+msgid "Gate Post"
+msgstr "የበር ጣቢያ"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_gate_post
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_gate_posts
+msgid "Gate posts"
+msgstr "የበር ጣቢያዎች"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Gate register:"
+msgstr "የበር መዝገብ፡"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_post__allows__goods
+msgid "Goods only (no service visits)"
+msgstr "ዕቃዎች ብቻ (የአገልግሎት ጉብኝት የለም)"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Gross"
+msgstr "ጠቅላላ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__gross_kg
+msgid "Gross Kg"
+msgstr "ጠቅላላ ኪ.ግ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "In"
+msgstr "ውስጥ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_arrival__purpose__inbound_transfer
+msgid "Inbound transfer"
+msgstr "የሚገባ ዝውውር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_arrival__purpose__inbound_po
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_tolerance__purpose__inbound_po
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_paper_slip__purpose__inbound_po
+msgid "Inbound: PO delivery"
+msgstr "የሚገባ፡ የግዢ ትእዛዝ ርክክብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_visit__purpose__inbound_transfer
+msgid "Inbound: transfer from another site"
+msgstr "የሚገባ፡ ከሌላ ቦታ ዝውውር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_paper_slip__state__issued
+msgid "Issued, not entered"
+msgstr "የተሰጠ፣ ያልገባ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_book__last_no
+msgid "Last No"
+msgstr "የመጨረሻ ቁጥር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_visit__weight_basis__lower
+msgid "Lower of the two"
+msgstr "ከሁለቱ ዝቅተኛው"
+
+#. module: mos_gate_plus
+#: model:ir.actions.server,name:mos_gate_plus.cron_expected_arrivals_ir_actions_server
+msgid "MOS: expected arrivals from purchase order delivery dates"
+msgstr "MOS፡ ከግዢ ትእዛዝ የማድረስ ቀናት የሚጠበቁ መምጣቶች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_action_wizard__method
+msgid "Method"
+msgstr "ዘዴ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Net"
+msgstr "የተጣራ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_register__net_total
+msgid "Net weighed (kg)"
+msgstr "የተጣራ የተመዘነ (ኪ.ግ)"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_paper_slip_search
+msgid "Not yet entered"
+msgstr "እስካሁን ያልገባ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__number
+msgid "Number"
+msgstr "ቁጥር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_book__open_count
+msgid "Open Count"
+msgstr "የክፍት ብዛት"
+
+#. module: mos_gate_plus
+#: model:ir.model,name:mos_gate_plus.model_mos_gate_opener
+msgid "Opens the gate reason dialog"
+msgstr "የበር ምክንያት መስኮቱን ይከፍታል"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_arrival__purpose__other
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_visit__purpose__other
+msgid "Other"
+msgstr "ሌላ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__res_partner__mos_weight_basis__bridge
+msgid "Our bridge weight"
+msgstr "የእኛ የሚዛን ክብደት"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Out"
+msgstr "ውጭ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_arrival__purpose__outbound_transfer
+msgid "Outbound transfer"
+msgstr "የሚወጣ ዝውውር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_arrival__purpose__outbound_do
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_tolerance__purpose__outbound_do
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_paper_slip__purpose__outbound_do
+msgid "Outbound: customer delivery"
+msgstr "የሚወጣ፡ ለደንበኛ ርክክብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_visit__purpose__outbound_transfer
+msgid "Outbound: transfer to another site"
+msgstr "የሚወጣ፡ ወደ ሌላ ቦታ ዝውውር"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_gate_visit_form_plus
+msgid "Override clearance"
+msgstr "ፈቃዱን ሻር"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_paper_book
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_paper_books
+msgid "Paper slip books"
+msgstr "የወረቀት ደረሰኝ ደብተሮች"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Partner"
+msgstr "አጋር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_res_partner__mos_weight_basis
+#: model:ir.model.fields,field_description:mos_gate_plus.field_res_users__mos_weight_basis
+msgid "Payable weight basis"
+msgstr "የሚከፈል ክብደት መሠረት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__persons_count
+msgid "People entering"
+msgstr "የሚገቡ ሰዎች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_arrival__plate
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__plate
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Plate"
+msgstr "ሰሌዳ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weighbridge__post_id
+msgid "Post"
+msgstr "መዝግብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_book__prefix
+msgid "Prefix"
+msgstr "ቅድመ ቅጥያ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_gate_register_form
+msgid "Print the register"
+msgstr "መዝገቡን አትም"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_tolerance__categ_id
+msgid "Product category"
+msgstr "የምርት ምድብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__purchase_id
+msgid "Purchase"
+msgstr "ግዢ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_arrival__purpose
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_tolerance__purpose
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__purpose
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Purpose"
+msgstr "ዓላማ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit_tool__qty_in
+msgid "Qty In"
+msgstr "የገባ መጠን"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit_tool__qty_out
+msgid "Qty Out"
+msgstr "የወጣ መጠን"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_action_wizard__reason
+msgid "Reason"
+msgstr "ምክንያት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_clearance__reasons
+msgid "Reasons"
+msgstr "ምክንያቶች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_clearance__result__refused
+msgid "Refused"
+msgstr "የተከለከለ"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_gate_arrival
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_gate_arrival
+msgid "Register an arrival"
+msgstr "መምጣት መዝግብ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_gate_arrival_form
+msgid "Register the arrival"
+msgstr "መምጣቱን መዝግብ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_clearance__result
+msgid "Result"
+msgstr "ውጤት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__seal_intact
+msgid "Seal Intact"
+msgstr "ማኅተም ሳይነካ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__seal_number
+msgid "Seal Number"
+msgstr "የማኅተም ቁጥር"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weighbridge__sequence_id
+msgid "Sequence"
+msgstr "ቅደም ተከተል"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_post__allows__service
+msgid "Service and contractor visits only"
+msgstr "የአገልግሎት እና የተቋራጭ ጉብኝቶች ብቻ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_arrival__purpose__service
+msgid "Service or contractor"
+msgstr "አገልግሎት ወይም ተቋራጭ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_visit__purpose__service
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_paper_slip__purpose__service
+msgid "Service or contractor visit"
+msgstr "የአገልግሎት ወይም የተቋራጭ ጉብኝት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_book__slip_ids
+msgid "Slip"
+msgstr "ወረቀት (ደረሰኝ)"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_register__superseded
+msgid "Superseded"
+msgstr "የተተካ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_tolerance__partner_id
+msgid "Supplier or customer"
+msgstr "አቅራቢ ወይም ደንበኛ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Tare"
+msgstr "ባዶ ክብደት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__tare_kg
+msgid "Tare Kg"
+msgstr "ባዶ ክብደት ኪ.ግ"
+
+#. module: mos_gate_plus
+#: model:ir.model.constraint,message:mos_gate_plus.constraint_mos_gate_post_code_uniq
+msgid "The gate code must be unique per site."
+msgstr "የበር ኮድ በአንድ ቦታ ውስጥ ልዩ መሆን አለበት።"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__res_partner__mos_weight_basis__lower
+msgid "The lower of the two"
+msgstr "ከሁለቱ ዝቅተኛው"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__res_partner__mos_weight_basis__declared
+msgid "The supplier's declared weight"
+msgstr "የአቅራቢው የተገለጸ ክብደት"
+
+#. module: mos_gate_plus
+#: model:ir.model.constraint,message:mos_gate_plus.constraint_mos_weighbridge_code_uniq
+msgid "The weighbridge code must be unique per gate."
+msgstr "የሚዛን ኮድ በአንድ በር ውስጥ ልዩ መሆን አለበት።"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_register__ticket_ids
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Ticket"
+msgstr "ትኬት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_tolerance__pct
+msgid "Tolerance (%)"
+msgstr "መቻቻል (%)"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__tolerance_blocked
+msgid "Tolerance Blocked"
+msgstr "መቻቻል አግዷል"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_weigh_ticket__tolerance_note
+msgid "Tolerance Note"
+msgstr "የመቻቻል ማስታወሻ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__tool_ids
+msgid "Tools and equipment"
+msgstr "መሣሪያዎች እና ቁሳቁሶች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__trailer_plate
+msgid "Trailer Plate"
+msgstr "የተጎታች ሰሌዳ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_gate_arrival_form
+msgid "Type or scan the plate"
+msgstr "ሰሌዳውን ይጻፉ ወይም ይቃኙ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_book__used_count
+msgid "Used Count"
+msgstr "የተጠቀሙበት ብዛት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_clearance__user_id
+msgid "User"
+msgstr "ተጠቃሚ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_clearance__visit_id
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_register__visit_ids
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit_tool__visit_id
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__visit_id
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Visit"
+msgstr "ጉብኝት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_register__visits
+msgid "Visits"
+msgstr "ጉብኝቶች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_paper_slip__state__void
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.view_mos_paper_slip_form
+msgid "Void"
+msgstr "ዋጋ ቢስ"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_paper_slip__void_reason
+msgid "Void Reason"
+msgstr "ዋጋ ቢስ የመደረግ ምክንያት"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields.selection,name:mos_gate_plus.selection__mos_gate_tolerance__action__warn
+msgid "Warn (opens an incident)"
+msgstr "አስጠንቅቅ (ክስተት ይከፍታል)"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "Weigh tickets"
+msgstr "የክብደት ወረቀቶች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_post__weighbridge_ids
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__weighbridge_id
+msgid "Weighbridge"
+msgstr "ሚዛን"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_weighbridge
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_weighbridges
+msgid "Weighbridges"
+msgstr "ሚዛኖች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__weight_basis
+msgid "Weight Basis"
+msgstr "የክብደት መሠረት"
+
+#. module: mos_gate_plus
+#: model:ir.actions.act_window,name:mos_gate_plus.action_mos_gate_tolerance
+#: model:ir.ui.menu,name:mos_gate_plus.menu_mos_gate_tolerances
+msgid "Weight tolerances"
+msgstr "የክብደት መቻቻሎች"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,help:mos_gate_plus.field_res_partner__mos_weight_basis
+#: model:ir.model.fields,help:mos_gate_plus.field_res_users__mos_weight_basis
+msgid ""
+"Which weight a delivery from this supplier is received and paid at (FR-"
+"GATE-015)."
+msgstr "ከዚህ አቅራቢ የሚመጣ ርክክብ የሚቀበልበት እና የሚከፈልበት ክብደት (FR-GATE-015)።"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,help:mos_gate_plus.field_mos_gate_visit_tool__explanation
+msgid "Why fewer left than came in (consumed, left on site by agreement)."
+msgstr "ከገባው ያነሰ ለምን ቀረ (ጥቅም ላይ ዋለ፣ በስምምነት በቦታው ቀረ)።"
+
+#. module: mos_gate_plus
+#: model:ir.model.fields,field_description:mos_gate_plus.field_mos_gate_visit__work_permit_ref
+msgid "Work permit"
+msgstr "የሥራ ፈቃድ"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "kg weighed ·"
+msgstr "ኪ.ግ የተመዘነ ·"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "superseded tickets"
+msgstr "የተተኩ የክብደት ወረቀቶች"
+
+#. module: mos_gate_plus
+#: model_terms:ir.ui.view,arch_db:mos_gate_plus.report_gate_register
+msgid "visits ·"
+msgstr "ጉብኝቶች ·"

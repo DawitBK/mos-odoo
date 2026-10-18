@@ -1,0 +1,570 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid ", posted by"
+msgstr "፣ የመዘገበው"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__message_needaction
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__message_needaction
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__message_needaction
+msgid "Action Needed"
+msgstr "እርምጃ ያስፈልጋል"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid "Against invoice"
+msgstr "ከደረሰኝ ጋር"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__amount
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__amount
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Amount"
+msgstr "መጠን"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid "Amount credited"
+msgstr "የተሰጠ ክሬዲት መጠን"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_customer_return__state__draft
+msgid "Announced"
+msgstr "የተገለጸ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_change__state__applied
+msgid "Applied"
+msgstr "የተተገበረ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__mos_approval_request_id
+#: model:ir.model.fields,field_description:mos_commercial.field_product_pricelist__mos_state
+msgid "Approval"
+msgstr "ማጽደቅ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__mos_approval_state
+msgid "Approval status"
+msgstr "የማጽደቅ ሁኔታ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_credit_change_form
+msgid "Approve"
+msgstr "አጽድቅ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_partner_form_mos_commercial
+msgid "Approve customer"
+msgstr "ደንበኛን አጽድቅ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_sale_order_form_mos_commercial
+msgid "Approve prices"
+msgstr "ዋጋዎችን አጽድቅ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_pricelist_form_mos_commercial
+msgid "Approve this price list"
+msgstr "ይህን የዋጋ ዝርዝር አጽድቅ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_note__state__approved
+#: model:ir.model.fields.selection,name:mos_commercial.selection__product_pricelist__mos_state__approved
+#: model:ir.model.fields.selection,name:mos_commercial.selection__res_partner__mos_customer_state__approved
+msgid "Approved"
+msgstr "የጸደቀ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__approved_by_id
+msgid "Approved By"
+msgstr "ያጸደቀው"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__balance
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Balance"
+msgstr "ቀሪ ሂሳብ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_partner_form_mos_commercial
+msgid "Block customer"
+msgstr "ደንበኛን አግድ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__res_partner__mos_customer_state__blocked
+msgid "Blocked"
+msgstr "የታገደ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_commercial_wizard
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_credit_note_form
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_customer_return_form
+msgid "Cancel"
+msgstr "ሰርዝ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_note__state__cancelled
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_customer_return__state__cancelled
+msgid "Cancelled"
+msgstr "የተሰረዘ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__closing
+msgid "Closing"
+msgstr "መዝጊያ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Closing balance"
+msgstr "የመዝጊያ ቀሪ ሂሳብ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_commercial_wizard
+msgid "Confirm"
+msgstr "አረጋግጥ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_commercial_wizard__create_uid
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__create_uid
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__create_uid
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__create_uid
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__create_uid
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__create_uid
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_price_floor__create_uid
+msgid "Created by"
+msgstr "የፈጠረው"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_commercial_wizard__create_date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__create_date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__create_date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__create_date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__create_date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__create_date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_price_floor__create_date
+msgid "Created on"
+msgstr "የተፈጠረበት ቀን"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_invoice__credit_note_ids
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__credit_note_id
+msgid "Credit Note"
+msgstr "የክሬዲት ማስታወሻ"
+
+#. module: mos_commercial
+#: model:ir.actions.act_window,name:mos_commercial.action_mos_credit_change
+#: model:ir.model.fields,field_description:mos_commercial.field_res_partner__mos_credit_change_ids
+#: model:ir.model.fields,field_description:mos_commercial.field_res_users__mos_credit_change_ids
+#: model:ir.ui.menu,name:mos_commercial.menu_mos_credit_changes
+msgid "Credit limit changes"
+msgstr "የክሬዲት ገደብ ለውጦች"
+
+#. module: mos_commercial
+#: model:ir.actions.report,name:mos_commercial.action_report_credit_note
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid "Credit note"
+msgstr "የክሬዲት ማስታወሻ"
+
+#. module: mos_commercial
+#: model:ir.actions.act_window,name:mos_commercial.action_mos_credit_note
+#: model:ir.ui.menu,name:mos_commercial.menu_mos_credit_notes
+msgid "Credit notes"
+msgstr "የክሬዲት ማስታወሻዎች"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__customer_id
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__customer_id
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__customer_id
+msgid "Customer"
+msgstr "ደንበኛ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_partner_form_mos_commercial
+msgid "Customer approval"
+msgstr "የደንበኛ ማጽደቅ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_reason__domain__credit
+msgid "Customer credit"
+msgstr "የደንበኛ ክሬዲት"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_approval_delegation__doc_type__mos_credit_note
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_approval_rule__doc_type__mos_credit_note
+msgid "Customer credit note"
+msgstr "የደንበኛ ክሬዲት ማስታወሻ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_reason__domain__customer_return
+msgid "Customer return"
+msgstr "የደንበኛ ተመላሽ"
+
+#. module: mos_commercial
+#: model:ir.actions.act_window,name:mos_commercial.action_mos_customer_return
+#: model:ir.ui.menu,name:mos_commercial.menu_mos_customer_returns
+msgid "Customer returns"
+msgstr "የደንበኛ ተመላሾች"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_res_partner__mos_customer_state
+#: model:ir.model.fields,field_description:mos_commercial.field_res_users__mos_customer_state
+msgid "Customer standing"
+msgstr "የደንበኛ ደረጃ"
+
+#. module: mos_commercial
+#: model:ir.actions.act_window,name:mos_commercial.action_mos_customer_statement
+#: model:ir.actions.report,name:mos_commercial.action_report_statement
+#: model:ir.ui.menu,name:mos_commercial.menu_mos_customer_statement
+msgid "Customer statement"
+msgstr "የደንበኛ መግለጫ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__date
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__date
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Date"
+msgstr "ቀን"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__date_from
+msgid "Date From"
+msgstr "ቀን ከ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__date_to
+msgid "Date To"
+msgstr "ቀን እስከ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_customer_return__state__decided
+msgid "Decided"
+msgstr "ውሳኔ የተሰጠበት"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__decided_by_id
+msgid "Decided By"
+msgstr "የወሰነው"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__decision
+msgid "Decision"
+msgstr "ውሳኔ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__delivery_id
+msgid "Delivery"
+msgstr "ርክክብ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_note__state__draft
+#: model:ir.model.fields.selection,name:mos_commercial.selection__product_pricelist__mos_state__draft
+msgid "Draft"
+msgstr "ረቂቅ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_customer_return_form
+msgid "Draft the credit note"
+msgstr "የክሬዲት ማስታወሻውን አዘጋጅ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Entry"
+msgstr "ግቤት"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_exception__kind__fiscal_missing
+msgid "Fiscal receipt number missing"
+msgstr "የፊስካል ደረሰኝ ቁጥር የለም"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_price_floor__floor_price
+msgid "Floor Price"
+msgstr "የዋጋ ወለል"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_customer_return__state__received
+msgid "In quarantine"
+msgstr "በማቆያ ውስጥ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__invoice_id
+msgid "Invoice"
+msgstr "ደረሰኝ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__label
+msgid "Label"
+msgstr "መለያ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__line_ids
+msgid "Line"
+msgstr "መስመር"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_commercial_wizard__method
+msgid "Method"
+msgstr "ዘዴ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__name
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__name
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__name
+msgid "Name"
+msgstr "ስም"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__new_limit
+msgid "New Limit"
+msgstr "አዲስ ገደብ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__res_partner__mos_customer_state__draft
+msgid "Not approved"
+msgstr "ያልጸደቀ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__note
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__note
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid "Note"
+msgstr "ማስታወሻ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__old_limit
+msgid "Old Limit"
+msgstr "የቀድሞ ገደብ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement__opening
+msgid "Opening"
+msgstr "መክፈቻ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Opening balance"
+msgstr "የመክፈቻ ቀሪ ሂሳብ"
+
+#. module: mos_commercial
+#: model:ir.model,name:mos_commercial.model_mos_commercial_opener
+msgid "Opens the commercial reason dialog"
+msgstr "የንግድ ምክንያት መስኮቱን ይከፍታል"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__partner_id
+msgid "Partner"
+msgstr "አጋር"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_delivery_order__pod_note
+msgid "Pod Note"
+msgstr "የርክክብ ማረጋገጫ ማስታወሻ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_delivery_order__pod_receiver
+msgid "Pod Receiver"
+msgstr "የርክክብ ተቀባይ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_delivery_order__pod_signature
+msgid "Pod Signature"
+msgstr "የርክክብ ፊርማ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_delivery_order__pod_signed_at
+msgid "Pod Signed At"
+msgstr "የርክክብ የተፈረመበት ጊዜ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_delivery_order__pod_token
+msgid "Pod Token"
+msgstr "የርክክብ ማረጋገጫ ቶክን"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_delivery_order__pod_token_expires
+msgid "Pod Token Expires"
+msgstr "የርክክብ ቶክን የሚያበቃበት"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_credit_note_form
+msgid "Post"
+msgstr "መዝግብ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_note__state__posted
+msgid "Posted"
+msgstr "የተመዘገበ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__posted_by_id
+msgid "Posted By"
+msgstr "የመዘገበው"
+
+#. module: mos_commercial
+#: model:ir.actions.act_window,name:mos_commercial.action_mos_price_floor
+#: model:ir.ui.menu,name:mos_commercial.menu_mos_price_floors
+msgid "Price floors"
+msgstr "የዋጋ ወለሎች"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_sale_order__mos_price_exception
+msgid "Price outside the rules"
+msgstr "ከደንቡ ውጭ ዋጋ"
+
+#. module: mos_commercial
+#: model:ir.model,name:mos_commercial.model_product_pricelist
+msgid "Pricelist"
+msgstr "የዋጋ ዝርዝር"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__product_id
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_price_floor__product_id
+msgid "Product"
+msgstr "ምርት"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_delivery_order_form_pod
+msgid "Proof of delivery"
+msgstr "የርክክብ ማረጋገጫ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_delivery_order_form_pod
+msgid "Proof-of-delivery link"
+msgstr "የርክክብ ማረጋገጫ አገናኝ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__qty
+msgid "Qty"
+msgstr "መጠን"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid "Raised by"
+msgstr "ያወጣው"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_commercial_wizard__reason
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__reason
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__reason_id
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__reason_id
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_credit_note
+msgid "Reason"
+msgstr "ምክንያት"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_customer_return_form
+msgid "Receive into quarantine"
+msgstr "ወደ ማቆያ ተቀበል"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__received_by_id
+msgid "Received By"
+msgstr "የተቀበለው"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_credit_change_form
+msgid "Reject"
+msgstr "ውድቅ አድርግ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_change__state__rejected
+msgid "Rejected"
+msgstr "ውድቅ የተደረገ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_change__state__requested
+msgid "Requested"
+msgstr "የተጠየቀ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__requested_by_id
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__requested_by_id
+msgid "Requested By"
+msgstr "የጠየቀው"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_customer_return__decision__restock
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_customer_return_form
+msgid "Restock"
+msgstr "እንደገና ሙላ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__return_id
+msgid "Return"
+msgstr "መልስ"
+
+#. module: mos_commercial
+#: model:ir.model,name:mos_commercial.model_sale_order_line
+msgid "Sales Order Line"
+msgstr "የሽያጭ ትእዛዝ መስመር"
+
+#. module: mos_commercial
+#: model:res.groups,name:mos_commercial.group_mos_sales_manager
+msgid "Sales manager"
+msgstr "የሽያጭ ሥራ አስኪያጅ"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_customer_return__decision__scrap
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_customer_return_form
+msgid "Scrap"
+msgstr "ተረፈ (ቆሻሻ)"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_customer_statement_form
+msgid "Show the statement"
+msgstr "መግለጫውን አሳይ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__site_id
+msgid "Site"
+msgstr "ቦታ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_change__state
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_credit_note__state
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_return__state
+msgid "State"
+msgstr "ሁኔታ"
+
+#. module: mos_commercial
+#: model:ir.model.fields,field_description:mos_commercial.field_mos_customer_statement_line__statement_id
+msgid "Statement"
+msgstr "መግለጫ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "Statement of account"
+msgstr "የሂሳብ መግለጫ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.view_mos_credit_note_form
+msgid "Submit"
+msgstr "አስገባ"
+
+#. module: mos_commercial
+#: model:ir.model.constraint,message:mos_commercial.constraint_mos_price_floor_product_uniq
+msgid "This product already has a price floor."
+msgstr "ይህ ምርት የዋጋ ወለል አስቀድሞ አለው።"
+
+#. module: mos_commercial
+#: model:ir.model.fields.selection,name:mos_commercial.selection__mos_credit_note__state__pending
+msgid "Waiting for approval"
+msgstr "ማጽደቅ በመጠበቅ ላይ"
+
+#. module: mos_commercial
+#: model_terms:ir.ui.view,arch_db:mos_commercial.report_statement
+msgid "to"
+msgstr "ወደ"

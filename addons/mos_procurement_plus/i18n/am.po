@@ -1,0 +1,456 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_registration_form
+msgid "1. Company"
+msgstr "1. ድርጅት"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_registration_form
+msgid "2. Tax and licence"
+msgstr "2. ግብር እና ፈቃድ"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_registration_form
+msgid "3. Contact"
+msgstr "3. ተጠሪ"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_registration_form
+msgid "4. Bank"
+msgstr "4. ባንክ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.constraint,message:mos_procurement_plus.constraint_mos_rfq_quote_supplier_once
+msgid "A supplier gives one offer per request."
+msgstr "አንድ አቅራቢ በአንድ ጥያቄ አንድ አቅርቦት ብቻ ይሰጣል።"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__bank_account
+msgid "Account number (goes through a bank change request)"
+msgstr "የሂሳብ ቁጥር (በባንክ ለውጥ ጥያቄ ያልፋል)"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__address
+msgid "Address"
+msgstr "አድራሻ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_pr_ageing__age_days
+msgid "Age Days"
+msgstr "እድሜ (ቀናት)"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_rfq_form
+msgid "Award"
+msgstr "ውል ስጥ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__award_reason
+msgid "Award Reason"
+msgstr "የውል ምክንያት"
+
+#. module: mos_procurement_plus
+#: code:addons/mos_procurement_plus/models/wizards.py:0
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_rfq_award_wizard
+msgid "Award the order"
+msgstr "ትእዛዙን ስጥ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_rfq__state__awarded
+msgid "Awarded"
+msgstr "ውል የተሰጠው"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__awarded_by_id
+msgid "Awarded By"
+msgstr "ውሉን የሰጠው"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__awarded_quote_id
+msgid "Awarded Quote"
+msgstr "ውል የተሰጠው ዋጋ ጥቅስ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_gate_visit__bag_type_id
+msgid "Bag Type"
+msgstr "የከረጢት ዓይነት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_gate_visit__bag_tare_kg
+msgid "Bag tare (kg)"
+msgstr "የከረጢት ክብደት (ኪ.ግ)"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_bag_type
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_bag_types
+msgid "Bag types"
+msgstr "የከረጢት ዓይነቶች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_gate_visit__bag_count
+msgid "Bags counted"
+msgstr "የተቆጠሩ ከረጢቶች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__bank_name
+msgid "Bank Name"
+msgstr "የባንክ ስም"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_purchase_order_form_close
+msgid "Close short"
+msgstr "በጉድለት ዝጋ"
+
+#. module: mos_procurement_plus
+#: code:addons/mos_procurement_plus/models/wizards.py:0
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_close_short_wizard
+msgid "Close the order short"
+msgstr "ትእዛዙን በጉድለት ዝጋ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__purchase_order__mos_close_state__closed
+msgid "Closed"
+msgstr "የተዘጋ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__purchase_order__mos_close_state__closed_short
+msgid "Closed short"
+msgstr "በጉድለት የተዘጋ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_purchase_order__mos_close_state
+msgid "Closure"
+msgstr "መዘጋት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__name
+msgid "Company or trading name"
+msgstr "የድርጅት ወይም የንግድ ስም"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote__complete
+msgid "Complete"
+msgstr "ሙሉ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_service_receipt__state__confirmed
+msgid "Confirmed"
+msgstr "የተረጋገጠ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_service_receipt__confirmed_by_id
+msgid "Confirmed By"
+msgstr "ያረጋገጠው"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__contact
+msgid "Contact"
+msgstr "ተጠሪ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__days_late
+msgid "Days Late"
+msgstr "የዘገዩ ቀናት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__deadline
+msgid "Deadline"
+msgstr "የመጨረሻ ቀን"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_invite__email
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__email
+msgid "Email"
+msgstr "ኢሜይል"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_bag_type__tare_kg
+msgid "Empty bag (kg)"
+msgstr "ባዶ ከረጢት (ኪ.ግ)"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_supplier_invite__state__expired
+msgid "Expired"
+msgstr "ጊዜው ያለፈበት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_invite__expires_at
+msgid "Expires At"
+msgstr "የሚያበቃበት ጊዜ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__self_billing
+msgid "Farmer or trader without invoices"
+msgstr "ደረሰኝ የሌለው ገበሬ ወይም ነጋዴ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_invite__invited_by_id
+msgid "Invited By"
+msgstr "የጋበዘው"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__invited_ids
+msgid "Invited suppliers"
+msgstr "የተጋበዙ አቅራቢዎች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote__lead_days
+msgid "Lead Days"
+msgstr "የመድረሻ ቀናት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__licence_expires
+msgid "Licence Expires"
+msgstr "ፈቃድ የሚያበቃበት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_supplier_invite__state__open
+msgid "Link sent"
+msgstr "አገናኝ ተልኳል"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.server,name:mos_procurement_plus.cron_close_orders_ir_actions_server
+msgid "MOS: close orders that are received and invoiced"
+msgstr "MOS፡ የተቀበሉ እና የተጠየቁ ትእዛዞችን ዝጋ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.server,name:mos_procurement_plus.cron_expire_invites_ir_actions_server
+msgid "MOS: expire supplier invitations"
+msgstr "MOS፡ የአቅራቢ ግብዣዎችን አብቃ"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_rfq_award_wizard
+msgid "Needed when it is not the lowest offer or there are too few offers"
+msgstr "ዝቅተኛው አቅርቦት ካልሆነ ወይም አቅርቦቶች ጥቂት ከሆኑ ያስፈልጋል"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__quote_ids
+msgid "Offers"
+msgstr "አቅርቦቶች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_service_receipt__order_id
+msgid "Order Reference"
+msgstr "የትእዛዝ ማጣቀሻ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__ordered
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_pr_ageing__state__converted
+msgid "Ordered"
+msgstr "የታዘዘ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_rfq__state__sent
+msgid "Out for quotes"
+msgstr "ለጥቅስ ወጥቷል"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__outstanding
+msgid "Outstanding"
+msgstr "ያልተከፈለ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_po_outstanding
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_po_outstanding
+msgid "Outstanding deliveries"
+msgstr "ያልተደረሱ ርክክቦች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__phone
+msgid "Phone"
+msgstr "ስልክ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__planned_date
+msgid "Planned Date"
+msgstr "የታቀደ ቀን"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_price_history__price
+msgid "Price"
+msgstr "ዋጋ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_price_history
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_price_history
+msgid "Price history"
+msgstr "የዋጋ ታሪክ"
+
+#. module: mos_procurement_plus
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_procurement_reports
+msgid "Procurement reports"
+msgstr "የግዥ ሪፖርቶች"
+
+#. module: mos_procurement_plus
+#: model:ir.model,name:mos_procurement_plus.model_purchase_order
+msgid "Purchase Order"
+msgstr "የግዢ ትእዛዝ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_pr_ageing
+msgid "Purchase request ageing"
+msgstr "የግዢ ጥያቄ እድሜ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote_line__quote_id
+msgid "Quote"
+msgstr "ዋጋ ጥቅስ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__received
+msgid "Received"
+msgstr "የተቀበለ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_supplier_registration
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_supplier_registration
+msgid "Register a supplier"
+msgstr "አቅራቢ መዝግብ"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_registration_form
+msgid "Register the supplier"
+msgstr "አቅራቢውን መዝግብ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_supplier_invite__state__registered
+msgid "Registered"
+msgstr "የተመዘገበ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_invite__partner_id
+msgid "Registered as"
+msgstr "የተመዘገበው እንደ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_pr_ageing__request_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__request_id
+msgid "Request"
+msgstr "ጥያቄ"
+
+#. module: mos_procurement_plus
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_pr_ageing
+msgid "Request ageing"
+msgstr "የጥያቄ እድሜ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_pr_ageing__requester_id
+msgid "Requester"
+msgstr "ጠያቂ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_rfq
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_rfq
+msgid "Requests for quotation"
+msgstr "የዋጋ ጥቅስ ጥያቄዎች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_award_wizard__rfq_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_line__rfq_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote__rfq_id
+msgid "Rfq"
+msgstr "የዋጋ ጥቅስ ጥያቄ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote_line__rfq_line_id
+msgid "Rfq Line"
+msgstr "የዋጋ ጥቅስ ጥያቄ መስመር"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_rfq_form
+msgid "Send to the suppliers"
+msgstr "ወደ አቅራቢዎች ላክ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_service_receipt
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_service_receipts
+msgid "Service receipts"
+msgstr "የአገልግሎት መቀበያዎች"
+
+#. module: mos_procurement_plus
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_invite_form
+#: model_terms:ir.ui.view,arch_db:mos_procurement_plus.view_mos_supplier_invite_list
+msgid "Show the link"
+msgstr "አገናኙን አሳይ"
+
+#. module: mos_procurement_plus
+#: model:ir.actions.act_window,name:mos_procurement_plus.action_mos_supplier_invite
+#: model:ir.ui.menu,name:mos_procurement_plus.menu_mos_supplier_invites
+msgid "Supplier invitations"
+msgstr "የአቅራቢ ግብዣዎች"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__vat
+msgid "TIN"
+msgstr "TIN"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,help:mos_procurement_plus.field_mos_supplier_invite__name
+msgid "The company or person the link is for."
+msgstr "አገናኙ የተዘጋጀለት ድርጅት ወይም ሰው።"
+
+#. module: mos_procurement_plus
+#: model:ir.model.constraint,message:mos_procurement_plus.constraint_mos_bag_type_name_uniq
+msgid "This bag type already exists."
+msgstr "ይህ የከረጢት ዓይነት አስቀድሞ አለ።"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_invite__token
+msgid "Token"
+msgstr "ቶክን"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__trade_licence
+msgid "Trade licence number"
+msgstr "የንግድ ፈቃድ ቁጥር"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote_line__unit_price
+msgid "Unit Price"
+msgstr "የአሃድ ዋጋ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote__valid_until
+msgid "Valid Until"
+msgstr "እስከ የሚሰራ ድረስ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__value_outstanding
+msgid "Value Outstanding"
+msgstr "ያልተከፈለ እሴት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_registration__activity
+msgid "What they supply"
+msgstr "የሚያቀርቡት"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_service_receipt__note
+msgid "What was done"
+msgstr "የተደረገው"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__line_ids
+msgid "What we need"
+msgstr "የሚያስፈልገን"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_supplier_invite__name
+msgid "Who is invited"
+msgstr "ማን እንደተጋበዘ"
+
+#. module: mos_procurement_plus
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_award_wizard__quote_id
+msgid "Winning offer"
+msgstr "አሸናፊ አቅርቦት"

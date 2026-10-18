@@ -1,0 +1,395 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__current
+msgid "0-30 days"
+msgstr "0-30 ቀናት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__days_31_60
+msgid "31-60 days"
+msgstr "31-60 ቀናት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__days_61_90
+msgid "61-90 days"
+msgstr "61-90 ቀናት"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_receipt__method__transfer
+msgid "Bank transfer"
+msgstr "የባንክ ዝውውር"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__res_partner__mos_credit_mode__block
+msgid "Block until approved"
+msgstr "እስኪጸድቅ አግድ"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_receipt__method__cash
+msgid "Cash"
+msgstr "ጥሬ ገንዘብ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__cash_received
+msgid "Cash received"
+msgstr "የተቀበለ ጥሬ ገንዘብ"
+
+#. module: mos_sales
+#: model:ir.actions.act_window,name:mos_sales.action_mos_cash_session
+#: model:ir.ui.menu,name:mos_sales.menu_mos_cash_sessions
+msgid "Cash sessions"
+msgstr "የገንዘብ ክፍለ ጊዜዎች"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__expected_cash
+msgid "Cash that should be in the till"
+msgstr "በሳጥኑ ውስጥ መኖር ያለበት ገንዘብ"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_receipt__method__cheque
+msgid "Cheque"
+msgstr "ቼክ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__closed_at
+msgid "Closed At"
+msgstr "የተዘጋበት ጊዜ"
+
+#. module: mos_sales
+#: model_terms:ir.ui.view,arch_db:mos_sales.view_mos_cash_session_form
+msgid "Count and close"
+msgstr "ቆጥረህ ዝጋ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__counted_cash
+msgid "Counted Cash"
+msgstr "የተቆጠረ ገንዘብ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_res_partner__mos_credit_mode
+#: model:ir.model.fields,field_description:mos_sales.field_res_users__mos_credit_mode
+msgid "Credit check"
+msgstr "የክሬዲት ፍተሻ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_res_partner__mos_credit_limit
+#: model:ir.model.fields,field_description:mos_sales.field_res_users__mos_credit_limit
+msgid "Credit limit"
+msgstr "የክሬዲት ገደብ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__customer_id
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__customer_id
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__partner_id
+#: model:ir.model.fields,field_description:mos_sales.field_mos_receipt__customer_id
+msgid "Customer"
+msgstr "ደንበኛ"
+
+#. module: mos_sales
+#: model:ir.actions.act_window,name:mos_sales.action_mos_customer_balance
+#: model:ir.ui.menu,name:mos_sales.menu_mos_customer_balances
+msgid "Customer balances and ageing"
+msgstr "የደንበኛ ቀሪ ሂሳቦች እና እድሜ"
+
+#. module: mos_sales
+#: model:ir.actions.act_window,name:mos_sales.action_mos_customer_invoice
+#: model:ir.ui.menu,name:mos_sales.menu_mos_customer_invoices
+msgid "Customer invoices"
+msgstr "የደንበኛ ደረሰኞች"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__delivery_id
+msgid "Delivery"
+msgstr "ርክክብ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_gate_visit__delivery_order_id
+msgid "Delivery order"
+msgstr "የማድረስ ትእዛዝ"
+
+#. module: mos_sales
+#: model:ir.actions.act_window,name:mos_sales.action_mos_delivery_order
+#: model:ir.model.fields,field_description:mos_sales.field_sale_order__mos_delivery_ids
+#: model:ir.ui.menu,name:mos_sales.menu_mos_delivery_orders
+msgid "Delivery orders"
+msgstr "የማድረስ ትእዛዞች"
+
+#. module: mos_sales
+#: model_terms:ir.ui.view,arch_db:mos_sales.view_mos_delivery_order_form
+msgid "Dispatch and invoice"
+msgstr "ላክ እና ደረሰኝ አውጣ"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_delivery_order__state__dispatched
+msgid "Dispatched"
+msgstr "የተላከ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_approval_rule__doc_type
+msgid "Doc Type"
+msgstr "የሰነድ ዓይነት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__driver_name
+msgid "Driver Name"
+msgstr "የሹፌር ስም"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_sale_order__mos_exposure
+msgid "Exposure with this order"
+msgstr "በዚህ ትእዛዝ ያለው ተጋላጭነት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__fiscal_receipt_ref
+msgid "Fiscal receipt no."
+msgstr "የፊስካል ደረሰኝ ቁ."
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__gross_amount
+msgid "Gross Amount"
+msgstr "ጠቅላላ መጠን"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__invoiced
+msgid "Invoiced"
+msgstr "የተጠየቀ (በደረሰኝ)"
+
+#. module: mos_sales
+#: model:ir.model.fields,help:mos_sales.field_mos_receipt__invoice_id
+msgid "Leave empty for an advance (cash before delivery)."
+msgstr "ለቅድሚያ ክፍያ (ከርክክብ በፊት ጥሬ ገንዘብ) ባዶ ይተዉ።"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__loaded_qty
+msgid "Loaded (kg)"
+msgstr "የተጫነ (ኪ.ግ)"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_receipt__method__wallet
+msgid "Mobile money"
+msgstr "የሞባይል ገንዘብ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__net_amount
+msgid "Net Amount"
+msgstr "የተጣራ መጠን"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__res_partner__mos_credit_mode__none
+msgid "No check"
+msgstr "ፍተሻ የለም"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__opened_at
+msgid "Opened At"
+msgstr "የተከፈተበት ጊዜ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__float_amount
+msgid "Opening float"
+msgstr "የመክፈቻ ጥሬ ገንዘብ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__ordered_qty
+msgid "Ordered Qty"
+msgstr "የታዘዘ መጠን"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__over_90
+msgid "Over 90 days"
+msgstr "ከ90 ቀናት በላይ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_sale_order__mos_credit_exceeded
+msgid "Over the credit limit"
+msgstr "ከክሬዲት ገደብ በላይ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__balance
+msgid "Owed"
+msgstr "ዕዳ ያለበት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__balance
+#: model:ir.model.fields,field_description:mos_sales.field_res_partner__mos_owed
+#: model:ir.model.fields,field_description:mos_sales.field_res_users__mos_owed
+msgid "Owes us"
+msgstr "ለእኛ ዕዳ አለበት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__paid_amount
+msgid "Paid Amount"
+msgstr "የተከፈለ መጠን"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__picking_id
+msgid "Picking"
+msgstr "ዝውውር"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__plate
+msgid "Plate"
+msgstr "ሰሌዳ"
+
+#. module: mos_sales
+#: model_terms:ir.ui.view,arch_db:mos_sales.view_sale_order_form_mos
+msgid "Prepare delivery"
+msgstr "ርክክብ አዘጋጅ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__qty
+msgid "Quantity (kg)"
+msgstr "መጠን (ኪ.ግ)"
+
+#. module: mos_sales
+#: model_terms:ir.ui.view,arch_db:mos_sales.view_sale_order_form_mos
+msgid "Recall approval request"
+msgstr "የማጽደቅ ጥያቄን መልሶ ጥራ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__receipt_ids
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__receipt_ids
+msgid "Receipt"
+msgstr "መቀበያ"
+
+#. module: mos_sales
+#: model:ir.actions.act_window,name:mos_sales.action_mos_receipt
+#: model:ir.ui.menu,name:mos_sales.menu_mos_receipts
+msgid "Receipts"
+msgstr "መቀበያዎች"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_balance__received
+msgid "Received (incl. advances)"
+msgstr "የተቀበለ (ቅድሚያ ክፍያዎችን ጨምሮ)"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_receipt__received_by_id
+msgid "Received By"
+msgstr "የተቀበለው"
+
+#. module: mos_sales
+#: model_terms:ir.ui.view,arch_db:mos_sales.view_mos_delivery_order_form
+msgid "Release to the gate"
+msgstr "ወደ በሩ ልቀቅ"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_delivery_order__state__released
+msgid "Released to the gate"
+msgstr "ወደ በሩ የተለቀቀ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__sale_id
+#: model:ir.model.fields,field_description:mos_sales.field_mos_delivery_order__sale_id
+msgid "Sale"
+msgstr "ሽያጭ"
+
+#. module: mos_sales
+#: model:ir.ui.menu,name:mos_sales.menu_mos_sales
+msgid "Sales"
+msgstr "ሽያጭ"
+
+#. module: mos_sales
+#: model:ir.model,name:mos_sales.model_sale_order
+msgid "Sales Order"
+msgstr "የሽያጭ ትእዛዝ"
+
+#. module: mos_sales
+#: model:res.groups,name:mos_sales.group_mos_sales_cashier
+msgid "Sales cashier"
+msgstr "የሽያጭ ገንዘብ ተቀባይ"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_approval_delegation__doc_type__sale_order
+#: model:ir.model.fields.selection,name:mos_sales.selection__mos_approval_rule__doc_type__sale_order
+msgid "Sales order"
+msgstr "የሽያጭ ትእዛዝ"
+
+#. module: mos_sales
+#: model:ir.actions.act_window,name:mos_sales.action_mos_sale_order
+#: model:ir.ui.menu,name:mos_sales.menu_mos_sale_orders
+msgid "Sales orders"
+msgstr "የሽያጭ ትእዛዞች"
+
+#. module: mos_sales
+#: model:res.groups,name:mos_sales.group_mos_sales_rep
+msgid "Sales representative"
+msgstr "የሽያጭ ተወካይ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_receipt__session_id
+msgid "Session"
+msgstr "ክፍለ ጊዜ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_receipt__reference
+msgid "Slip or reference"
+msgstr "ወረቀት ወይም ማጣቀሻ"
+
+#. module: mos_sales
+#: model_terms:ir.ui.view,arch_db:mos_sales.view_sale_order_form_mos
+msgid "Submit for approval"
+msgstr "ለማጽደቅ አስገባ"
+
+#. module: mos_sales
+#: model:ir.model.fields,help:mos_sales.field_mos_customer_invoice__fiscal_receipt_ref
+msgid "The number printed by the fiscal device or the tax authority's system."
+msgstr "በፊስካል መሣሪያ ወይም በግብር ባለሥልጣን ሥርዓት የታተመ ቁጥር።"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__unit_price
+msgid "Unit Price"
+msgstr "የአሃድ ዋጋ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__user_id
+msgid "User"
+msgstr "ተጠቃሚ"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__variance
+msgid "Variance"
+msgstr "ልዩነት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_cash_session__variance_reason
+msgid "Variance Reason"
+msgstr "የልዩነት ምክንያት"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__vat_amount
+msgid "Vat Amount"
+msgstr "የተ.እ.ታ መጠን"
+
+#. module: mos_sales
+#: model:ir.model.fields,field_description:mos_sales.field_mos_customer_invoice__vat_pct
+msgid "Vat Pct"
+msgstr "ተ.እ.ታ %"
+
+#. module: mos_sales
+#: model:ir.model.fields.selection,name:mos_sales.selection__res_partner__mos_credit_mode__warn
+msgid "Warn"
+msgstr "አስጠንቅቅ"
+
+#. module: mos_sales
+#: model:ir.model.fields,help:mos_sales.field_res_partner__mos_credit_mode
+#: model:ir.model.fields,help:mos_sales.field_res_users__mos_credit_mode
+msgid "What happens when open invoices plus a new order exceed the limit."
+msgstr "ክፍት ደረሰኞች ሲደመሩ እና አዲስ ትእዛዝ ገደቡን ሲያልፉ የሚሆነው።"
+
+#. module: mos_sales
+#: model:ir.model.fields,help:mos_sales.field_res_partner__mos_credit_limit
+#: model:ir.model.fields,help:mos_sales.field_res_users__mos_credit_limit
+msgid "Zero means no credit: every order is paid before release."
+msgstr "ዜሮ ማለት ክሬዲት የለም ማለት ነው፡ እያንዳንዱ ትእዛዝ ከመለቀቁ በፊት ይከፈላል።"

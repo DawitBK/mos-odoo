@@ -1,0 +1,628 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_procurement
+#: model:ir.model.constraint,message:mos_procurement.constraint_mos_purchase_quote_quote_uniq
+msgid "A supplier can give only one quote per order."
+msgstr "አንድ አቅራቢ በአንድ ትእዛዝ አንድ ዋጋ ጥቅስ ብቻ ሊሰጥ ይችላል።"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_receipt_policy__over_action__warn
+msgid "Accept and flag"
+msgstr "ተቀበል እና ምልክት አድርግ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_receipt_policy__over_action__approve
+msgid "Accept with a manager's approval"
+msgstr "በሥራ አስኪያጅ ፈቃድ ተቀበል"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_status_wizard__action
+msgid "Action"
+msgstr "እርምጃ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment_line__amendment_id
+msgid "Amendment"
+msgstr "ማሻሻያ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_sourcing_policy__amount_from
+msgid "Amount From"
+msgstr "መጠን ከ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment__applied_by_id
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__applied_by_id
+msgid "Applied By"
+msgstr "ያስተገበረው"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_bank_change_form
+msgid "Apply"
+msgstr "ተግብር"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_po_amendment_form
+msgid "Apply to the order"
+msgstr "በትእዛዙ ላይ ተግብር"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_grn_reassignment_form
+msgid "Approve and move"
+msgstr "አጽድቅ እና አንቀሳቅስ"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_partner_form_mos_procurement
+msgid "Approve supplier"
+msgstr "አቅራቢን አጽድቅ"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_suppliers
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_suppliers
+msgid "Approved supplier list"
+msgstr "የጸደቁ አቅራቢዎች ዝርዝር"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_supplier_return_form
+msgid "Ask for credit"
+msgstr "ክሬዲት ጠይቅ"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_bank_change
+#: model:ir.model.fields,field_description:mos_procurement.field_res_partner__mos_bank_change_ids
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_bank_change_ids
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_bank_changes
+msgid "Bank changes"
+msgstr "የባንክ ለውጦች"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__doc_type__bank_letter
+msgid "Bank letter"
+msgstr "የባንክ ደብዳቤ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_status_wizard__action__block
+msgid "Block"
+msgstr "አግድ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__res_partner__mos_supplier_state__blocked
+msgid "Blocked"
+msgstr "የታገደ"
+
+#. module: mos_procurement
+#: model:res.groups,name:mos_procurement.group_mos_procurement_user
+msgid "Buyer"
+msgstr "ገዢ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__res_partner__mos_supplier_state__candidate
+msgid "Candidate"
+msgstr "እጩ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_verify_wizard__change_id
+msgid "Change"
+msgstr "ለውጥ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment__line_ids
+msgid "Changes"
+msgstr "ለውጦች"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_return__state__credited
+msgid "Credited"
+msgstr "ክሬዲት የተደረገ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return__debit_note_id
+msgid "Debit Note"
+msgstr "የዴቢት ማስታወሻ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_purchase_request_line__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr "ለሁሉም የክምችት ሥራዎች የሚውል ነባሪ የመለኪያ አሃድ።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request__department
+msgid "Department"
+msgstr "ክፍል"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_supplier_return_form
+msgid "Dispatch goods"
+msgstr "ዕቃዎችን ላክ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_return__state__dispatched
+msgid "Dispatched"
+msgstr "የተላከ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_document__doc_type
+msgid "Doc Type"
+msgstr "የሰነድ ዓይነት"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_res_partner__mos_documents_ok
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_documents_ok
+msgid "Documents complete and valid"
+msgstr "ሰነዶች ሙሉ እና የሚሰሩ ናቸው"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_sourcing_policy__site_id
+msgid "Empty applies to every site."
+msgstr "ባዶ ከሆነ ለሁሉም ቦታዎች ይሠራል።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_receipt_policy__product_id
+msgid "Empty is the default for every product."
+msgstr "ባዶ ከሆነ ለሁሉም ምርቶች ነባሪ ነው።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request_line__estimated_price
+msgid "Estimated Price"
+msgstr "የተገመተ ዋጋ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request__amount
+msgid "Estimated cost"
+msgstr "የተገመተ ወጪ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_gate_visit__excess_approved_by_id
+msgid "Excess Approved By"
+msgstr "ትርፉን ያጸደቀው"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_receipt_policy__over_pct
+msgid "Excess allowed (%)"
+msgstr "የሚፈቀድ ትርፍ (%)"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__state__expired
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_supplier_invite__state__expired
+msgid "Expired"
+msgstr "ጊዜው ያለፈበት"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_document__expires_on
+msgid "Expires On"
+msgstr "የሚያበቃበት ቀን"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__state__expiring
+msgid "Expiring soon"
+msgstr "በቅርቡ የሚያበቃ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_grn_reassignment__from_order_id
+msgid "From Order"
+msgstr "ከትእዛዝ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return_credit_wizard__invoice_id
+msgid "Invoice"
+msgstr "ደረሰኝ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_document__issued_on
+msgid "Issued On"
+msgstr "የተሰጠበት ቀን"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request__line_ids
+msgid "Items"
+msgstr "ዕቃዎች"
+
+#. module: mos_procurement
+#: model:ir.actions.server,name:mos_procurement.cron_supplier_documents_ir_actions_server
+msgid "MOS: supplier document expiry"
+msgstr "MOS፡ የአቅራቢ ሰነዶች ማብቂያ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_res_users__mos_bank_account
+msgid "Masked: only the last four digits show."
+msgstr "የተሸፈነ፡ የመጨረሻዎቹ አራት ቁጥሮች ብቻ ይታያሉ።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_sourcing_policy__min_quotes
+msgid "Min Quotes"
+msgstr "ዝቅተኛ ጥቅሶች"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request__needed_by
+msgid "Needed By"
+msgstr "የሚያስፈልግበት ቀን"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__new_account_enc
+msgid "New Account Enc"
+msgstr "አዲስ የሂሳብ ቁጥር (የተመሰጠረ)"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__new_account_masked
+msgid "New Account Masked"
+msgstr "አዲስ የሂሳብ ቁጥር (የተሸፈነ)"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment_line__new_price
+msgid "New Price"
+msgstr "አዲስ ዋጋ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment_line__new_qty
+msgid "New Qty"
+msgstr "አዲስ መጠን"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__new_account
+msgid "New account number"
+msgstr "አዲስ የሂሳብ ቁጥር"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_res_partner__mos_review_due
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_review_due
+msgid "Next review"
+msgstr "ቀጣይ ግምገማ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_document__notified_on
+msgid "Notified On"
+msgstr "የተነገረበት ቀን"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_document__number
+msgid "Number"
+msgstr "ቁጥር"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment_line__old_price
+msgid "Old Price"
+msgstr "የቀድሞ ዋጋ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment_line__old_qty
+msgid "Old Qty"
+msgstr "የቀድሞ መጠን"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment__new_total
+msgid "Order value after the change"
+msgstr "ከለውጡ በኋላ የትእዛዙ ዋጋ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_po_outstanding__ordered
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_purchase_request__state__converted
+#: model:ir.model.fields.selection,name:mos_procurement_plus.selection__mos_pr_ageing__state__converted
+msgid "Ordered"
+msgstr "የታዘዘ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_sourcing_policy__amount_from
+msgid "Orders from this value need the quotes below."
+msgstr "ከዚህ ዋጋ ጀምሮ ያሉ ትእዛዞች ከታች ያሉትን ጥቅሶች ይፈልጋሉ።"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__doc_type__other
+msgid "Other"
+msgstr "ሌላ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_receipt_policy__over_action
+msgid "Over Action"
+msgstr "ከመጠን በላይ እርምጃ"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_po_amendment
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_po_amendments
+msgid "PO amendments"
+msgstr "የግዢ ትእዛዝ ማሻሻያዎች"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_quote__partner_id
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__partner_id
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_document__partner_id
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_status_wizard__partner_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote__partner_id
+msgid "Partner"
+msgstr "አጋር"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_bank_account
+msgid "Payment account"
+msgstr "የክፍያ ሂሳብ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return__picking_id
+msgid "Picking"
+msgstr "ዝውውር"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment_line__po_line_id
+msgid "Po Line"
+msgstr "የግዢ ትእዛዝ መስመር"
+
+#. module: mos_procurement
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_procurement
+msgid "Procurement"
+msgstr "ግዥ"
+
+#. module: mos_procurement
+#: model:res.groups,name:mos_procurement.group_mos_procurement_manager
+msgid "Procurement manager"
+msgstr "የግዥ ሥራ አስኪያጅ"
+
+#. module: mos_procurement
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_procurement_config
+msgid "Procurement set-up"
+msgstr "የግዥ ዝግጅት"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_po_amendment__purchase_id
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return__purchase_id
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return_credit_wizard__purchase_id
+msgid "Purchase"
+msgstr "ግዢ"
+
+#. module: mos_procurement
+#: model:ir.model,name:mos_procurement.model_purchase_order_line
+msgid "Purchase Order Line"
+msgstr "የግዢ ትእዛዝ መስመር"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_approval_delegation__doc_type__mos_po_amendment
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_approval_rule__doc_type__mos_po_amendment
+msgid "Purchase order amendment"
+msgstr "የግዢ ትእዛዝ ማሻሻያ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_purchase_order__mos_request_id
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_approval_delegation__doc_type__mos_purchase_request
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_approval_rule__doc_type__mos_purchase_request
+msgid "Purchase request"
+msgstr "የግዢ ጥያቄ"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_purchase_request
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_purchase_requests
+msgid "Purchase requests"
+msgstr "የግዢ ጥያቄዎች"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_purchase_order__mos_quote_ids
+msgid "Quotes"
+msgstr "ዋጋ ጥቅሶች"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_return_credit_wizard
+msgid "Raise debit note"
+msgstr "የዴቢት ማስታወሻ አውጣ"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_purchase_request_form
+msgid "Recall"
+msgstr "መልሶ ጥራ"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_grn_reassignment
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_grn_reassignments
+msgid "Receipt reassignments"
+msgstr "የመቀበያ እንደገና ምደባዎች"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_receipt_policy
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_receipt_policy
+msgid "Receipt tolerances"
+msgstr "የመቀበያ መቻቻሎች"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_bank_change_form
+msgid "Record call-back"
+msgstr "መልሶ መደወልን መዝግብ"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_bank_verify_wizard
+msgid "Record verification"
+msgstr "ማረጋገጫን መዝግብ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_receipt_policy__over_action__block
+msgid "Refuse the excess"
+msgstr "ትርፉን አትቀበል"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_status_wizard__action__reinstate
+msgid "Reinstate as candidate"
+msgstr "እንደ እጩ መልሰህ አስገባ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request_line__request_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_pr_ageing__request_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq__request_id
+msgid "Request"
+msgstr "ጥያቄ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_grn_reassignment__state__requested
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_bank_change__state__requested
+msgid "Requested"
+msgstr "የተጠየቀ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_request__requester_id
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_pr_ageing__requester_id
+msgid "Requester"
+msgstr "ጠያቂ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return_credit_wizard__return_id
+msgid "Return"
+msgstr "መልስ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_receipt_policy__under_pct
+msgid "Short delivery that closes the line (%)"
+msgstr "መስመሩን የሚዘጋ አጭር ርክክብ (%)"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_purchase_order_form_mos_procurement
+msgid "Sourcing"
+msgstr "መረጣ (ምንጭ ማፈላለግ)"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_sourcing_policy
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_sourcing_policy
+msgid "Sourcing policy"
+msgstr "የመረጣ ፖሊሲ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_res_partner__mos_status_reason
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_status_reason
+msgid "Standing reason"
+msgstr "ቋሚ ምክንያት"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_partner_form_mos_procurement
+msgid "Supplier approval"
+msgstr "የአቅራቢ ማጽደቅ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_res_partner__mos_document_ids
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_document_ids
+msgid "Supplier documents"
+msgstr "የአቅራቢ ሰነዶች"
+
+#. module: mos_procurement
+#: model:ir.actions.act_window,name:mos_procurement.action_mos_supplier_return
+#: model:ir.ui.menu,name:mos_procurement.menu_mos_supplier_returns
+msgid "Supplier returns"
+msgstr "የአቅራቢ ተመላሾች"
+
+#. module: mos_procurement
+#: code:addons/mos_procurement/models/wizards.py:0
+#: model:ir.model.fields,field_description:mos_procurement.field_res_partner__mos_supplier_state
+#: model:ir.model.fields,field_description:mos_procurement.field_res_users__mos_supplier_state
+msgid "Supplier standing"
+msgstr "የአቅራቢ ደረጃ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_status_wizard__action__suspend
+msgid "Suspend"
+msgstr "አግድ (ለጊዜው)"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_partner_form_mos_procurement
+msgid "Suspend / block / reinstate"
+msgstr "አግድ / ዝጋ / መልስ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__res_partner__mos_supplier_state__suspended
+msgid "Suspended"
+msgstr "የታገደ (ለጊዜው)"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__doc_type__tin
+msgid "TIN certificate"
+msgstr "የTIN የምስክር ወረቀት"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return__location_id
+msgid "Take from"
+msgstr "ከ ውሰድ"
+
+#. module: mos_procurement
+#: model:ir.model.constraint,message:mos_procurement.constraint_mos_receipt_policy_product_uniq
+msgid "This product already has a receipt policy."
+msgstr "ይህ ምርት የመቀበያ ፖሊሲ አስቀድሞ አለው።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_grn_reassignment__to_order_id
+msgid "To Order"
+msgstr "ወደ ትእዛዝ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__doc_type__trade_licence
+msgid "Trade licence"
+msgstr "የንግድ ፈቃድ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__doc_type__vat
+msgid "VAT registration"
+msgstr "የተ.እ.ታ ምዝገባ"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_document__state__valid
+msgid "Valid"
+msgstr "ትክክለኛ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_purchase_quote__valid_until
+#: model:ir.model.fields,field_description:mos_procurement_plus.field_mos_rfq_quote__valid_until
+msgid "Valid Until"
+msgstr "እስከ የሚሰራ ድረስ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_return__supplier_id
+msgid "Vendor"
+msgstr "አቅራቢ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__verification_note
+msgid "Verification Note"
+msgstr "የማረጋገጫ ማስታወሻ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_change__verified_by_id
+msgid "Verified By"
+msgstr "ያረጋገጠው"
+
+#. module: mos_procurement
+#: model:ir.model.fields.selection,name:mos_procurement.selection__mos_supplier_bank_change__state__verified
+msgid "Verified by call-back"
+msgstr "በመልሶ መደወል የተረጋገጠ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_receipt_policy__under_pct
+msgid ""
+"When what is still owed is within this share of the order, the rest is "
+"closed."
+msgstr "ገና የሚከፈለው ከትእዛዙ በዚህ ድርሻ ውስጥ ሲሆን ቀሪው ይዘጋል።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_supplier_bank_change__verification_note
+msgid ""
+"Who was called back on a number already on file, and what they confirmed."
+msgstr "ቀድሞ በተመዘገበ ቁጥር የተደወለለት ማን እንደሆነ እና ያረጋገጠው።"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_mos_supplier_bank_verify_wizard__note
+msgid "Who was called, on which number, what they confirmed"
+msgstr "ማን እንደተደወለለት፣ በየትኛው ቁጥር፣ ምን እንዳረጋገጠ"
+
+#. module: mos_procurement
+#: model:ir.model.fields,field_description:mos_procurement.field_purchase_order__mos_sole_source_reason
+msgid "Why no competing quotes"
+msgstr "ተወዳዳሪ ጥቅሶች ለምን የሉም"
+
+#. module: mos_procurement
+#: model_terms:ir.ui.view,arch_db:mos_procurement.view_mos_purchase_request_form
+msgid "Why this is needed"
+msgstr "ይህ ለምን ያስፈልጋል"
+
+#. module: mos_procurement
+#: model:ir.model.fields,help:mos_procurement.field_mos_supplier_return__supplier_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr "አቅራቢን በስሙ፣ በTIN፣ በኢሜይል ወይም በውስጣዊ ማጣቀሻ ማግኘት ይችላሉ።"

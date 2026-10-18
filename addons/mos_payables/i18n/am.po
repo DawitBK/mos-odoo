@@ -1,0 +1,549 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__current
+msgid "0-30 days"
+msgstr "0-30 ቀናት"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__days_31_60
+msgid "31-60 days"
+msgstr "31-60 ቀናት"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__days_61_90
+msgid "61-90 days"
+msgstr "61-90 ቀናት"
+
+#. module: mos_payables
+#: model:ir.model.constraint,message:mos_payables.constraint_mos_cheque_leaf_number_uniq
+msgid "A cheque number appears once in a book."
+msgstr "የቼክ ቁጥር በአንድ ደብተር ውስጥ አንድ ጊዜ ብቻ ይታያል።"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_invoice_form
+msgid "Accept approved variance"
+msgstr "የጸደቀ ልዩነትን ተቀበል"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__account_id
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment__account_id
+msgid "Account"
+msgstr "ሂሳብ"
+
+#. module: mos_payables
+#: model:ir.model.constraint,message:mos_payables.constraint_mos_payment_voucher_line_invoice_once
+msgid "An invoice can be on only one live voucher."
+msgstr "አንድ ደረሰኝ በአንድ ንቁ ቫውቸር ላይ ብቻ ሊሆን ይችላል።"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_paying_account__kind__bank
+msgid "Bank account"
+msgstr "የባንክ ሂሳብ"
+
+#. module: mos_payables
+#: model:ir.model.fields,help:mos_payables.field_mos_payment__reference
+msgid "Bank or wallet transaction reference."
+msgstr "የባንክ ወይም የቦርሳ ግብይት ማጣቀሻ።"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment__method__transfer
+msgid "Bank transfer"
+msgstr "የባንክ ዝውውር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__billed
+msgid "Billed (payable)"
+msgstr "የተጠየቀ (የሚከፈል)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__qty_variance
+msgid "Billed minus received (kg)"
+msgstr "የተጠየቀ ሲቀነስ የተቀበለ (ኪ.ግ)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__unit_price
+msgid "Billed price per kg"
+msgstr "የተጠየቀ ዋጋ በኪ.ግ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__qty
+msgid "Billed quantity (kg)"
+msgstr "የተጠየቀ መጠን (ኪ.ግ)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_leaf__book_id
+msgid "Book"
+msgstr "ደብተር"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment__method__cash
+msgid "Cash"
+msgstr "ጥሬ ገንዘብ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_paying_account__kind__cash
+msgid "Cash box"
+msgstr "የገንዘብ ሳጥን"
+
+#. module: mos_payables
+#: model:res.groups,name:mos_payables.group_mos_cashier
+msgid "Cashier"
+msgstr "ገንዘብ ተቀባይ"
+
+#. module: mos_payables
+#: model:ir.model.fields,help:mos_payables.field_res_partner__mos_vat_pct
+#: model:ir.model.fields,help:mos_payables.field_res_users__mos_vat_pct
+msgid ""
+"Charged on this supplier's invoices; zero for a farmer or exempt trader."
+msgstr "በዚህ አቅራቢ ደረሰኞች ላይ የሚጣል፤ ለገበሬ ወይም ነፃ ለሆነ ነጋዴ ዜሮ።"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment__method__cheque
+msgid "Cheque"
+msgstr "ቼክ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment__cheque_book_id
+msgid "Cheque Book"
+msgstr "የቼክ ደብተር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment__cheque_leaf_id
+msgid "Cheque Leaf"
+msgstr "የቼክ ቅጠል"
+
+#. module: mos_payables
+#: model:ir.actions.act_window,name:mos_payables.action_mos_cheque_book
+#: model:ir.model.fields,field_description:mos_payables.field_mos_paying_account__book_ids
+#: model:ir.ui.menu,name:mos_payables.menu_mos_cheque_books
+msgid "Cheque books"
+msgstr "የቼክ ደብተሮች"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__debit_note_ids
+msgid "Debit Note"
+msgstr "የዴቢት ማስታወሻ"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_invoice_form
+msgid "Debit the supplier for the excess"
+msgstr "ለትርፉ አቅራቢውን ዴቢት አድርግ"
+
+#. module: mos_payables
+#: model:ir.model.fields,help:mos_payables.field_mos_payment_voucher_line__live
+msgid ""
+"False once the voucher is cancelled or rejected: the invoice is free again."
+msgstr "ቫውቸሩ ሲሰረዝ ወይም ሲቀር ሐሰት ይሆናል፤ ደረሰኙ እንደገና ነፃ ይሆናል።"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__first_no
+msgid "First No"
+msgstr "የመጀመሪያ ቁጥር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_leaf__full_number
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment__cheque_number
+msgid "Full Number"
+msgstr "ሙሉ ቁጥር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__gross
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__gross_amount
+msgid "Gross (with VAT)"
+msgstr "ጠቅላላ (ከተጨማሪ እሴት ታክስ ጋር)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__gross_amount
+msgid "Gross Amount"
+msgstr "ጠቅላላ መጠን"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_debit_note__invoice_id
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__invoice_id
+msgid "Invoice"
+msgstr "ደረሰኝ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__invoice_date
+msgid "Invoice Date"
+msgstr "የደረሰኝ ቀን"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__line_ids
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__invoices
+msgid "Invoices"
+msgstr "ደረሰኞች"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_cheque_leaf__state__issued
+msgid "Issued"
+msgstr "የተሰጠ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__last_no
+msgid "Last No"
+msgstr "የመጨረሻ ቁጥር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__leaf_ids
+msgid "Leaf"
+msgstr "ቅጠል"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__live
+msgid "Live"
+msgstr "ንቁ"
+
+#. module: mos_payables
+#: model:ir.model.fields,help:mos_payables.field_res_partner__mos_bank_account
+msgid "Masked: only the last four digits show."
+msgstr "የተሸፈነ፡ የመጨረሻዎቹ አራት ቁጥሮች ብቻ ይታያሉ።"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__match_state
+msgid "Match State"
+msgstr "የማመሳከሪያ ሁኔታ"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_invoice_form
+msgid "Match to order and receipt"
+msgstr "ከትእዛዝ እና ከደረሰኝ ጋር አመሳክር"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_supplier_invoice__match_state__matched
+msgid "Matched"
+msgstr "የተመሳከረ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment__method__wallet
+msgid "Mobile money"
+msgstr "የሞባይል ገንዘብ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_paying_account__kind__wallet
+msgid "Mobile-money wallet"
+msgstr "የሞባይል ገንዘብ ቦርሳ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__net_amount
+msgid "Net of tax"
+msgstr "ከግብር ሲቀነስ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__net_amount
+msgid "Net payable"
+msgstr "የተጣራ የሚከፈል"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_supplier_invoice__match_state__unmatched
+msgid "Not matched"
+msgstr "ያልተመሳከረ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_leaf__number
+msgid "Number"
+msgstr "ቁጥር"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_supplier_invoice__state__vouchered
+msgid "On a payment voucher"
+msgstr "በክፍያ ቫውቸር ላይ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_approval_delegation__doc_type
+msgid "Only for"
+msgstr "ለ ብቻ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__ordered_price
+msgid "Ordered Price"
+msgstr "የታዘዘ ዋጋ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__ordered_qty
+msgid "Ordered Qty"
+msgstr "የታዘዘ መጠን"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__name
+msgid "Our reference"
+msgstr "የእኛ ማጣቀሻ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__over_90
+msgid "Over 90 days"
+msgstr "ከ90 ቀናት በላይ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__balance
+msgid "Owed"
+msgstr "ዕዳ ያለበት"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_balance__paid
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__paid_amount
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment_voucher__state__paid
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_supplier_invoice__state__paid
+msgid "Paid"
+msgstr "የተከፈለ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__paid_amount
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__paid_amount
+msgid "Paid Amount"
+msgstr "የተከፈለ መጠን"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_paying_account__paid_total
+msgid "Paid out"
+msgstr "የወጣ ክፍያ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment_voucher__state__partially_paid
+msgid "Partially paid"
+msgstr "በከፊል የተከፈለ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_supplier_invoice__state__payable
+msgid "Payable"
+msgstr "የሚከፈል"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__net
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__payable_amount
+msgid "Payable to supplier"
+msgstr "ለአቅራቢ የሚከፈል"
+
+#. module: mos_payables
+#: model:ir.ui.menu,name:mos_payables.menu_mos_payables
+msgid "Payables"
+msgstr "የሚከፈሉ ሂሳቦች"
+
+#. module: mos_payables
+#: model:res.groups,name:mos_payables.group_mos_ap_clerk
+msgid "Payables clerk"
+msgstr "የሚከፈሉ ሂሳቦች ጸሐፊ"
+
+#. module: mos_payables
+#: model:ir.actions.act_window,name:mos_payables.action_mos_paying_account
+#: model:ir.ui.menu,name:mos_payables.menu_mos_paying_accounts
+msgid "Paying accounts"
+msgstr "የመክፈያ ሂሳቦች"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_leaf__payment_id
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__payment_ids
+msgid "Payment"
+msgstr "ክፍያ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_res_partner__mos_bank_account
+msgid "Payment account"
+msgstr "የክፍያ ሂሳብ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_approval_delegation__doc_type__mos_payment_voucher
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_approval_rule__doc_type__mos_payment_voucher
+msgid "Payment voucher"
+msgstr "የክፍያ ቫውቸር"
+
+#. module: mos_payables
+#: model:ir.actions.act_window,name:mos_payables.action_mos_payment_voucher
+#: model:ir.ui.menu,name:mos_payables.menu_mos_payment_vouchers
+msgid "Payment vouchers"
+msgstr "የክፍያ ቫውቸሮች"
+
+#. module: mos_payables
+#: model:ir.actions.act_window,name:mos_payables.action_mos_payment
+#: model:ir.ui.menu,name:mos_payables.menu_mos_payments
+msgid "Payments"
+msgstr "ክፍያዎች"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_debit_note__state__posted
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment__state__posted
+msgid "Posted"
+msgstr "የተመዘገበ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__prefix
+msgid "Prefix"
+msgstr "ቅድመ ቅጥያ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__price_variance_pct
+msgid "Price above order (%)"
+msgstr "ከትእዛዝ በላይ ዋጋ (%)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__purchase_id
+msgid "Purchase order"
+msgstr "የግዢ ትእዛዝ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__received_qty
+msgid "Received Qty"
+msgstr "የተቀበለ መጠን"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__ref_norm
+msgid "Ref Norm"
+msgstr "ማጣቀሻ (የተስተካከለ)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment__reference
+msgid "Reference"
+msgstr "ማጣቀሻ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__remaining_amount
+msgid "Remaining Amount"
+msgstr "ቀሪ መጠን"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_invoice_form
+msgid "Send variance for approval"
+msgstr "ልዩነቱን ለማጽደቅ ላክ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__gaps
+msgid "Skipped numbers"
+msgstr "የተዘለሉ ቁጥሮች"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_payment_voucher_form
+msgid "Submit"
+msgstr "አስገባ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_payment_voucher__state__submitted
+msgid "Submitted"
+msgstr "የገባ"
+
+#. module: mos_payables
+#: model:ir.actions.act_window,name:mos_payables.action_mos_supplier_balance
+#: model:ir.ui.menu,name:mos_payables.menu_mos_supplier_balance
+msgid "Supplier balances and ageing"
+msgstr "የአቅራቢ ቀሪ ሂሳቦች እና እድሜ"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_approval_delegation__doc_type__mos_supplier_invoice
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_approval_rule__doc_type__mos_supplier_invoice
+msgid "Supplier invoice (match exception)"
+msgstr "የአቅራቢ ደረሰኝ (የማመሳከሪያ ልዩ ጉዳይ)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__supplier_ref
+msgid "Supplier invoice number"
+msgstr "የአቅራቢ ደረሰኝ ቁጥር"
+
+#. module: mos_payables
+#: model:ir.actions.act_window,name:mos_payables.action_mos_supplier_invoice
+#: model:ir.ui.menu,name:mos_payables.menu_mos_supplier_invoices
+msgid "Supplier invoices"
+msgstr "የአቅራቢ ደረሰኞች"
+
+#. module: mos_payables
+#: model:ir.model.constraint,message:mos_payables.constraint_mos_cheque_book_range_valid
+msgid "The last cheque number is below the first."
+msgstr "የመጨረሻው የቼክ ቁጥር ከመጀመሪያው በታች ነው።"
+
+#. module: mos_payables
+#: model:ir.model.constraint,message:mos_payables.constraint_mos_supplier_invoice_dup
+msgid "This supplier has already billed that invoice number."
+msgstr "ይህ አቅራቢ ያንን የደረሰኝ ቁጥር አስቀድሞ ጠይቋል።"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_invoice_form
+msgid "Three-way match"
+msgstr "የሦስት መንገድ ማመሳከሪያ"
+
+#. module: mos_payables
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_payment_list
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_payment_voucher_list
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_balance_list
+#: model_terms:ir.ui.view,arch_db:mos_payables.view_mos_supplier_invoice_list
+msgid "Total"
+msgstr "ድምር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_book__unused
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_cheque_leaf__state__unused
+msgid "Unused"
+msgstr "ያልተጠቀሙበት"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__vat_pct
+msgid "VAT (%)"
+msgstr "ተ.እ.ታ (%)"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_res_partner__mos_vat_pct
+#: model:ir.model.fields,field_description:mos_payables.field_res_users__mos_vat_pct
+msgid "VAT on purchases (%)"
+msgstr "በግዢዎች ላይ ተ.እ.ታ (%)"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_supplier_invoice__match_state__exception
+msgid "Variance"
+msgstr "ልዩነት"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__vat_amount
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__vat
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__vat_amount
+msgid "Vat Amount"
+msgstr "የተ.እ.ታ መጠን"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_cheque_leaf__void_reason
+msgid "Void Reason"
+msgstr "ዋጋ ቢስ የመደረግ ምክንያት"
+
+#. module: mos_payables
+#: model:ir.model.fields.selection,name:mos_payables.selection__mos_cheque_leaf__state__void
+msgid "Voided"
+msgstr "ዋጋ ቢስ የተደረገ"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment__voucher_id
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__voucher_id
+msgid "Voucher"
+msgstr "ቫውቸር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__voucher_line_ids
+msgid "Voucher Line"
+msgstr "የቫውቸር መስመር"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher__wht_amount
+#: model:ir.model.fields,field_description:mos_payables.field_mos_payment_voucher_line__wht
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__wht_amount
+msgid "Withheld"
+msgstr "የተያዘ (ተቀናሽ የተደረገ)"
+
+#. module: mos_payables
+#: model:ir.model.fields,help:mos_payables.field_res_partner__mos_wht_pct
+#: model:ir.model.fields,help:mos_payables.field_res_users__mos_wht_pct
+msgid ""
+"Withheld from every payment to this supplier and paid to the tax authority."
+msgstr "ለዚህ አቅራቢ ከሚደረግ እያንዳንዱ ክፍያ ተቀንሶ ለግብር ባለሥልጣን የሚከፈል።"
+
+#. module: mos_payables
+#: model:ir.model.fields,field_description:mos_payables.field_mos_supplier_invoice__wht_pct
+#: model:ir.model.fields,field_description:mos_payables.field_res_partner__mos_wht_pct
+#: model:ir.model.fields,field_description:mos_payables.field_res_users__mos_wht_pct
+msgid "Withholding (%)"
+msgstr "የተቀናሽ ግብር (%)"

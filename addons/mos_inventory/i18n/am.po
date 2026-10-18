@@ -1,0 +1,408 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count__adjustment_id
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment_line__adjustment_id
+msgid "Adjustment"
+msgstr "ማስተካከያ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_adjustment__state__applied
+msgid "Applied"
+msgstr "የተተገበረ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__applied_by_id
+msgid "Applied By"
+msgstr "ያስተገበረው"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_stock_adjustment_form
+msgid "Apply to stock"
+msgstr "በክምችት ላይ ተግብር"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__mos_approval_request_id
+msgid "Approval"
+msgstr "ማጽደቅ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__mos_approval_state
+msgid "Approval status"
+msgstr "የማጽደቅ ሁኔታ"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_status_change_form
+msgid "Approve"
+msgstr "አጽድቅ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_adjustment__state__approved
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__state__approved
+msgid "Approved"
+msgstr "የጸደቀ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__approved_by_id
+msgid "Approved By"
+msgstr "ያጸደቀው"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__from_status__available
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__to_status__available
+#: model:ir.model.fields.selection,name:mos_inventory.selection__stock_location__mos_stock_status__available
+msgid "Available"
+msgstr "ያለ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_reorder_report__on_hand
+msgid "Available now"
+msgstr "አሁን ያለ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__from_status__blocked
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__to_status__blocked
+#: model:ir.model.fields.selection,name:mos_inventory.selection__stock_location__mos_stock_status__blocked
+msgid "Blocked"
+msgstr "የታገደ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment_line__system_qty
+msgid "Book quantity"
+msgstr "የመዝገብ መጠን"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_adjustment__state__cancelled
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__state__cancelled
+msgid "Cancelled"
+msgstr "የተሰረዘ"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_cycle_count_form
+msgid "Close"
+msgstr "ዝጋ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_cycle_count__state__closed
+msgid "Closed"
+msgstr "የተዘጋ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count_line__count_id
+msgid "Count"
+msgstr "ቆጠራ"
+
+#. module: mos_inventory
+#: code:addons/mos_inventory/models/adjustment.py:0
+msgid "Count difference"
+msgstr "የቆጠራ ልዩነት"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count_line__counted
+msgid "Counted"
+msgstr "የተቆጠረ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count_line__counted_qty
+msgid "Counted Qty"
+msgstr "የተቆጠረ መጠን"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment_line__new_qty
+msgid "Counted quantity"
+msgstr "የተቆጠረ መጠን"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count__counter_id
+msgid "Counter"
+msgstr "ቆጣሪ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_cycle_count__state__counting
+msgid "Counting"
+msgstr "በመቁጠር ላይ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__cycle_count_id
+msgid "Cycle Count"
+msgstr "ዑደታዊ ቆጠራ"
+
+#. module: mos_inventory
+#: model:ir.actions.act_window,name:mos_inventory.action_mos_cycle_count
+#: model:ir.ui.menu,name:mos_inventory.menu_mos_cycle_counts
+msgid "Cycle counts"
+msgstr "ዑደታዊ ቆጠራዎች"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__date
+msgid "Date"
+msgstr "ቀን"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment_line__delta
+msgid "Delta"
+msgstr "ልዩነት"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__state__done
+msgid "Done"
+msgstr "ተጠናቋል"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_cycle_count__state__draft
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_adjustment__state__draft
+msgid "Draft"
+msgstr "ረቂቅ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__from_status
+msgid "From Status"
+msgstr "ከሁኔታ"
+
+#. module: mos_inventory
+#: model:ir.model,name:mos_inventory.model_stock_location
+msgid "Inventory Location"
+msgstr "የክምችት ቦታ"
+
+#. module: mos_inventory
+#: model:ir.ui.menu,name:mos_inventory.menu_mos_inventory
+msgid "Inventory control"
+msgstr "የክምችት ቁጥጥር"
+
+#. module: mos_inventory
+#: model:res.groups,name:mos_inventory.group_mos_inventory_manager
+msgid "Inventory manager"
+msgstr "የክምችት ሥራ አስኪያጅ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count__location_id
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__location_id
+msgid "Location"
+msgstr "ቦታ"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_status_change_form
+msgid "Move the stock"
+msgstr "ክምችቱን አንቀሳቅስ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__note
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__note
+msgid "Note"
+msgstr "ማስታወሻ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,help:mos_inventory.field_product_product__mos_reorder_min
+#: model:ir.model.fields,help:mos_inventory.field_product_template__mos_reorder_min
+msgid "Order more when what is available and on order falls below this."
+msgstr "ያለው እና የታዘዘው ከዚህ በታች ሲወርድ ተጨማሪ ይዘዙ።"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_reorder_report__suggested_qty
+msgid "Order this much"
+msgstr "ይህን ያህል ይዘዙ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__picking_id
+msgid "Picking"
+msgstr "ዝውውር"
+
+#. module: mos_inventory
+#: model:ir.model,name:mos_inventory.model_product_product
+msgid "Product Variant"
+msgstr "የምርት ዓይነት"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__line_ids
+msgid "Products"
+msgstr "ምርቶች"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.report_location_label
+#: model_terms:ir.ui.view,arch_db:mos_inventory.report_product_label
+msgid "QR"
+msgstr "QR"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__qty
+msgid "Qty"
+msgstr "መጠን"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__from_status__quarantine
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__to_status__quarantine
+#: model:ir.model.fields.selection,name:mos_inventory.selection__stock_location__mos_stock_status__quarantine
+msgid "Quarantine"
+msgstr "ማቆያ"
+
+#. module: mos_inventory
+#: model:ir.actions.act_window,name:mos_inventory.action_mos_status_change
+#: model:ir.ui.menu,name:mos_inventory.menu_mos_status_changes
+msgid "Quarantine and blocked stock"
+msgstr "በማቆያ ያለ እና የታገደ ክምችት"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_status_change_form
+msgid "Reject"
+msgstr "ውድቅ አድርግ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_adjustment__state__rejected
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__state__rejected
+msgid "Rejected"
+msgstr "ውድቅ የተደረገ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_reorder_report__reorder_min
+msgid "Reorder Min"
+msgstr "ዝቅተኛ የማዘዣ ደረጃ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_reorder_report__reorder_qty
+msgid "Reorder Qty"
+msgstr "የማዘዣ መጠን"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_product_product__mos_reorder_min
+#: model:ir.model.fields,field_description:mos_inventory.field_product_template__mos_reorder_min
+msgid "Reorder level"
+msgstr "የማዘዣ ደረጃ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_product_product__mos_reorder_qty
+#: model:ir.model.fields,field_description:mos_inventory.field_product_template__mos_reorder_qty
+msgid "Reorder quantity"
+msgstr "የሚታዘዝ መጠን"
+
+#. module: mos_inventory
+#: model:ir.actions.act_window,name:mos_inventory.action_mos_reorder
+#: model:ir.ui.menu,name:mos_inventory.menu_mos_reorder
+msgid "Reorder report"
+msgstr "የማዘዣ ሪፖርት"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_status_change__state__draft
+msgid "Requested"
+msgstr "የተጠየቀ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__requested_by_id
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__requested_by_id
+msgid "Requested By"
+msgstr "የጠየቀው"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count__line_ids
+msgid "Sheet"
+msgstr "ሉህ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_reorder_report__shortfall
+msgid "Shortfall"
+msgstr "ጉድለት"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__location_id
+msgid "Silo / shelf"
+msgstr "ሲሎ / መደርደሪያ"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_cycle_count_form
+msgid "Start counting"
+msgstr "መቁጠር ጀምር"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.report_location_label
+msgid "Status:"
+msgstr "ሁኔታ፡"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_reorder_report__on_order
+msgid "Still to arrive"
+msgstr "ገና የሚደርስ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_approval_delegation__doc_type__mos_stock_adjustment
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_approval_rule__doc_type__mos_stock_adjustment
+msgid "Stock adjustment"
+msgstr "የክምችት ማስተካከያ"
+
+#. module: mos_inventory
+#: model:ir.actions.act_window,name:mos_inventory.action_mos_stock_adjustment
+#: model:ir.ui.menu,name:mos_inventory.menu_mos_stock_adjustments
+msgid "Stock adjustments"
+msgstr "የክምችት ማስተካከያዎች"
+
+#. module: mos_inventory
+#: model:ir.model.fields,help:mos_inventory.field_stock_location__mos_stock_status
+msgid ""
+"Stock held in a quarantine or blocked location is not available to use."
+msgstr "በማቆያ ወይም በታገደ ቦታ ያለ ክምችት ለአገልግሎት አይውልም።"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_stock_adjustment_form
+msgid "Submit"
+msgstr "አስገባ"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.view_mos_cycle_count_form
+msgid "Submit count"
+msgstr "ቆጠራውን አስገባ"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_cycle_count__state__submitted
+msgid "Submitted"
+msgstr "የገባ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count_line__system_qty
+msgid "System Qty"
+msgstr "የሥርዓቱ መጠን"
+
+#. module: mos_inventory
+#: model:ir.model.fields,help:mos_inventory.field_product_product__mos_reorder_qty
+#: model:ir.model.fields,help:mos_inventory.field_product_template__mos_reorder_qty
+msgid "The quantity to order, at least."
+msgstr "የሚታዘዘው መጠን፣ ቢያንስ።"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_status_change__to_status
+msgid "To Status"
+msgstr "ወደ ሁኔታ"
+
+#. module: mos_inventory
+#: model_terms:ir.ui.view,arch_db:mos_inventory.report_product_label
+msgid "Unit:"
+msgstr "አሃድ፡"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_stock_adjustment__amount
+msgid "Value of the change"
+msgstr "የለውጡ እሴት"
+
+#. module: mos_inventory
+#: model:ir.model.fields,field_description:mos_inventory.field_mos_cycle_count_line__variance
+msgid "Variance"
+msgstr "ልዩነት"
+
+#. module: mos_inventory
+#: model:ir.model.fields.selection,name:mos_inventory.selection__mos_stock_adjustment__state__pending
+msgid "Waiting for approval"
+msgstr "ማጽደቅ በመጠበቅ ላይ"
+
+#. module: mos_inventory
+#: model:ir.model.fields,help:mos_inventory.field_mos_stock_status_change__location_id
+msgid ""
+"Where the stock is, or goes back to, when it is available. Empty is the "
+"warehouse stock location."
+msgstr "ክምችቱ ሲገኝ የሚገኝበት ወይም የሚመለስበት ቦታ። ባዶ ከሆነ የመጋዘኑ የክምችት ቦታ ነው።"

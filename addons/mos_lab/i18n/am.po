@@ -1,0 +1,593 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_lab
+#: model:ir.model.constraint,message:mos_lab.constraint_mos_lab_grade_grade_uniq
+msgid "A grade name must be unique within a specification."
+msgstr "የደረጃ ስም በአንድ ዝርዝር መግለጫ ውስጥ ልዩ መሆን አለበት።"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_decide_wizard__decision__accept
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__decision__accept
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__decision__accept
+msgid "Accept"
+msgstr "ተቀበል"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_decide_wizard__decision__accept_deduction
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__decision__accept_deduction
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__decision__accept_deduction
+msgid "Accept with deduction"
+msgstr "በተቀናሽ ተቀበል"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sampling_plan__active
+msgid "Active"
+msgstr "ንቁ"
+
+#. module: mos_lab
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_spec_form
+msgid "Approve"
+msgstr "አጽድቅ"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_spec__state__approved
+msgid "Approved"
+msgstr "የጸደቀ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sampling_plan__line_ids
+msgid "Bands"
+msgstr "ደረጃዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_invalidate_wizard__cause
+msgid "Cause"
+msgstr "ምክንያት"
+
+#. module: mos_lab
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_coa
+#: model:ir.model.fields,field_description:mos_lab.field_mos_gate_visit__coa_ids
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_coa
+msgid "Certificates of analysis"
+msgstr "የትንተና የምስክር ወረቀቶች"
+
+#. module: mos_lab
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_decide_wizard
+msgid "Confirm decision"
+msgstr "ውሳኔን አረጋግጥ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__partner_id
+msgid "Customer"
+msgstr "ደንበኛ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__day
+msgid "Day"
+msgstr "ቀን"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__state__decided
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__state__decided
+msgid "Decided"
+msgstr "ውሳኔ የተሰጠበት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__decided_by_id
+msgid "Decided By"
+msgstr "የወሰነው"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_decide_wizard__decision
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__decision
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__decision
+msgid "Decision"
+msgstr "ውሳኔ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__decision_note
+msgid "Decision Note"
+msgstr "የውሳኔ ማስታወሻ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__deducted_kg
+msgid "Deducted (kg)"
+msgstr "የተቀነሰ (ኪ.ግ)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_decide_wizard__deduction_pct
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__deduction_pct
+msgid "Deduction (%)"
+msgstr "ተቀናሽ (%)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__rule_ids
+msgid "Deduction bands"
+msgstr "የተቀናሽ ደረጃዎች"
+
+#. module: mos_lab
+#: code:addons/mos_lab/models/lab_spec.py:0
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_rule
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_rules
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_spec_form_quality
+msgid "Deduction rules"
+msgstr "የተቀናሽ ደንቦች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__discard_reason
+msgid "Discard Reason"
+msgstr "የመጣል ምክንያት"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_sample__state__discarded
+msgid "Discarded"
+msgstr "የተጣለ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__discarded_by_id
+msgid "Discarded By"
+msgstr "የጣለው"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__due
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_sample_search
+msgid "Due for disposal"
+msgstr "ለማስወገድ የደረሰ"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_decide_wizard__deduction_pct
+msgid "Empty uses the rule-based deduction."
+msgstr "ባዶ ከሆነ በደንብ ላይ የተመሠረተው ተቀናሽ ይጠቀማል።"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__entered_by_id
+msgid "Entered By"
+msgstr "ያስገባው"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__suggested_outcome__fail
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__suggested_outcome__fail
+msgid "Fail"
+msgstr "ወድቋል"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_inspection__price_adjust_pct
+msgid "Fixed with the decision; negative lowers the price paid."
+msgstr "ከውሳኔው ጋር የተወሰነ፤ አሉታዊ ከሆነ የሚከፈለውን ዋጋ ይቀንሳል።"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sampling_plan_line__from_kg
+msgid "From (kg)"
+msgstr "ከ (ኪ.ግ)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_deduction_rule__from_value
+msgid "From Value"
+msgstr "ከእሴት"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_inspection__samples_required
+msgid "From the sampling plan for this product and consignment size."
+msgstr "ከዚህ ምርት እና ከጭነት መጠን የናሙና ዕቅድ።"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__grade_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_grade__name
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__grade_id
+msgid "Grade"
+msgstr "ደረጃ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec__grade_ids
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_spec_form_quality
+msgid "Grades"
+msgstr "ደረጃዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_spec_line__weight
+msgid "How much this parameter counts in the quality score."
+msgstr "ይህ መለኪያ በጥራት ነጥብ ውስጥ ምን ያህል ይቆጠራል።"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_sampling_plan__method
+msgid "How to draw the sample: probe points, depth, mixing."
+msgstr "ናሙና እንዴት እንደሚወሰድ፡ የመመርመሪያ ቦታዎች፣ ጥልቀት፣ ማደባለቅ።"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__suggested_outcome__incomplete
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__suggested_outcome__incomplete
+msgid "Incomplete"
+msgstr "ያልተሟላ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__inspection_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_decide_wizard__inspection_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__inspection_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__inspection_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__inspection_id
+msgid "Inspection"
+msgstr "ፍተሻ"
+
+#. module: mos_lab
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_inspection
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__inspections
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_inspections
+msgid "Inspections"
+msgstr "ፍተሻዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__invalid_cause
+msgid "Invalid Cause"
+msgstr "የመሰረዝ ምክንያት"
+
+#. module: mos_lab
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_inspection_form_quality
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_invalidate_wizard
+msgid "Invalidate"
+msgstr "ዋጋ ቢስ አድርግ"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_coa__state__issued
+msgid "Issued"
+msgstr "የተሰጠ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__issued_by_id
+msgid "Issued By"
+msgstr "የሰጠው"
+
+#. module: mos_lab
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab
+msgid "Lab"
+msgstr "ላብራቶሪ"
+
+#. module: mos_lab
+#: model:res.groups,name:mos_lab.group_mos_lab_analyst
+msgid "Lab analyst"
+msgstr "የላብራቶሪ ተንታኝ"
+
+#. module: mos_lab
+#: model:res.groups,name:mos_lab.group_mos_lab_manager
+msgid "Lab manager"
+msgstr "የላብራቶሪ ሥራ አስኪያጅ"
+
+#. module: mos_lab
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_report
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_report
+msgid "Lab quality"
+msgstr "የላብራቶሪ ጥራት"
+
+#. module: mos_lab
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_config
+msgid "Lab set-up"
+msgstr "የላብራቶሪ ዝግጅት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__max_value
+msgid "Max Value"
+msgstr "ከፍተኛ እሴት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__min_value
+msgid "Min Value"
+msgstr "ዝቅተኛ እሴት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_grade__min_score
+msgid "Minimum score"
+msgstr "ዝቅተኛ ነጥብ"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_deduction_rule__price_adjust_pct
+msgid "Negative lowers the price paid."
+msgstr "አሉታዊ የሚከፈለውን ዋጋ ይቀንሳል።"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__net_weight
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__net_weight
+msgid "Net weight (kg)"
+msgstr "የተጣራ ክብደት (ኪ.ግ)"
+
+#. module: mos_lab
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_spec_form
+msgid "New version"
+msgstr "አዲስ ስሪት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_decide_wizard__note
+msgid "Note"
+msgstr "ማስታወሻ"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__state__open
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__state__open
+msgid "Open"
+msgstr "ክፍት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_deduction_rule__line_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__line_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__name
+msgid "Parameter"
+msgstr "መለኪያ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec__line_ids
+msgid "Parameters"
+msgstr "መለኪያዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__suggested_outcome__pass
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__suggested_outcome__pass
+msgid "Pass"
+msgstr "አልፏል"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__passed
+msgid "Passed"
+msgstr "ያለፈ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__payable_qty
+msgid "Payable quantity (kg)"
+msgstr "የሚከፈል መጠን (ኪ.ግ)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sampling_plan_line__plan_id
+msgid "Plan"
+msgstr "አቅድ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_deduction_rule__price_adjust_pct
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__price_adjust_pct
+msgid "Price adjustment (%)"
+msgstr "የዋጋ ማስተካከያ (%)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__score
+msgid "Quality score"
+msgstr "የጥራት ነጥብ"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_decide_wizard__decision__reject
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__decision__reject
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__decision__reject
+msgid "Reject"
+msgstr "ውድቅ አድርግ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__rejected_kg
+msgid "Rejected (kg)"
+msgstr "ውድቅ የተደረገ (ኪ.ግ)"
+
+#. module: mos_lab
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_decide_wizard
+msgid ""
+"Required when accepting a failed result or going below the rule-based "
+"deduction"
+msgstr "ያልተሳካ ውጤትን ሲቀበሉ ወይም ከደንብ-ተኮር ተቀናሽ በታች ሲሄዱ ያስፈልጋል"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_invalidate_wizard__result_id
+msgid "Result"
+msgstr "ውጤት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__result_ids
+msgid "Results"
+msgstr "ውጤቶች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__results_text
+msgid "Results Text"
+msgstr "የውጤቶች ጽሑፍ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__retain_until
+msgid "Retain Until"
+msgstr "እስከ ድረስ አቆይ"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_sample__state__retained
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_sample_search
+msgid "Retained"
+msgstr "የተቆየ"
+
+#. module: mos_lab
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_sample
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__sample_ids
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_samples
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_inspection_form_quality
+msgid "Retention samples"
+msgstr "የማቆያ ናሙናዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_spec__state__retired
+msgid "Retired"
+msgstr "ጡረታ የወጣ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__revoke_reason
+msgid "Revoke Reason"
+msgstr "የመሻር ምክንያት"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_coa__state__revoked
+msgid "Revoked"
+msgstr "የተሻረ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__revoked_by_id
+msgid "Revoked By"
+msgstr "የሻረው"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec__rule_count
+msgid "Rule Count"
+msgstr "የደንቦች ብዛት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_decide_wizard__auto_deduction_pct
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__auto_deduction_pct
+msgid "Rule-based deduction (%)"
+msgstr "በደንብ ላይ የተመሠረተ ተቀናሽ (%)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__auto_price_adjust_pct
+msgid "Rule-based price adjustment (%)"
+msgstr "በደንብ ላይ የተመሠረተ የዋጋ ማስተካከያ (%)"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sampling_plan_line__samples
+msgid "Samples"
+msgstr "ናሙናዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__samples_required
+msgid "Samples Required"
+msgstr "የሚያስፈልጉ ናሙናዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__samples_taken
+msgid "Samples Taken"
+msgstr "የተወሰዱ ናሙናዎች"
+
+#. module: mos_lab
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_plan
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_plans
+msgid "Sampling plans"
+msgstr "የናሙና ዕቅዶች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__score
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__score
+msgid "Score"
+msgstr "ነጥብ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__sequence
+msgid "Sequence"
+msgstr "ቅደም ተከተል"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__location
+msgid "Shelf / location"
+msgstr "መደርደሪያ / ቦታ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_deduction_rule__spec_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_grade__spec_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__spec_id
+msgid "Spec"
+msgstr "መግለጫ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__spec_id
+msgid "Specification (frozen)"
+msgstr "ዝርዝር መግለጫ (የታሰረ)"
+
+#. module: mos_lab
+#: model:ir.actions.act_window,name:mos_lab.action_mos_lab_spec
+#: model:ir.ui.menu,name:mos_lab.menu_mos_lab_specs
+msgid "Specifications"
+msgstr "ዝርዝር መግለጫዎች"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_sample__stored_on
+msgid "Stored On"
+msgstr "የተቀመጠበት ቀን"
+
+#. module: mos_lab
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_inspection_form
+msgid "Submit results"
+msgstr "ውጤቶችን አስገባ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_decide_wizard__suggested_outcome
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__suggested_outcome
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_report__suggested_outcome
+msgid "Suggested Outcome"
+msgstr "የተጠቆመ ውጤት"
+
+#. module: mos_lab
+#: model:ir.model.fields,help:mos_lab.field_mos_lab_deduction_rule__weight_deduction_pct
+msgid "Taken off the payable quantity."
+msgstr "ከሚከፈለው መጠን የተቀነሰ።"
+
+#. module: mos_lab
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_inspection__state__tested
+#: model:ir.model.fields.selection,name:mos_lab.selection__mos_lab_report__state__tested
+msgid "Tested"
+msgstr "የተፈተነ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__tested_by_id
+msgid "Tested By"
+msgstr "የፈተነው"
+
+#. module: mos_lab
+#: model:ir.model.constraint,message:mos_lab.constraint_mos_lab_sampling_plan_product_uniq
+msgid "This product already has a sampling plan."
+msgstr "ይህ ምርት የናሙና ዕቅድ አስቀድሞ አለው።"
+
+#. module: mos_lab
+#: model:ir.model.constraint,message:mos_lab.constraint_mos_lab_spec_version_uniq
+msgid "This specification version already exists."
+msgstr "ይህ የዝርዝር መግለጫ ስሪት አስቀድሞ አለ።"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_deduction_rule__to_value
+msgid "To Value"
+msgstr "ወደ እሴት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__unit
+msgid "Unit"
+msgstr "አሃድ"
+
+#. module: mos_lab
+#: code:addons/mos_lab/models/lab_quality.py:0
+#: model_terms:ir.ui.view,arch_db:mos_lab.view_mos_lab_inspection_form_quality
+msgid "Usage decision"
+msgstr "የአጠቃቀም ውሳኔ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__valid
+msgid "Valid"
+msgstr "ትክክለኛ"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_result__value
+msgid "Value"
+msgstr "እሴት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec__version
+msgid "Version"
+msgstr "ስሪት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_coa__visit_id
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_inspection__visit_id
+msgid "Visit"
+msgstr "ጉብኝት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_spec_line__weight
+msgid "Weight"
+msgstr "ክብደት"
+
+#. module: mos_lab
+#: model:ir.model.fields,field_description:mos_lab.field_mos_lab_deduction_rule__weight_deduction_pct
+msgid "Weight deduction (%)"
+msgstr "የክብደት ተቀናሽ (%)"

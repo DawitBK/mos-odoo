@@ -1,0 +1,605 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_finance_plus
+#: model:ir.model.constraint,message:mos_finance_plus.constraint_mos_journal_doc_doc_once
+msgid "A document is exported once."
+msgstr "ሰነድ አንድ ጊዜ ብቻ ይላካል።"
+
+#. module: mos_finance_plus
+#: model:ir.model.constraint,message:mos_finance_plus.constraint_mos_supplier_invoice_self_bill_once
+msgid "A receipt is self-billed once."
+msgstr "ደረሰኝ አንድ ጊዜ ብቻ በራስ-ሂሳብ ይወጣል።"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__account_id
+msgid "Account"
+msgstr "ሂሳብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__account_code
+msgid "Account Code"
+msgstr "የሂሳብ ኮድ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_account_map__code
+msgid "Account code"
+msgstr "የሂሳብ ኮድ"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_account_map
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_account_map
+msgid "Account mapping"
+msgstr "የሂሳብ ካርታ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_account_map__name
+msgid "Account name"
+msgstr "የሂሳብ ስም"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__ap_control
+msgid "Accounts payable control"
+msgstr "የሚከፈሉ ሂሳቦች መቆጣጠሪያ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__ar_control
+msgid "Accounts receivable control"
+msgstr "የሚሰበሰቡ ሂሳቦች መቆጣጠሪያ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__message_needaction
+msgid "Action Needed"
+msgstr "እርምጃ ያስፈልጋል"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run_line__amount
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement_line__amount
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Amount"
+msgstr "መጠን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni__as_of
+msgid "As Of"
+msgstr "እስከ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement_line__balance
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Balance"
+msgstr "ቀሪ ሂሳብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__bank
+msgid "Bank (transfers, cheques, wallets)"
+msgstr "ባንክ (ዝውውር፣ ቼክ፣ ቦርሳ)"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__method__transfer
+msgid "Bank transfer"
+msgstr "የባንክ ዝውውር"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__base_amount
+msgid "Base Amount"
+msgstr "መነሻ መጠን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_doc__batch_id
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__batch_id
+msgid "Batch"
+msgstr "ባች"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_journal_export_form
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_payment_run_form
+msgid "Cancel"
+msgstr "ሰርዝ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__state__cancelled
+msgid "Cancelled"
+msgstr "የተሰረዘ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__method__cash
+msgid "Cash"
+msgstr "ጥሬ ገንዘብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__cash
+msgid "Cash box"
+msgstr "የገንዘብ ሳጥን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__certificate
+msgid "Certificate"
+msgstr "የምስክር ወረቀት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__method__cheque
+msgid "Cheque"
+msgstr "ቼክ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__cheque_book_id
+msgid "Cheque Book"
+msgstr "የቼክ ደብተር"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement__closing
+msgid "Closing"
+msgstr "መዝጊያ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Closing balance"
+msgstr "የመዝጊያ ቀሪ ሂሳብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__credit
+msgid "Credit"
+msgstr "ክሬዲት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__date
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__date
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement_line__date
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__date
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__date
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Date"
+msgstr "ቀን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__date_from
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_export__date_from
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement__date_from
+msgid "Date From"
+msgstr "ቀን ከ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__date_to
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_export__date_to
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement__date_to
+msgid "Date To"
+msgstr "ቀን እስከ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__debit
+msgid "Debit"
+msgstr "ዴቢት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__description
+msgid "Description"
+msgstr "መግለጫ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__doc_ids
+msgid "Doc"
+msgstr "ሰነድ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__document
+msgid "Document"
+msgstr "ሰነድ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__state__draft
+msgid "Draft"
+msgstr "ረቂቅ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__entries
+msgid "Entries"
+msgstr "ግቤቶች"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Entry"
+msgstr "ግቤት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__state__executed
+msgid "Executed"
+msgstr "የተፈጸመ"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_journal_export
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_journal_export
+msgid "Export journals"
+msgstr "መዝገቦችን ላክ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_journal_export_form
+msgid "Export the journals"
+msgstr "መዝገቦችን ላክ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_journal_batch__state__exported
+msgid "Exported"
+msgstr "የተላከ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__exported_by_id
+msgid "Exported By"
+msgstr "የላከው"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__file
+msgid "File"
+msgstr "ፋይል"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__filename
+msgid "Filename"
+msgstr "የፋይል ስም"
+
+#. module: mos_finance_plus
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_finance
+msgid "Finance"
+msgstr "ፋይናንስ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,help:mos_finance_plus.field_res_partner__mos_self_billing
+#: model:ir.model.fields,help:mos_finance_plus.field_res_users__mos_self_billing
+msgid ""
+"For a farmer or trader who issues no invoice: the mill raises the purchase "
+"voucher from the receipt (FR-AP-006)."
+msgstr "ደረሰኝ ለማይሰጥ ገበሬ ወይም ነጋዴ፡ ወፍጮው የግዢ ቫውቸሩን ከደረሰኙ ያዘጋጃል (FR-AP-006)።"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_grni
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_grni
+msgid "Goods received not invoiced"
+msgstr "የተቀበሉ ያልተጠየቁ ዕቃዎች"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__grni_id
+msgid "Grni"
+msgstr "ያልተጠየቁ ደረሰኞች (GRNI)"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run_line__include
+msgid "Include"
+msgstr "አካትት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__input_vat
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_vat_register_search
+msgid "Input VAT"
+msgstr "የግብዓት ተጨማሪ እሴት ታክስ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_vat_register__kind__input
+msgid "Input VAT (purchases)"
+msgstr "የግብዓት ተ.እ.ታ (ግዢዎች)"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__inventory
+msgid "Inventory or purchases (debit on a supplier invoice)"
+msgstr "ክምችት ወይም ግዢዎች (በአቅራቢ ደረሰኝ ዴቢት)"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__invoiced_qty
+msgid "Invoiced Qty"
+msgstr "በደረሰኝ የተጠየቀ መጠን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__invoiced_value
+msgid "Invoiced Value"
+msgstr "በደረሰኝ የተጠየቀ ዋጋ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni__invoiced_total
+msgid "Invoiced value"
+msgstr "በደረሰኝ የተጠየቀ ዋጋ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni__unreceived_total
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__unreceived_value
+msgid "Invoiced, not received"
+msgstr "የተጠየቀ ያልተቀበሉት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_wht_register__state__issued
+msgid "Issued"
+msgstr "የተሰጠ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__journal
+msgid "Journal"
+msgstr "ጆርናል"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_journal_batch
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_journal_batches
+msgid "Journal exports"
+msgstr "የጆርናል ወደ ውጭ መላኮች"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_account_map__key
+msgid "Key"
+msgstr "ቁልፍ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__kind
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_vat_register_search
+msgid "Kind"
+msgstr "ዓይነት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement_line__label
+msgid "Label"
+msgstr "መለያ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni__line_ids
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__line_ids
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__line_ids
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement__line_ids
+msgid "Line"
+msgstr "መስመር"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__method
+msgid "Method"
+msgstr "ዘዴ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_payment_run__method__wallet
+msgid "Mobile money"
+msgstr "የሞባይል ገንዘብ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_vat_register_search
+msgid "Month"
+msgstr "ወር"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__net_amount
+msgid "Net Amount"
+msgstr "የተጣራ መጠን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement__opening
+msgid "Opening"
+msgstr "መክፈቻ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Opening balance"
+msgstr "የመክፈቻ ቀሪ ሂሳብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__order_id
+msgid "Order"
+msgstr "ትእዛዝ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__output_vat
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_vat_register_search
+msgid "Output VAT"
+msgstr "የውጤት ተጨማሪ እሴት ታክስ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_vat_register__kind__output
+msgid "Output VAT (sales)"
+msgstr "የውጤት ተ.እ.ታ (ሽያጮች)"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__partner
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__partner_id
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__partner_id
+msgid "Partner"
+msgstr "አጋር"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_payment_run_form
+msgid "Pay the selected"
+msgstr "የተመረጡትን ክፈል"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run_line__payment_id
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__payment
+msgid "Payment"
+msgstr "ክፍያ"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_payment_run
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_payment_runs
+msgid "Payment runs"
+msgstr "የክፍያ ዙሮች"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__product_id
+msgid "Product"
+msgstr "ምርት"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_payment_run_form
+msgid "Propose what is due"
+msgstr "የደረሰውን ጠቁም"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__received_qty
+msgid "Received Qty"
+msgstr "የተቀበለ መጠን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__received_value
+msgid "Received Value"
+msgstr "የተቀበለ ዋጋ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni__received_total
+msgid "Received value"
+msgstr "የተቀበለ ዋጋ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni__grni_total
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__grni_value
+msgid "Received, not invoiced"
+msgstr "የተቀበለ፣ ያልተጠየቀ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_grni_form
+msgid "Reconcile"
+msgstr "አስታርቅ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_payment_run_form
+msgid "Record a payment for every selected voucher?"
+msgstr "ለእያንዳንዱ የተመረጠ ቫውቸር ክፍያ ይመዝገብ?"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_line__reference
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__reference
+msgid "Reference"
+msgstr "ማጣቀሻ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run_line__run_id
+msgid "Run"
+msgstr "ሥራ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__sales
+msgid "Sales"
+msgstr "ሽያጭ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_gate_visit__self_bill_id
+msgid "Self Bill"
+msgstr "በራስ-ሂሳብ ያወጣ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_invoice__self_billed
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__self_billed
+msgid "Self Billed"
+msgstr "በራስ-ሂሳብ የወጣ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_res_partner__mos_self_billing
+#: model:ir.model.fields,field_description:mos_finance_plus.field_res_users__mos_self_billing
+msgid "Self-billing supplier"
+msgstr "በራስ-ሂሳብ የሚወጣለት አቅራቢ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_supplier_statement_form
+msgid "Show the statement"
+msgstr "መግለጫውን አሳይ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_invoice__source_visit_id
+msgid "Source Visit"
+msgstr "ምንጭ ጉብኝት"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__state
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__state
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__state
+msgid "State"
+msgstr "ሁኔታ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement_line__statement_id
+msgid "Statement"
+msgstr "መግለጫ"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "Statement of what we owe"
+msgstr "የምንከፍለውን የሚያሳይ መግለጫ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_grni_line__supplier_id
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run_line__supplier_id
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_supplier_statement__supplier_id
+msgid "Supplier"
+msgstr "አቅራቢ"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_supplier_statement
+#: model:ir.actions.report,name:mos_finance_plus.action_report_supplier_statement
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_supplier_statement
+msgid "Supplier statement"
+msgstr "የአቅራቢ መግለጫ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__tin
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__tin
+msgid "TIN"
+msgstr "TIN"
+
+#. module: mos_finance_plus
+#: model:ir.model.constraint,message:mos_finance_plus.constraint_mos_account_map_key_uniq
+msgid "This posting kind is mapped once."
+msgstr "ይህ የመመዝገቢያ ዓይነት አንድ ጊዜ ብቻ ይመደባል።"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run__total
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_grni_form
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_journal_batch_form
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_vat_register_list
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.view_mos_wht_register_list
+msgid "Total"
+msgstr "ድምር"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_journal_batch__total_debit
+msgid "Total Debit"
+msgstr "ጠቅላላ ዴቢት"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_vat_register
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_vat_register
+msgid "VAT register"
+msgstr "የተ.እ.ታ መዝገብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_vat_register__vat_amount
+msgid "Vat Amount"
+msgstr "የተ.እ.ታ መጠን"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_wht_register__state__void
+msgid "Void"
+msgstr "ዋጋ ቢስ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_payment_run_line__voucher_id
+msgid "Voucher"
+msgstr "ቫውቸር"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields,field_description:mos_finance_plus.field_mos_wht_register__wht_amount
+msgid "Withheld"
+msgstr "የተያዘ (ተቀናሽ የተደረገ)"
+
+#. module: mos_finance_plus
+#: model:ir.actions.act_window,name:mos_finance_plus.action_mos_wht_register
+#: model:ir.ui.menu,name:mos_finance_plus.menu_mos_wht_register
+msgid "Withholding register"
+msgstr "የተቀናሽ ግብር መዝገብ"
+
+#. module: mos_finance_plus
+#: model:ir.model.fields.selection,name:mos_finance_plus.selection__mos_account_map__key__wht_payable
+msgid "Withholding tax payable"
+msgstr "የሚከፈል ተቀናሽ ግብር"
+
+#. module: mos_finance_plus
+#: model_terms:ir.ui.view,arch_db:mos_finance_plus.report_supplier_statement
+msgid "to"
+msgstr "ወደ"

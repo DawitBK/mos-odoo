@@ -1,0 +1,144 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_weigh_step__at
+msgid "At"
+msgstr "በ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_weigh_step__by_id
+msgid "By"
+msgstr "በ"
+
+#. module: mos_gate_multi
+#: model_terms:ir.ui.view,arch_db:mos_gate_multi.view_mos_gate_visit_form_multi
+msgid "Confirm their receipts"
+msgstr "ደረሰኞቻቸውን አረጋግጥ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields.selection,name:mos_gate_multi.selection__mos_gate_visit_share__grn_state__confirmed
+msgid "Confirmed"
+msgstr "የተረጋገጠ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__grn_picking_id
+msgid "Grn Picking"
+msgstr "የደረሰኝ ዝውውር"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__grn_state
+msgid "Grn State"
+msgstr "የደረሰኝ ሁኔታ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit__step_ids
+msgid "Intermediate weighings"
+msgstr "መካከለኛ መመዘኖች"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields.selection,name:mos_gate_multi.selection__mos_gate_visit_share__grn_state__none
+msgid "Not prepared"
+msgstr "ያልተዘጋጀ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_weigh_step__note
+msgid "Note"
+msgstr "ማስታወሻ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit__shares_kg
+msgid "On other documents (kg)"
+msgstr "በሌሎች ሰነዶች ላይ (ኪ.ግ)"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit__share_ids
+#: model_terms:ir.ui.view,arch_db:mos_gate_multi.view_mos_gate_visit_form_multi
+msgid "Other documents on this truck"
+msgstr "በዚህ መኪና ላይ ያሉ ሌሎች ሰነዶች"
+
+#. module: mos_gate_multi
+#: model_terms:ir.ui.view,arch_db:mos_gate_multi.view_mos_gate_visit_form_multi
+msgid "Prepare their receipts"
+msgstr "መቀበያዎቻቸውን አዘጋጅ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields.selection,name:mos_gate_multi.selection__mos_gate_visit_share__grn_state__prepared
+msgid "Prepared"
+msgstr "የተዘጋጀ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__product_id
+msgid "Product"
+msgstr "ምርት"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__purchase_id
+msgid "Purchase"
+msgstr "ግዢ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__sequence
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_weigh_step__sequence
+msgid "Sequence"
+msgstr "ቅደም ተከተል"
+
+#. module: mos_gate_multi
+#: model:ir.model.constraint,message:mos_gate_multi.constraint_mos_gate_visit_share_doc_once
+msgid "This order and item are already on the visit."
+msgstr "ይህ ትእዛዝ እና ዕቃ አስቀድሞ በጉብኝቱ ላይ አለ።"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit__primary_kg
+msgid "This visit's own order (kg)"
+msgstr "የዚህ ጉብኝት የራሱ ትእዛዝ (ኪ.ግ)"
+
+#. module: mos_gate_multi
+#: model_terms:ir.ui.view,arch_db:mos_gate_multi.view_mos_gate_visit_form_multi
+msgid "Total"
+msgstr "ድምር"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__partner_id
+msgid "Vendor"
+msgstr "አቅራቢ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__visit_id
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_weigh_step__visit_id
+msgid "Visit"
+msgstr "ጉብኝት"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_visit_share__allocated_kg
+msgid "Weight (kg)"
+msgstr "ክብደት (ኪ.ግ)"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,field_description:mos_gate_multi.field_mos_gate_weigh_step__weight_kg
+msgid "Weight Kg"
+msgstr "ክብደት ኪ.ግ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,help:mos_gate_multi.field_mos_gate_weigh_step__note
+msgid "Where the truck stood or what was unloaded."
+msgstr "መኪናው የቆመበት ወይም የተራገፈው ነገር።"
+
+#. module: mos_gate_multi
+#: model_terms:ir.ui.view,arch_db:mos_gate_multi.view_mos_gate_visit_form_multi
+msgid "Work out the weights from the weighings"
+msgstr "ክብደቶቹን ከመመዘኖቹ አስላ"
+
+#. module: mos_gate_multi
+#: model:ir.model.fields,help:mos_gate_multi.field_mos_gate_visit_share__partner_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr "አቅራቢን በስሙ፣ በTIN፣ በኢሜይል ወይም በውስጣዊ ማጣቀሻ ማግኘት ይችላሉ።"

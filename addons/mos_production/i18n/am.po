@@ -1,0 +1,186 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_production
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_list
+msgid "Average"
+msgstr "አማካይ"
+
+#. module: mos_production
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_output__kind__bran
+msgid "Bran"
+msgstr "ፉርሽካ"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__bran_kg
+msgid "Bran and offal (kg)"
+msgstr "ፉርሽካ እና ተረፈ ምርት (ኪ.ግ)"
+
+#. module: mos_production
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_form
+msgid "Complete run"
+msgstr "ሥራውን አጠናቅ"
+
+#. module: mos_production
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_form
+msgid ""
+"Complete the run? Wheat leaves the silos and the flour is booked into stock."
+" This cannot be undone."
+msgstr "ሥራውን ማጠናቀቅ ይፈልጋሉ? ስንዴው ከሲሎዎች ይወጣል፣ ዱቄቱም በክምችት ውስጥ ይመዘገባል። ይህ ሊመለስ አይችልም።"
+
+#. module: mos_production
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_run__state__done
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_search
+msgid "Completed"
+msgstr "የተጠናቀቀ"
+
+#. module: mos_production
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_run__shift__day
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__shift__day
+msgid "Day"
+msgstr "ቀን"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__extraction_pct
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__actual_extraction
+msgid "Extraction (%)"
+msgstr "ምርት ከስንዴ (%)"
+
+#. module: mos_production
+#: model:ir.actions.act_window,name:mos_production.action_mos_extraction_trend
+msgid "Extraction rate trend"
+msgstr "የምርት መጠን አዝማሚያ"
+
+#. module: mos_production
+#: model:ir.ui.menu,name:mos_production.menu_mos_extraction_trend
+msgid "Extraction trend"
+msgstr "የምርት አዝማሚያ"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__product_id
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_output__kind__flour
+msgid "Flour"
+msgstr "ዱቄት"
+
+#. module: mos_production
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_form
+msgid "Flour and by-products"
+msgstr "ዱቄት እና ተረፈ ምርቶች"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__flour_kg
+msgid "Flour out (kg)"
+msgstr "የወጣ ዱቄት (ኪ.ግ)"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__loss_kg
+msgid "Loss (kg)"
+msgstr "ኪሳራ (ኪ.ግ)"
+
+#. module: mos_production
+#: model:ir.actions.act_window,name:mos_production.action_mos_milling_run
+#: model:ir.ui.menu,name:mos_production.menu_mos_milling_runs
+msgid "Milling runs"
+msgstr "የወፍጮ ሥራዎች"
+
+#. module: mos_production
+#: model:ir.model.fields,help:mos_production.field_mos_milling_run__loss_kg
+msgid "Moisture, dust and weighing difference."
+msgstr "እርጥበት፣ አቧራ እና የክብደት ልዩነት።"
+
+#. module: mos_production
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_search
+msgid "Month"
+msgstr "ወር"
+
+#. module: mos_production
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_run__shift__night
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__shift__night
+msgid "Night"
+msgstr "ሌሊት"
+
+#. module: mos_production
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_output__kind__offal
+msgid "Offal"
+msgstr "ተረፈ ምርት"
+
+#. module: mos_production
+#: model:ir.model.fields.selection,name:mos_production.selection__mos_milling_run__state__draft
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__state__planned
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_search
+msgid "Planned"
+msgstr "የታቀደ"
+
+#. module: mos_production
+#: model:ir.ui.menu,name:mos_production.menu_mos_production
+msgid "Production"
+msgstr "ምርት"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__output_ids
+msgid "Products"
+msgstr "ምርቶች"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_input__qty_kg
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_output__qty_kg
+msgid "Quantity (kg)"
+msgstr "መጠን (ኪ.ግ)"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__run_date
+msgid "Run Date"
+msgstr "የሥራ ቀን"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__shift
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__shift
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_search
+msgid "Shift"
+msgstr "ፈረቃ"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_input__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_strapping__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order_line__silo_id
+msgid "Silo"
+msgstr "ሲሎ"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_input__product_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe_line__wheat_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order_line__wheat_id
+msgid "Wheat"
+msgstr "ስንዴ"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__input_ids
+msgid "Wheat drawn"
+msgstr "የተወሰደ ስንዴ"
+
+#. module: mos_production
+#: model_terms:ir.ui.view,arch_db:mos_production.view_mos_milling_run_form
+msgid "Wheat drawn from silos"
+msgstr "ከሲሎ የተወሰደ ስንዴ"
+
+#. module: mos_production
+#: model:ir.model.fields,field_description:mos_production.field_mos_milling_run__wheat_kg
+msgid "Wheat in (kg)"
+msgstr "የገባ ስንዴ (ኪ.ግ)"
+
+#. module: mos_production
+#: model:ir.actions.act_window,name:mos_production.action_mos_milling_volume
+#: model:ir.ui.menu,name:mos_production.menu_mos_milling_volume
+msgid "Wheat milled and flour made"
+msgstr "የተፈጨ ስንዴ እና የተመረተ ዱቄት"

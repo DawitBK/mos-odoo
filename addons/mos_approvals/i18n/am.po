@@ -1,0 +1,527 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__message_needaction
+msgid "Action Needed"
+msgstr "እርምጃ ያስፈልጋል"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__active
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__active
+msgid "Active"
+msgstr "ንቁ"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_request
+#: model:ir.ui.menu,name:mos_approvals.menu_mos_approval_requests
+msgid "All approvals"
+msgstr "ሁሉም ማጽደቆች"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__allow_bulk
+msgid "Allow Bulk"
+msgstr "በጅምላ ፍቀድ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__amount
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__amount
+msgid "Amount"
+msgstr "መጠን"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__amount_from
+msgid "Amount From"
+msgstr "መጠን ከ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__amount_to
+msgid "Amount To"
+msgstr "መጠን እስከ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approvable__mos_approval_request_id
+#: model:ir.model.fields,field_description:mos_approvals.field_purchase_order__mos_approval_request_id
+msgid "Approval"
+msgstr "ማጽደቅ"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_rule
+#: model:ir.ui.menu,name:mos_approvals.menu_mos_approval_rules
+msgid "Approval matrix"
+msgstr "የማጽደቅ ሰንጠረዥ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approvable__mos_approval_state
+#: model:ir.model.fields,field_description:mos_approvals.field_purchase_order__mos_approval_state
+msgid "Approval status"
+msgstr "የማጽደቅ ሁኔታ"
+
+#. module: mos_approvals
+#: model:ir.ui.menu,name:mos_approvals.menu_mos_approvals
+msgid "Approvals"
+msgstr "ማጽደቆች"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_inbox
+msgid "Approvals inbox"
+msgstr "የማጽደቅ ገቢ ሳጥን"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_decide_approve
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_decide__outcome__approved
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_step_form
+msgid "Approve"
+msgstr "አጽድቅ"
+
+#. module: mos_approvals
+#: model:ir.actions.server,name:mos_approvals.action_mos_approval_bulk
+msgid "Approve selected"
+msgstr "የተመረጡትን አጽድቅ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approvable__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_request__state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_step__state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_concession__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_credit_note__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_payment_voucher__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_po_amendment__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_purchase_request__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_stock_adjustment__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_supplier_invoice__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__purchase_order__mos_approval_state__approved
+#: model:ir.model.fields.selection,name:mos_approvals.selection__sale_order__mos_approval_state__approved
+msgid "Approved"
+msgstr "የጸደቀ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__group_id
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__group_id
+msgid "Approving role"
+msgstr "የሚያጸድቅ ሚና"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__allow_bulk
+msgid "Bulk approval allowed"
+msgstr "የጅምላ ማጽደቅ ይፈቀዳል"
+
+#. module: mos_approvals
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_decide_form
+msgid "Cancel"
+msgstr "ሰርዝ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__closed_at
+msgid "Closed At"
+msgstr "የተዘጋበት ጊዜ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_decide__comment
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__comment
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_step_form
+msgid "Comment"
+msgstr "አስተያየት"
+
+#. module: mos_approvals
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_decide_form
+msgid "Confirm"
+msgstr "አረጋግጥ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_decide__create_uid
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__create_uid
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__create_uid
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__create_uid
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__create_uid
+msgid "Created by"
+msgstr "የፈጠረው"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_decide__create_date
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__create_date
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__create_date
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__create_date
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__create_date
+msgid "Created on"
+msgstr "የተፈጠረበት ቀን"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__current_step_id
+msgid "Current Step"
+msgstr "አሁን ያለ ደረጃ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__date_from
+msgid "Date From"
+msgstr "ቀን ከ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__date_to
+msgid "Date To"
+msgstr "ቀን እስከ"
+
+#. module: mos_approvals
+#: model:ir.model,name:mos_approvals.model_mos_approval_decide
+msgid "Decide an approval step"
+msgstr "የማጽደቅ ደረጃ ወስን"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__decided_at
+msgid "Decided At"
+msgstr "የተወሰነበት ጊዜ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__decided_by_id
+msgid "Decided By"
+msgstr "የወሰነው"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__delegate_id
+msgid "Delegate"
+msgstr "ወክል"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_delegation
+#: model:ir.ui.menu,name:mos_approvals.menu_mos_approval_delegation
+msgid "Delegations"
+msgstr "ውክልናዎች"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__delegator_id
+msgid "Delegator"
+msgstr "ወካይ"
+
+#. module: mos_approvals
+#: model:res.groups,name:mos_approvals.group_mos_dept_manager
+msgid "Department manager"
+msgstr "የክፍል ኃላፊ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__doc_name
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__doc_name
+msgid "Doc Name"
+msgstr "የሰነድ ስም"
+
+#. module: mos_approvals
+#: model:ir.model,name:mos_approvals.model_mos_approvable
+msgid "Document that can need approval"
+msgstr "ማጽደቅ ሊያስፈልገው የሚችል ሰነድ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__due_at
+msgid "Due At"
+msgstr "የሚደርስበት ጊዜ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__escalated
+msgid "Escalated"
+msgstr "ወደ ላይ የተላከ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__fallback_group_id
+msgid "Escalates to"
+msgstr "የሚሸጋገረው ወደ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__fallback_group_id
+msgid "Fallback Group"
+msgstr "ተለዋጭ ቡድን"
+
+#. module: mos_approvals
+#: model:res.groups,name:mos_approvals.group_mos_finance_manager
+msgid "Finance manager"
+msgstr "የፋይናንስ ሥራ አስኪያጅ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,help:mos_approvals.field_mos_approval_rule__amount_from
+msgid "From this amount, inclusive."
+msgstr "ከዚህ መጠን ጀምሮ፣ ጨምሮ።"
+
+#. module: mos_approvals
+#: model:res.groups,name:mos_approvals.group_mos_general_manager
+msgid "General manager"
+msgstr "ዋና ሥራ አስኪያጅ"
+
+#. module: mos_approvals
+#: model:ir.ui.menu,name:mos_approvals.menu_mos_approval_inbox
+msgid "Inbox"
+msgstr "ገቢ ሳጥን"
+
+#. module: mos_approvals
+#: model:ir.model.fields,help:mos_approvals.field_mos_approval_rule__site_id
+msgid "Leave empty for every site."
+msgstr "ለሁሉም ቦታዎች ባዶ ይተዉ።"
+
+#. module: mos_approvals
+#: model:ir.actions.server,name:mos_approvals.cron_escalate_approvals_ir_actions_server
+msgid "MOS: escalate overdue approvals"
+msgstr "MOS፡ የዘገዩ ማጽደቆችን ወደ ላይ አሸጋግር"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_delegation__max_amount
+msgid "Max Amount"
+msgstr "ከፍተኛ መጠን"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__eligible_user_ids
+msgid "May decide"
+msgstr "ሊወስን ይችላል"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__name
+msgid "Name"
+msgstr "ስም"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_step__state__pending
+msgid "Needs a decision"
+msgstr "ውሳኔ ያስፈልገዋል"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_step__state__skipped
+msgid "Not needed"
+msgstr "አያስፈልግም"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approvable__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_concession__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_credit_note__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_payment_voucher__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_po_amendment__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_purchase_request__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_stock_adjustment__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_supplier_invoice__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__purchase_order__mos_approval_state__none
+#: model:ir.model.fields.selection,name:mos_approvals.selection__sale_order__mos_approval_state__none
+msgid "Not submitted"
+msgstr "ያልገባ"
+
+#. module: mos_approvals
+#: model_terms:ir.actions.act_window,help:mos_approvals.action_mos_approval_inbox
+msgid "Nothing is waiting for you."
+msgstr "ለእርስዎ የሚጠብቅ ምንም የለም።"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__on_behalf_of_id
+msgid "On behalf of"
+msgstr "ወክሎ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_decide__outcome
+msgid "Outcome"
+msgstr "ውጤት"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_request__state__pending
+msgid "Pending"
+msgstr "በመጠበቅ ላይ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_delegation__doc_type__purchase_order
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_rule__doc_type__purchase_order
+msgid "Purchase order"
+msgstr "የግዢ ትእዛዝ"
+
+#. module: mos_approvals
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_request_form
+msgid "Recall"
+msgstr "መልሶ ጥራ"
+
+#. module: mos_approvals
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_purchase_order_form_mos_approval
+msgid "Recall approval request"
+msgstr "የማጽደቅ ጥያቄን መልሶ ጥራ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approvable__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_request__state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_concession__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_credit_note__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_payment_voucher__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_po_amendment__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_purchase_request__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_stock_adjustment__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_supplier_invoice__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__purchase_order__mos_approval_state__cancelled
+#: model:ir.model.fields.selection,name:mos_approvals.selection__sale_order__mos_approval_state__cancelled
+msgid "Recalled"
+msgstr "መልሶ የተጠራ"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_decide_reject
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_decide__outcome__rejected
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_step_form
+msgid "Reject"
+msgstr "ውድቅ አድርግ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approvable__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_request__state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_step__state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_concession__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_credit_note__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_payment_voucher__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_po_amendment__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_purchase_request__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_stock_adjustment__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_supplier_invoice__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__purchase_order__mos_approval_state__rejected
+#: model:ir.model.fields.selection,name:mos_approvals.selection__sale_order__mos_approval_state__rejected
+msgid "Rejected"
+msgstr "ውድቅ የተደረገ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__request_id
+msgid "Request"
+msgstr "ጥያቄ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__requester_id
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__requester_id
+msgid "Requester"
+msgstr "ጠያቂ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,help:mos_approvals.field_mos_approval_decide__comment
+msgid "Required to reject or send back."
+msgstr "ውድቅ ለማድረግ ወይም መልሶ ለመላክ ያስፈልጋል።"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__sla_hours
+msgid "Respond within (hours)"
+msgstr "በ (ሰዓታት) ውስጥ ምላሽ ስጥ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__activity_user_id
+msgid "Responsible User"
+msgstr "ኃላፊ ተጠቃሚ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_step__state__returned
+msgid "Returned"
+msgstr "የተመለሰ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approvable__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_request__state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_concession__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_credit_note__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_payment_voucher__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_po_amendment__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_purchase_request__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_stock_adjustment__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_supplier_invoice__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__purchase_order__mos_approval_state__returned
+#: model:ir.model.fields.selection,name:mos_approvals.selection__sale_order__mos_approval_state__returned
+msgid "Returned for changes"
+msgstr "ለለውጥ የተመለሰ"
+
+#. module: mos_approvals
+#: model:ir.actions.act_window,name:mos_approvals.action_mos_approval_decide_return
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_step_form
+msgid "Send back"
+msgstr "መልሰህ ላክ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_decide__outcome__returned
+msgid "Send back for changes"
+msgstr "ለለውጥ መልሰህ ላክ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__sequence
+msgid "Sequence"
+msgstr "ቅደም ተከተል"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__site_id
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__site_id
+msgid "Site"
+msgstr "ቦታ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__sla_hours
+msgid "Sla Hours"
+msgstr "የምላሽ ሰዓታት"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_rule__sequence
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_request_form
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_step_list
+msgid "Stage"
+msgstr "ደረጃ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,help:mos_approvals.field_mos_approval_rule__sequence
+msgid "Stages run in this order, one after the other."
+msgstr "ደረጃዎች በዚህ ቅደም ተከተል አንዱ ከሌላው በኋላ ይሄዳሉ።"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__state
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__request_state
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_step__state
+msgid "State"
+msgstr "ሁኔታ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_decide__step_id
+msgid "Step"
+msgstr "ደረጃ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__step_ids
+msgid "Steps"
+msgstr "ደረጃዎች"
+
+#. module: mos_approvals
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_purchase_order_form_mos_approval
+msgid "Submit for approval"
+msgstr "ለማጽደቅ አስገባ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,field_description:mos_approvals.field_mos_approval_request__submitted_at
+msgid "Submitted At"
+msgstr "የገባበት ጊዜ"
+
+#. module: mos_approvals
+#: model:ir.model.fields,help:mos_approvals.field_mos_approval_rule__amount_to
+msgid "Up to this amount, inclusive. Zero means no upper limit."
+msgstr "እስከ ዚህ መጠን፣ ጨምሮ። ዜሮ ማለት የላይኛ ገደብ የለም ማለት ነው።"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approval_step__state__waiting
+msgid "Waiting"
+msgstr "በመጠበቅ ላይ"
+
+#. module: mos_approvals
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_approvable__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_concession__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_credit_note__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_payment_voucher__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_po_amendment__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_purchase_request__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_stock_adjustment__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__mos_supplier_invoice__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__purchase_order__mos_approval_state__pending
+#: model:ir.model.fields.selection,name:mos_approvals.selection__sale_order__mos_approval_state__pending
+msgid "Waiting for approval"
+msgstr "ማጽደቅ በመጠበቅ ላይ"
+
+#. module: mos_approvals
+#: model_terms:ir.ui.view,arch_db:mos_approvals.view_mos_approval_decide_form
+msgid "Why? (required to reject or send back)"
+msgstr "ለምን? (ውድቅ ለማድረግ ወይም መልሶ ለመላክ ያስፈልጋል)"
+
+#. module: mos_approvals
+#: model:ir.model.fields,help:mos_approvals.field_mos_approval_delegation__max_amount
+msgid "Zero means no ceiling."
+msgstr "ዜሮ ማለት ጣሪያ የለም ማለት ነው።"

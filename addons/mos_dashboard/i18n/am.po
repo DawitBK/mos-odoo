@@ -1,0 +1,240 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "% silo capacity used"
+msgstr "% የሲሎ አቅም ጥቅም ላይ ውሏል"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__approvals_waiting
+msgid "Approvals Waiting"
+msgstr "የሚጠብቁ ማጽደቆች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Awaiting decision"
+msgstr "ውሳኔ በመጠበቅ ላይ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__receivable_total
+msgid "Customers owe us"
+msgstr "ደንበኞች ዕዳ አለባቸው"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__extraction_30d
+msgid "Extraction 30D"
+msgstr "ምርት ከስንዴ 30 ቀን"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Extraction rate, last 30 days (%)"
+msgstr "የምርት መጠን፣ ያለፉት 30 ቀናት (%)"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__flour_stock_kg
+msgid "Flour Stock Kg"
+msgstr "የዱቄት ክምችት ኪ.ግ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__flour_today_kg
+msgid "Flour Today Kg"
+msgstr "የዛሬ ዱቄት ኪ.ግ"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Flour and bran sold (kg)"
+msgstr "የተሸጠ ዱቄት እና ፉርሽካ (ኪ.ግ)"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Flour in stock (kg)"
+msgstr "በክምችት ያለ ዱቄት (ኪ.ግ)"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Flour made today (kg)"
+msgstr "ዛሬ የተመረተ ዱቄት (ኪ.ግ)"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__inspections_open
+msgid "Inspections Open"
+msgstr "ክፍት ፍተሻዎች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Invoiced (with VAT)"
+msgstr "በደረሰኝ የተጠየቀ (ከተ.እ.ታ ጋር)"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Latest milling runs"
+msgstr "የቅርብ ጊዜ የወፍጮ ሥራዎች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Loads rejected this month"
+msgstr "በዚህ ወር ውድቅ የተደረጉ ጭነቶች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Mill overview"
+msgstr "የወፍጮ አጠቃላይ እይታ"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Milling"
+msgstr "መፍጨት"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Money"
+msgstr "ገንዘብ"
+
+#. module: mos_dashboard
+#: code:addons/mos_dashboard/models/overview.py:0
+#: model:ir.actions.server,name:mos_dashboard.action_mos_overview
+#: model:ir.ui.menu,name:mos_dashboard.menu_mos_overview
+msgid "Overview"
+msgstr "አጠቃላይ እይታ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__planned_runs
+msgid "Planned Runs"
+msgstr "የታቀዱ ሥራዎች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Planned runs"
+msgstr "የታቀዱ ሥራዎች"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__received_month_kg
+msgid "Received Month Kg"
+msgstr "በወሩ የተቀበለ ኪ.ግ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__received_today_kg
+msgid "Received Today Kg"
+msgstr "ዛሬ የተቀበለ ኪ.ግ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__rejected_month
+msgid "Rejected Month"
+msgstr "ውድቅ የተደረገ ወር"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__rejection_rate
+msgid "Rejection Rate"
+msgstr "የውድቅ መጠን"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Rejection rate (%)"
+msgstr "የውድቅ መጠን (%)"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__run_ids
+msgid "Run"
+msgstr "ሥራ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__sales_month_amount
+msgid "Sales Month Amount"
+msgstr "የወር ሽያጭ መጠን"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__sales_month_kg
+msgid "Sales Month Kg"
+msgstr "የወር ሽያጭ ኪ.ግ"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Sales this month"
+msgstr "በዚህ ወር ሽያጭ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__silo_ids
+msgid "Silo"
+msgstr "ሲሎ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__silo_capacity_kg
+msgid "Silo Capacity Kg"
+msgstr "የሲሎ አቅም ኪ.ግ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__silo_fill_pct
+msgid "Silo Fill Pct"
+msgstr "የሲሎ መሙያ %"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__silo_level_kg
+msgid "Silo Level Kg"
+msgstr "የሲሎ ከፍታ ኪ.ግ"
+
+#. module: mos_dashboard
+#: code:addons/mos_dashboard/models/overview.py:0
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Silos"
+msgstr "ሲሎዎች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "This month (kg)"
+msgstr "በዚህ ወር (ኪ.ግ)"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__title
+msgid "Title"
+msgstr "ርዕስ"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Today (kg)"
+msgstr "ዛሬ (ኪ.ግ)"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__trucks_on_site
+msgid "Trucks On Site"
+msgstr "በቦታው ያሉ መኪናዎች"
+
+#. module: mos_dashboard
+#: code:addons/mos_dashboard/models/overview.py:0
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Trucks on site"
+msgstr "በቦታው ያሉ መኪናዎች"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Waiting for me"
+msgstr "እኔን የሚጠብቁ"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__payable_total
+msgid "We owe suppliers"
+msgstr "ለአቅራቢዎች ዕዳ አለብን"
+
+#. module: mos_dashboard
+#: model:ir.model.fields,field_description:mos_dashboard.field_mos_overview__wheat_today_kg
+msgid "Wheat Today Kg"
+msgstr "የዛሬ ስንዴ ኪ.ግ"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Wheat milled today (kg)"
+msgstr "ዛሬ የተፈጨ ስንዴ (ኪ.ግ)"
+
+#. module: mos_dashboard
+#: model_terms:ir.ui.view,arch_db:mos_dashboard.view_mos_overview_form
+msgid "Wheat received"
+msgstr "የተቀበለ ስንዴ"

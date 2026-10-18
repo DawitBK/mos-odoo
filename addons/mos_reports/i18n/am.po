@@ -1,0 +1,221 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "(stored)"
+msgstr "(የተቀመጠ)"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid ", approved by"
+msgstr "፣ ያጸደቀው"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+msgid ", remaining"
+msgstr "፣ ቀሪ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid ", verified by"
+msgstr "፣ ያረጋገጠው"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Carried by"
+msgstr "ተሸካሚ"
+
+#. module: mos_reports
+#: model:ir.actions.report,name:mos_reports.action_report_coa
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "Certificate of analysis"
+msgstr "የትንተና የምስክር ወረቀት"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "Customer"
+msgstr "ደንበኛ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "Delivery"
+msgstr "ርክክብ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Destination"
+msgstr "መድረሻ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Direction"
+msgstr "አቅጣጫ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Driver"
+msgstr "ሹፌር"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_exit_pass
+msgid "Exit has not been cleared yet."
+msgstr "መውጣት እስካሁን አልተፈቀደም።"
+
+#. module: mos_reports
+#: model:ir.actions.report,name:mos_reports.action_report_exit_pass
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_exit_pass
+msgid "Exit pass"
+msgstr "የመውጫ ፈቃድ ወረቀት"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Expected back"
+msgstr "የሚመለስበት ጊዜ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "Grade"
+msgstr "ደረጃ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Gross"
+msgstr "ጠቅላላ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "Issued by"
+msgstr "የሰጠው"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Item"
+msgstr "ዕቃ"
+
+#. module: mos_reports
+#: model:ir.actions.report,name:mos_reports.action_report_gate_pass
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Material gate pass"
+msgstr "የዕቃ በር ማለፊያ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Net"
+msgstr "የተጣራ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_exit_pass
+msgid "Net weight"
+msgstr "የተጣራ ክብደት"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+msgid "Paid"
+msgstr "የተከፈለ"
+
+#. module: mos_reports
+#: model:ir.actions.report,name:mos_reports.action_report_voucher
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+msgid "Payment voucher"
+msgstr "የክፍያ ቫውቸር"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Purpose"
+msgstr "ዓላማ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_exit_pass
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "QR"
+msgstr "QR"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "Quality score"
+msgstr "የጥራት ነጥብ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Quantity"
+msgstr "መጠን"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "REVOKED:"
+msgstr "የተሻረ፡"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Replaces"
+msgstr "የሚተካው"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_gate_pass
+msgid "Requested by"
+msgstr "የጠየቀው"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Supplier / customer"
+msgstr "አቅራቢ / ደንበኛ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Tare"
+msgstr "ባዶ ክብደት"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Transporter"
+msgstr "አጓጓዥ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+msgid "VAT"
+msgstr "ተ.እ.ታ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Vehicle"
+msgstr "ተሽከርካሪ"
+
+#. module: mos_reports
+#: model:ir.actions.report,name:mos_reports.action_report_weigh_ticket
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Weigh ticket"
+msgstr "የክብደት ወረቀት"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "Weighed by"
+msgstr "የመዘነው"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_voucher
+msgid "Withheld"
+msgstr "የተያዘ (ተቀናሽ የተደረገ)"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_exit_pass
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_weigh_ticket
+msgid "kg"
+msgstr "ኪ.ግ"
+
+#. module: mos_reports
+#: model_terms:ir.ui.view,arch_db:mos_reports.report_coa
+msgid "on"
+msgstr "በ"

@@ -1,0 +1,81 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_inbound
+#: model_terms:ir.ui.view,arch_db:mos_inbound.view_mos_gate_visit_form_inbound
+msgid "Confirm goods receipt"
+msgstr "የዕቃ መቀበልን አረጋግጥ"
+
+#. module: mos_inbound
+#: model:ir.model.fields.selection,name:mos_inbound.selection__mos_gate_visit__grn_state__confirmed
+msgid "Confirmed"
+msgstr "የተረጋገጠ"
+
+#. module: mos_inbound
+#: model:ir.model.fields,field_description:mos_inbound.field_mos_gate_visit__grn_picking_id
+msgid "Goods receipt"
+msgstr "የዕቃ መቀበያ ደረሰኝ"
+
+#. module: mos_inbound
+#: model:ir.model.fields,field_description:mos_inbound.field_mos_gate_visit__grn_state
+msgid "Grn State"
+msgstr "የደረሰኝ ሁኔታ"
+
+#. module: mos_inbound
+#: model:ir.model.fields,field_description:mos_inbound.field_mos_gate_visit__inspection_id
+msgid "Inspection"
+msgstr "ፍተሻ"
+
+#. module: mos_inbound
+#: model:ir.model.fields,field_description:mos_inbound.field_mos_gate_visit__inspection_ids
+msgid "Inspections"
+msgstr "ፍተሻዎች"
+
+#. module: mos_inbound
+#: model:ir.model.fields.selection,name:mos_inbound.selection__mos_gate_visit__grn_state__none
+msgid "Not prepared"
+msgstr "ያልተዘጋጀ"
+
+#. module: mos_inbound
+#: model_terms:ir.ui.view,arch_db:mos_inbound.view_mos_gate_visit_form_inbound
+msgid "Open inspection"
+msgstr "ፍተሻ ክፈት"
+
+#. module: mos_inbound
+#: model_terms:ir.ui.view,arch_db:mos_inbound.view_mos_gate_visit_form_inbound
+msgid "Prepare goods receipt"
+msgstr "የዕቃ መቀበያ አዘጋጅ"
+
+#. module: mos_inbound
+#: model:ir.model.fields.selection,name:mos_inbound.selection__mos_gate_visit__grn_state__prepared
+msgid "Prepared"
+msgstr "የተዘጋጀ"
+
+#. module: mos_inbound
+#: model:ir.model.fields.selection,name:mos_inbound.selection__mos_gate_visit__grn_state__rejected
+msgid "Rejected load"
+msgstr "ውድቅ የተደረገ ጭነት"
+
+#. module: mos_inbound
+#: model:res.groups,name:mos_inbound.group_mos_storekeeper
+msgid "Storekeeper"
+msgstr "ዕቃ ቤት ጠባቂ"
+
+#. module: mos_inbound
+#: model:ir.model.fields,help:mos_inbound.field_mos_gate_visit__silo_id
+msgid "The receipt books the wheat into this silo."
+msgstr "መቀበያው ስንዴውን ወደዚህ ሲሎ ይመዘግባል።"
+
+#. module: mos_inbound
+#: model:ir.model.fields,field_description:mos_inbound.field_mos_gate_visit__silo_id
+msgid "Unload into silo"
+msgstr "ወደ ሲሎ አራግፍ"

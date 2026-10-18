@@ -1,0 +1,684 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_flow_setting_form
+msgid ""
+"A change applies to deliveries that reach the step after it is saved; "
+"documents already in flight keep going as they were."
+msgstr "ለውጡ ከተቀመጠ በኋላ ወደ ደረጃው ለሚደርሱ ርክክቦች ይተገበራል፤ ቀድሞ በሂደት ላይ ያሉ ሰነዶች እንደነበሩ ይቀጥላሉ።"
+
+#. module: mos_flows
+#: model:ir.model.constraint,message:mos_flows.constraint_mos_payment_reversal_payment_once
+msgid "A payment can be reversed only once."
+msgstr "ክፍያ አንድ ጊዜ ብቻ ሊሰረዝ ይችላል።"
+
+#. module: mos_flows
+#: model:ir.model.constraint,message:mos_flows.constraint_mos_pv_draft_visit_uniq
+msgid "A receipt starts only one payment."
+msgstr "አንድ ደረሰኝ አንድ ክፍያ ብቻ ይጀምራል።"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_gate_visit__flow__a
+msgid "A: inspected before unloading"
+msgstr "ሀ፡ ከማራገፍ በፊት የተፈተሸ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Abandon"
+msgstr "ተው"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_gate_visit__state__abandoned
+msgid "Abandoned"
+msgstr "የተተወ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__new_decision__accept
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__old_decision__accept
+msgid "Accept"
+msgstr "ተቀበል"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__new_decision__accept_deduction
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__old_decision__accept_deduction
+msgid "Accept with deduction"
+msgstr "በተቀናሽ ተቀበል"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_inspection__partial_accept_qty
+msgid "Accepted part (kg)"
+msgstr "የተቀበለው ክፍል (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_payment_reversal__amount
+msgid "Amount"
+msgstr "መጠን"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__state__applied
+msgid "Applied"
+msgstr "የተተገበረ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_lab_revision_form
+msgid "Approve and apply"
+msgstr "አጽድቅ እና ተግብር"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Approve excess"
+msgstr "ትርፉን አጽድቅ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__approved_by_id
+msgid "Approved By"
+msgstr "ያጸደቀው"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_pv_draft__state__awaiting_invoice
+msgid "Awaiting invoice"
+msgstr "ደረሰኝ በመጠበቅ ላይ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_supplier_invoice__match_state__awaiting_receipt
+msgid "Awaiting receipt"
+msgstr "የዕቃ ደረሰኝ በመጠበቅ ላይ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_gate_visit__flow__b
+msgid "B: packaged goods into quarantine"
+msgstr "ለ፡ የታሸጉ ዕቃዎች ወደ ማቆያ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__bags
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__bags
+msgid "Bags"
+msgstr "ከረጢቶች"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_wht_certificate__base_amount
+msgid "Base Amount"
+msgstr "መነሻ መጠን"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__basis
+msgid "Basis"
+msgstr "መሠረት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__weight_variance
+msgid "Bridge minus declared (kg)"
+msgstr "የሚዛን ሲቀነስ የተገለጸ (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_action_wizard__basis__bridge
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_gate_visit__weight_basis__bridge
+msgid "Bridge weight"
+msgstr "የሚዛን ክብደት"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_gate_visit__flow__c
+msgid "C: lab-led, gate off"
+msgstr "ሐ፡ በላብራቶሪ የሚመራ፣ በር የጠፋ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_payment__certificate_ids
+msgid "Certificate"
+msgstr "የምስክር ወረቀት"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_lab_revision__delta_kg
+msgid "Change in payable quantity: positive when the supplier is owed more."
+msgstr "የሚከፈል መጠን ለውጥ፡ አቅራቢው ተጨማሪ ሲከፈለው አዎንታዊ ነው።"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_inspection__state__closed
+msgid "Closed without receipt"
+msgstr "ያለ ደረሰኝ የተዘጋ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_action_wizard
+msgid "Confirm"
+msgstr "አረጋግጥ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__debit_note_id
+msgid "Debit Note"
+msgstr "የዴቢት ማስታወሻ"
+
+#. module: mos_flows
+#: model:ir.actions.act_window,name:mos_flows.action_mos_lab_revision
+#: model:ir.ui.menu,name:mos_flows.menu_mos_lab_revisions
+msgid "Decision revisions"
+msgstr "የውሳኔ ክለሳዎች"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__declared_qty
+msgid "Declared quantity (kg)"
+msgstr "የተገለጸ መጠን (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_action_wizard__basis__declared
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_gate_visit__weight_basis__declared
+msgid "Declared weight"
+msgstr "የተገለጸ ክብደት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__delta_kg
+msgid "Delta Kg"
+msgstr "ልዩነት ኪ.ግ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_flow_setting__pv_mode__draft
+msgid "Draft the voucher for the payables clerk"
+msgstr "ለሚከፈሉ ሂሳቦች ጸሐፊ ቫውቸሩን አዘጋጅ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__driver_name
+msgid "Driver Name"
+msgstr "የሹፌር ስም"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_weigh_ticket__provisional
+msgid ""
+"Entered by the lab from the delivery note and a stored tare, not weighed on "
+"the bridge here."
+msgstr "ላብራቶሪው ከማድረሻ ወረቀት እና ከተቀመጠ ባዶ ክብደት ያስገባው፤ እዚህ በሚዛን አልተመዘነም።"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Exit without tare"
+msgstr "ያለ ባዶ ክብደት መውጣት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__expected_gross
+msgid "Expected before tax"
+msgstr "ከግብር በፊት የሚጠበቅ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__flow
+msgid "Flow"
+msgstr "ፍሰት"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_gate_visit__received_qty
+msgid "Flow B: what was counted in at the door."
+msgstr "ፍሰት ለ፡ በበሩ የተቆጠረው።"
+
+#. module: mos_flows
+#: model:res.groups,name:mos_flows.group_mos_gate_supervisor
+msgid "Gate supervisor"
+msgstr "የበር ተቆጣጣሪ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_setting__grn_mode
+msgid "Goods receipt"
+msgstr "የዕቃ መቀበያ ደረሰኝ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__gross
+msgid "Gross weight (kg)"
+msgstr "ጠቅላላ ክብደት (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__inspection_id
+msgid "Inspection"
+msgstr "ፍተሻ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__invoice_id
+msgid "Invoice"
+msgstr "ደረሰኝ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_wht_certificate__state__issued
+msgid "Issued"
+msgstr "የተሰጠ"
+
+#. module: mos_flows
+#: model:ir.actions.act_window,name:mos_flows.action_mos_flow_intake
+#: model:ir.ui.menu,name:mos_flows.menu_mos_flow_intake
+msgid "Lab intake (flow C)"
+msgstr "የላብራቶሪ መቀበያ (ፍሰት ሐ)"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Link purchase order"
+msgstr "የግዢ ትእዛዝ አያይዝ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_sample__lost_reason
+msgid "Lost Reason"
+msgstr "የጠፋበት ምክንያት"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_sample__state__lost
+msgid "Lost or mislabelled"
+msgstr "የጠፋ ወይም በስህተት የተሰየመ"
+
+#. module: mos_flows
+#: model:ir.actions.server,name:mos_flows.cron_pv_link_ir_actions_server
+msgid "MOS: draft vouchers for receipts whose invoice arrived"
+msgstr "MOS፡ ደረሰኛቸው ለደረሰ መቀበያዎች ቫውቸር አዘጋጅ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__method
+msgid "Method"
+msgstr "ዘዴ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__needs
+msgid "Needs"
+msgstr "ያስፈልገዋል"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__new_decision
+msgid "New Decision"
+msgstr "አዲስ ውሳኔ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__new_deduction_pct
+msgid "New Deduction Pct"
+msgstr "አዲስ ተቀናሽ %"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_gate_visit__payment_blocked
+msgid "No payment until a manager has accepted the estimated tare."
+msgstr "ሥራ አስኪያጅ የተገመተውን ባዶ ክብደት እስኪቀበል ድረስ ክፍያ የለም።"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__number
+msgid "Number"
+msgstr "ቁጥር"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__old_decision
+msgid "Old Decision"
+msgstr "የቀድሞ ውሳኔ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__old_deduction_pct
+msgid "Old Deduction Pct"
+msgstr "የቀድሞ ተቀናሽ %"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__old_payable_qty
+msgid "Old Payable Qty"
+msgstr "የቀድሞ የሚከፈል መጠን"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_flow_intake_wizard
+msgid "Open the inspection lot"
+msgstr "የፍተሻ ዕጣውን ክፈት"
+
+#. module: mos_flows
+#: model:ir.model,name:mos_flows.model_mos_action_opener
+msgid "Open the reason dialog"
+msgstr "የምክንያት መስኮቱን ክፈት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__order_id
+msgid "Order"
+msgstr "ትእዛዝ"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_lab_inspection__partial_accept_qty
+msgid ""
+"Packaged goods in quarantine: only this much is released; the rest is "
+"blocked (#10)."
+msgstr "በማቆያ ውስጥ ያሉ የታሸጉ ዕቃዎች፡ ይህ መጠን ብቻ ይለቀቃል፤ የቀረው ይታገዳል (#10)።"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__received_qty
+msgid "Payable quantity (kg)"
+msgstr "የሚከፈል መጠን (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_payment_reversal__payment_id
+#: model:ir.model.fields,field_description:mos_flows.field_mos_wht_certificate__payment_id
+msgid "Payment"
+msgstr "ክፍያ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__payment_blocked
+msgid "Payment Blocked"
+msgstr "ክፍያ ታግዷል"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_supplier_invoice__match_state__payment_hold
+msgid "Payment hold"
+msgstr "የክፍያ መያዝ"
+
+#. module: mos_flows
+#: model:ir.actions.act_window,name:mos_flows.action_mos_payment_reversal
+#: model:ir.ui.menu,name:mos_flows.menu_mos_payment_reversals
+msgid "Payment reversals"
+msgstr "የክፍያ ስረዛዎች"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_exception__kind__pv_setup
+msgid "Payment set-up missing"
+msgstr "የክፍያ ዝግጅት የለም"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_setting__pv_mode
+msgid "Payment voucher"
+msgstr "የክፍያ ቫውቸር"
+
+#. module: mos_flows
+#: model:ir.actions.act_window,name:mos_flows.action_mos_pv_draft
+#: model:ir.ui.menu,name:mos_flows.menu_mos_pv_drafts
+msgid "Payments from receipts"
+msgstr "ከመቀበያዎች የሚመጡ ክፍያዎች"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_weigh_ticket__photo_pending
+msgid "Photo Pending"
+msgstr "ፎቶ በመጠበቅ ላይ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_weigh_ticket__photo_pending_at
+msgid "Photo Pending At"
+msgstr "ፎቶ የሚጠበቅበት ጊዜ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__plate
+msgid "Plate"
+msgstr "ሰሌዳ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_flow_setting__grn_mode__automatic
+msgid "Post the receipt as soon as it is prepared"
+msgstr "መቀበያው እንደተዘጋጀ ወዲያውኑ መዝግብ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_payment_reversal__state__posted
+msgid "Posted"
+msgstr "የተመዘገበ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__product_id
+msgid "Product"
+msgstr "ምርት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_weigh_ticket__provisional
+msgid "Provisional"
+msgstr "ጊዜያዊ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__purchase_id
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__purchase_id
+msgid "Purchase"
+msgstr "ግዢ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__pv_draft_id
+msgid "Pv Draft"
+msgstr "የቫውቸር ረቂቅ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_supplier_invoice__match_state__qc_hold
+msgid "Quality hold"
+msgstr "የጥራት መያዝ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__reason
+#: model:ir.model.fields,field_description:mos_flows.field_mos_payment_reversal__reason
+msgid "Reason"
+msgstr "ምክንያት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__receipt_exception_note
+msgid "Receipt Exception Note"
+msgstr "የመቀበያ ልዩ ጉዳይ ማስታወሻ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__receipt_override_by_id
+msgid "Receipt Override By"
+msgstr "መቀበልን የሻረው"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_exception__kind__receipt_exception
+msgid "Receipt failed"
+msgstr "መቀበል አልተሳካም"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_pv_draft__state__reversed
+msgid "Receipt reversed"
+msgstr "መቀበል ተሽሯል"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Receive into quarantine"
+msgstr "ወደ ማቆያ ተቀበል"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__received_qty
+msgid "Received quantity (kg)"
+msgstr "የተቀበለ መጠን (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.ui.menu,name:mos_flows.menu_mos_flows
+msgid "Receiving"
+msgstr "መቀበል"
+
+#. module: mos_flows
+#: model:ir.actions.server,name:mos_flows.action_mos_flow_setting
+#: model:ir.ui.menu,name:mos_flows.menu_mos_flow_setting
+msgid "Receiving automation"
+msgstr "መቀበልን በራስ-ሰር ማድረግ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__new_decision__reject
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__old_decision__reject
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_lab_revision_form
+msgid "Reject"
+msgstr "ውድቅ አድርግ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Reject at gate"
+msgstr "በበር ላይ ውድቅ አድርግ"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__state__rejected
+msgid "Rejected"
+msgstr "ውድቅ የተደረገ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Release payment block"
+msgstr "የክፍያ እገዳን ልቀቅ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_lab_inspection_form_reopen
+msgid "Reopen decision"
+msgstr "ውሳኔን እንደገና ክፈት"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_lab_revision__state__requested
+msgid "Requested"
+msgstr "የተጠየቀ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__requested_by_id
+msgid "Requested By"
+msgstr "የጠየቀው"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_sample__retest_of_id
+msgid "Retest Of"
+msgstr "እንደገና የተሞከረው"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_payment__reversal_ids
+msgid "Reversal"
+msgstr "መቀልበስ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Reverse receipt"
+msgstr "መቀበልን ቀልብስ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_payment_reversal__reversed_by_id
+msgid "Reversed By"
+msgstr "የቀለበሰው"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_inspection__revision_ids
+msgid "Revision"
+msgstr "ክለሳ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_weigh_ticket__reweigh_approved_by_id
+msgid "Reweigh Approved By"
+msgstr "ዳግም መመዘንን ያጸደቀው"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_flow_intake_wizard__tare
+msgid "Stored or provisional tare when the truck is not weighed here."
+msgstr "መኪናው እዚህ ካልተመዘነ የተቀመጠ ወይም ጊዜያዊ ባዶ ክብደት።"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_flow_setting__pv_mode__auto_submit
+msgid "Submit a matched voucher for approval"
+msgstr "የተመሳከረ ቫውቸር ለማጽደቅ አስገባ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Supervisor override"
+msgstr "የተቆጣጣሪ መሻር"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_wht_certificate__supplier_id
+msgid "Supplier"
+msgstr "አቅራቢ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__delivery_note
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__delivery_note
+msgid "Supplier's delivery note"
+msgstr "የአቅራቢው የማድረሻ ወረቀት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_weigh_ticket__tare_confirmed_by_id
+msgid "Tare Confirmed By"
+msgstr "ባዶ ክብደቱን ያረጋገጠው"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__tare_estimated
+msgid "Tare Estimated"
+msgstr "የተገመተ ባዶ ክብደት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__tare
+msgid "Tare weight (kg)"
+msgstr "ባዶ ክብደት (ኪ.ግ)"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_flow_setting__grn_mode__confirm
+msgid "The storekeeper confirms each receipt"
+msgstr "ዕቃ ቤት ጠባቂው እያንዳንዱን መቀበያ ያረጋግጣል"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_gate_visit__tare_estimated
+msgid "The truck left without a second weighing; the tare is an estimate."
+msgstr "መኪናው ያለ ሁለተኛ መመዘን ወጥቷል፤ ባዶ ክብደቱ ግምት ነው።"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_action_wizard__title
+msgid "Title"
+msgstr "ርዕስ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_flow_intake_wizard__silo_id
+msgid "Unload into silo"
+msgstr "ወደ ሲሎ አራግፍ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__supplier_id
+msgid "Vendor"
+msgstr "አቅራቢ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__visit_id
+msgid "Visit"
+msgstr "ጉብኝት"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_wht_certificate__state__void
+msgid "Void"
+msgstr "ዋጋ ቢስ"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_wht_certificate__void_reason
+msgid "Void Reason"
+msgstr "ዋጋ ቢስ የመደረግ ምክንያት"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_wht_certificate__voided_by_id
+msgid "Voided By"
+msgstr "ዋጋ ቢስ ያደረገው"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_pv_draft__voucher_id
+msgid "Voucher"
+msgstr "ቫውቸር"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_pv_draft__state__drafted
+msgid "Voucher drafted"
+msgstr "ቫውቸር ተዘጋጅቷል"
+
+#. module: mos_flows
+#: model:ir.model.fields.selection,name:mos_flows.selection__mos_pv_draft__state__submitted
+msgid "Voucher submitted"
+msgstr "ቫውቸር ገብቷል"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_gate_visit__weight_dispute_note
+msgid "Weight Dispute Note"
+msgstr "የክብደት ክርክር ማስታወሻ"
+
+#. module: mos_flows
+#: model_terms:ir.ui.view,arch_db:mos_flows.view_mos_gate_visit_form_exceptions
+msgid "Weight dispute"
+msgstr "የክብደት ክርክር"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_gate_visit__declared_qty
+msgid "What the supplier's delivery note says."
+msgstr "የአቅራቢው የማድረሻ ወረቀት የሚለው።"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_lab_revision__note
+msgid "Why (third-party test, result error...)"
+msgstr "ለምን (የሦስተኛ ወገን ፈተና፣ የውጤት ስህተት...)"
+
+#. module: mos_flows
+#: model:ir.model.fields,field_description:mos_flows.field_mos_wht_certificate__wht_amount
+msgid "Withheld"
+msgstr "የተያዘ (ተቀናሽ የተደረገ)"
+
+#. module: mos_flows
+#: model:ir.actions.act_window,name:mos_flows.action_mos_wht_certificate
+#: model:ir.ui.menu,name:mos_flows.menu_mos_wht_certificates
+msgid "Withholding certificates"
+msgstr "የተቀናሽ ግብር የምስክር ወረቀቶች"
+
+#. module: mos_flows
+#: model:ir.model.fields,help:mos_flows.field_mos_pv_draft__supplier_id
+msgid "You can find a vendor by its Name, TIN, Email or Internal Reference."
+msgstr "አቅራቢን በስሙ፣ በTIN፣ በኢሜይል ወይም በውስጣዊ ማጣቀሻ ማግኘት ይችላሉ።"

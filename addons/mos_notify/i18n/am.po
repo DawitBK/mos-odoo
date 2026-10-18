@@ -1,0 +1,97 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__kind__arrival
+msgid "Arrival acknowledged"
+msgstr "መድረስ ተረጋግጧል"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Cheque"
+msgstr "ቼክ"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__state__failed
+msgid "Failed"
+msgstr "አልተሳካም"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Net weight (kg)"
+msgstr "የተጣራ ክብደት (ኪ.ግ)"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Order"
+msgstr "ትእዛዝ"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Payable quantity (kg)"
+msgstr "የሚከፈል መጠን (ኪ.ግ)"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Payment"
+msgstr "ክፍያ"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__kind__payment
+msgid "Payment advice"
+msgstr "የክፍያ ማሳወቂያ"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Price adjustment (%)"
+msgstr "የዋጋ ማስተካከያ (%)"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__state__queued
+msgid "Queued"
+msgstr "በወረፋ ያለ"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__kind__receipt
+msgid "Receipt with deductions"
+msgstr "መቀበያ ከተቀናሾች ጋር"
+
+#. module: mos_notify
+#: code:addons/mos_notify/models/notice.py:0
+msgid "Reference"
+msgstr "ማጣቀሻ"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__kind__rejection
+msgid "Rejection note"
+msgstr "የውድቅ ማስታወሻ"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__state__sent
+msgid "Sent"
+msgstr "የተላከ"
+
+#. module: mos_notify
+#: model:ir.model.fields,field_description:mos_notify.field_mos_supplier_notice__subject
+msgid "Subject"
+msgstr "ርዕስ"
+
+#. module: mos_notify
+#: model:ir.model.fields.selection,name:mos_notify.selection__mos_supplier_notice__state__no_email
+msgid "Supplier has no e-mail address"
+msgstr "አቅራቢው የኢሜይል አድራሻ የለውም"
+
+#. module: mos_notify
+#: model:ir.actions.act_window,name:mos_notify.action_mos_supplier_notice
+#: model:ir.ui.menu,name:mos_notify.menu_mos_supplier_notice
+msgid "Supplier notices"
+msgstr "የአቅራቢ ማሳወቂያዎች"

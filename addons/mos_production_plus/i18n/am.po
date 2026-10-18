@@ -1,0 +1,415 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_production_plus
+#: model:ir.model.constraint,message:mos_production_plus.constraint_mos_silo_strapping_row_uniq
+msgid "A height appears once in a strapping table."
+msgstr "ቁመት በአንድ የልኬት ሰንጠረዥ ውስጥ አንድ ጊዜ ብቻ ይታያል።"
+
+#. module: mos_production_plus
+#: model:ir.model.constraint,message:mos_production_plus.constraint_mos_recipe_line_wheat_once
+msgid "A wheat appears once in a recipe."
+msgstr "ስንዴ በአንድ ቅመም ውስጥ አንድ ጊዜ ብቻ ይታያል።"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__adjustment_id
+msgid "Adjustment"
+msgstr "ማስተካከያ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__kind__standard
+msgid "Batch"
+msgstr "ባች"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo__bulk_density
+msgid "Bulk density (kg/m3)"
+msgstr "የጅምላ ጥግግት (ኪ.ግ/ሜ³)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__kind__campaign
+msgid "Campaign (a shift or a day)"
+msgstr "ዘመቻ (አንድ ፈረቃ ወይም አንድ ቀን)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_silo_hold__reason__cleaning
+msgid "Cleaning"
+msgstr "ጽዳት"
+
+#. module: mos_production_plus
+#: code:addons/mos_production_plus/models/silo.py:0
+msgid "Count difference"
+msgstr "የቆጠራ ልዩነት"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__density
+msgid "Density (kg/m3)"
+msgstr "ጥግግት (ኪ.ግ/ሜ³)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo__dip_ids
+msgid "Dip"
+msgstr "የጥልቀት ልኬት"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__height_cm
+msgid "Dip height (cm)"
+msgstr "የጥልቀት ከፍታ (ሴ.ሜ)"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_silo_form_plus
+msgid "Dip reading"
+msgstr "የጥልቀት ንባብ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__state__done
+msgid "Done"
+msgstr "ተጠናቋል"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_silo_dip_form
+msgid "Draft the adjustment"
+msgstr "ማስተካከያውን አዘጋጅ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe__target_extraction_pct
+msgid "Expected extraction (%)"
+msgstr "የሚጠበቀው ምርት ከስንዴ (%)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__actual_extraction
+msgid "Extraction (%)"
+msgstr "ምርት ከስንዴ (%)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe__extraction_tolerance
+msgid "Extraction tolerance (points)"
+msgstr "የምርት መቻቻል (ነጥቦች)"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_work_order_form
+msgid "Finish"
+msgstr "ጨርስ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__actual_flour_kg
+msgid "Flour made (kg)"
+msgstr "የተመረተ ዱቄት (ኪ.ግ)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_silo_hold__reason__fumigation
+msgid "Fumigation"
+msgstr "ፉሚጌሽን"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe__line_ids
+msgid "Grist"
+msgstr "የስንዴ ቅመም"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe__grist_tolerance
+msgid "Grist tolerance (points per wheat)"
+msgstr "የስንዴ ቅመም መቻቻል (ነጥብ በስንዴ)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_strapping__height_cm
+msgid "Height Cm"
+msgstr "ከፍታ ሴ.ሜ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo__hold_ids
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_release_wizard__hold_id
+msgid "Hold"
+msgstr "ያዝ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_silo_hold__reason__treatment
+msgid "Insecticide or other treatment"
+msgstr "ፀረ-ተባይ ወይም ሌላ ሕክምና"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__ledger_kg
+msgid "Ledger says (kg)"
+msgstr "መዝገቡ እንደሚለው (ኪ.ግ)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe__product_id
+msgid "Main flour"
+msgstr "ዋና ዱቄት"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__measured_kg
+msgid "Measured (kg)"
+msgstr "የተለካ (ኪ.ግ)"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_work_order_search
+msgid "Mine"
+msgstr "የእኔ"
+
+#. module: mos_production_plus
+#: model:ir.actions.act_window,name:mos_production_plus.action_mos_my_orders_today
+#: model:ir.ui.menu,name:mos_production_plus.menu_mos_my_orders
+msgid "My orders today"
+msgstr "የዛሬ ትእዛዞቼ"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_recipe_form
+msgid "New version"
+msgstr "አዲስ ስሪት"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__shift__night
+msgid "Night"
+msgstr "ሌሊት"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_work_order_search
+msgid "Not finished"
+msgstr "ያልተጠናቀቀ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo__on_hold
+msgid "On Hold"
+msgstr "የተያዘ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_silo_hold__state__active
+msgid "On hold"
+msgstr "የተያዘ"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_work_order_form
+msgid "Plan the wheat"
+msgstr "ስንዴውን አቅድ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__state__planned
+msgid "Planned"
+msgstr "የታቀደ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__chemical
+msgid "Product used"
+msgstr "ጥቅም ላይ የዋለ ምርት"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order_line__qty_kg
+msgid "Qty Kg"
+msgstr "መጠን ኪ.ግ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_milling_run__recipe_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe_line__recipe_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__recipe_id
+msgid "Recipe"
+msgstr "ቅመም"
+
+#. module: mos_production_plus
+#: model:ir.actions.act_window,name:mos_production_plus.action_mos_recipe
+#: model:ir.ui.menu,name:mos_production_plus.menu_mos_recipes
+msgid "Recipes"
+msgstr "ቅመሞች"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_silo_hold_form
+msgid "Release"
+msgstr "ልቀቅ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__release_note
+msgid "Release Note"
+msgstr "የመልቀቂያ ማስታወሻ"
+
+#. module: mos_production_plus
+#: code:addons/mos_production_plus/models/silo.py:0
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_silo_release_wizard
+msgid "Release the silo"
+msgstr "ሲሎውን ልቀቅ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_silo_hold__state__released
+msgid "Released"
+msgstr "የተለቀቀ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__released_at
+msgid "Released At"
+msgstr "የተለቀቀበት ጊዜ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__released_by_id
+msgid "Released By"
+msgstr "የለቀቀው"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,help:mos_production_plus.field_mos_silo_release_wizard__note
+msgid "Required when the safe date has not come yet."
+msgstr "ደህንነቱ የተጠበቀበት ቀን ገና ካልደረሰ ያስፈልጋል።"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_recipe__state__retired
+msgid "Retired"
+msgstr "ጡረታ የወጣ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_exception__kind__off_recipe
+msgid "Run off recipe"
+msgstr "ከቅመም ውጭ የሆነ ሥራ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_work_order__state__running
+msgid "Running"
+msgstr "በመሥራት ላይ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__planned_end
+msgid "Safe to use again from"
+msgstr "እንደገና ለመጠቀም ደህንነቱ የተጠበቀበት ከ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe_line__share_pct
+msgid "Share (%)"
+msgstr "ድርሻ (%)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__shift
+msgid "Shift"
+msgstr "ፈረቃ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_strapping__silo_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order_line__silo_id
+msgid "Silo"
+msgstr "ሲሎ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields.selection,name:mos_production_plus.selection__mos_exception__kind__dip_variance
+msgid "Silo dip differs from the ledger"
+msgstr "የሲሎ ልኬት ከመዝገቡ ይለያል"
+
+#. module: mos_production_plus
+#: model:ir.actions.act_window,name:mos_production_plus.action_mos_silo_dip
+#: model:ir.ui.menu,name:mos_production_plus.menu_mos_silo_dips
+msgid "Silo dip readings"
+msgstr "የሲሎ ልኬት ንባቦች"
+
+#. module: mos_production_plus
+#: model:ir.actions.act_window,name:mos_production_plus.action_mos_silo_hold
+#: model:ir.ui.menu,name:mos_production_plus.menu_mos_silo_holds
+msgid "Silo treatment holds"
+msgstr "የሲሎ ህክምና መያዞች"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_work_order_form
+msgid "Start the run"
+msgstr "ሥራውን ጀምር"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_hold__started_at
+msgid "Started At"
+msgstr "የተጀመረበት ጊዜ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo__strapping_ids
+msgid "Strapping"
+msgstr "ልኬት (ስትራፒንግ)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__supervisor_id
+msgid "Supervisor"
+msgstr "ተቆጣጣሪ"
+
+#. module: mos_production_plus
+#: model:ir.model.constraint,message:mos_production_plus.constraint_mos_recipe_version_uniq
+msgid "This recipe version already exists."
+msgstr "ይህ የቅመም ስሪት አስቀድሞ አለ።"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_work_order_search
+msgid "Today"
+msgstr "ዛሬ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,help:mos_production_plus.field_mos_silo__bulk_density
+msgid "Used to turn a dip volume into kilograms."
+msgstr "የልኬት መጠንን ወደ ኪሎ ግራም ለመቀየር ያገለግላል።"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__variance_kg
+msgid "Variance Kg"
+msgstr "ልዩነት ኪ.ግ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__variance_pct
+msgid "Variance Pct"
+msgstr "ልዩነት %"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe__version
+msgid "Version"
+msgstr "ስሪት"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__volume_m3
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_strapping__volume_m3
+msgid "Volume M3"
+msgstr "መጠን ሜ³"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_recipe_line__wheat_id
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order_line__wheat_id
+msgid "Wheat"
+msgstr "ስንዴ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__actual_wheat_kg
+msgid "Wheat milled (kg)"
+msgstr "የተፈጨ ስንዴ (ኪ.ግ)"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__line_ids
+msgid "Wheat to draw"
+msgstr "የሚወሰድ ስንዴ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__planned_kg
+msgid "Wheat to mill (kg)"
+msgstr "የሚፈጭ ስንዴ (ኪ.ግ)"
+
+#. module: mos_production_plus
+#: model_terms:ir.ui.view,arch_db:mos_production_plus.view_mos_recipe_form
+msgid "Why this blend"
+msgstr "ይህ ድብልቅ ለምን"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_silo_dip__within_tolerance
+msgid "Within Tolerance"
+msgstr "በመቻቻል ውስጥ"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_work_order__work_centre_id
+msgid "Work Centre"
+msgstr "የሥራ ማዕከል"
+
+#. module: mos_production_plus
+#: model:ir.model.fields,field_description:mos_production_plus.field_mos_milling_run__work_order_id
+msgid "Work Order"
+msgstr "የሥራ ትእዛዝ"
+
+#. module: mos_production_plus
+#: model:ir.actions.act_window,name:mos_production_plus.action_mos_work_order
+#: model:ir.ui.menu,name:mos_production_plus.menu_mos_work_orders
+msgid "Work orders"
+msgstr "የሥራ ትእዛዞች"

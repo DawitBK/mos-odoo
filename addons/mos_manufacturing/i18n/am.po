@@ -1,0 +1,740 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_planner_report__available
+msgid "Available now"
+msgstr "አሁን ያለ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run_line__product_id
+msgid "Bag product"
+msgstr "የከረጢት ምርት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_product__mos_bag_kg
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_template__mos_bag_kg
+msgid "Bag weight (kg)"
+msgstr "የከረጢት ክብደት (ኪ.ግ)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run_line__bags
+msgid "Bags"
+msgstr "ከረጢቶች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__line_ids
+msgid "Bags packed"
+msgstr "የታሸጉ ከረጢቶች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_delivery__batch_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__batch_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_output__batch_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run_line__batch_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace__batch_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace_line__batch_id
+msgid "Batch"
+msgstr "ባች"
+
+#. module: mos_manufacturing
+#: model:ir.actions.report,name:mos_manufacturing.action_report_batch_label
+msgid "Batch label"
+msgstr "የባች መለያ"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_batch
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_batches
+msgid "Batches"
+msgstr "ባቾች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_run__batch_ids
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_milling_run_form_mfg
+msgid "Batches made"
+msgstr "የተመረቱ ባቾች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__kind__bran
+msgid "Bran"
+msgstr "ፉርሽካ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__bran_kg
+msgid "Bran Kg"
+msgstr "ፉርሽካ ኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_work_centre__capacity_kg_h
+msgid "Capacity (kg/hour)"
+msgstr "አቅም (ኪ.ግ/ሰዓት)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_link__child_id
+msgid "Child"
+msgstr "ንዑስ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_work_centre__kind__cleaning
+msgid "Cleaning"
+msgstr "ጽዳት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_work_centre__code
+msgid "Code"
+msgstr "ኮድ"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_pack_run_form
+msgid "Complete run"
+msgstr "ሥራውን አጠናቅ"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_pack_run_form
+msgid ""
+"Complete the run? The flour leaves bulk stock and the bags enter stock."
+msgstr "ሥራውን ማጠናቀቅ ይፈልጋሉ? ዱቄቱ ከጅምላ ክምችት ይወጣል፣ ከረጢቶቹም ወደ ክምችት ይገባሉ።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_pack_run__state__done
+msgid "Completed"
+msgstr "የተጠናቀቀ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_output__cost_value
+msgid "Cost Value"
+msgstr "የወጪ ዋጋ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_product__mos_cost_factor
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_template__mos_cost_factor
+msgid "Cost share factor"
+msgstr "የወጪ ድርሻ ምክንያት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_delivery__customer_id
+msgid "Customer"
+msgstr "ደንበኛ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime_report__day
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__day
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_shift_log__shift__day
+msgid "Day"
+msgstr "ቀን"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__state__decided
+msgid "Decided"
+msgstr "ውሳኔ የተሰጠበት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__decided_by_id
+msgid "Decided By"
+msgstr "የወሰነው"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_decide_wizard__decision
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__decision
+msgid "Decision"
+msgstr "ውሳኔ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_mos_batch__uom_id
+msgid "Default unit of measure used for all stock operations."
+msgstr "ለሁሉም የክምችት ሥራዎች የሚውል ነባሪ የመለኪያ አሃድ።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__delivery_ids
+msgid "Delivered"
+msgstr "የተላከ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__visit_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_delivery__delivery_id
+msgid "Delivery"
+msgstr "ርክክብ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace_line__direction
+msgid "Direction"
+msgstr "አቅጣጫ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_reason__domain
+msgid "Domain"
+msgstr "ዘርፍ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_dosing_line__actual_kg
+msgid "Dosed (kg)"
+msgstr "የተጨመረ መጠን (ኪ.ግ)"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_downtime
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_downtime
+msgid "Downtime"
+msgstr "የሥራ መቋረጥ"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_downtime_report
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_downtime_report
+msgid "Downtime by reason"
+msgstr "የሥራ መቋረጥ በምክንያት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_mos_batch_delivery__batch_id
+msgid "Empty when the quantity could not be tied to a batch."
+msgstr "መጠኑ ከባች ጋር ካልተያያዘ ባዶ ነው።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime__end
+msgid "End"
+msgstr "መጨረሻ"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_downtime_list
+msgid "End now"
+msgstr "አሁን ጨርስ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__extraction_pct
+msgid "Extraction (%) of runs"
+msgstr "የሥራዎች ምርት ከስንዴ (%)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__suggested__fail
+msgid "Fail"
+msgstr "ወድቋል"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_batch_inspection
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_batch_inspections
+msgid "Finished-goods inspections"
+msgstr "የተጠናቀቁ ዕቃዎች ፍተሻዎች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__kind__flour
+msgid "Flour"
+msgstr "ዱቄት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__flour_kg
+msgid "Flour Kg"
+msgstr "ዱቄት ኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__used_kg
+msgid "Flour used (kg)"
+msgstr "ጥቅም ላይ የዋለ ዱቄት (ኪ.ግ)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_mos_pack_run_line__bag_kg
+#: model:ir.model.fields,help:mos_manufacturing.field_product_product__mos_bag_kg
+#: model:ir.model.fields,help:mos_manufacturing.field_product_template__mos_bag_kg
+msgid "For a packed product: the kilograms of flour in one unit."
+msgstr "ለታሸገ ምርት፡ በአንድ ዩኒት ውስጥ ያለው የዱቄት ኪሎ ግራም።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_product_product__mos_premix_id
+#: model:ir.model.fields,help:mos_manufacturing.field_product_template__mos_premix_id
+msgid "For flour that must be fortified: the premix dosed into it."
+msgstr "መጠናከር ላለበት ዱቄት፡ የሚጨመርበት ቅድመ-ድብልቅ።"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_milling_run_form_mfg
+msgid "Fortification"
+msgstr "ማጠናከር"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_run__dosing_ids
+msgid "Fortification dosing"
+msgstr "የማጠናከሪያ መጠን"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_product__mos_premix_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_template__mos_premix_id
+msgid "Fortification premix"
+msgstr "የማጠናከሪያ ቅድመ-ድብልቅ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_shift_log__handover
+msgid "Handover"
+msgstr "የሥራ ርክክብ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_planner_report__held
+msgid "Held or blocked"
+msgstr "የተያዘ ወይም የታገደ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_product_product__mos_cost_factor
+#: model:ir.model.fields,help:mos_manufacturing.field_product_template__mos_cost_factor
+msgid ""
+"How much of the wheat cost a kilogram of this co-product carries, relative "
+"to flour."
+msgstr "የዚህ ተረፈ ምርት አንድ ኪሎ ግራም ከዱቄት አንጻር ከስንዴው ወጪ ምን ያህል እንደሚሸከም።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__suggested__incomplete
+msgid "Incomplete"
+msgstr "ያልተሟላ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__inspection_ids
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_decide_wizard__inspection_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_result__inspection_id
+msgid "Inspection"
+msgstr "ፍተሻ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run_line__kg
+msgid "Kg"
+msgstr "ኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__kind
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_work_centre__kind
+msgid "Kind"
+msgstr "ዓይነት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace_line__level
+msgid "Level"
+msgstr "ከፍታ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace__line_ids
+msgid "Line"
+msgstr "መስመር"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__loss_kg
+msgid "Loss Kg"
+msgstr "ኪሳራ ኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__parent_link_ids
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_trace_line__direction__back
+msgid "Made from"
+msgstr "የተሠራው ከ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_run__unit_cost_flour
+msgid "Material cost per kg of flour"
+msgstr "የዱቄት ጥሬ ዕቃ ወጪ በኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_work_centre__kind__milling
+msgid "Milling"
+msgstr "መፍጨት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__run_id
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.report_batch_label
+msgid "Milling run"
+msgstr "የወፍጮ ሥራ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime__minutes
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime_report__minutes
+msgid "Minutes"
+msgstr "ደቂቃዎች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_shift_log__shift__night
+msgid "Night"
+msgstr "ሌሊት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_shift_log__notes
+msgid "Notes"
+msgstr "ማስታወሻዎች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__kind__offal
+msgid "Offal"
+msgstr "ተረፈ ምርት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__state__hold
+msgid "On hold for quality"
+msgstr "ለጥራት የተያዘ"
+
+#. module: mos_manufacturing
+#: model:ir.model.constraint,message:mos_manufacturing.constraint_mos_batch_result_line_once
+msgid "One result per parameter."
+msgstr "በአንድ መለኪያ አንድ ውጤት።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__state__open
+msgid "Open"
+msgstr "ክፍት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_planner_report__open_demand
+msgid "Open sales orders"
+msgstr "ክፍት የሽያጭ ትእዛዞች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_work_centre__kind__other
+msgid "Other"
+msgstr "ሌላ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__packed_kg
+msgid "Packed Kg"
+msgstr "የታሸገ ኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__kind__packed
+msgid "Packed product"
+msgstr "የታሸገ ምርት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_work_centre__kind__packing
+msgid "Packing"
+msgstr "ማሸግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__pack_run_id
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.report_batch_label
+msgid "Packing run"
+msgstr "የማሸግ ሥራ"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_pack_run
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_pack_runs
+msgid "Packing runs"
+msgstr "የማሸግ ሥራዎች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__yield_pct
+msgid "Packing yield (%)"
+msgstr "የማሸግ ምርት (%)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_result__line_id
+msgid "Parameter"
+msgstr "መለኪያ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_link__parent_id
+msgid "Parent"
+msgstr "ወላጅ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__suggested__pass
+msgid "Pass"
+msgstr "አልፏል"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_result__passed
+msgid "Passed"
+msgstr "ያለፈ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime_report__planned
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_pack_run__state__draft
+msgid "Planned"
+msgstr "የታቀደ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime__planned
+msgid "Planned stop"
+msgstr "የታቀደ ማቆም"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_planner
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_planner
+msgid "Planner: demand and stock"
+msgstr "ዕቅድ አውጪ፡ ፍላጎት እና ክምችት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_dosing_line__premix_id
+msgid "Premix"
+msgstr "ቅድመ-ድብልቅ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_product__mos_premix_g_per_t
+#: model:ir.model.fields,field_description:mos_manufacturing.field_product_template__mos_premix_g_per_t
+msgid "Premix (g per tonne)"
+msgstr "ቅድመ-ድብልቅ (ግ በቶን)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_reason__domain__downtime
+msgid "Production downtime"
+msgstr "የምርት መቋረጥ"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_production_report
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_production_report
+msgid "Production report"
+msgstr "የምርት ሪፖርት"
+
+#. module: mos_manufacturing
+#: model:res.groups,name:mos_manufacturing.group_mos_production_supervisor
+msgid "Production supervisor"
+msgstr "የምርት ተቆጣጣሪ"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.report_batch_label
+msgid "QR"
+msgstr "QR"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_delivery__qty
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_link__qty
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace_line__qty
+msgid "Qty"
+msgstr "መጠን"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_batch_form
+msgid "Quality inspection"
+msgstr "የጥራት ፍተሻ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__qty
+msgid "Quantity"
+msgstr "መጠን"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_decide_wizard__decision__release
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__decision__release
+msgid "Release"
+msgstr "ልቀቅ"
+
+#. module: mos_manufacturing
+#: code:addons/mos_manufacturing/models/wizards.py:0
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_batch_inspection_form
+msgid "Release or reject"
+msgstr "ልቀቅ ወይም ውድቅ አድርግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__state__released
+msgid "Released"
+msgstr "የተለቀቀ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__remaining_qty
+msgid "Remaining Qty"
+msgstr "ቀሪ መጠን"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_mos_batch_decide_wizard__note
+msgid "Required to release a batch that failed its specification."
+msgstr "ዝርዝር መግለጫውን ያላሟላ ባች ለመልቀቅ ያስፈልጋል።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__result_ids
+msgid "Result"
+msgstr "ውጤት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_dosing_line__run_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run_line__run_id
+msgid "Run"
+msgstr "ሥራ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__runs
+msgid "Runs"
+msgstr "ሥራዎች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__shift
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_shift_log__shift
+msgid "Shift"
+msgstr "ፈረቃ"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_shift_log
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_shift_logs
+msgid "Shift logs"
+msgstr "የፈረቃ መዝገቦች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_planner_report__shortfall
+msgid "Shortfall"
+msgstr "ጉድለት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__silo_id
+msgid "Silo (wheat)"
+msgstr "ሲሎ (ስንዴ)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__source_batch_id
+msgid "Source Batch"
+msgstr "ምንጭ ባች"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__spec_id
+msgid "Spec"
+msgstr "መግለጫ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__spillage_kg
+msgid "Spillage and sweepings (kg)"
+msgstr "የፈሰሰ እና የተጠረገ (ኪ.ግ)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime__start
+msgid "Start"
+msgstr "ጀምር"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime_report__stops
+msgid "Stops"
+msgstr "ማቆሚያዎች"
+
+#. module: mos_manufacturing
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_batch_inspection_form
+msgid "Submit results"
+msgstr "ውጤቶችን አስገባ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_decide_wizard__suggested
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__suggested
+msgid "Suggested"
+msgstr "የተጠቆመ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_shift_log__supervisor_id
+msgid "Supervisor"
+msgstr "ተቆጣጣሪ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__supplier_id
+msgid "Supplier"
+msgstr "አቅራቢ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_dosing_line__target_kg
+msgid "Target (kg)"
+msgstr "ዒላማ (ኪ.ግ)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_product_product__mos_premix_g_per_t
+#: model:ir.model.fields,help:mos_manufacturing.field_product_template__mos_premix_g_per_t
+msgid "Target dose; zero means the flour is not fortified."
+msgstr "ዒላማ መጠን፤ ዜሮ ማለት ዱቄቱ አልጠነከረም ማለት ነው።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch_inspection__state__tested
+msgid "Tested"
+msgstr "የተፈተነ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_inspection__tested_by_id
+msgid "Tested By"
+msgstr "የፈተነው"
+
+#. module: mos_manufacturing
+#: model:ir.model.constraint,message:mos_manufacturing.constraint_mos_work_centre_code_uniq
+msgid "The code must be unique per site."
+msgstr "ኮዱ በአንድ ቦታ ውስጥ ልዩ መሆን አለበት።"
+
+#. module: mos_manufacturing
+#: model:ir.model.constraint,message:mos_manufacturing.constraint_mos_shift_log_shift_once
+msgid "There is already a log for this shift."
+msgstr "ለዚህ ፈረቃ መዝገብ አስቀድሞ አለ።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_trace_line__trace_id
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_batch_form
+#: model_terms:ir.ui.view,arch_db:mos_manufacturing.view_mos_trace_form
+msgid "Trace"
+msgstr "ክትትል"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_trace
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_trace
+msgid "Trace a batch"
+msgstr "ባች ተከታተል"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__uom_id
+msgid "Unit"
+msgstr "አሃድ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__unit_cost
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_output__unit_cost
+msgid "Unit Cost"
+msgstr "የአሃድ ወጪ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_delivery__untraced
+msgid "Untraced"
+msgstr "ያልተከተለ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch_result__value
+msgid "Value"
+msgstr "እሴት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_run__input_value
+msgid "Value of the wheat drawn"
+msgstr "የተወሰደው ስንዴ እሴት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_dosing_line__variance_pct
+msgid "Variance (%)"
+msgstr "ልዩነት (%)"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_batch__child_link_ids
+msgid "Went into"
+msgstr "ወደ ገባ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_trace_line__direction__forward
+msgid "Went on to"
+msgstr "ወደ ቀጠለ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,help:mos_manufacturing.field_mos_shift_log__handover
+msgid "What the next shift must know."
+msgstr "ቀጣዩ ፈረቃ ማወቅ ያለበት።"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields.selection,name:mos_manufacturing.selection__mos_batch__kind__wheat
+msgid "Wheat"
+msgstr "ስንዴ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_production_report__wheat_kg
+msgid "Wheat Kg"
+msgstr "ስንዴ ኪ.ግ"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime__work_centre_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_downtime_report__work_centre_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_milling_run__work_centre_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run__work_centre_id
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_shift_log__work_centre_id
+msgid "Work Centre"
+msgstr "የሥራ ማዕከል"
+
+#. module: mos_manufacturing
+#: model:ir.actions.act_window,name:mos_manufacturing.action_mos_work_centre
+#: model:ir.ui.menu,name:mos_manufacturing.menu_mos_work_centres
+msgid "Work centres"
+msgstr "የሥራ ማዕከላት"
+
+#. module: mos_manufacturing
+#: model:ir.model.fields,field_description:mos_manufacturing.field_mos_pack_run_line__bag_kg
+msgid "kg per bag"
+msgstr "ኪ.ግ በከረጢት"

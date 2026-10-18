@@ -1,0 +1,379 @@
+# Amharic (አማርኛ) translation of the MOS addons. DRAFT: written without a native-speaker review;
+# the menus, field labels, selections and help texts are translated, error messages stay in English.
+# Translate more by adding entries to this file; whatever is missing shows in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: MOS 20.0\n"
+"Language: am\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__message_needaction
+msgid "Action Needed"
+msgstr "እርምጃ ያስፈልጋል"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__approval_stuck
+msgid "Approval waiting too long"
+msgstr "ማጽደቅ ለረጅም ጊዜ እየጠበቀ ነው"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_date_policy__area
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock__area
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__area
+msgid "Area"
+msgstr "ዘርፍ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__state__assigned
+msgid "Assigned"
+msgstr "ተመድቧል"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_search
+msgid "Assigned to me"
+msgstr "ለእኔ የተመደቡ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__assignee_id
+msgid "Assignee"
+msgstr "ተረካቢ"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_period_lock_wizard
+msgid "Cancel"
+msgstr "ሰርዝ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock__change_reason
+msgid "Change Reason"
+msgstr "የለውጥ ምክንያት"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock__changed_by_id
+msgid "Changed By"
+msgstr "የለወጠው"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_period_lock_list
+msgid "Close / reopen"
+msgstr "ዝጋ / እንደገና ክፈት"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__lock_date
+msgid "Close up to and including"
+msgstr "እስከ እና ጨምሮ ዝጋ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__closed_at
+msgid "Closed At"
+msgstr "የተዘጋበት ጊዜ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__current
+msgid "Closed up to now"
+msgstr "እስካሁን የተዘጋ"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_period_lock_wizard
+msgid "Confirm"
+msgstr "አረጋግጥ"
+
+#. module: mos_controls
+#: model:ir.ui.menu,name:mos_controls.menu_mos_controls
+msgid "Controls"
+msgstr "መቆጣጠሪያዎች"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search__count
+msgid "Count"
+msgstr "ቆጠራ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_date_policy__create_uid
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__create_uid
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock__create_uid
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__create_uid
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search__create_uid
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search_result__create_uid
+msgid "Created by"
+msgstr "የፈጠረው"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_date_policy__create_date
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__create_date
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock__create_date
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__create_date
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search__create_date
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search_result__create_date
+msgid "Created on"
+msgstr "የተፈጠረበት ቀን"
+
+#. module: mos_controls
+#: model:ir.actions.act_window,name:mos_controls.action_mos_date_policy
+#: model:ir.ui.menu,name:mos_controls.menu_mos_date_policy
+msgid "Date windows"
+msgstr "የቀን ገደቦች"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_date_policy__max_forward_days
+msgid "Days ahead"
+msgstr "ወደፊት ቀናት"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_date_policy__max_back_days
+msgid "Days back"
+msgstr "ወደኋላ ቀናት"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__state__dismissed
+msgid "Dismissed"
+msgstr "ውድቅ የተደረገ"
+
+#. module: mos_controls
+#: model:ir.model,name:mos_controls.model_mos_date_guard
+msgid "Document date guard"
+msgstr "የሰነድ ቀን ጠባቂ"
+
+#. module: mos_controls
+#: model:ir.model.fields,help:mos_controls.field_mos_period_lock__lock_date
+#: model:ir.model.fields,help:mos_controls.field_mos_period_lock_wizard__current
+msgid ""
+"Documents dated on or before this day can no longer be created or changed."
+msgstr "በዚህ ቀን ወይም ከዚያ በፊት የተፈጠሩ ሰነዶች ከዚህ በኋላ ሊፈጠሩ ወይም ሊለወጡ አይችሉም።"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__due_date
+msgid "Due Date"
+msgstr "የመጨረሻ ቀን"
+
+#. module: mos_controls
+#: model:ir.actions.act_window,name:mos_controls.action_mos_exception
+#: model:ir.ui.menu,name:mos_controls.menu_mos_exceptions
+msgid "Exceptions"
+msgstr "ልዩ ጉዳዮች"
+
+#. module: mos_controls
+#: model:ir.actions.act_window,name:mos_controls.action_mos_search
+#: model:ir.ui.menu,name:mos_controls.menu_mos_search
+msgid "Find anything"
+msgstr "ማንኛውንም ነገር ፈልግ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search__result_ids
+msgid "Found"
+msgstr "የተገኘ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__severity__high
+msgid "High"
+msgstr "ከፍተኛ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_date_policy__area__inventory
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_period_lock__area__inventory
+msgid "Inventory (adjustments)"
+msgstr "ክምችት (ማስተካከያዎች)"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__kind
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search_result__kind
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_search
+msgid "Kind"
+msgstr "ዓይነት"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search_result__label
+msgid "Label"
+msgstr "መለያ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__lock_id
+msgid "Lock"
+msgstr "ቆልፍ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock__lock_date
+msgid "Lock Date"
+msgstr "የመቆለፊያ ቀን"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search__query
+msgid "Look for"
+msgstr "ፈልግ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__severity__low
+msgid "Low"
+msgstr "ዝቅተኛ"
+
+#. module: mos_controls
+#: model:ir.actions.server,name:mos_controls.cron_exception_scan_ir_actions_server
+msgid "MOS: scan for process exceptions"
+msgstr "MOS፡ የሂደት ልዩ ጉዳዮችን ፈልግ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__pass_overdue
+msgid "Material pass not returned"
+msgstr "ያልተመለሰ የዕቃ ማለፊያ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__severity__medium
+msgid "Medium"
+msgstr "መካከለኛ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__name
+msgid "Name"
+msgstr "ስም"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_search
+msgid "Not closed"
+msgstr "ያልተዘጋ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__state__open
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_search_form
+msgid "Open"
+msgstr "ክፍት"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__gate_incident
+msgid "Open gate incident"
+msgstr "ክፍት የበር ክስተት"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_form
+msgid "Open the record"
+msgstr "መዝገቡን ክፈት"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__overdue
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_search
+msgid "Overdue"
+msgstr "የዘገየ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_date_policy__area__payables
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_period_lock__area__payables
+msgid "Payables (invoices, payments, vouchers, debit notes)"
+msgstr "የሚከፈሉ ሂሳቦች (ደረሰኞች፣ ክፍያዎች፣ ቫውቸሮች፣ የዴቢት ማስታወሻዎች)"
+
+#. module: mos_controls
+#: model:ir.actions.act_window,name:mos_controls.action_mos_period_lock
+#: model:ir.ui.menu,name:mos_controls.menu_mos_period_lock
+msgid "Period close"
+msgstr "የጊዜ ዘመን መዝጊያ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__lock_missing
+msgid "Period not closed"
+msgstr "የጊዜ ዘመን አልተዘጋም"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_search_form
+msgid "Plate, ticket, order, invoice, supplier, approval..."
+msgstr "ሰሌዳ፣ ትኬት፣ ትእዛዝ፣ ደረሰኝ፣ አቅራቢ፣ ማጽደቅ..."
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_date_policy__area__production
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_period_lock__area__production
+msgid "Production (milling runs)"
+msgstr "ምርት (የወፍጮ ሥራዎች)"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_period_lock_wizard__reason
+msgid "Reason"
+msgstr "ምክንያት"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_date_policy__area__receivables
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_period_lock__area__receivables
+msgid "Receivables (customer invoices, receipts)"
+msgstr "የሚሰበሰቡ ሂሳቦች (የደንበኛ ደረሰኞች፣ ደረሰኞች)"
+
+#. module: mos_controls
+#: model:ir.model.fields,help:mos_controls.field_mos_period_lock_wizard__reason
+msgid "Required when the date moves back."
+msgstr "ቀኑ ወደ ኋላ ሲሄድ ያስፈልጋል።"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__resolution
+msgid "Resolution"
+msgstr "መፍትሔ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__state__resolved
+msgid "Resolved"
+msgstr "የተፈታ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__sample_due
+msgid "Retention sample due for disposal"
+msgstr "ለማስወገድ የደረሰ የማቆያ ናሙና"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_search_result__search_id
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_search_form
+msgid "Search"
+msgstr "ፈልግ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__severity
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_search
+msgid "Severity"
+msgstr "የክብደት ደረጃ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__site_id
+msgid "Site"
+msgstr "ቦታ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__state
+msgid "State"
+msgstr "ሁኔታ"
+
+#. module: mos_controls
+#: model:ir.model.fields,field_description:mos_controls.field_mos_exception__summary
+msgid "Summary"
+msgstr "ማጠቃለያ"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__document_expired
+msgid "Supplier document expired"
+msgstr "የአቅራቢ ሰነድ ጊዜው አልፏል"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__match_variance
+msgid "Supplier invoice variance"
+msgstr "የአቅራቢ ደረሰኝ ልዩነት"
+
+#. module: mos_controls
+#: model_terms:ir.ui.view,arch_db:mos_controls.view_mos_exception_form
+msgid "Take it"
+msgstr "ውሰደው"
+
+#. module: mos_controls
+#: model:ir.model.constraint,message:mos_controls.constraint_mos_date_policy_area_uniq
+msgid "This area already has a date window."
+msgstr "ይህ ዘርፍ የቀን ገደብ አስቀድሞ አለው።"
+
+#. module: mos_controls
+#: model:ir.model.constraint,message:mos_controls.constraint_mos_period_lock_area_uniq
+msgid "This area already has a lock row."
+msgstr "ይህ ዘርፍ የመቆለፊያ ረድፍ አስቀድሞ አለው።"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__long_stay
+msgid "Vehicle on site too long"
+msgstr "ተሽከርካሪ በቦታው ለረጅም ጊዜ ቆይቷል"
+
+#. module: mos_controls
+#: model:ir.model.fields.selection,name:mos_controls.selection__mos_exception__kind__weigh_unverified
+msgid "Weigh ticket awaiting verification"
+msgstr "ማረጋገጫ የሚጠብቅ የክብደት ወረቀት"
