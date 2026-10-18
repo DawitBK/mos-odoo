@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Supplier invoices -->
+    <record id="view_mos_supplier_invoice_list" model="ir.ui.view">
+        <field name="name">mos.supplier.invoice.list</field>
+        <field name="model">mos.supplier.invoice</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="match_state == 'exception'" decoration-muted="state in ('paid', 'cancelled')">
+                <field name="name"/>
+                <field name="supplier_ref"/>
+                <field name="supplier_id"/>
+                <field name="invoice_date"/>
+                <field name="purchase_id"/>
+                <field name="gross_amount" sum="Total"/>
+                <field name="payable_amount" sum="Total"/>
+                <field name="match_state" widget="badge" decoration-success="match_state == 'matched'" decoration-danger="match_state == 'exception'"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_supplier_invoice_form" model="ir.ui.view">
+        <field name="name">mos.supplier.invoice.form</field>
+        <field name="model">mos.supplier.invoice</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_match" string="Match to order and receipt" type="object" class="btn-primary" invisible="state not in ('draft', 'payable')"/>
+                    <button name="action_debit_excess" string="Debit the supplier for the excess" type="object" invisible="match_state != 'exception' or state != 'draft'"/>
+                    <button name="action_mos_submit_approval" string="Send variance for approval" type="object" invisible="match_state != 'exception' or state != 'draft' or mos_approval_state in ('pending', 'approved')"/>
+                    <button name="action_accept_variance" string="Accept approved variance" type="object" invisible="match_state != 'exception' or mos_approval_state != 'approved' or state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('vouchered', 'paid', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,payable,vouchered,paid"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="supplier_id"/>
+                            <field name="supplier_ref"/>
+                            <field name="invoice_date"/>
+                            <field name="purchase_id"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="qty"/>
+                            <field name="unit_price"/>
+                            <field name="vat_pct"/>
+                            <field name="wht_pct"/>
+                            <field name="gross_amount"/>
+                            <field name="wht_amount"/>
+                            <field name="payable_amount"/>
+                        </group>
+                    </group>
+                    <group string="Three-way match">
+                        <group>
+                            <field name="ordered_qty"/>
+                            <field name="received_qty"/>
+                            <field name="qty_variance"/>
+                        </group>
+                        <group>
+                            <field name="ordered_price"/>
+                            <field name="price_variance_pct"/>
+                            <field name="match_state" widget="badge"/>
+                            <field name="mos_approval_state" widget="badge"/>
+                        </group>
+                    </group>
+                    <field name="debit_note_ids">
+                        <list><field name="name"/><field name="date"/><field name="amount"/><field name="reason"/></list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_supplier_invoice" model="ir.actions.act_window">
+        <field name="name">Supplier invoices</field>
+        <field name="res_model">mos.supplier.invoice</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Payment vouchers -->
+    <record id="view_mos_payment_voucher_list" model="ir.ui.view">
+        <field name="name">mos.payment.voucher.list</field>
+        <field name="model">mos.payment.voucher</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('paid', 'cancelled')">
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="date"/>
+                <field name="gross_amount" sum="Total"/>
+                <field name="wht_amount" sum="Total"/>
+                <field name="net_amount" sum="Total"/>
+                <field name="remaining_amount" sum="Total"/>
+                <field name="state" widget="badge" decoration-success="state == 'paid'" decoration-info="state in ('approved', 'partially_paid')" decoration-warning="state == 'submitted'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_payment_voucher_form" model="ir.ui.view">
+        <field name="name">mos.payment.voucher.form</field>
+        <field name="model">mos.payment.voucher</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'submitted', 'approved')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,paid"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="supplier_id"/>
+                            <field name="date"/>
+                            <field name="mos_approval_state" widget="badge"/>
+                        </group>
+                        <group>
+                            <field name="gross_amount"/>
+                            <field name="vat_amount"/>
+                            <field name="wht_amount"/>
+                            <field name="net_amount"/>
+                            <field name="paid_amount"/>
+                            <field name="remaining_amount"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="invoice_id"/>
+                            <field name="gross"/>
+                            <field name="vat"/>
+                            <field name="wht"/>
+                            <field name="net"/>
+                        </list>
+                    </field>
+                    <field name="payment_ids">
+                        <list><field name="name"/><field name="date"/><field name="method"/><field name="cheque_number"/><field name="amount"/></list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_payment_voucher" model="ir.actions.act_window">
+        <field name="name">Payment vouchers</field>
+        <field name="res_model">mos.payment.voucher</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Payments -->
+    <record id="view_mos_payment_list" model="ir.ui.view">
+        <field name="name">mos.payment.list</field>
+        <field name="model">mos.payment</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="date"/>
+                <field name="supplier_id"/>
+                <field name="voucher_id"/>
+                <field name="method"/>
+                <field name="cheque_number"/>
+                <field name="account_id"/>
+                <field name="amount" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_payment_form" model="ir.ui.view">
+        <field name="name">mos.payment.form</field>
+        <field name="model">mos.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="voucher_id"/>
+                            <field name="amount"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="method"/>
+                            <field name="account_id"/>
+                            <field name="cheque_book_id" invisible="method != 'cheque'"/>
+                            <field name="cheque_number" invisible="method != 'cheque'"/>
+                            <field name="reference"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_payment" model="ir.actions.act_window">
+        <field name="name">Payments</field>
+        <field name="res_model">mos.payment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Paying accounts and cheque books -->
+    <record id="view_mos_paying_account_list" model="ir.ui.view">
+        <field name="name">mos.paying.account.list</field>
+        <field name="model">mos.paying.account</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="name"/><field name="kind"/><field name="site_id"/><field name="paid_total"/></list></field>
+    </record>
+    <record id="action_mos_paying_account" model="ir.actions.act_window">
+        <field name="name">Paying accounts</field>
+        <field name="res_model">mos.paying.account</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_cheque_book_list" model="ir.ui.view">
+        <field name="name">mos.cheque.book.list</field>
+        <field name="model">mos.cheque.book</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="account_id"/><field name="unused"/><field name="gaps"/></list></field>
+    </record>
+    <record id="view_mos_cheque_book_form" model="ir.ui.view">
+        <field name="name">mos.cheque.book.form</field>
+        <field name="model">mos.cheque.book</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group><field name="account_id"/><field name="prefix"/><field name="first_no"/><field name="last_no"/></group>
+                        <group><field name="unused"/><field name="gaps"/></group>
+                    </group>
+                    <field name="leaf_ids">
+                        <list create="0" delete="0"><field name="full_number"/><field name="state" widget="badge"/><field name="payment_id"/><field name="void_reason"/></list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_cheque_book" model="ir.actions.act_window">
+        <field name="name">Cheque books</field>
+        <field name="res_model">mos.cheque.book</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Balances -->
+    <record id="view_mos_supplier_balance_list" model="ir.ui.view">
+        <field name="name">mos.supplier.balance.list</field>
+        <field name="model">mos.supplier.balance</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="supplier_id"/>
+                <field name="invoices"/>
+                <field name="billed" sum="Total"/>
+                <field name="paid" sum="Total"/>
+                <field name="balance" sum="Total"/>
+                <field name="current" sum="Total"/>
+                <field name="days_31_60" sum="Total"/>
+                <field name="days_61_90" sum="Total"/>
+                <field name="over_90" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_supplier_balance" model="ir.actions.act_window">
+        <field name="name">Supplier balances and ageing</field>
+        <field name="res_model">mos.supplier.balance</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem id="menu_mos_payables" name="Payables" parent="mos_core.menu_mos_root" sequence="35"/>
+    <menuitem id="menu_mos_supplier_invoices" name="Supplier invoices" parent="menu_mos_payables" action="action_mos_supplier_invoice" sequence="10"/>
+    <menuitem id="menu_mos_payment_vouchers" name="Payment vouchers" parent="menu_mos_payables" action="action_mos_payment_voucher" sequence="20"/>
+    <menuitem id="menu_mos_payments" name="Payments" parent="menu_mos_payables" action="action_mos_payment" sequence="30"/>
+    <menuitem id="menu_mos_supplier_balance" name="Supplier balances and ageing" parent="menu_mos_payables" action="action_mos_supplier_balance" sequence="40"/>
+    <menuitem id="menu_mos_paying_accounts" name="Paying accounts" parent="mos_core.menu_mos_config" action="action_mos_paying_account" sequence="50"/>
+    <menuitem id="menu_mos_cheque_books" name="Cheque books" parent="mos_core.menu_mos_config" action="action_mos_cheque_book" sequence="60"/>
+</odoo>

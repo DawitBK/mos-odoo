@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_supplier_invoice" model="ir.sequence">
+        <field name="name">MOS supplier invoice</field>
+        <field name="code">mos.supplier.invoice</field>
+        <field name="prefix">SI-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_debit_note" model="ir.sequence">
+        <field name="name">MOS debit note</field>
+        <field name="code">mos.debit.note</field>
+        <field name="prefix">DN-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_payment_voucher" model="ir.sequence">
+        <field name="name">MOS payment voucher</field>
+        <field name="code">mos.payment.voucher</field>
+        <field name="prefix">PV-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_payment" model="ir.sequence">
+        <field name="name">MOS payment</field>
+        <field name="code">mos.payment</field>
+        <field name="prefix">PAY-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+</odoo>
