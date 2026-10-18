@@ -22,7 +22,7 @@ deptmgr = user('mos.deptmanager@examplecorp.com')
 site = env['mos.site'].search([], limit=1)
 
 # --- supplier approval ------------------------------------------------------------------------------------------
-suppliers = env['res.partner'].search([('supplier_rank', '>', 0), ('is_company', '=', True)])
+suppliers = env['res.partner'].search([('supplier_rank', '>', 0)])
 for number, partner in enumerate(suppliers, start=1):
     for kind, label in (('trade_licence', 'TL'), ('tin', 'TIN'), ('vat', 'VAT')):
         env['mos.supplier.document'].create(
@@ -62,6 +62,7 @@ if spare:
         )
         request.with_user(buyer).action_submit()
 
-env['ir.config_parameter'].sudo().set_str('mos_procurement.enforce_asl', 'True')
+if suppliers:
+    env['ir.config_parameter'].sudo().set_str('mos_procurement.enforce_asl', 'True')
 env.cr.commit()
 print(f'procurement ready: {len(suppliers)} suppliers approved')

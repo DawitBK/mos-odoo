@@ -1,0 +1,30 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_milling_run_production_supervisor,mos.milling.run: production_supervisor,mos.milling.run,group_mos_production_supervisor,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_milling_input_production_supervisor,mos.milling.input: production_supervisor,mos.milling.input,group_mos_production_supervisor,crud,"[('run_id.site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_milling_output_production_supervisor,mos.milling.output: production_supervisor,mos.milling.output,group_mos_production_supervisor,crud,"[('run_id.site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_dosing_line_user,mos.dosing.line: user,mos.dosing.line,mos_core.group_mos_user,r,
+access_mos_dosing_line_production_supervisor,mos.dosing.line: production_supervisor,mos.dosing.line,group_mos_production_supervisor,crud,
+access_mos_work_centre_user,mos.work.centre: user,mos.work.centre,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_work_centre_admin,mos.work.centre: admin,mos.work.centre,mos_core.group_mos_admin,crud,
+access_mos_work_centre_production_supervisor,mos.work.centre: production_supervisor,mos.work.centre,group_mos_production_supervisor,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_downtime_user,mos.downtime: user,mos.downtime,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_downtime_production_supervisor,mos.downtime: production_supervisor,mos.downtime,group_mos_production_supervisor,crud,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_shift_log_user,mos.shift.log: user,mos.shift.log,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_shift_log_production_supervisor,mos.shift.log: production_supervisor,mos.shift.log,group_mos_production_supervisor,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_pack_run_user,mos.pack.run: user,mos.pack.run,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_pack_run_production_supervisor,mos.pack.run: production_supervisor,mos.pack.run,group_mos_production_supervisor,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_pack_run_line_user,mos.pack.run.line: user,mos.pack.run.line,mos_core.group_mos_user,r,
+access_mos_pack_run_line_production_supervisor,mos.pack.run.line: production_supervisor,mos.pack.run.line,group_mos_production_supervisor,crud,
+access_mos_batch_user,mos.batch: user,mos.batch,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_batch_link_user,mos.batch.link: user,mos.batch.link,mos_core.group_mos_user,r,
+access_mos_batch_delivery_user,mos.batch.delivery: user,mos.batch.delivery,mos_core.group_mos_user,r,
+access_mos_batch_inspection_user,mos.batch.inspection: user,mos.batch.inspection,mos_core.group_mos_user,r,
+access_mos_batch_inspection_lab_analyst,mos.batch.inspection: lab_analyst,mos.batch.inspection,mos_lab.group_mos_lab_analyst,cru,
+access_mos_batch_result_user,mos.batch.result: user,mos.batch.result,mos_core.group_mos_user,r,
+access_mos_batch_result_lab_analyst,mos.batch.result: lab_analyst,mos.batch.result,mos_lab.group_mos_lab_analyst,crud,
+access_mos_trace_user,mos.trace: user,mos.trace,mos_core.group_mos_user,crud,
+access_mos_trace_line_user,mos.trace.line: user,mos.trace.line,mos_core.group_mos_user,crud,
+access_mos_downtime_report_user,mos.downtime.report: user,mos.downtime.report,mos_core.group_mos_user,r,
+access_mos_production_report_user,mos.production.report: user,mos.production.report,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_planner_report_user,mos.planner.report: user,mos.planner.report,mos_core.group_mos_user,r,
+access_mos_batch_decide_wizard_analyst,Batch decision dialog,mos.batch.decide.wizard,mos_lab.group_mos_lab_manager,crud,

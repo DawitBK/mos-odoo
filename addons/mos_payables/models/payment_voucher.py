@@ -88,6 +88,7 @@ class MosPaymentVoucher(models.Model):
             self.line_ids.invoice_id.sudo().write({'state': 'payable'})
             if state == 'rejected':
                 self.line_ids.sudo().write({'live': False})
+                self.env['mos.payment.voucher.line'].flush_model(['live'])
 
     def action_cancel(self):
         for v in self:
@@ -98,6 +99,7 @@ class MosPaymentVoucher(models.Model):
             v.sudo().write({'state': 'cancelled'})
             v.line_ids.invoice_id.sudo().write({'state': 'payable'})
             v.line_ids.sudo().write({'live': False})
+            self.env['mos.payment.voucher.line'].flush_model(['live'])  # the freed invoices may go on a new voucher at once
 
     def _refresh_state(self):
         for v in self:

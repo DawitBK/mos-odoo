@@ -1,0 +1,385 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Milling run: dosing, work centre, cost -->
+    <record id="view_mos_milling_run_form_mfg" model="ir.ui.view">
+        <field name="name">mos.milling.run.form.mfg</field>
+        <field name="model">mos.milling.run</field>
+        <field name="inherit_id" ref="mos_production.view_mos_milling_run_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='shift']" position="after">
+                <field name="work_centre_id"/>
+            </xpath>
+            <xpath expr="//field[@name='extraction_pct']" position="after">
+                <field name="input_value" invisible="state != 'done'"/>
+                <field name="unit_cost_flour" invisible="state != 'done'"/>
+            </xpath>
+            <xpath expr="//notebook" position="inside">
+                <page string="Fortification" name="dosing">
+                    <field name="dosing_ids">
+                        <list editable="bottom">
+                            <field name="premix_id"/>
+                            <field name="actual_kg"/>
+                            <field name="target_kg"/>
+                            <field name="variance_pct"/>
+                        </list>
+                    </field>
+                </page>
+                <page string="Batches made" name="batches" invisible="state != 'done'">
+                    <field name="batch_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Batches -->
+    <record id="view_mos_batch_list" model="ir.ui.view">
+        <field name="name">mos.batch.list</field>
+        <field name="model">mos.batch</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="state == 'hold'" decoration-danger="state == 'rejected'" create="0">
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="remaining_qty"/>
+                <field name="silo_id" optional="hide"/>
+                <field name="supplier_id" optional="hide"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_batch_form" model="ir.ui.view">
+        <field name="name">mos.batch.form</field>
+        <field name="model">mos.batch</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <header>
+                    <button name="action_open_trace" string="Trace" type="object" class="btn-primary"/>
+                    <button name="action_new_inspection" string="Quality inspection" type="object" invisible="kind == 'wheat' or kind == 'packed' or state != 'hold'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="hold,released"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="kind"/>
+                            <field name="product_id"/>
+                            <field name="site_id"/>
+                            <field name="qty"/>
+                            <field name="remaining_qty"/>
+                            <field name="unit_cost"/>
+                        </group>
+                        <group>
+                            <field name="visit_id"/>
+                            <field name="supplier_id"/>
+                            <field name="silo_id"/>
+                            <field name="run_id"/>
+                            <field name="pack_run_id"/>
+                        </group>
+                    </group>
+                    <field name="parent_link_ids">
+                        <list><field name="parent_id"/><field name="qty"/></list>
+                    </field>
+                    <field name="delivery_ids">
+                        <list><field name="delivery_id"/><field name="customer_id"/><field name="qty"/></list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_batch" model="ir.actions.act_window">
+        <field name="name">Batches</field>
+        <field name="res_model">mos.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Trace -->
+    <record id="view_mos_trace_form" model="ir.ui.view">
+        <field name="name">mos.trace.form</field>
+        <field name="model">mos.trace</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="batch_id"/>
+                </group>
+                <button name="action_build" string="Trace" type="object" class="btn-primary"/>
+                <field name="line_ids" readonly="1">
+                    <list>
+                        <field name="direction"/>
+                        <field name="level"/>
+                        <field name="batch_id"/>
+                        <field name="product_id"/>
+                        <field name="qty"/>
+                        <field name="note"/>
+                    </list>
+                </field>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_trace" model="ir.actions.act_window">
+        <field name="name">Trace a batch</field>
+        <field name="res_model">mos.trace</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Finished-goods inspections -->
+    <record id="view_mos_batch_inspection_list" model="ir.ui.view">
+        <field name="name">mos.batch.inspection.list</field>
+        <field name="model">mos.batch.inspection</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="batch_id"/><field name="product_id"/><field name="suggested" widget="badge"/><field name="decision"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_batch_inspection_form" model="ir.ui.view">
+        <field name="name">mos.batch.inspection.form</field>
+        <field name="model">mos.batch.inspection</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit results" type="object" class="btn-primary" invisible="state != 'open'"/>
+                    <button name="action_open_decide" string="Release or reject" type="object" class="btn-primary" invisible="state != 'tested'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="batch_id"/>
+                            <field name="product_id"/>
+                            <field name="spec_id"/>
+                        </group>
+                        <group>
+                            <field name="suggested" widget="badge"/>
+                            <field name="decision"/>
+                            <field name="decided_by_id"/>
+                            <field name="note"/>
+                        </group>
+                    </group>
+                    <field name="result_ids" readonly="state == 'decided'">
+                        <list editable="bottom" decoration-danger="not passed">
+                            <field name="line_id" domain="[('spec_id', '=', parent.spec_id)]"/>
+                            <field name="value"/>
+                            <field name="passed"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_batch_inspection" model="ir.actions.act_window">
+        <field name="name">Finished-goods inspections</field>
+        <field name="res_model">mos.batch.inspection</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_mos_batch_decide_wizard" model="ir.ui.view">
+        <field name="name">mos.batch.decide.wizard.form</field>
+        <field name="model">mos.batch.decide.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="inspection_id"/>
+                    <field name="suggested" widget="badge"/>
+                    <field name="decision"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Packing -->
+    <record id="view_mos_pack_run_list" model="ir.ui.view">
+        <field name="name">mos.pack.run.list</field>
+        <field name="model">mos.pack.run</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="date"/><field name="source_batch_id"/><field name="flour_id"/><field name="packed_kg"/><field name="yield_pct"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_pack_run_form" model="ir.ui.view">
+        <field name="name">mos.pack.run.form</field>
+        <field name="model">mos.pack.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_complete" string="Complete run" type="object" class="btn-primary" invisible="state != 'draft'" confirm="Complete the run? The flour leaves bulk stock and the bags enter stock."/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="work_centre_id"/>
+                            <field name="date"/>
+                            <field name="source_batch_id"/>
+                        </group>
+                        <group>
+                            <field name="spillage_kg"/>
+                            <field name="packed_kg"/>
+                            <field name="used_kg"/>
+                            <field name="yield_pct"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="bags"/>
+                            <field name="bag_kg"/>
+                            <field name="kg"/>
+                            <field name="batch_id"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_pack_run" model="ir.actions.act_window">
+        <field name="name">Packing runs</field>
+        <field name="res_model">mos.pack.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Work centres, downtime, shift logs -->
+    <record id="view_mos_work_centre_list" model="ir.ui.view">
+        <field name="name">mos.work.centre.list</field>
+        <field name="model">mos.work.centre</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="code"/><field name="name"/><field name="site_id"/><field name="kind"/><field name="capacity_kg_h"/></list></field>
+    </record>
+    <record id="action_mos_work_centre" model="ir.actions.act_window">
+        <field name="name">Work centres</field>
+        <field name="res_model">mos.work.centre</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_downtime_list" model="ir.ui.view">
+        <field name="name">mos.downtime.list</field>
+        <field name="model">mos.downtime</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" decoration-warning="not end">
+                <field name="work_centre_id"/>
+                <field name="start"/>
+                <field name="end"/>
+                <field name="reason_id"/>
+                <field name="planned"/>
+                <field name="minutes"/>
+                <field name="note"/>
+                <button name="action_end_now" string="End now" type="object" icon="fa-stop" invisible="end"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_downtime" model="ir.actions.act_window">
+        <field name="name">Downtime</field>
+        <field name="res_model">mos.downtime</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_shift_log_list" model="ir.ui.view">
+        <field name="name">mos.shift.log.list</field>
+        <field name="model">mos.shift.log</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="date"/><field name="shift"/><field name="work_centre_id"/><field name="supervisor_id"/><field name="notes"/><field name="handover"/></list></field>
+    </record>
+    <record id="action_mos_shift_log" model="ir.actions.act_window">
+        <field name="name">Shift logs</field>
+        <field name="res_model">mos.shift.log</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Reports -->
+    <record id="view_mos_production_report_pivot" model="ir.ui.view">
+        <field name="name">mos.production.report.pivot</field>
+        <field name="model">mos.production.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="day" type="row" interval="week"/>
+                <field name="shift" type="col"/>
+                <field name="wheat_kg" type="measure"/>
+                <field name="flour_kg" type="measure"/>
+                <field name="loss_kg" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_mos_production_report_graph" model="ir.ui.view">
+        <field name="name">mos.production.report.graph</field>
+        <field name="model">mos.production.report</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="day" interval="day"/>
+                <field name="flour_kg" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_mos_production_report" model="ir.actions.act_window">
+        <field name="name">Production report</field>
+        <field name="res_model">mos.production.report</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+    <record id="view_mos_downtime_report_pivot" model="ir.ui.view">
+        <field name="name">mos.downtime.report.pivot</field>
+        <field name="model">mos.downtime.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="work_centre_id" type="row"/>
+                <field name="reason_id" type="col"/>
+                <field name="minutes" type="measure"/>
+                <field name="stops" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_mos_downtime_report" model="ir.actions.act_window">
+        <field name="name">Downtime by reason</field>
+        <field name="res_model">mos.downtime.report</field>
+        <field name="view_mode">pivot</field>
+    </record>
+    <record id="view_mos_planner_list" model="ir.ui.view">
+        <field name="name">mos.planner.report.list</field>
+        <field name="model">mos.planner.report</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="shortfall &gt; 0" create="0">
+                <field name="product_id"/>
+                <field name="open_demand"/>
+                <field name="available"/>
+                <field name="held"/>
+                <field name="shortfall"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_planner" model="ir.actions.act_window">
+        <field name="name">Planner: demand and stock</field>
+        <field name="res_model">mos.planner.report</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Product fields -->
+    <record id="view_product_template_form_mfg" model="ir.ui.view">
+        <field name="name">product.template.form.mfg</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="after">
+                <field name="mos_bag_kg"/>
+                <field name="mos_premix_id"/>
+                <field name="mos_premix_g_per_t"/>
+                <field name="mos_cost_factor"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_batches" name="Batches" parent="mos_production.menu_mos_production" action="action_mos_batch" sequence="40"/>
+    <menuitem id="menu_mos_trace" name="Trace a batch" parent="mos_production.menu_mos_production" action="action_mos_trace" sequence="45"/>
+    <menuitem id="menu_mos_batch_inspections" name="Finished-goods inspections" parent="mos_production.menu_mos_production" action="action_mos_batch_inspection" sequence="50"/>
+    <menuitem id="menu_mos_pack_runs" name="Packing runs" parent="mos_production.menu_mos_production" action="action_mos_pack_run" sequence="60"/>
+    <menuitem id="menu_mos_downtime" name="Downtime" parent="mos_production.menu_mos_production" action="action_mos_downtime" sequence="70"/>
+    <menuitem id="menu_mos_shift_logs" name="Shift logs" parent="mos_production.menu_mos_production" action="action_mos_shift_log" sequence="80"/>
+    <menuitem id="menu_mos_production_report" name="Production report" parent="mos_production.menu_mos_production" action="action_mos_production_report" sequence="90"/>
+    <menuitem id="menu_mos_downtime_report" name="Downtime by reason" parent="mos_production.menu_mos_production" action="action_mos_downtime_report" sequence="95"/>
+    <menuitem id="menu_mos_planner" name="Planner: demand and stock" parent="mos_production.menu_mos_production" action="action_mos_planner" sequence="100"/>
+    <menuitem id="menu_mos_work_centres" name="Work centres" parent="mos_core.menu_mos_config" action="action_mos_work_centre" sequence="60"/>
+</odoo>

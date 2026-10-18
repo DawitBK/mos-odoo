@@ -80,6 +80,9 @@ vouchers = env['mos.payment.voucher']
 for supplier, invs in by_supplier.items():
     chunks = [invs[i:i + 3] for i in range(0, len(invs), 3)]
     for chunk in chunks:
+        # Matching already drafted a voucher per invoice (the receipt started the payment); the clerk groups them instead.
+        for auto in env['mos.payment.voucher.line'].search([('invoice_id', 'in', chunk.ids), ('live', '=', True)]).voucher_id:
+            auto.action_cancel()
         voucher = env['mos.payment.voucher'].with_user(apclerk).create({'supplier_id': supplier.id, 'line_ids': [Command.create({'invoice_id': i.id}) for i in chunk]})
         voucher.action_submit()
         if voucher.state == 'submitted':

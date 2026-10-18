@@ -89,5 +89,11 @@
     "given": "Priya",
     "family": "Procure",
     "role": "procurement"
+  },
+  {
+    "login": "mos.production@examplecorp.com",
+    "given": "Pablo",
+    "family": "Mill",
+    "role": "production"
   }
 ]

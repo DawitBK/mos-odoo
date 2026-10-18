@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_batch_label" model="ir.actions.report">
+        <field name="name">Batch label</field>
+        <field name="model">mos.batch</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_manufacturing.report_batch_label</field>
+        <field name="binding_model_id" ref="mos_manufacturing.model_mos_batch"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_batch_label">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="batch">
+                <div class="page" style="page-break-after: always; text-align: center;">
+                    <h2 t-out="batch.product_id.display_name"/>
+                    <h1 t-out="batch.name"/>
+                    <p><span t-out="batch.qty"/> <span t-out="batch.uom_id.name"/> · <span t-out="batch.site_id.name"/></p>
+                    <p t-if="batch.run_id">Milling run <span t-out="batch.run_id.name"/> · <span t-out="batch.run_id.run_date"/></p>
+                    <p t-if="batch.pack_run_id">Packing run <span t-out="batch.pack_run_id.name"/> · <span t-out="batch.pack_run_id.date"/></p>
+                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ batch.name }}&amp;width=200&amp;height=200" alt="QR" style="width: 200px; height: 200px;"/>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>
