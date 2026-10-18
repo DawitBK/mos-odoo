@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_purchase_request" model="ir.sequence">
+        <field name="name">MOS purchase request</field>
+        <field name="code">mos.purchase.request</field>
+        <field name="prefix">PR-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_po_amendment" model="ir.sequence">
+        <field name="name">MOS PO amendment</field>
+        <field name="code">mos.po.amendment</field>
+        <field name="prefix">POA-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_supplier_return" model="ir.sequence">
+        <field name="name">MOS supplier return</field>
+        <field name="code">mos.supplier.return</field>
+        <field name="prefix">SR-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_bank_change" model="ir.sequence">
+        <field name="name">MOS supplier bank change</field>
+        <field name="code">mos.supplier.bank.change</field>
+        <field name="prefix">BC-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_grn_reassignment" model="ir.sequence">
+        <field name="name">MOS receipt reassignment</field>
+        <field name="code">mos.grn.reassignment</field>
+        <field name="prefix">GR-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="receipt_policy_default" model="mos.receipt.policy">
+        <field name="over_pct">2.0</field>
+        <field name="over_action">block</field>
+    </record>
+</odoo>

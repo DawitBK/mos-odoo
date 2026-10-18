@@ -1,0 +1,416 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mos_procurement" name="Procurement" parent="mos_core.menu_mos_root" sequence="30"/>
+
+    <!-- Purchase requests -->
+    <record id="view_mos_purchase_request_list" model="ir.ui.view">
+        <field name="name">mos.purchase.request.list</field>
+        <field name="model">mos.purchase.request</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('cancelled', 'rejected')" decoration-success="state == 'converted'">
+                <field name="name"/>
+                <field name="site_id"/>
+                <field name="requester_id"/>
+                <field name="department"/>
+                <field name="needed_by"/>
+                <field name="amount"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_purchase_request_form" model="ir.ui.view">
+        <field name="name">mos.purchase.request.form</field>
+        <field name="model">mos.purchase.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_mos_recall_approval" string="Recall" type="object" invisible="state != 'pending'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'pending', 'approved')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,converted"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="department"/>
+                            <field name="needed_by"/>
+                        </group>
+                        <group>
+                            <field name="requester_id"/>
+                            <field name="amount"/>
+                            <field name="order_id"/>
+                        </group>
+                    </group>
+                    <field name="reason" placeholder="Why this is needed"/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="uom_id"/>
+                            <field name="estimated_price"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_purchase_request" model="ir.actions.act_window">
+        <field name="name">Purchase requests</field>
+        <field name="res_model">mos.purchase.request</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Supplier standing (extends the partner form) -->
+    <record id="view_partner_form_mos_procurement" model="ir.ui.view">
+        <field name="name">res.partner.form.mos.procurement</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Supplier approval" name="mos_supplier">
+                    <group>
+                        <group>
+                            <field name="mos_supplier_state" widget="badge"/>
+                            <field name="mos_status_reason"/>
+                            <field name="mos_documents_ok"/>
+                            <field name="mos_missing_documents"/>
+                        </group>
+                        <group>
+                            <field name="mos_approved_by_id"/>
+                            <field name="mos_approved_on"/>
+                            <field name="mos_review_due"/>
+                            <field name="mos_bank_account"/>
+                        </group>
+                    </group>
+                    <field name="mos_document_ids" context="{'default_partner_id': id}">
+                        <list editable="bottom" decoration-danger="state == 'expired'" decoration-warning="state == 'expiring'">
+                            <field name="doc_type"/>
+                            <field name="number"/>
+                            <field name="issued_on"/>
+                            <field name="expires_on"/>
+                            <field name="file" filename="filename"/>
+                            <field name="filename" column_invisible="1"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                    <button name="action_approve_supplier" type="object" string="Approve supplier" class="btn-primary" invisible="mos_supplier_state == 'approved'"/>
+                    <button name="action_open_status" type="object" string="Suspend / block / reinstate"/>
+                </page>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_partner_list_mos_suppliers" model="ir.ui.view">
+        <field name="name">res.partner.list.mos.suppliers</field>
+        <field name="model">res.partner</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="mos_supplier_state in ('blocked', 'suspended')" decoration-success="mos_supplier_state == 'approved'" create="1">
+                <field name="display_name"/>
+                <field name="mos_supplier_state" widget="badge"/>
+                <field name="mos_documents_ok"/>
+                <field name="mos_review_due"/>
+                <field name="mos_bank_account"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_suppliers" model="ir.actions.act_window">
+        <field name="name">Approved supplier list</field>
+        <field name="res_model">res.partner</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('supplier_rank', '>', 0)]</field>
+        <field name="context">{'default_supplier_rank': 1}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_partner_list_mos_suppliers')}), (0, 0, {'view_mode': 'form', 'view_id': ref('base.view_partner_form')})]"/>
+    </record>
+
+    <!-- Bank changes -->
+    <record id="view_mos_bank_change_list" model="ir.ui.view">
+        <field name="name">mos.supplier.bank.change.list</field>
+        <field name="model">mos.supplier.bank.change</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="new_account_masked"/>
+                <field name="reason"/>
+                <field name="requested_by_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_bank_change_form" model="ir.ui.view">
+        <field name="name">mos.supplier.bank.change.form</field>
+        <field name="model">mos.supplier.bank.change</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_open_verify" string="Record call-back" type="object" class="btn-primary" invisible="state != 'requested'"/>
+                    <button name="action_apply" string="Apply" type="object" class="btn-primary" invisible="state != 'verified'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="partner_id" readonly="state != 'requested' or name != 'New'"/>
+                            <field name="new_account" password="1" invisible="name != 'New'"/>
+                            <field name="new_account_masked" invisible="name == 'New'"/>
+                            <field name="reason"/>
+                        </group>
+                        <group>
+                            <field name="requested_by_id"/>
+                            <field name="verified_by_id"/>
+                            <field name="verification_note"/>
+                            <field name="applied_by_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_bank_change" model="ir.actions.act_window">
+        <field name="name">Bank changes</field>
+        <field name="res_model">mos.supplier.bank.change</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Policies -->
+    <record id="view_mos_sourcing_policy_list" model="ir.ui.view">
+        <field name="name">mos.sourcing.policy.list</field>
+        <field name="model">mos.sourcing.policy</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="amount_from"/><field name="min_quotes"/><field name="site_id"/></list></field>
+    </record>
+    <record id="action_mos_sourcing_policy" model="ir.actions.act_window">
+        <field name="name">Sourcing policy</field>
+        <field name="res_model">mos.sourcing.policy</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_receipt_policy_list" model="ir.ui.view">
+        <field name="name">mos.receipt.policy.list</field>
+        <field name="model">mos.receipt.policy</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="product_id"/><field name="over_pct"/><field name="over_action"/></list></field>
+    </record>
+    <record id="action_mos_receipt_policy" model="ir.actions.act_window">
+        <field name="name">Receipt tolerances</field>
+        <field name="res_model">mos.receipt.policy</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Purchase order: quotes and sole-source reason -->
+    <record id="view_purchase_order_form_mos_procurement" model="ir.ui.view">
+        <field name="name">purchase.order.form.mos.procurement</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Sourcing" name="mos_sourcing">
+                    <group>
+                        <field name="mos_request_id"/>
+                        <field name="mos_sole_source_reason"/>
+                    </group>
+                    <field name="mos_quote_ids">
+                        <list editable="bottom">
+                            <field name="partner_id"/>
+                            <field name="amount"/>
+                            <field name="valid_until"/>
+                            <field name="note"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Amendments -->
+    <record id="view_mos_po_amendment_list" model="ir.ui.view">
+        <field name="name">mos.po.amendment.list</field>
+        <field name="model">mos.po.amendment</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="purchase_id"/><field name="reason"/><field name="new_total"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_po_amendment_form" model="ir.ui.view">
+        <field name="name">mos.po.amendment.form</field>
+        <field name="model">mos.po.amendment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_apply" string="Apply to the order" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('applied', 'rejected', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,applied"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <field name="purchase_id"/>
+                        <field name="reason"/>
+                        <field name="new_total"/>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="po_line_id" domain="[('order_id', '=', parent.purchase_id)]"/>
+                            <field name="old_qty"/>
+                            <field name="old_price"/>
+                            <field name="new_qty"/>
+                            <field name="new_price"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_po_amendment" model="ir.actions.act_window">
+        <field name="name">PO amendments</field>
+        <field name="res_model">mos.po.amendment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Supplier returns -->
+    <record id="view_mos_supplier_return_list" model="ir.ui.view">
+        <field name="name">mos.supplier.return.list</field>
+        <field name="model">mos.supplier.return</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="purchase_id"/><field name="supplier_id"/><field name="product_id"/><field name="qty"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_supplier_return_form" model="ir.ui.view">
+        <field name="name">mos.supplier.return.form</field>
+        <field name="model">mos.supplier.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_dispatch" string="Dispatch goods" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_open_credit" string="Ask for credit" type="object" class="btn-primary" invisible="state != 'dispatched'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'approved')"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="purchase_id"/>
+                            <field name="supplier_id"/>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="location_id"/>
+                        </group>
+                        <group>
+                            <field name="reason_id"/>
+                            <field name="note"/>
+                            <field name="requested_by_id"/>
+                            <field name="approved_by_id"/>
+                            <field name="picking_id"/>
+                            <field name="debit_note_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_supplier_return" model="ir.actions.act_window">
+        <field name="name">Supplier returns</field>
+        <field name="res_model">mos.supplier.return</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- GRN reassignments -->
+    <record id="view_mos_grn_reassignment_list" model="ir.ui.view">
+        <field name="name">mos.grn.reassignment.list</field>
+        <field name="model">mos.grn.reassignment</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="visit_id"/><field name="from_order_id"/><field name="to_order_id"/><field name="reason"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_grn_reassignment_form" model="ir.ui.view">
+        <field name="name">mos.grn.reassignment.form</field>
+        <field name="model">mos.grn.reassignment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_apply" string="Approve and move" type="object" class="btn-primary" invisible="state != 'requested'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'requested'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <field name="visit_id"/>
+                        <field name="from_order_id"/>
+                        <field name="to_order_id"/>
+                        <field name="reason"/>
+                        <field name="requested_by_id"/>
+                        <field name="approved_by_id"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_grn_reassignment" model="ir.actions.act_window">
+        <field name="name">Receipt reassignments</field>
+        <field name="res_model">mos.grn.reassignment</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Wizards -->
+    <record id="view_mos_supplier_status_wizard" model="ir.ui.view">
+        <field name="name">mos.supplier.status.wizard.form</field>
+        <field name="model">mos.supplier.status.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="partner_id"/>
+                    <field name="action"/>
+                    <field name="reason" invisible="action == 'reinstate'" required="action != 'reinstate'"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_bank_verify_wizard" model="ir.ui.view">
+        <field name="name">mos.supplier.bank.verify.wizard.form</field>
+        <field name="model">mos.supplier.bank.verify.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="change_id"/>
+                    <field name="note"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Record verification" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_return_credit_wizard" model="ir.ui.view">
+        <field name="name">mos.supplier.return.credit.wizard.form</field>
+        <field name="model">mos.supplier.return.credit.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="return_id"/>
+                    <field name="purchase_id" invisible="1"/>
+                    <field name="invoice_id"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Raise debit note" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_purchase_requests" name="Purchase requests" parent="menu_mos_procurement" action="action_mos_purchase_request" sequence="10"/>
+    <menuitem id="menu_mos_suppliers" name="Approved supplier list" parent="menu_mos_procurement" action="action_mos_suppliers" sequence="20"/>
+    <menuitem id="menu_mos_bank_changes" name="Bank changes" parent="menu_mos_procurement" action="action_mos_bank_change" sequence="30"/>
+    <menuitem id="menu_mos_po_amendments" name="PO amendments" parent="menu_mos_procurement" action="action_mos_po_amendment" sequence="40"/>
+    <menuitem id="menu_mos_supplier_returns" name="Supplier returns" parent="menu_mos_procurement" action="action_mos_supplier_return" sequence="50"/>
+    <menuitem id="menu_mos_grn_reassignments" name="Receipt reassignments" parent="menu_mos_procurement" action="action_mos_grn_reassignment" sequence="60"/>
+    <menuitem id="menu_mos_procurement_config" name="Procurement set-up" parent="menu_mos_procurement" sequence="90"/>
+    <menuitem id="menu_mos_sourcing_policy" name="Sourcing policy" parent="menu_mos_procurement_config" action="action_mos_sourcing_policy" sequence="10"/>
+    <menuitem id="menu_mos_receipt_policy" name="Receipt tolerances" parent="menu_mos_procurement_config" action="action_mos_receipt_policy" sequence="20"/>
+</odoo>

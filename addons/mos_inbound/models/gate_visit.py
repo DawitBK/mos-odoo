@@ -63,6 +63,7 @@ class MosGateVisit(models.Model):
         move = picking.move_ids.filtered(lambda m: m.product_id == insp.product_id)[:1]
         if not move:
             raise UserError(self.env._('The receipt has no line for %s.', insp.product_id.display_name))
+        self._mos_check_receipt(po, insp.product_id, insp.payable_qty)
         silo = self.silo_id.sudo().fresh()
         if silo:
             # The wheat goes into the silo the guard sent the truck to; a silo cannot take more than it has room for.
@@ -76,6 +77,10 @@ class MosGateVisit(models.Model):
         self.sudo().write({'grn_picking_id': picking.id, 'grn_state': 'prepared'})
         self.env['mos.audit.event'].record('grn_prepared', self, f'{picking.name}: {insp.payable_qty} kg')
         return picking
+
+    def _mos_check_receipt(self, order, product, qty):
+        """Hook for receipt policies (excess over the ordered quantity); raise UserError to refuse."""
+        return None
 
     def action_confirm_grn(self):
         """The storekeeper confirms the prepared receipt; the buyer of the PO may not (segregation of duties)."""
