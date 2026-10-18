@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Work order: routing, time and cost -->
+    <record id="view_mos_work_order_form_planning" model="ir.ui.view">
+        <field name="name">mos.work.order.form.planning</field>
+        <field name="model">mos.work.order</field>
+        <field name="inherit_id" ref="mos_production_plus.view_mos_work_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='planned_kg']" position="after">
+                <field name="routing_id"/>
+                <field name="planned_minutes"/>
+                <field name="crew_size"/>
+            </xpath>
+            <xpath expr="//sheet/group[2]" position="after">
+                <group string="Operations" invisible="not operation_sheet">
+                    <field name="operation_sheet" nolabel="1" colspan="2"/>
+                </group>
+                <group string="Conversion cost (positive variance = unfavourable)" invisible="state not in ('running', 'done')">
+                    <group>
+                        <field name="labour_hours"/>
+                        <field name="labour_cost"/>
+                        <field name="standard_labour"/>
+                        <field name="labour_variance"/>
+                        <field name="overhead_incurred" readonly="state != 'done'"/>
+                        <field name="overhead_absorbed"/>
+                        <field name="absorption_variance"/>
+                    </group>
+                    <group>
+                        <field name="usage_variance"/>
+                        <field name="yield_variance"/>
+                        <field name="conversion_cost_per_kg"/>
+                    </group>
+                </group>
+                <field name="labour_log_ids" invisible="state not in ('running', 'done')">
+                    <list editable="bottom">
+                        <field name="date"/>
+                        <field name="worker"/>
+                        <field name="hours" sum="Hours"/>
+                        <field name="rate"/>
+                        <field name="cost" sum="Cost"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Work centre rates -->
+    <record id="view_mos_work_centre_list_rates" model="ir.ui.view">
+        <field name="name">mos.work.centre.list.rates</field>
+        <field name="model">mos.work.centre</field>
+        <field name="inherit_id" ref="mos_manufacturing.view_mos_work_centre_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='capacity_kg_h']" position="after">
+                <field name="labour_rate_h"/>
+                <field name="overhead_rate_h"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Routings -->
+    <record id="view_mos_routing_list" model="ir.ui.view">
+        <field name="name">mos.routing.list</field>
+        <field name="model">mos.routing</field>
+        <field name="arch" type="xml"><list decoration-muted="state == 'retired'"><field name="name"/><field name="product_id"/><field name="version"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_routing_form" model="ir.ui.view">
+        <field name="name">mos.routing.form</field>
+        <field name="model">mos.routing</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_new_version" string="New version" type="object" invisible="state == 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group><field name="product_id" readonly="state != 'draft'"/><field name="note"/></group>
+                    <field name="op_ids" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="name"/>
+                            <field name="work_centre_id"/>
+                            <field name="setup_minutes"/>
+                            <field name="run_rate_kg_h"/>
+                            <field name="reporting_point"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_routing" model="ir.actions.act_window">
+        <field name="name">Routings</field>
+        <field name="res_model">mos.routing</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Planning suggestions -->
+    <record id="view_mos_mrp_suggestion_list" model="ir.ui.view">
+        <field name="name">mos.mrp.suggestion.list</field>
+        <field name="model">mos.mrp.suggestion</field>
+        <field name="arch" type="xml">
+            <list create="0" decoration-muted="state != 'open'" decoration-info="kind == 'work_order'" decoration-warning="kind == 'purchase'">
+                <field name="kind"/>
+                <field name="product_id"/>
+                <field name="qty"/>
+                <field name="reason"/>
+                <field name="peg"/>
+                <field name="state" widget="badge"/>
+                <field name="result"/>
+                <button name="action_accept" type="object" string="Accept" icon="fa-check" invisible="state != 'open'"/>
+                <button name="action_dismiss" type="object" string="Dismiss" icon="fa-times" invisible="state != 'open'"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_mrp_suggestion" model="ir.actions.act_window">
+        <field name="name">Planning suggestions</field>
+        <field name="res_model">mos.mrp.suggestion</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="action_mos_mrp_generate" model="ir.actions.server">
+        <field name="name">Work out what to make and buy</field>
+        <field name="model_id" ref="model_mos_mrp_suggestion"/>
+        <field name="state">code</field>
+        <field name="code">model.generate()
+action = env['ir.actions.actions']._for_xml_id('mos_planning_plus.action_mos_mrp_suggestion')</field>
+    </record>
+
+    <!-- Purchase contracts -->
+    <record id="view_mos_purchase_contract_list" model="ir.ui.view">
+        <field name="name">mos.purchase.contract.list</field>
+        <field name="model">mos.purchase.contract</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="supplier_id"/><field name="product_id"/><field name="qty"/><field name="called_off"/><field name="remaining"/><field name="valid_to"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_purchase_contract_form" model="ir.ui.view">
+        <field name="name">mos.purchase.contract.form</field>
+        <field name="model">mos.purchase.contract</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_activate" string="Activate" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'active')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,active,closed"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="supplier_id"/>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                            <field name="price"/>
+                        </group>
+                        <group>
+                            <field name="valid_from"/>
+                            <field name="valid_to"/>
+                            <field name="spec_id"/>
+                            <field name="called_off"/>
+                            <field name="remaining"/>
+                        </group>
+                    </group>
+                    <field name="quality_note" placeholder="Quality terms agreed with the supplier"/>
+                    <field name="order_ids" readonly="1"><list><field name="name"/><field name="date_order"/><field name="state"/><field name="amount_total"/></list></field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_purchase_contract" model="ir.actions.act_window">
+        <field name="name">Purchase contracts</field>
+        <field name="res_model">mos.purchase.contract</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_purchase_order_form_contract" model="ir.ui.view">
+        <field name="name">purchase.order.form.contract</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="mos_contract_id" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Reservations -->
+    <record id="view_mos_reservation_list" model="ir.ui.view">
+        <field name="name">mos.reservation.list</field>
+        <field name="model">mos.reservation</field>
+        <field name="arch" type="xml"><list create="0" edit="0" decoration-muted="state == 'released'"><field name="order_id"/><field name="product_id"/><field name="qty" sum="Total"/><field name="remaining" sum="Total"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="action_mos_reservation" model="ir.actions.act_window">
+        <field name="name">Stock reservations</field>
+        <field name="res_model">mos.reservation</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem id="menu_mos_routings" name="Routings" parent="mos_production.menu_mos_production" action="action_mos_routing" sequence="4"/>
+    <menuitem id="menu_mos_mrp_suggestions" name="Planning suggestions" parent="mos_production.menu_mos_production" action="action_mos_mrp_generate" sequence="7"/>
+    <menuitem id="menu_mos_purchase_contracts" name="Purchase contracts" parent="mos_procurement.menu_mos_procurement" action="action_mos_purchase_contract" sequence="60"/>
+    <menuitem id="menu_mos_reservations" name="Stock reservations" parent="mos_sales.menu_mos_sales" action="action_mos_reservation" sequence="85"/>
+</odoo>

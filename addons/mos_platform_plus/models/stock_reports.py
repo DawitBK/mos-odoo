@@ -48,8 +48,10 @@ class MosReceiptValuation(models.Model):
     product_id = fields.Many2one('product.product', readonly=True)
     date = fields.Date(readonly=True)
     qty = fields.Float(string='Received', readonly=True, aggregator='sum')
-    unit_price = fields.Float(readonly=True)
-    value = fields.Float(readonly=True, aggregator='sum')
+    unit_price = fields.Float(string="Quality-adjusted price", readonly=True)
+    payable = fields.Float(string="Payable quantity", readonly=True, aggregator="sum")
+    value = fields.Float(readonly=True, aggregator="sum")
+    unit_cost = fields.Float(string="Unit cost (value per physical unit)", readonly=True)
     invoiced = fields.Float(string='Invoiced quantity', readonly=True, aggregator='sum')
 
     def init(self):
@@ -58,13 +60,19 @@ class MosReceiptValuation(models.Model):
             f"""
             CREATE OR REPLACE VIEW {self._table} AS (
                 SELECT sm.id AS id, sm.picking_id, po.id AS order_id, po.partner_id AS supplier_id, sm.product_id,
-                       sm.date::date AS date, sm.product_qty AS qty, pol.price_unit AS unit_price,
-                       sm.product_qty * pol.price_unit AS value, COALESCE(pol.qty_invoiced, 0) AS invoiced
+                       sm.date::date AS date, sm.product_qty AS qty,
+                       pol.price_unit * (1 + COALESCE(i.price_adjust_pct, 0) / 100.0) AS unit_price,
+                       COALESCE(i.payable_qty, sm.product_qty) AS payable,
+                       COALESCE(i.payable_qty, sm.product_qty) * pol.price_unit * (1 + COALESCE(i.price_adjust_pct, 0) / 100.0) AS value,
+                       CASE WHEN sm.product_qty > 0 THEN COALESCE(i.payable_qty, sm.product_qty) * pol.price_unit * (1 + COALESCE(i.price_adjust_pct, 0) / 100.0) / sm.product_qty ELSE 0 END AS unit_cost,
+                       COALESCE(pol.qty_invoiced, 0) AS invoiced
                   FROM stock_move sm
                   JOIN purchase_order_line pol ON pol.id = sm.purchase_line_id
                   JOIN purchase_order po ON po.id = pol.order_id
                   JOIN stock_location src ON src.id = sm.location_id
                   JOIN stock_location dst ON dst.id = sm.location_dest_id
+                  LEFT JOIN mos_gate_visit gv ON gv.grn_picking_id = sm.picking_id
+                  LEFT JOIN mos_lab_inspection i ON i.visit_id = gv.id AND i.product_id = sm.product_id AND i.state IN ('decided', 'closed')
                  WHERE sm.state = 'done' AND src.usage <> 'internal' AND dst.usage = 'internal'
             )
             """

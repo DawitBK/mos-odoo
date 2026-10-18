@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_purchase_contract" model="ir.sequence">
+        <field name="name">MOS purchase contract</field>
+        <field name="code">mos.purchase.contract</field>
+        <field name="prefix">CTR-%(range_year)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="cron_release_reservations" model="ir.cron">
+        <field name="name">MOS: release finished stock reservations</field>
+        <field name="model_id" ref="model_mos_reservation"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_release()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">hours</field>
+    </record>
+</odoo>
