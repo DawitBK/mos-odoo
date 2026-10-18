@@ -38,6 +38,9 @@ class MosWeighTicket(models.Model):
     supersedes_id = fields.Many2one('mos.weigh.ticket', readonly=True)
     superseded_by_id = fields.Many2one('mos.weigh.ticket', readonly=True)
     reweigh_reason_id = fields.Many2one('mos.reason', domain=[('domain', '=', 'reweigh')], readonly=True)
+    tare_source = fields.Selection([('weighed', 'Weighed on the bridge'), ('stored', 'Stored tare of the vehicle')], default='weighed', readonly=True)
+    tare_deviation = fields.Float(string='Tare deviation (kg)', digits=(12, 1), readonly=True, help='Difference from the vehicle stored tare, set when it exceeds the tolerance.')
+    overloaded = fields.Boolean(readonly=True)
 
     @api.depends('visit_id.purpose')
     def _compute_direction(self):
@@ -68,6 +71,17 @@ class MosWeighTicket(models.Model):
             raise UserError(self.env._('A weight must be above zero.'))
         self.write({'first_weight': weight, 'first_by_id': self.env.uid})
 
+    def use_stored_tare(self):
+        """Outbound only: take the vehicle's stored empty weight as the first weighing (FR-GATE-012)."""
+        self.ensure_one()
+        if self.direction != 'out':
+            raise UserError(self.env._('A stored tare replaces the empty weighing of an outbound truck only.'))
+        vehicle = self.env['mos.gate.vehicle'].for_plate(self.visit_id.plate)
+        if not vehicle or not vehicle.tare_valid:
+            raise UserError(self.env._('This vehicle has no valid stored tare: weigh it empty.'))
+        self.record_first(vehicle.stored_tare)
+        self.write({'tare_source': 'stored'})
+
     def record_second(self, weight):
         self.ensure_one()
         if self.state != 'draft' or not self.first_weight or self.second_weight:
@@ -80,6 +94,31 @@ class MosWeighTicket(models.Model):
                 self.env._('Inbound: the tare (%(tare)s kg) must be lower than the gross (%(gross)s kg).', tare=weight, gross=self.first_weight)
             )
         self.write({'second_weight': weight, 'second_by_id': self.env.uid, 'state': 'weighed'})
+        self._check_vehicle_rules()
+
+    def _check_vehicle_rules(self):
+        """Overload and tare-deviation rules; each breach opens an incident (FR-GATE-013, 025)."""
+        self.ensure_one()
+        vehicle = self.env['mos.gate.vehicle'].for_plate(self.visit_id.plate)
+        if not vehicle:
+            return
+        tolerance = self.env['ir.config_parameter'].sudo().get_float('mos_gate.tare_tolerance_kg', 150.0)
+        vals = {}
+        incidents = []
+        if vehicle.max_gross_kg and self.gross_weight > vehicle.max_gross_kg:
+            vals['overloaded'] = True
+            incidents.append(('overload', 'high', self.env._('Gross %(gross)s kg exceeds the limit %(limit)s kg.', gross=self.gross_weight, limit=vehicle.max_gross_kg)))
+        if self.tare_source == 'weighed' and vehicle.tare_valid and abs(self.tare_weight - vehicle.stored_tare) > tolerance:
+            vals['tare_deviation'] = self.tare_weight - vehicle.stored_tare
+            incidents.append(
+                ('tare_deviation', 'medium', self.env._('Tare %(tare)s kg differs from the stored %(stored)s kg.', tare=self.tare_weight, stored=vehicle.stored_tare))
+            )
+        if vals:
+            self.write(vals)
+        for kind, severity, text in incidents:
+            self.env['mos.gate.incident'].sudo().create(
+                {'site_id': self.site_id.id, 'visit_id': self.visit_id.id, 'kind': kind, 'severity': severity, 'description': f'{self.name}: {text}'}
+            )
 
     def verify_blind(self, weight_gross, weight_tare):
         """A different person re-enters both weights without seeing them; a mismatch is refused and counted (FR-GATE-010)."""
@@ -97,6 +136,9 @@ class MosWeighTicket(models.Model):
         self.write({'verified_by_id': self.env.uid})
         self.write({'state': 'posted'})
         self.env['mos.audit.event'].record('weigh_ticket_posted', self, f'{self.name}: net {self.net_weight} kg')
+        if self.tare_source == 'weighed' and self.tare_weight:
+            vehicle = self.env['mos.gate.vehicle'].for_plate(self.visit_id.plate, create=True)
+            vehicle.write({'stored_tare': self.tare_weight, 'tare_at': fields.Datetime.now()})
         self.visit_id.sudo().write({'state': 'weighed'})
 
     # -- corrections -----------------------------------------------------------------------------

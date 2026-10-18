@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Visit form: warnings, exit pass QR, incidents -->
+    <record id="view_mos_gate_visit_form_control" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.control</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning" role="alert" invisible="not blacklist_warning">
+                    <strong>Watch list:</strong> <field name="blacklist_warning" class="d-inline"/>
+                </div>
+            </xpath>
+            <xpath expr="//h1" position="before">
+                <div class="oe_button_box" name="button_box">
+                    <button name="action_view_incidents" type="object" class="oe_stat_button" icon="fa-exclamation-triangle" invisible="incident_count == 0">
+                        <field name="incident_count" widget="statinfo" string="Incidents"/>
+                    </button>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='ticket_ids']" position="before">
+                <group invisible="not exit_code">
+                    <group string="Exit pass">
+                        <field name="exit_code"/>
+                        <field name="exit_qr" widget="image" class="oe_avatar" options="{'size': [200, 200]}"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Yard board -->
+    <record id="view_mos_gate_visit_kanban" model="ir.ui.view">
+        <field name="name">mos.gate.visit.kanban</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="state" create="0" group_create="0" group_delete="0" records_draggable="0">
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between">
+                            <strong><field name="plate"/></strong>
+                            <field name="purpose" widget="badge"/>
+                        </div>
+                        <div><field name="name"/> · <field name="partner_id"/></div>
+                        <div class="text-muted"><field name="driver_name"/></div>
+                        <div class="text-warning" invisible="not blacklist_warning">Watch list</div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    <record id="action_mos_gate_yard" model="ir.actions.act_window">
+        <field name="name">Yard board</field>
+        <field name="res_model">mos.gate.visit</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('state', 'in', ('expected', 'arrived', 'weighing', 'weighed', 'cleared'))]</field>
+    </record>
+
+    <!-- Blacklist -->
+    <record id="view_mos_gate_blacklist_list" model="ir.ui.view">
+        <field name="name">mos.gate.blacklist.list</field>
+        <field name="model">mos.gate.blacklist</field>
+        <field name="arch" type="xml">
+            <list editable="bottom" decoration-danger="severity == 'block'">
+                <field name="kind"/>
+                <field name="value"/>
+                <field name="severity"/>
+                <field name="reason"/>
+                <field name="expires_on"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_gate_blacklist" model="ir.actions.act_window">
+        <field name="name">Watch list</field>
+        <field name="res_model">mos.gate.blacklist</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Shifts -->
+    <record id="view_mos_gate_shift_list" model="ir.ui.view">
+        <field name="name">mos.gate.shift.list</field>
+        <field name="model">mos.gate.shift</field>
+        <field name="arch" type="xml">
+            <list decoration-success="state == 'open'">
+                <field name="guard_id"/>
+                <field name="site_id"/>
+                <field name="started_at"/>
+                <field name="ended_at"/>
+                <field name="visit_count"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_gate_shift_form" model="ir.ui.view">
+        <field name="name">mos.gate.shift.form</field>
+        <field name="model">mos.gate.shift</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_close" string="Close shift" type="object" class="btn-primary" invisible="state == 'closed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="guard_id"/>
+                        </group>
+                        <group>
+                            <field name="started_at"/>
+                            <field name="ended_at"/>
+                            <field name="visit_count"/>
+                        </group>
+                    </group>
+                    <field name="handover_notes" placeholder="Handover notes for the next guard"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_gate_shift" model="ir.actions.act_window">
+        <field name="name">Guard shifts</field>
+        <field name="res_model">mos.gate.shift</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Vehicles -->
+    <record id="view_mos_gate_vehicle_list" model="ir.ui.view">
+        <field name="name">mos.gate.vehicle.list</field>
+        <field name="model">mos.gate.vehicle</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="plate"/>
+                <field name="transporter"/>
+                <field name="stored_tare"/>
+                <field name="tare_at"/>
+                <field name="tare_valid"/>
+                <field name="max_gross_kg"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_gate_vehicle" model="ir.actions.act_window">
+        <field name="name">Vehicles</field>
+        <field name="res_model">mos.gate.vehicle</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Incidents -->
+    <record id="view_mos_gate_incident_list" model="ir.ui.view">
+        <field name="name">mos.gate.incident.list</field>
+        <field name="model">mos.gate.incident</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="severity == 'high' and state != 'closed'" decoration-muted="state == 'closed'">
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="kind"/>
+                <field name="severity"/>
+                <field name="site_id"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_gate_incident_form" model="ir.ui.view">
+        <field name="name">mos.gate.incident.form</field>
+        <field name="model">mos.gate.incident</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_investigate" string="Investigate" type="object" invisible="state != 'open'"/>
+                    <button name="action_close" string="Close" type="object" class="btn-primary" invisible="state == 'closed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="visit_id"/>
+                            <field name="kind"/>
+                            <field name="severity"/>
+                        </group>
+                        <group>
+                            <field name="reported_by_id"/>
+                            <field name="closed_at"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="What happened"/>
+                    <field name="resolution" placeholder="Resolution (required to close)"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_gate_incident" model="ir.actions.act_window">
+        <field name="name">Incidents</field>
+        <field name="res_model">mos.gate.incident</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Material gate passes -->
+    <record id="view_mos_gate_pass_list" model="ir.ui.view">
+        <field name="name">mos.gate.pass.list</field>
+        <field name="model">mos.gate.pass</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="overdue" decoration-muted="state in ('closed', 'cancelled')">
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="carrier"/>
+                <field name="destination"/>
+                <field name="expected_return"/>
+                <field name="overdue" column_invisible="1"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_gate_pass_form" model="ir.ui.view">
+        <field name="name">mos.gate.pass.form</field>
+        <field name="model">mos.gate.pass</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_out" string="Goods out" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_return" string="Goods returned" type="object" invisible="state != 'out' or kind != 'returnable'"/>
+                    <button name="action_close" string="Close" type="object" invisible="state not in ('out', 'returned') or (state == 'out' and kind == 'returnable')"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'approved')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,approved,out,returned,closed"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="kind"/>
+                            <field name="carrier"/>
+                            <field name="destination"/>
+                            <field name="expected_return" invisible="kind != 'returnable'"/>
+                        </group>
+                        <group>
+                            <field name="requested_by_id"/>
+                            <field name="approved_by_id"/>
+                            <field name="out_at"/>
+                            <field name="returned_at"/>
+                        </group>
+                    </group>
+                    <field name="purpose" placeholder="Why the goods move"/>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="name"/>
+                            <field name="quantity"/>
+                            <field name="unit"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_gate_pass_search" model="ir.ui.view">
+        <field name="name">mos.gate.pass.search</field>
+        <field name="model">mos.gate.pass</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="carrier"/>
+                <filter name="overdue" string="Overdue returns" domain="[('overdue', '=', True)]"/>
+                <filter name="open" string="Not closed" domain="[('state', 'not in', ('closed', 'cancelled'))]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_gate_pass" model="ir.actions.act_window">
+        <field name="name">Material gate passes</field>
+        <field name="res_model">mos.gate.pass</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Report -->
+    <record id="view_mos_gate_report_pivot" model="ir.ui.view">
+        <field name="name">mos.gate.report.pivot</field>
+        <field name="model">mos.gate.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="day" type="row" interval="day"/>
+                <field name="purpose" type="col"/>
+                <field name="visits" type="measure"/>
+                <field name="net_weight" type="measure"/>
+                <field name="dwell_minutes" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_mos_gate_report_graph" model="ir.ui.view">
+        <field name="name">mos.gate.report.graph</field>
+        <field name="model">mos.gate.report</field>
+        <field name="arch" type="xml">
+            <graph type="bar">
+                <field name="day" interval="day"/>
+                <field name="net_weight" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_mos_gate_report" model="ir.actions.act_window">
+        <field name="name">Gate throughput</field>
+        <field name="res_model">mos.gate.report</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+
+    <menuitem id="menu_mos_gate_yard" name="Yard board" parent="menu_mos_gate" action="action_mos_gate_yard" sequence="5"/>
+    <menuitem id="menu_mos_gate_passes" name="Material gate passes" parent="menu_mos_gate" action="action_mos_gate_pass" sequence="30"/>
+    <menuitem id="menu_mos_gate_incidents" name="Incidents" parent="menu_mos_gate" action="action_mos_gate_incident" sequence="40"/>
+    <menuitem id="menu_mos_gate_shifts" name="Guard shifts" parent="menu_mos_gate" action="action_mos_gate_shift" sequence="50"/>
+    <menuitem id="menu_mos_gate_report" name="Gate throughput" parent="menu_mos_gate" action="action_mos_gate_report" sequence="60"/>
+    <menuitem id="menu_mos_gate_config" name="Gate set-up" parent="menu_mos_gate" sequence="90"/>
+    <menuitem id="menu_mos_gate_vehicles" name="Vehicles" parent="menu_mos_gate_config" action="action_mos_gate_vehicle" sequence="10"/>
+    <menuitem id="menu_mos_gate_blacklist" name="Watch list" parent="menu_mos_gate_config" action="action_mos_gate_blacklist" sequence="20"/>
+</odoo>

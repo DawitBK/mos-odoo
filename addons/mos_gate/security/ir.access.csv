@@ -6,3 +6,19 @@ access_mos_weigh_ticket_user,Weigh ticket: assigned sites,mos.weigh.ticket,mos_c
 access_mos_weigh_ticket_guard,Weigh ticket: guard,mos.weigh.ticket,group_mos_gate_guard,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
 access_mos_weigh_ticket_verifier,Weigh ticket: verifier,mos.weigh.ticket,group_mos_gate_verifier,ru,"[('site_id', 'in', user.mos_site_ids.ids)]"
 access_mos_weigh_ticket_admin,Weigh ticket: administrators,mos.weigh.ticket,mos_core.group_mos_admin,r,
+access_mos_gate_blacklist_guard,Blacklist: read,mos.gate.blacklist,group_mos_gate_guard,r,
+access_mos_gate_blacklist_admin,Blacklist: administrators,mos.gate.blacklist,mos_core.group_mos_admin,cru,
+access_mos_gate_shift_guard,Shift: guard,mos.gate.shift,group_mos_gate_guard,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_shift_user,Shift: assigned sites,mos.gate.shift,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_shift_admin,Shift: administrators,mos.gate.shift,mos_core.group_mos_admin,cru,
+access_mos_gate_vehicle_user,Vehicle: read,mos.gate.vehicle,mos_core.group_mos_user,r,
+access_mos_gate_vehicle_guard,Vehicle: guard,mos.gate.vehicle,group_mos_gate_guard,cru,
+access_mos_gate_vehicle_admin,Vehicle: administrators,mos.gate.vehicle,mos_core.group_mos_admin,cru,
+access_mos_gate_incident_user,Incident: assigned sites,mos.gate.incident,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_incident_guard,Incident: guard,mos.gate.incident,group_mos_gate_guard,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_incident_admin,Incident: administrators,mos.gate.incident,mos_core.group_mos_admin,cru,
+access_mos_gate_pass_user,Gate pass: assigned sites,mos.gate.pass,mos_core.group_mos_user,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_pass_admin,Gate pass: administrators,mos.gate.pass,mos_core.group_mos_admin,cru,
+access_mos_gate_pass_line_user,Gate pass line: users,mos.gate.pass.line,mos_core.group_mos_user,cru,
+access_mos_gate_report_user,Gate report: assigned sites,mos.gate.report,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_gate_report_admin,Gate report: administrators,mos.gate.report,mos_core.group_mos_admin,r,
