@@ -84,3 +84,22 @@ class MosGateVisit(models.Model):
         if not self.ticket_id:
             raise UserError(self.env._('Start the weighing first.'))
         return self.ticket_id.action_weigh_ui()
+
+
+class IrUiMenu(models.Model):
+    _inherit = 'ir.ui.menu'
+
+    @api.model
+    def mos_visible_actions(self):
+        """The menus with an action that this person actually sees in the menu bar, for the browser checks."""
+        menus = self.search([('action', '!=', False)])._filter_visible_menus()
+        visible = self._visible_menu_ids(False)
+
+        def reachable(menu):  # every folder above it must be visible too, or the menu bar never shows it
+            while menu.parent_id:
+                menu = menu.parent_id
+                if menu.id not in visible:
+                    return False
+            return True
+
+        return [{'complete_name': menu._get_full_name(), 'action': f'{menu.action._name},{menu.action.id}'} for menu in menus if reachable(menu)]

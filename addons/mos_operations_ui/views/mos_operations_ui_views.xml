@@ -217,4 +217,12 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Menus whose action only some roles can run: show them to those roles only -->
+    <record id="mos_planning_plus.menu_mos_mrp_suggestions" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('mos_manufacturing.group_mos_production_supervisor'), ref('mos_procurement.group_mos_procurement_user'), ref('mos_core.group_mos_admin')])]"/>
+    </record>
+    <record id="mos_sales.menu_mos_sale_orders" model="ir.ui.menu">
+        <field name="group_ids" eval="[(6, 0, [ref('sales_team.group_sale_salesman'), ref('mos_core.group_mos_admin')])]"/>
+    </record>
 </odoo>

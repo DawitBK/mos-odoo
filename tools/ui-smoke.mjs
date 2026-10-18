@@ -51,7 +51,7 @@ const rpc = (model, method, params) =>
     [model, method, params],
   );
 
-const menus = await rpc('ir.ui.menu', 'search_read', { args: [[['action', '!=', false]]], kwargs: { fields: ['complete_name', 'action'], order: 'id' } });
+const menus = await rpc('ir.ui.menu', 'mos_visible_actions', { args: [], kwargs: {} });
 menus.sort((a, b) => a.complete_name.localeCompare(b.complete_name));
 const mine = menus.filter((m) => /^MOS|^mos/i.test(m.complete_name.split('/')[0]) || /MOS/.test(m.complete_name)).filter((m) => !only || m.complete_name.toLowerCase().includes(only.toLowerCase()));
 console.log(`${mine.length} MOS menu actions to open`);
