@@ -59,7 +59,7 @@ if (reset) {
   must(drop, 'drop database');
 }
 console.log('installing the addons...');
-must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc', '--stop-after-init', '--without-demo=all'), 'install');
+must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales', '--stop-after-init', '--without-demo=all'), 'install');
 must(compose('up', '-d', 'odoo'), 'start odoo');
 await new Promise((r) => setTimeout(r, 8000));
 
@@ -67,6 +67,10 @@ console.log('loading the flour-mill data...');
 const seed = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_demo.py'), 'utf8'));
 must(seed, 'seed');
 console.log((seed.stdout ?? '').trim().split('\n').slice(-1)[0]);
+console.log('loading the money side (invoices, payments, sales)...');
+const business = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_business.py'), 'utf8'));
+must(business, 'business seed');
+console.log((business.stdout ?? '').trim().split('\n').slice(-1)[0]);
 
 console.log('configuring sign-in and passwords...');
 const configure = `

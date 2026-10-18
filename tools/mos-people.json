@@ -42,6 +42,42 @@
     "role": "buyer"
   },
   {
+    "login": "mos.salesrep@examplecorp.com",
+    "given": "Silas",
+    "family": "Sales",
+    "role": "salesrep"
+  },
+  {
+    "login": "mos.cashier@examplecorp.com",
+    "given": "Cora",
+    "family": "Cashier",
+    "role": "cashier"
+  },
+  {
+    "login": "mos.apclerk@examplecorp.com",
+    "given": "Amara",
+    "family": "Payables",
+    "role": "apclerk"
+  },
+  {
+    "login": "mos.gm@examplecorp.com",
+    "given": "Grace",
+    "family": "General",
+    "role": "gm"
+  },
+  {
+    "login": "mos.finance@examplecorp.com",
+    "given": "Felix",
+    "family": "Finance",
+    "role": "finance"
+  },
+  {
+    "login": "mos.deptmanager@examplecorp.com",
+    "given": "Dina",
+    "family": "Manager",
+    "role": "deptmanager"
+  },
+  {
     "login": "dawitbk01@gmail.com",
     "given": "Platform",
     "family": "Administrator",

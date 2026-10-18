@@ -27,6 +27,12 @@ GROUPS = {
     'labmanager': ['mos_lab.group_mos_lab_manager'],
     'storekeeper': ['mos_inbound.group_mos_storekeeper'],
     'buyer': ['purchase.group_purchase_user', 'mos_core.group_mos_user'],
+    'deptmanager': ['mos_approvals.group_mos_dept_manager'],
+    'finance': ['mos_approvals.group_mos_finance_manager'],
+    'gm': ['mos_approvals.group_mos_general_manager'],
+    'apclerk': ['mos_payables.group_mos_ap_clerk'],
+    'cashier': ['mos_payables.group_mos_cashier', 'mos_sales.group_mos_sales_cashier'],
+    'salesrep': ['mos_sales.group_mos_sales_rep'],
 }
 
 if env['mos.silo'].search_count([]):
@@ -57,6 +63,36 @@ for person in PEOPLE:
     users.setdefault(person['role'], user)
 guard, verifier, analyst = users['guard'], users['verifier'], users['analyst']
 manager, store, buyer = users['labmanager'], users['storekeeper'], users['buyer']
+deptmgr, finance, gm = users['deptmanager'], users['finance'], users['gm']
+apclerk, cashier, salesrep = users['apclerk'], users['cashier'], users['salesrep']
+
+# --- the approval matrix (data, never code) ---------------------------------------------------------------------
+G = lambda x: env.ref(x).id
+Rule = env['mos.approval.rule']
+for seq, lo, group, fallback in ((10, 0, 'mos_approvals.group_mos_dept_manager', None), (20, 30000.01, 'mos_approvals.group_mos_finance_manager', 'mos_approvals.group_mos_general_manager'), (30, 150000.01, 'mos_approvals.group_mos_general_manager', None)):
+    Rule.create({'doc_type': 'purchase.order', 'sequence': seq, 'amount_from': lo, 'group_id': G(group), 'fallback_group_id': G(fallback) if fallback else False, 'sla_hours': 24})
+Rule.create({'doc_type': 'mos.payment.voucher', 'sequence': 10, 'amount_from': 0, 'group_id': G('mos_approvals.group_mos_finance_manager'), 'sla_hours': 24})
+Rule.create({'doc_type': 'mos.payment.voucher', 'sequence': 20, 'amount_from': 200000.01, 'group_id': G('mos_approvals.group_mos_general_manager')})
+Rule.create({'doc_type': 'mos.supplier.invoice', 'sequence': 10, 'amount_from': 0, 'group_id': G('mos_approvals.group_mos_finance_manager')})
+Rule.create({'doc_type': 'sale.order', 'sequence': 10, 'amount_from': 0, 'group_id': G('mos_approvals.group_mos_general_manager')})
+APPROVER_BY_GROUP = {G('mos_approvals.group_mos_dept_manager'): deptmgr, G('mos_approvals.group_mos_finance_manager'): finance, G('mos_approvals.group_mos_general_manager'): gm}
+
+
+def run_approval(doc):
+    """Submit a document and let the right people approve each stage, as they would in the office."""
+    doc.action_mos_submit_approval()
+    while True:
+        step = env['mos.approval.step'].sudo().search([('request_id', '=', doc.mos_approval_request_id.id), ('state', '=', 'pending')], limit=1)
+        if not step:
+            break
+        step.with_user(APPROVER_BY_GROUP[step.group_id.id]).action_approve('Approved')
+
+
+def confirm_po(po):
+    if po._mos_approval_required():
+        run_approval(po.with_user(buyer))
+    po.with_user(buyer).button_confirm()
+
 
 # --- catalogue -----------------------------------------------------------------------------------------------
 Categ = env['product.category']
@@ -154,7 +190,7 @@ def truck(prod, supplier, qty, stage, moisture=None):
     po = env['purchase.order'].with_user(buyer).create(
         {'partner_id': supplier.id, 'order_line': [Command.create({'product_id': prod.id, 'product_qty': qty, 'price_unit': prod.standard_price})]}
     )
-    po.with_user(buyer).button_confirm()
+    confirm_po(po)
     visit = env['mos.gate.visit'].with_user(guard).create(
         {'site_id': site.id, 'plate': plate(), 'purchase_id': po.id, 'partner_id': supplier.id, 'driver_name': random.choice(DRIVERS), 'transporter': random.choice(HAULIERS)}
     )

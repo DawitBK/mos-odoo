@@ -20,6 +20,9 @@
                         <button name="action_open_planned_runs" type="object" class="oe_stat_button" icon="fa-cogs">
                             <field name="planned_runs" widget="statinfo" string="Planned runs"/>
                         </button>
+                        <button name="action_open_approvals" type="object" class="oe_stat_button" icon="fa-check-square-o">
+                            <field name="approvals_waiting" widget="statinfo" string="Waiting for me"/>
+                        </button>
                         <button name="action_open_silos" type="object" class="oe_stat_button" icon="fa-database">
                             <field name="silo_fill_pct" widget="statinfo" string="% silo capacity used"/>
                         </button>
@@ -36,6 +39,16 @@
                             <field name="flour_today_kg" string="Flour made today (kg)"/>
                             <field name="extraction_30d" string="Extraction rate, last 30 days (%)"/>
                             <field name="flour_stock_kg" string="Flour in stock (kg)"/>
+                        </group>
+                    </group>
+                    <group>
+                        <group string="Money">
+                            <field name="payable_total"/>
+                            <field name="receivable_total"/>
+                        </group>
+                        <group string="Sales this month">
+                            <field name="sales_month_kg" string="Flour and bran sold (kg)"/>
+                            <field name="sales_month_amount" string="Invoiced (with VAT)"/>
                         </group>
                     </group>
                     <separator string="Silos"/>

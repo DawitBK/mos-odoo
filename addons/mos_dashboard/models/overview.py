@@ -31,6 +31,12 @@ class MosOverview(models.TransientModel):
     extraction_30d = fields.Float(digits=(5, 2), compute='_compute_figures')
     flour_stock_kg = fields.Float(digits=(14, 0), compute='_compute_figures')
     run_ids = fields.Many2many('mos.milling.run', compute='_compute_figures')
+    # Money and approvals
+    payable_total = fields.Float(digits=(14, 0), compute='_compute_figures', string='We owe suppliers')
+    receivable_total = fields.Float(digits=(14, 0), compute='_compute_figures', string='Customers owe us')
+    sales_month_kg = fields.Float(digits=(14, 0), compute='_compute_figures')
+    sales_month_amount = fields.Float(digits=(14, 0), compute='_compute_figures')
+    approvals_waiting = fields.Integer(compute='_compute_figures')
 
     def _compute_display_name(self):
         for rec in self:
@@ -75,7 +81,16 @@ class MosOverview(models.TransientModel):
         capacity = sum(silos.mapped('capacity_kg'))
         level = sum(silos.mapped('level_kg'))
 
+        supplier_rows = self.env['mos.supplier.balance'].sudo().search([])
+        customer_rows = self.env['mos.customer.balance'].sudo().search([])
+        month_invoices = self.env['mos.customer.invoice'].search([('date', '>=', month_start)])
+        waiting = self.env['mos.approval.step'].search_count([('state', '=', 'pending'), ('eligible_user_ids', 'in', self.env.uid)])
         for rec in self:
+            rec.payable_total = sum(supplier_rows.mapped('balance'))
+            rec.receivable_total = sum(customer_rows.mapped('balance'))
+            rec.sales_month_kg = sum(month_invoices.mapped('qty'))
+            rec.sales_month_amount = sum(month_invoices.mapped('gross_amount'))
+            rec.approvals_waiting = waiting
             rec.title = self.env._('%(company)s: operations as of %(time)s', company=self.env.company.name, time=fields.Datetime.context_timestamp(rec, now).strftime('%d %b %H:%M'))
             rec.trucks_on_site = visits.search_count([('state', 'in', OPEN_VISIT_STATES)])
             rec.inspections_open = inspections.search_count([('state', '!=', 'decided')])
@@ -103,6 +118,9 @@ class MosOverview(models.TransientModel):
 
     def action_open_planned_runs(self):
         return self._open('mos.milling.run', self.env._('Planned milling runs'), [('state', '=', 'draft')])
+
+    def action_open_approvals(self):
+        return self.env['ir.actions.actions']._for_xml_id('mos_approvals.action_mos_approval_inbox')
 
     def action_open_silos(self):
         return self._open('mos.silo', self.env._('Silos'), [], 'kanban,list,form')
