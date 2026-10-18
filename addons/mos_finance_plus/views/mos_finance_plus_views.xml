@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="menu_mos_finance" name="Finance" parent="mos_core.menu_mos_root" sequence="38"/>
+
+    <!-- Self-billing on the partner form -->
+    <record id="view_partner_form_self_billing" model="ir.ui.view">
+        <field name="name">res.partner.form.self.billing</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="mos_procurement.view_partner_form_mos_procurement"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='mos_bank_account']" position="after">
+                <field name="mos_self_billing"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Supplier statement -->
+    <record id="view_mos_supplier_statement_form" model="ir.ui.view">
+        <field name="name">mos.supplier.statement.form</field>
+        <field name="model">mos.supplier.statement</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="supplier_id"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="opening"/>
+                        <field name="closing"/>
+                    </group>
+                </group>
+                <button name="action_build" string="Show the statement" type="object" class="btn-primary"/>
+                <field name="line_ids" readonly="1">
+                    <list><field name="date"/><field name="label"/><field name="amount"/><field name="balance"/></list>
+                </field>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_supplier_statement" model="ir.actions.act_window">
+        <field name="name">Supplier statement</field>
+        <field name="res_model">mos.supplier.statement</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- GRNI -->
+    <record id="view_mos_grni_form" model="ir.ui.view">
+        <field name="name">mos.grni.form</field>
+        <field name="model">mos.grni</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group><field name="as_of"/></group>
+                    <group>
+                        <field name="received_total"/>
+                        <field name="invoiced_total"/>
+                        <field name="grni_total"/>
+                        <field name="unreceived_total"/>
+                    </group>
+                </group>
+                <button name="action_build" string="Reconcile" type="object" class="btn-primary"/>
+                <field name="line_ids" readonly="1">
+                    <list>
+                        <field name="order_id"/>
+                        <field name="supplier_id"/>
+                        <field name="product_id"/>
+                        <field name="received_qty"/>
+                        <field name="invoiced_qty"/>
+                        <field name="received_value" sum="Total"/>
+                        <field name="invoiced_value" sum="Total"/>
+                        <field name="grni_value" sum="Total"/>
+                        <field name="unreceived_value" sum="Total"/>
+                    </list>
+                </field>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_grni" model="ir.actions.act_window">
+        <field name="name">Goods received not invoiced</field>
+        <field name="res_model">mos.grni</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Registers -->
+    <record id="view_mos_vat_register_list" model="ir.ui.view">
+        <field name="name">mos.vat.register.list</field>
+        <field name="model">mos.vat.register</field>
+        <field name="arch" type="xml">
+            <list create="0">
+                <field name="date"/>
+                <field name="kind"/>
+                <field name="partner_id"/>
+                <field name="tin"/>
+                <field name="document"/>
+                <field name="reference"/>
+                <field name="net_amount" sum="Total"/>
+                <field name="vat_amount" sum="Total"/>
+                <field name="self_billed" optional="hide"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_vat_register_search" model="ir.ui.view">
+        <field name="name">mos.vat.register.search</field>
+        <field name="model">mos.vat.register</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id"/>
+                <field name="document"/>
+                <filter name="input" string="Input VAT" domain="[('kind', '=', 'input')]"/>
+                <filter name="output" string="Output VAT" domain="[('kind', '=', 'output')]"/>
+                <group><filter name="by_month" string="Month" context="{'group_by': 'date:month'}"/><filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/></group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_vat_register" model="ir.actions.act_window">
+        <field name="name">VAT register</field>
+        <field name="res_model">mos.vat.register</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+    <record id="view_mos_wht_register_list" model="ir.ui.view">
+        <field name="name">mos.wht.register.list</field>
+        <field name="model">mos.wht.register</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'void'" create="0">
+                <field name="date"/>
+                <field name="certificate"/>
+                <field name="partner_id"/>
+                <field name="tin"/>
+                <field name="payment"/>
+                <field name="base_amount" sum="Total"/>
+                <field name="wht_amount" sum="Total"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_wht_register" model="ir.actions.act_window">
+        <field name="name">Withholding register</field>
+        <field name="res_model">mos.wht.register</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <!-- Journal export -->
+    <record id="view_mos_account_map_list" model="ir.ui.view">
+        <field name="name">mos.account.map.list</field>
+        <field name="model">mos.account.map</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="key"/><field name="code"/><field name="name"/></list></field>
+    </record>
+    <record id="action_mos_account_map" model="ir.actions.act_window">
+        <field name="name">Account mapping</field>
+        <field name="res_model">mos.account.map</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_journal_export_form" model="ir.ui.view">
+        <field name="name">mos.journal.export.form</field>
+        <field name="model">mos.journal.export</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="date_from"/>
+                    <field name="date_to"/>
+                </group>
+                <footer>
+                    <button name="action_export" string="Export the journals" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_journal_export" model="ir.actions.act_window">
+        <field name="name">Export journals</field>
+        <field name="res_model">mos.journal.export</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+    <record id="view_mos_journal_batch_list" model="ir.ui.view">
+        <field name="name">mos.journal.batch.list</field>
+        <field name="model">mos.journal.batch</field>
+        <field name="arch" type="xml"><list create="0"><field name="name"/><field name="date_from"/><field name="date_to"/><field name="entries"/><field name="total_debit"/><field name="exported_by_id"/><field name="sha256" optional="hide"/></list></field>
+    </record>
+    <record id="view_mos_journal_batch_form" model="ir.ui.view">
+        <field name="name">mos.journal.batch.form</field>
+        <field name="model">mos.journal.batch</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="date_from"/>
+                            <field name="date_to"/>
+                            <field name="entries"/>
+                            <field name="total_debit"/>
+                        </group>
+                        <group>
+                            <field name="file" filename="filename"/>
+                            <field name="sha256"/>
+                            <field name="exported_by_id"/>
+                        </group>
+                    </group>
+                    <field name="line_ids">
+                        <list>
+                            <field name="date"/>
+                            <field name="journal"/>
+                            <field name="reference"/>
+                            <field name="account_code"/>
+                            <field name="partner"/>
+                            <field name="description"/>
+                            <field name="debit" sum="Total"/>
+                            <field name="credit" sum="Total"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_journal_batch" model="ir.actions.act_window">
+        <field name="name">Journal exports</field>
+        <field name="res_model">mos.journal.batch</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Payment runs -->
+    <record id="view_mos_payment_run_list" model="ir.ui.view">
+        <field name="name">mos.payment.run.list</field>
+        <field name="model">mos.payment.run</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="date"/><field name="account_id"/><field name="method"/><field name="total"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_payment_run_form" model="ir.ui.view">
+        <field name="name">mos.payment.run.form</field>
+        <field name="model">mos.payment.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_propose" string="Propose what is due" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_execute" string="Pay the selected" type="object" class="btn-primary" invisible="state != 'draft' or not line_ids" confirm="Record a payment for every selected voucher?"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="date"/>
+                            <field name="account_id"/>
+                            <field name="method"/>
+                            <field name="cheque_book_id" invisible="method != 'cheque'"/>
+                        </group>
+                        <group><field name="total"/></group>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom" create="0">
+                            <field name="include"/>
+                            <field name="voucher_id" readonly="1"/>
+                            <field name="supplier_id"/>
+                            <field name="amount"/>
+                            <field name="payment_id"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_payment_run" model="ir.actions.act_window">
+        <field name="name">Payment runs</field>
+        <field name="res_model">mos.payment.run</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem id="menu_mos_payment_runs" name="Payment runs" parent="menu_mos_finance" action="action_mos_payment_run" sequence="10"/>
+    <menuitem id="menu_mos_supplier_statement" name="Supplier statement" parent="menu_mos_finance" action="action_mos_supplier_statement" sequence="20"/>
+    <menuitem id="menu_mos_grni" name="Goods received not invoiced" parent="menu_mos_finance" action="action_mos_grni" sequence="30"/>
+    <menuitem id="menu_mos_vat_register" name="VAT register" parent="menu_mos_finance" action="action_mos_vat_register" sequence="40"/>
+    <menuitem id="menu_mos_wht_register" name="Withholding register" parent="menu_mos_finance" action="action_mos_wht_register" sequence="50"/>
+    <menuitem id="menu_mos_journal_export" name="Export journals" parent="menu_mos_finance" action="action_mos_journal_export" sequence="60"/>
+    <menuitem id="menu_mos_journal_batches" name="Journal exports" parent="menu_mos_finance" action="action_mos_journal_batch" sequence="65"/>
+    <menuitem id="menu_mos_account_map" name="Account mapping" parent="menu_mos_finance" action="action_mos_account_map" sequence="90"/>
+</odoo>

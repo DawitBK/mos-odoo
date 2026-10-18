@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_supplier_statement" model="ir.actions.report">
+        <field name="name">Supplier statement</field>
+        <field name="model">mos.supplier.statement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_finance_plus.report_supplier_statement</field>
+        <field name="binding_model_id" ref="mos_finance_plus.model_mos_supplier_statement"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_supplier_statement">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="st">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Statement of what we owe</h2>
+                    <p><strong t-out="st.supplier_id.display_name"/> · <span t-out="st.date_from"/> to <span t-out="st.date_to"/></p>
+                    <table class="table table-sm">
+                        <thead><tr><th>Date</th><th>Entry</th><th>Amount</th><th>Balance</th></tr></thead>
+                        <tbody>
+                            <tr><td/><td>Opening balance</td><td/><td t-out="st.opening"/></tr>
+                            <tr t-foreach="st.line_ids" t-as="line">
+                                <td t-out="line.date"/><td t-out="line.label"/><td t-out="line.amount"/><td t-out="line.balance"/>
+                            </tr>
+                            <tr><th/><th>Closing balance</th><th/><th t-out="st.closing"/></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

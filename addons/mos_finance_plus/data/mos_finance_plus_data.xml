@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_payment_run" model="ir.sequence">
+        <field name="name">MOS payment run</field>
+        <field name="code">mos.payment.run</field>
+        <field name="prefix">PRUN-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_journal_batch" model="ir.sequence">
+        <field name="name">MOS journal export</field>
+        <field name="code">mos.journal.batch</field>
+        <field name="prefix">JX-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+</odoo>
