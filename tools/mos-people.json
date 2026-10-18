@@ -95,5 +95,11 @@
     "given": "Pablo",
     "family": "Mill",
     "role": "production"
+  },
+  {
+    "login": "mos.salesmgr@examplecorp.com",
+    "given": "Sol",
+    "family": "Sales",
+    "role": "salesmanager"
   }
 ]

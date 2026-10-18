@@ -27,6 +27,7 @@ GROUPS = {
     'labmanager': ['mos_lab.group_mos_lab_manager'],
     'storekeeper': ['mos_inbound.group_mos_storekeeper'],
     'buyer': ['purchase.group_purchase_user', 'mos_core.group_mos_user', 'mos_procurement.group_mos_procurement_user'],
+    'salesmanager': ['mos_commercial.group_mos_sales_manager'],
     'production': ['mos_manufacturing.group_mos_production_supervisor'],
     'procurement': ['mos_procurement.group_mos_procurement_manager', 'mos_inventory.group_mos_inventory_manager'],
     'deptmanager': ['mos_approvals.group_mos_dept_manager'],

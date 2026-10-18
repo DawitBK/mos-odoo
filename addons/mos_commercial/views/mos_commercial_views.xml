@@ -1,0 +1,290 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Customer standing on the partner form -->
+    <record id="view_partner_form_mos_commercial" model="ir.ui.view">
+        <field name="name">res.partner.form.mos.commercial</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="Customer approval" name="mos_customer">
+                    <group>
+                        <group>
+                            <field name="mos_customer_state" widget="badge"/>
+                            <field name="mos_customer_approved_by_id"/>
+                            <field name="mos_credit_limit" readonly="1"/>
+                        </group>
+                    </group>
+                    <button name="action_approve_customer" type="object" string="Approve customer" class="btn-primary" invisible="mos_customer_state == 'approved'"/>
+                    <button name="action_commercial_ui" type="object" string="Block customer" context="{'mos_method': 'action_block_customer', 'mos_title': 'Block the customer'}" invisible="mos_customer_state == 'blocked'"/>
+                    <field name="mos_credit_change_ids">
+                        <list create="0" delete="0">
+                            <field name="name"/>
+                            <field name="old_limit"/>
+                            <field name="new_limit"/>
+                            <field name="reason"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Sale order: price approval -->
+    <record id="view_sale_order_form_mos_commercial" model="ir.ui.view">
+        <field name="name">sale.order.form.mos.commercial</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_commercial_ui" string="Approve prices" type="object" context="{'mos_method': 'action_approve_prices', 'mos_title': 'Approve prices outside the rules'}" invisible="not mos_price_exception or mos_price_approved_by_id or state not in ('draft', 'sent')"/>
+            </xpath>
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="mos_price_exception" invisible="not mos_price_exception"/>
+                <field name="mos_price_approved_by_id" invisible="not mos_price_approved_by_id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Price list approval -->
+    <record id="view_pricelist_form_mos_commercial" model="ir.ui.view">
+        <field name="name">product.pricelist.form.mos.commercial</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_mos_approve" string="Approve this price list" type="object" class="btn-primary" invisible="mos_state == 'approved'"/>
+                    <field name="mos_state" widget="statusbar"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Price floors -->
+    <record id="view_mos_price_floor_list" model="ir.ui.view">
+        <field name="name">mos.price.floor.list</field>
+        <field name="model">mos.price.floor</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="product_id"/><field name="floor_price"/></list></field>
+    </record>
+    <record id="action_mos_price_floor" model="ir.actions.act_window">
+        <field name="name">Price floors</field>
+        <field name="res_model">mos.price.floor</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Credit limit changes -->
+    <record id="view_mos_credit_change_list" model="ir.ui.view">
+        <field name="name">mos.credit.change.list</field>
+        <field name="model">mos.credit.change</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="partner_id"/><field name="old_limit"/><field name="new_limit"/><field name="reason"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_credit_change_form" model="ir.ui.view">
+        <field name="name">mos.credit.change.form</field>
+        <field name="model">mos.credit.change</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="state != 'requested'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'requested'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <field name="partner_id"/>
+                        <field name="old_limit"/>
+                        <field name="new_limit"/>
+                        <field name="reason"/>
+                        <field name="requested_by_id"/>
+                        <field name="approved_by_id"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_credit_change" model="ir.actions.act_window">
+        <field name="name">Credit limit changes</field>
+        <field name="res_model">mos.credit.change</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Credit notes -->
+    <record id="view_mos_credit_note_list" model="ir.ui.view">
+        <field name="name">mos.credit.note.list</field>
+        <field name="model">mos.credit.note</field>
+        <field name="arch" type="xml"><list decoration-muted="state == 'cancelled'"><field name="name"/><field name="customer_id"/><field name="invoice_id"/><field name="reason_id"/><field name="amount"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_credit_note_form" model="ir.ui.view">
+        <field name="name">mos.credit.note.form</field>
+        <field name="model">mos.credit.note</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_post" string="Post" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('posted', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,posted"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="customer_id"/>
+                            <field name="invoice_id"/>
+                            <field name="amount"/>
+                            <field name="date"/>
+                        </group>
+                        <group>
+                            <field name="reason_id"/>
+                            <field name="note"/>
+                            <field name="return_id"/>
+                            <field name="requested_by_id"/>
+                            <field name="posted_by_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_credit_note" model="ir.actions.act_window">
+        <field name="name">Credit notes</field>
+        <field name="res_model">mos.credit.note</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Customer returns -->
+    <record id="view_mos_customer_return_list" model="ir.ui.view">
+        <field name="name">mos.customer.return.list</field>
+        <field name="model">mos.customer.return</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="customer_id"/><field name="product_id"/><field name="qty"/><field name="reason_id"/><field name="decision"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_customer_return_form" model="ir.ui.view">
+        <field name="name">mos.customer.return.form</field>
+        <field name="model">mos.customer.return</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_receive" string="Receive into quarantine" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_commercial_ui" string="Restock" type="object" class="btn-primary" context="{'mos_method': 'action_decide_restock', 'mos_title': 'Restock the goods'}" invisible="state != 'received'"/>
+                    <button name="action_commercial_ui" string="Scrap" type="object" context="{'mos_method': 'action_decide_scrap', 'mos_title': 'Scrap the goods'}" invisible="state != 'received'"/>
+                    <button name="action_credit" string="Draft the credit note" type="object" invisible="state != 'decided' or credit_note_id"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,received,decided"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="site_id"/>
+                            <field name="customer_id"/>
+                            <field name="delivery_id"/>
+                            <field name="product_id"/>
+                            <field name="qty"/>
+                        </group>
+                        <group>
+                            <field name="reason_id"/>
+                            <field name="note"/>
+                            <field name="received_by_id"/>
+                            <field name="decided_by_id"/>
+                            <field name="decision"/>
+                            <field name="credit_note_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_customer_return" model="ir.actions.act_window">
+        <field name="name">Customer returns</field>
+        <field name="res_model">mos.customer.return</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Reason dialog -->
+    <record id="view_mos_commercial_wizard" model="ir.ui.view">
+        <field name="name">mos.commercial.wizard.form</field>
+        <field name="model">mos.commercial.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="res_model" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="method" invisible="1"/>
+                    <field name="reason"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Statement -->
+    <record id="view_mos_customer_statement_form" model="ir.ui.view">
+        <field name="name">mos.customer.statement.form</field>
+        <field name="model">mos.customer.statement</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="customer_id"/>
+                        <field name="date_from"/>
+                        <field name="date_to"/>
+                    </group>
+                    <group>
+                        <field name="opening"/>
+                        <field name="closing"/>
+                    </group>
+                </group>
+                <button name="action_build" string="Show the statement" type="object" class="btn-primary"/>
+                <field name="line_ids" readonly="1">
+                    <list>
+                        <field name="date"/>
+                        <field name="label"/>
+                        <field name="amount"/>
+                        <field name="balance"/>
+                    </list>
+                </field>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_customer_statement" model="ir.actions.act_window">
+        <field name="name">Customer statement</field>
+        <field name="res_model">mos.customer.statement</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Delivery order: proof of delivery -->
+    <record id="view_mos_delivery_order_form_pod" model="ir.ui.view">
+        <field name="name">mos.delivery.order.form.pod</field>
+        <field name="model">mos.delivery.order</field>
+        <field name="inherit_id" ref="mos_sales.view_mos_delivery_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_pod_link" string="Proof-of-delivery link" type="object" invisible="state != 'dispatched' or pod_signed_at"/>
+            </xpath>
+            <xpath expr="//sheet" position="inside">
+                <group string="Proof of delivery" invisible="not pod_signed_at and not pod_token">
+                    <field name="pod_token" invisible="not pod_token"/>
+                    <field name="pod_receiver"/>
+                    <field name="pod_signed_at"/>
+                    <field name="pod_note"/>
+                    <field name="pod_signature" widget="image" options="{'size': [300, 120]}"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_credit_notes" name="Credit notes" parent="mos_sales.menu_mos_sales" action="action_mos_credit_note" sequence="70"/>
+    <menuitem id="menu_mos_customer_returns" name="Customer returns" parent="mos_sales.menu_mos_sales" action="action_mos_customer_return" sequence="75"/>
+    <menuitem id="menu_mos_credit_changes" name="Credit limit changes" parent="mos_sales.menu_mos_sales" action="action_mos_credit_change" sequence="80"/>
+    <menuitem id="menu_mos_customer_statement" name="Customer statement" parent="mos_sales.menu_mos_sales" action="action_mos_customer_statement" sequence="85"/>
+    <menuitem id="menu_mos_price_floors" name="Price floors" parent="mos_sales.menu_mos_sales" action="action_mos_price_floor" sequence="90"/>
+</odoo>

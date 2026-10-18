@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_credit_note" model="ir.actions.report">
+        <field name="name">Credit note</field>
+        <field name="model">mos.credit.note</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_commercial.report_credit_note</field>
+        <field name="binding_model_id" ref="mos_commercial.model_mos_credit_note"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_statement" model="ir.actions.report">
+        <field name="name">Customer statement</field>
+        <field name="model">mos.customer.statement</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_commercial.report_statement</field>
+        <field name="binding_model_id" ref="mos_commercial.model_mos_customer_statement"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_credit_note">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="note">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Credit note <span t-out="note.name"/></h2>
+                    <p><span t-out="note.customer_id.display_name"/> · <span t-out="note.date"/> · <span t-out="note.state"/></p>
+                    <table class="table table-sm">
+                        <tr><th>Against invoice</th><td t-out="note.invoice_id.name or '—'"/></tr>
+                        <tr><th>Reason</th><td t-out="note.reason_id.name"/></tr>
+                        <tr><th>Note</th><td t-out="note.note"/></tr>
+                        <tr><th>Amount credited</th><td><strong t-out="note.amount"/></td></tr>
+                    </table>
+                    <p>Raised by <span t-out="note.requested_by_id.name"/>, posted by <span t-out="note.posted_by_id.name or '—'"/>.</p>
+                </div>
+            </t>
+        </t>
+    </template>
+
+    <template id="report_statement">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="st">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Statement of account</h2>
+                    <p><strong t-out="st.customer_id.display_name"/> · <span t-out="st.date_from"/> to <span t-out="st.date_to"/></p>
+                    <table class="table table-sm">
+                        <thead><tr><th>Date</th><th>Entry</th><th>Amount</th><th>Balance</th></tr></thead>
+                        <tbody>
+                            <tr><td/><td>Opening balance</td><td/><td t-out="st.opening"/></tr>
+                            <tr t-foreach="st.line_ids" t-as="line">
+                                <td t-out="line.date"/><td t-out="line.label"/><td t-out="line.amount"/><td t-out="line.balance"/>
+                            </tr>
+                            <tr><th/><th>Closing balance</th><th/><th t-out="st.closing"/></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

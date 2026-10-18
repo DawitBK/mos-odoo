@@ -81,7 +81,7 @@ if flour:
         flour_spec = env['mos.lab.spec'].create({'product_id': flour.id, 'line_ids': [Command.create({'name': 'Ash %', 'unit': '%', 'min_value': 0.4, 'max_value': 0.75}), Command.create({'name': 'Moisture %', 'unit': '%', 'min_value': 10.0, 'max_value': 14.5}), Command.create({'name': 'Wet gluten %', 'unit': '%', 'min_value': 26.0, 'max_value': 36.0})]})
         flour_spec.action_approve()
 env['ir.config_parameter'].sudo().set_str('mos_manufacturing.hold_flour', 'True')
-silo = env['mos.silo'].search([('level_kg', '>', 40000)], order='id', limit=1)
+silo = next((s_ for s_ in env['mos.silo'].search([], order='id') if s_.fresh().level_kg > 40000 and s_.product_id), env['mos.silo'])
 if silo and flour and bran:
     try:
         run = env['mos.milling.run'].with_user(production).create(

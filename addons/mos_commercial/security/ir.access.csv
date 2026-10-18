@@ -1,0 +1,22 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_credit_change_user,mos.credit.change: user,mos.credit.change,mos_core.group_mos_user,r,
+access_mos_credit_change_sales_rep,mos.credit.change: sales_rep,mos.credit.change,mos_sales.group_mos_sales_rep,cr,
+access_mos_credit_change_sales_manager,mos.credit.change: sales_manager,mos.credit.change,group_mos_sales_manager,cru,
+access_mos_credit_change_finance_manager,mos.credit.change: finance_manager,mos.credit.change,mos_approvals.group_mos_finance_manager,cru,
+access_mos_credit_change_admin,mos.credit.change: admin,mos.credit.change,mos_core.group_mos_admin,cru,
+access_mos_price_floor_user,mos.price.floor: user,mos.price.floor,mos_core.group_mos_user,r,
+access_mos_price_floor_sales_manager,mos.price.floor: sales_manager,mos.price.floor,group_mos_sales_manager,crud,
+access_mos_price_floor_admin,mos.price.floor: admin,mos.price.floor,mos_core.group_mos_admin,crud,
+access_mos_credit_note_user,mos.credit.note: user,mos.credit.note,mos_core.group_mos_user,r,
+access_mos_credit_note_sales_rep,mos.credit.note: sales_rep,mos.credit.note,mos_sales.group_mos_sales_rep,cru,
+access_mos_credit_note_sales_manager,mos.credit.note: sales_manager,mos.credit.note,group_mos_sales_manager,cru,
+access_mos_credit_note_finance_manager,mos.credit.note: finance_manager,mos.credit.note,mos_approvals.group_mos_finance_manager,cru,
+access_mos_credit_note_admin,mos.credit.note: admin,mos.credit.note,mos_core.group_mos_admin,cru,
+access_mos_customer_return_user,mos.customer.return: user,mos.customer.return,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_customer_return_sales_rep,mos.customer.return: sales_rep,mos.customer.return,mos_sales.group_mos_sales_rep,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_customer_return_storekeeper,mos.customer.return: storekeeper,mos.customer.return,mos_inbound.group_mos_storekeeper,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_customer_return_lab_manager,mos.customer.return: lab_manager,mos.customer.return,mos_lab.group_mos_lab_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_customer_return_admin,mos.customer.return: admin,mos.customer.return,mos_core.group_mos_admin,cru,
+access_mos_customer_statement_user,mos.customer.statement: user,mos.customer.statement,mos_core.group_mos_user,crud,
+access_mos_customer_statement_line_user,mos.customer.statement.line: user,mos.customer.statement.line,mos_core.group_mos_user,crud,
+access_mos_commercial_wizard_user,Commercial reason dialog,mos.commercial.wizard,mos_core.group_mos_user,crud,
