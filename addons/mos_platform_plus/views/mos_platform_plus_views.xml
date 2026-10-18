@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Role panels on the overview -->
+    <record id="view_mos_overview_form_roles" model="ir.ui.view">
+        <field name="name">mos.overview.form.roles</field>
+        <field name="model">mos.overview</field>
+        <field name="inherit_id" ref="mos_dashboard.view_mos_overview_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_exceptions" type="object" class="oe_stat_button" icon="fa-exclamation-triangle">
+                    <field name="exceptions_mine" widget="statinfo" string="Exceptions on me"/>
+                </button>
+                <button name="action_open_lab_queue" type="object" class="oe_stat_button" icon="fa-flask">
+                    <field name="lab_waiting" widget="statinfo" string="In the lab queue"/>
+                </button>
+                <button name="action_open_vouchers" type="object" class="oe_stat_button" icon="fa-money">
+                    <field name="vouchers_to_pay" widget="statinfo" string="Vouchers to pay"/>
+                </button>
+                <button name="action_open_late_deliveries" type="object" class="oe_stat_button" icon="fa-clock-o">
+                    <field name="orders_late" widget="statinfo" string="Late deliveries"/>
+                </button>
+            </xpath>
+            <xpath expr="//sheet/group[2]" position="after">
+                <group>
+                    <group string="Gate and lab">
+                        <field name="arrivals_expected"/>
+                        <field name="lab_waiting"/>
+                        <field name="instruments_due"/>
+                    </group>
+                    <group string="Quality and production">
+                        <field name="batches_on_hold"/>
+                        <field name="quarantine_kg"/>
+                        <field name="holds_active"/>
+                        <field name="dips_off"/>
+                    </group>
+                </group>
+                <group>
+                    <group string="Buying and paying">
+                        <field name="requests_open"/>
+                        <field name="orders_late"/>
+                        <field name="vouchers_to_pay"/>
+                        <field name="amount_to_pay"/>
+                    </group>
+                    <group string="Selling and control">
+                        <field name="credit_notes_pending"/>
+                        <field name="exceptions_open"/>
+                        <field name="exceptions_overdue"/>
+                    </group>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Working site -->
+    <record id="view_mos_site_form_work_here" model="ir.ui.view">
+        <field name="name">mos.site.form.work.here</field>
+        <field name="model">mos.site</field>
+        <field name="inherit_id" ref="mos_core.view_mos_site_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_work_here" string="Work at this site" type="object" class="btn-primary"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Access review -->
+    <record id="view_mos_access_review_form" model="ir.ui.view">
+        <field name="name">mos.access.review.form</field>
+        <field name="model">mos.access.review</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_build" string="Run the review" type="object" class="btn-primary"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="include_inactive"/>
+                        <field name="file" filename="filename" readonly="1" invisible="not file"/>
+                        <field name="filename" invisible="1"/>
+                    </group>
+                    <field name="line_ids" readonly="1">
+                        <list>
+                            <field name="user_id"/>
+                            <field name="login"/>
+                            <field name="group_id"/>
+                            <field name="sites"/>
+                            <field name="granted_at"/>
+                            <field name="granted_by_id"/>
+                            <field name="last_login"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_access_review" model="ir.actions.act_window">
+        <field name="name">Access review</field>
+        <field name="res_model">mos.access.review</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+    <record id="view_mos_access_event_list" model="ir.ui.view">
+        <field name="name">mos.access.event.list</field>
+        <field name="model">mos.access.event</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" decoration-danger="action == 'revoked'">
+                <field name="at"/>
+                <field name="user_id"/>
+                <field name="group_id"/>
+                <field name="action"/>
+                <field name="by_id"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_access_event" model="ir.actions.act_window">
+        <field name="name">Role grants and removals</field>
+        <field name="res_model">mos.access.event</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Identity group mapping -->
+    <record id="view_mos_idp_group_map_list" model="ir.ui.view">
+        <field name="name">mos.idp.group.map.list</field>
+        <field name="model">mos.idp.group.map</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="idp_group"/>
+                <field name="group_id"/>
+                <field name="site_ids" widget="many2many_tags"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_idp_group_map" model="ir.actions.act_window">
+        <field name="name">Identity provider groups</field>
+        <field name="res_model">mos.idp.group.map</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Stock position, receipt valuation, balance report -->
+    <record id="view_mos_stock_position_list" model="ir.ui.view">
+        <field name="name">mos.stock.position.list</field>
+        <field name="model">mos.stock.position</field>
+        <field name="arch" type="xml">
+            <list decoration-warning="status == 'quarantine'" decoration-danger="status == 'blocked'">
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="status" widget="badge"/>
+                <field name="on_hand" sum="Total"/>
+                <field name="reserved" sum="Total"/>
+                <field name="free" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_stock_position_search" model="ir.ui.view">
+        <field name="name">mos.stock.position.search</field>
+        <field name="model">mos.stock.position</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <filter name="quarantine" string="Quarantine or blocked" domain="[('status', '!=', 'available')]"/>
+                <group>
+                    <filter name="by_product" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="by_location" string="Location" context="{'group_by': 'location_id'}"/>
+                    <filter name="by_status" string="Status" context="{'group_by': 'status'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_stock_position" model="ir.actions.act_window">
+        <field name="name">Stock overview</field>
+        <field name="res_model">mos.stock.position</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+    <record id="view_mos_receipt_valuation_list" model="ir.ui.view">
+        <field name="name">mos.receipt.valuation.list</field>
+        <field name="model">mos.receipt.valuation</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="date"/>
+                <field name="picking_id"/>
+                <field name="order_id"/>
+                <field name="supplier_id"/>
+                <field name="product_id"/>
+                <field name="qty" sum="Total"/>
+                <field name="unit_price"/>
+                <field name="value" sum="Total"/>
+                <field name="invoiced" sum="Total"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_receipt_valuation" model="ir.actions.act_window">
+        <field name="name">Receipt valuation</field>
+        <field name="res_model">mos.receipt.valuation</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+    <record id="view_mos_stock_balance_form" model="ir.ui.view">
+        <field name="name">mos.stock.balance.form</field>
+        <field name="model">mos.stock.balance</field>
+        <field name="arch" type="xml">
+            <form>
+                <header><button name="action_build" string="Run the report" type="object" class="btn-primary"/></header>
+                <sheet>
+                    <group><field name="date_from"/><field name="date_to"/></group>
+                    <field name="line_ids" readonly="1">
+                        <list>
+                            <field name="product_id"/>
+                            <field name="uom_id"/>
+                            <field name="opening" sum="Total"/>
+                            <field name="received" sum="Total"/>
+                            <field name="issued" sum="Total"/>
+                            <field name="closing" sum="Total"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_stock_balance" model="ir.actions.act_window">
+        <field name="name">Stock balance report</field>
+        <field name="res_model">mos.stock.balance</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <!-- Close checklist -->
+    <record id="view_mos_close_checklist_form" model="ir.ui.view">
+        <field name="name">mos.close.checklist.form</field>
+        <field name="model">mos.close.checklist</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_run" string="Run the checks" type="object" class="btn-primary"/>
+                    <button name="action_sign_off" string="Sign off the period" type="object" invisible="not ready"/>
+                </header>
+                <sheet>
+                    <group><field name="date_to"/><field name="ready"/></group>
+                    <field name="line_ids" readonly="1">
+                        <list decoration-danger="count &gt; 0" decoration-success="count == 0">
+                            <field name="name"/>
+                            <field name="count"/>
+                            <field name="why"/>
+                            <button name="action_open" type="object" string="Open" icon="fa-external-link" invisible="count == 0"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_close_checklist" model="ir.actions.act_window">
+        <field name="name">Period close checklist</field>
+        <field name="res_model">mos.close.checklist</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_mos_platform_reports" name="Stock reports" parent="mos_inventory.menu_mos_inventory" sequence="60"/>
+    <menuitem id="menu_mos_stock_position" name="Stock overview" parent="menu_mos_platform_reports" action="action_mos_stock_position" sequence="10"/>
+    <menuitem id="menu_mos_stock_balance" name="Stock balance" parent="menu_mos_platform_reports" action="action_mos_stock_balance" sequence="20"/>
+    <menuitem id="menu_mos_receipt_valuation" name="Receipt valuation" parent="menu_mos_platform_reports" action="action_mos_receipt_valuation" sequence="30"/>
+    <menuitem id="menu_mos_close_checklist" name="Period close checklist" parent="menu_mos_platform_reports" action="action_mos_close_checklist" sequence="40"/>
+    <menuitem id="menu_mos_access_review" name="Access review" parent="mos_core.menu_mos_config" action="action_mos_access_review" sequence="60"/>
+    <menuitem id="menu_mos_access_event" name="Role grants and removals" parent="mos_core.menu_mos_config" action="action_mos_access_event" sequence="61"/>
+    <menuitem id="menu_mos_idp_group_map" name="Identity provider groups" parent="mos_core.menu_mos_config" action="action_mos_idp_group_map" sequence="62"/>
+</odoo>

@@ -138,6 +138,8 @@ class MosOidcController(http.Controller):
         if not user:
             _logger.info('OIDC sign-in refused: %s has no MOS account', identity['email'])
             return failure
+        if hasattr(user, '_mos_apply_idp_claims'):  # roles from the provider's groups, when mos_platform_plus is installed
+            user._mos_apply_idp_claims(identity)
         session_token = secrets.token_urlsafe(32)
         user.write({'oauth_access_token': session_token})
         request.env.cr.commit()

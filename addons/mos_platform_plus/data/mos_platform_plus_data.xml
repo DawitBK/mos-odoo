@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="cron_exception_digest" model="ir.cron">
+        <field name="name">MOS: daily e-mail of open exceptions</field>
+        <field name="model_id" ref="model_mos_exception_digest"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_send()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+    </record>
+</odoo>
