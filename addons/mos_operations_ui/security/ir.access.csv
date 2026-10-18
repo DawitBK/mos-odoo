@@ -1,0 +1,12 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_weigh_wizard_user,mos.weigh.wizard: user,mos.weigh.wizard,mos_core.group_mos_user,crud,
+access_po_gate_guard,Gate guard sees confirmed orders (to pick the one a truck delivers against),purchase.order,mos_gate.group_mos_gate_guard,r,"[('state', 'in', ('purchase', 'done'))]"
+access_po_gate_verifier,Weight verifier sees confirmed orders,purchase.order,mos_gate.group_mos_gate_verifier,r,"[('state', 'in', ('purchase', 'done'))]"
+access_po_lab_analyst,Lab analyst sees confirmed orders,purchase.order,mos_lab.group_mos_lab_analyst,r,"[('state', 'in', ('purchase', 'done'))]"
+access_po_lab_manager,Lab manager sees confirmed orders,purchase.order,mos_lab.group_mos_lab_manager,r,"[('state', 'in', ('purchase', 'done'))]"
+access_po_gate_supervisor,Gate supervisor sees confirmed orders,purchase.order,mos_flows.group_mos_gate_supervisor,r,"[('state', 'in', ('purchase', 'done'))]"
+access_pol_gate_guard,Gate guard sees the lines of confirmed orders,purchase.order.line,mos_gate.group_mos_gate_guard,r,"[('order_id.state', 'in', ('purchase', 'done'))]"
+access_pol_gate_verifier,Weight verifier sees the lines of confirmed orders,purchase.order.line,mos_gate.group_mos_gate_verifier,r,"[('order_id.state', 'in', ('purchase', 'done'))]"
+access_pol_lab_analyst,Lab analyst sees the lines of confirmed orders,purchase.order.line,mos_lab.group_mos_lab_analyst,r,"[('order_id.state', 'in', ('purchase', 'done'))]"
+access_pol_lab_manager,Lab manager sees the lines of confirmed orders,purchase.order.line,mos_lab.group_mos_lab_manager,r,"[('order_id.state', 'in', ('purchase', 'done'))]"
+access_pol_gate_supervisor,Gate supervisor sees the lines of confirmed orders,purchase.order.line,mos_flows.group_mos_gate_supervisor,r,"[('order_id.state', 'in', ('purchase', 'done'))]"

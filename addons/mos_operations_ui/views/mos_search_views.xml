@@ -1,0 +1,1662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from each list view by the search-view generator: the fields people look things up by, a filter per status and
+     group-by on the status, supplier, site and similar. Edit freely; nothing regenerates it. -->
+<odoo>
+    <record id="search_mos_access_event" model="ir.ui.view">
+        <field name="name">mos.access.event.search</field>
+        <field name="model">mos.access.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="user_id"/>
+                <field name="group_id"/>
+                <field name="by_id"/>
+                <separator/>
+                <filter name="action_granted" string="Granted" domain="[('action', '=', 'granted')]"/>
+                <filter name="action_revoked" string="Revoked" domain="[('action', '=', 'revoked')]"/>
+                <group>
+                    <filter name="by_action" string="Action" context="{'group_by': 'action'}"/>
+                    <filter name="by_user_id" string="User" context="{'group_by': 'user_id'}"/>
+                    <filter name="by_group_id" string="Group" context="{'group_by': 'group_id'}"/>
+                    <filter name="by_by_id" string="By" context="{'group_by': 'by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_account_map" model="ir.ui.view">
+        <field name="name">mos.account.map.search</field>
+        <field name="model">mos.account.map</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="key"/>
+                <field name="code"/>
+                <field name="name"/>
+                <separator/>
+                <filter name="key_inventory" string="Inventory or purchases (debit on a supplier invoice)" domain="[('key', '=', 'inventory')]"/>
+                <filter name="key_input_vat" string="Input VAT" domain="[('key', '=', 'input_vat')]"/>
+                <filter name="key_ap_control" string="Accounts payable control" domain="[('key', '=', 'ap_control')]"/>
+                <filter name="key_wht_payable" string="Withholding tax payable" domain="[('key', '=', 'wht_payable')]"/>
+                <filter name="key_bank" string="Bank (transfers, cheques, wallets)" domain="[('key', '=', 'bank')]"/>
+                <filter name="key_cash" string="Cash box" domain="[('key', '=', 'cash')]"/>
+                <filter name="key_ar_control" string="Accounts receivable control" domain="[('key', '=', 'ar_control')]"/>
+                <filter name="key_sales" string="Sales" domain="[('key', '=', 'sales')]"/>
+                <group>
+                    <filter name="by_key" string="Key" context="{'group_by': 'key'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_approval_delegation" model="ir.ui.view">
+        <field name="name">mos.approval.delegation.search</field>
+        <field name="model">mos.approval.delegation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="delegator_id"/>
+                <field name="delegate_id"/>
+                <separator/>
+                <filter name="doc_type_purchase_order" string="Purchase order" domain="[('doc_type', '=', 'purchase.order')]"/>
+                <filter name="doc_type_sale_order" string="Sales order" domain="[('doc_type', '=', 'sale.order')]"/>
+                <filter name="doc_type_mos_supplier_invoice" string="Supplier invoice (match exception)" domain="[('doc_type', '=', 'mos.supplier.invoice')]"/>
+                <filter name="doc_type_mos_payment_voucher" string="Payment voucher" domain="[('doc_type', '=', 'mos.payment.voucher')]"/>
+                <filter name="doc_type_mos_purchase_request" string="Purchase request" domain="[('doc_type', '=', 'mos.purchase.request')]"/>
+                <filter name="doc_type_mos_po_amendment" string="Purchase order amendment" domain="[('doc_type', '=', 'mos.po.amendment')]"/>
+                <filter name="doc_type_mos_stock_adjustment" string="Stock adjustment" domain="[('doc_type', '=', 'mos.stock.adjustment')]"/>
+                <filter name="doc_type_mos_credit_note" string="Customer credit note" domain="[('doc_type', '=', 'mos.credit.note')]"/>
+                <group>
+                    <filter name="by_doc_type" string="Only for" context="{'group_by': 'doc_type'}"/>
+                    <filter name="by_delegator_id" string="Delegator" context="{'group_by': 'delegator_id'}"/>
+                    <filter name="by_delegate_id" string="Delegate" context="{'group_by': 'delegate_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_approval_request" model="ir.ui.view">
+        <field name="name">mos.approval.request.search</field>
+        <field name="model">mos.approval.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="doc_name"/>
+                <field name="requester_id"/>
+                <separator/>
+                <filter name="state_pending" string="Pending" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_returned" string="Returned for changes" domain="[('state', '=', 'returned')]"/>
+                <filter name="state_cancelled" string="Recalled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_requester_id" string="Requester" context="{'group_by': 'requester_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_approval_rule" model="ir.ui.view">
+        <field name="name">mos.approval.rule.search</field>
+        <field name="model">mos.approval.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="site_id"/>
+                <field name="group_id"/>
+                <field name="fallback_group_id"/>
+                <separator/>
+                <filter name="doc_type_purchase_order" string="Purchase order" domain="[('doc_type', '=', 'purchase.order')]"/>
+                <filter name="doc_type_sale_order" string="Sales order" domain="[('doc_type', '=', 'sale.order')]"/>
+                <filter name="doc_type_mos_supplier_invoice" string="Supplier invoice (match exception)" domain="[('doc_type', '=', 'mos.supplier.invoice')]"/>
+                <filter name="doc_type_mos_payment_voucher" string="Payment voucher" domain="[('doc_type', '=', 'mos.payment.voucher')]"/>
+                <filter name="doc_type_mos_purchase_request" string="Purchase request" domain="[('doc_type', '=', 'mos.purchase.request')]"/>
+                <filter name="doc_type_mos_po_amendment" string="Purchase order amendment" domain="[('doc_type', '=', 'mos.po.amendment')]"/>
+                <filter name="doc_type_mos_stock_adjustment" string="Stock adjustment" domain="[('doc_type', '=', 'mos.stock.adjustment')]"/>
+                <filter name="doc_type_mos_credit_note" string="Customer credit note" domain="[('doc_type', '=', 'mos.credit.note')]"/>
+                <group>
+                    <filter name="by_doc_type" string="Doc Type" context="{'group_by': 'doc_type'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="by_group_id" string="Approving role" context="{'group_by': 'group_id'}"/>
+                    <filter name="by_fallback_group_id" string="Escalates to" context="{'group_by': 'fallback_group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_approval_step" model="ir.ui.view">
+        <field name="name">mos.approval.step.search</field>
+        <field name="model">mos.approval.step</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="group_id"/>
+                <separator/>
+                <filter name="state_waiting" string="Waiting" domain="[('state', '=', 'waiting')]"/>
+                <filter name="state_pending" string="Needs a decision" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_returned" string="Returned" domain="[('state', '=', 'returned')]"/>
+                <filter name="state_skipped" string="Not needed" domain="[('state', '=', 'skipped')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_group_id" string="Approving role" context="{'group_by': 'group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_attachment" model="ir.ui.view">
+        <field name="name">mos.attachment.search</field>
+        <field name="model">mos.attachment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="res_model"/>
+                <field name="sha256"/>
+                <field name="uploaded_by_id"/>
+                <separator/>
+                <filter name="scan_state_clean" string="Clean" domain="[('scan_state', '=', 'clean')]"/>
+                <filter name="scan_state_not_scanned" string="Not scanned" domain="[('scan_state', '=', 'not_scanned')]"/>
+                <group>
+                    <filter name="by_scan_state" string="Scan State" context="{'group_by': 'scan_state'}"/>
+                    <filter name="by_uploaded_by_id" string="Uploaded By" context="{'group_by': 'uploaded_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_audit_event" model="ir.ui.view">
+        <field name="name">mos.audit.event.search</field>
+        <field name="model">mos.audit.event</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="action"/>
+                <field name="res_model"/>
+                <field name="summary"/>
+                <field name="user_id"/>
+                <group>
+                    <filter name="by_user_id" string="User" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_bag_type" model="ir.ui.view">
+        <field name="name">mos.bag.type.search</field>
+        <field name="model">mos.bag.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_batch" model="ir.ui.view">
+        <field name="name">mos.batch.search</field>
+        <field name="model">mos.batch</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="silo_id"/>
+                <field name="supplier_id"/>
+                <separator/>
+                <filter name="state_hold" string="On hold for quality" domain="[('state', '=', 'hold')]"/>
+                <filter name="state_released" string="Released" domain="[('state', '=', 'released')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="by_silo_id" string="Silo (wheat)" context="{'group_by': 'silo_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_batch_inspection" model="ir.ui.view">
+        <field name="name">mos.batch.inspection.search</field>
+        <field name="model">mos.batch.inspection</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="batch_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="state_tested" string="Tested" domain="[('state', '=', 'tested')]"/>
+                <filter name="state_decided" string="Decided" domain="[('state', '=', 'decided')]"/>
+                <group>
+                    <filter name="by_suggested" string="Suggested" context="{'group_by': 'suggested'}"/>
+                    <filter name="by_decision" string="Decision" context="{'group_by': 'decision'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_batch_id" string="Batch" context="{'group_by': 'batch_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_cash_session" model="ir.ui.view">
+        <field name="name">mos.cash.session.search</field>
+        <field name="model">mos.cash.session</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="user_id"/>
+                <separator/>
+                <filter name="state_open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="state_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_user_id" string="User" context="{'group_by': 'user_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_cheque_book" model="ir.ui.view">
+        <field name="name">mos.cheque.book.search</field>
+        <field name="model">mos.cheque.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="account_id"/>
+                <group>
+                    <filter name="by_account_id" string="Account" context="{'group_by': 'account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_concession" model="ir.ui.view">
+        <field name="name">mos.concession.search</field>
+        <field name="model">mos.concession</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="inspection_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_pending" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_decision" string="Decision" context="{'group_by': 'decision'}"/>
+                    <filter name="by_severity" string="Severity" context="{'group_by': 'severity'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_inspection_id" string="Inspection" context="{'group_by': 'inspection_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_credit_change" model="ir.ui.view">
+        <field name="name">mos.credit.change.search</field>
+        <field name="model">mos.credit.change</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reason"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter name="state_requested" string="Requested" domain="[('state', '=', 'requested')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_partner_id" string="Partner" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_credit_note" model="ir.ui.view">
+        <field name="name">mos.credit.note.search</field>
+        <field name="model">mos.credit.note</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="invoice_id"/>
+                <field name="reason_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_pending" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_posted" string="Posted" domain="[('state', '=', 'posted')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_customer_id" string="Customer" context="{'group_by': 'customer_id'}"/>
+                    <filter name="by_invoice_id" string="Invoice" context="{'group_by': 'invoice_id'}"/>
+                    <filter name="by_reason_id" string="Reason" context="{'group_by': 'reason_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_customer_invoice" model="ir.ui.view">
+        <field name="name">mos.customer.invoice.search</field>
+        <field name="model">mos.customer.invoice</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="fiscal_receipt_ref"/>
+                <field name="customer_id"/>
+                <field name="product_id"/>
+                <group>
+                    <filter name="by_customer_id" string="Customer" context="{'group_by': 'customer_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_customer_return" model="ir.ui.view">
+        <field name="name">mos.customer.return.search</field>
+        <field name="model">mos.customer.return</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="product_id"/>
+                <field name="reason_id"/>
+                <separator/>
+                <filter name="state_draft" string="Announced" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_received" string="In quarantine" domain="[('state', '=', 'received')]"/>
+                <filter name="state_decided" string="Decided" domain="[('state', '=', 'decided')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_decision" string="Decision" context="{'group_by': 'decision'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_customer_id" string="Customer" context="{'group_by': 'customer_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_cycle_count" model="ir.ui.view">
+        <field name="name">mos.cycle.count.search</field>
+        <field name="model">mos.cycle.count</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="site_id"/>
+                <field name="location_id"/>
+                <field name="counter_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_counting" string="Counting" domain="[('state', '=', 'counting')]"/>
+                <filter name="state_submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter name="state_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="by_location_id" string="Location" context="{'group_by': 'location_id'}"/>
+                    <filter name="by_counter_id" string="Counter" context="{'group_by': 'counter_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_date_policy" model="ir.ui.view">
+        <field name="name">mos.date.policy.search</field>
+        <field name="model">mos.date.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="area"/>
+                <separator/>
+                <filter name="area_payables" string="Payables (invoices, payments, vouchers, debit notes)" domain="[('area', '=', 'payables')]"/>
+                <filter name="area_receivables" string="Receivables (customer invoices, receipts)" domain="[('area', '=', 'receivables')]"/>
+                <filter name="area_inventory" string="Inventory (adjustments)" domain="[('area', '=', 'inventory')]"/>
+                <filter name="area_production" string="Production (milling runs)" domain="[('area', '=', 'production')]"/>
+                <group>
+                    <filter name="by_area" string="Area" context="{'group_by': 'area'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_delivery_order" model="ir.ui.view">
+        <field name="name">mos.delivery.order.search</field>
+        <field name="model">mos.delivery.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="plate"/>
+                <field name="sale_id"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_released" string="Released to the gate" domain="[('state', '=', 'released')]"/>
+                <filter name="state_dispatched" string="Dispatched" domain="[('state', '=', 'dispatched')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_sale_id" string="Sale" context="{'group_by': 'sale_id'}"/>
+                    <filter name="by_partner_id" string="Customer" context="{'group_by': 'partner_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_downtime" model="ir.ui.view">
+        <field name="name">mos.downtime.search</field>
+        <field name="model">mos.downtime</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="note"/>
+                <field name="work_centre_id"/>
+                <field name="reason_id"/>
+                <group>
+                    <filter name="by_work_centre_id" string="Work Centre" context="{'group_by': 'work_centre_id'}"/>
+                    <filter name="by_reason_id" string="Reason" context="{'group_by': 'reason_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_blacklist" model="ir.ui.view">
+        <field name="name">mos.gate.blacklist.search</field>
+        <field name="model">mos.gate.blacklist</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="value"/>
+                <field name="reason"/>
+                <separator/>
+                <filter name="kind_plate" string="Vehicle plate" domain="[('kind', '=', 'plate')]"/>
+                <filter name="kind_driver" string="Driver" domain="[('kind', '=', 'driver')]"/>
+                <filter name="kind_transporter" string="Transporter" domain="[('kind', '=', 'transporter')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_severity" string="Severity" context="{'group_by': 'severity'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_incident" model="ir.ui.view">
+        <field name="name">mos.gate.incident.search</field>
+        <field name="model">mos.gate.incident</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="site_id"/>
+                <separator/>
+                <filter name="state_open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="state_investigating" string="Investigating" domain="[('state', '=', 'investigating')]"/>
+                <filter name="state_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_severity" string="Severity" context="{'group_by': 'severity'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_visit_id" string="Visit" context="{'group_by': 'visit_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_post" model="ir.ui.view">
+        <field name="name">mos.gate.post.search</field>
+        <field name="model">mos.gate.post</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="site_id"/>
+                <separator/>
+                <filter name="direction_in" string="Entry" domain="[('direction', '=', 'in')]"/>
+                <filter name="direction_out" string="Exit" domain="[('direction', '=', 'out')]"/>
+                <filter name="direction_both" string="Entry and exit" domain="[('direction', '=', 'both')]"/>
+                <group>
+                    <filter name="by_direction" string="Direction" context="{'group_by': 'direction'}"/>
+                    <filter name="by_allows" string="Allows" context="{'group_by': 'allows'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_shift" model="ir.ui.view">
+        <field name="name">mos.gate.shift.search</field>
+        <field name="model">mos.gate.shift</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="guard_id"/>
+                <field name="site_id"/>
+                <separator/>
+                <filter name="state_open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="state_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_guard_id" string="Guard" context="{'group_by': 'guard_id'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_tolerance" model="ir.ui.view">
+        <field name="name">mos.gate.tolerance.search</field>
+        <field name="model">mos.gate.tolerance</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="site_id"/>
+                <field name="categ_id"/>
+                <field name="product_id"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter name="purpose_inbound_po" string="Inbound: PO delivery" domain="[('purpose', '=', 'inbound_po')]"/>
+                <filter name="purpose_outbound_do" string="Outbound: customer delivery" domain="[('purpose', '=', 'outbound_do')]"/>
+                <group>
+                    <filter name="by_purpose" string="Purpose" context="{'group_by': 'purpose'}"/>
+                    <filter name="by_action" string="Action" context="{'group_by': 'action'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="by_categ_id" string="Product category" context="{'group_by': 'categ_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_vehicle" model="ir.ui.view">
+        <field name="name">mos.gate.vehicle.search</field>
+        <field name="model">mos.gate.vehicle</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="plate"/>
+                <field name="transporter"/>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_gate_visit" model="ir.ui.view">
+        <field name="name">mos.gate.visit.search</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Visit, plate, supplier or order" filter_domain="['|', '|', '|', ('name', 'ilike', self), ('plate', 'ilike', self), ('partner_id', 'ilike', self), ('purchase_id', 'ilike', self)]"/>
+                <field name="plate"/>
+                <field name="driver_name"/>
+                <field name="transporter"/>
+                <separator/>
+                <filter name="state_expected" string="Expected" domain="[('state', '=', 'expected')]"/>
+                <filter name="state_arrived" string="Arrived" domain="[('state', '=', 'arrived')]"/>
+                <filter name="state_weighing" string="Weighing" domain="[('state', '=', 'weighing')]"/>
+                <filter name="state_weighed" string="Weighed" domain="[('state', '=', 'weighed')]"/>
+                <filter name="state_cleared" string="Exit cleared" domain="[('state', '=', 'cleared')]"/>
+                <filter name="state_exited" string="Exited" domain="[('state', '=', 'exited')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <filter name="state_abandoned" string="Abandoned" domain="[('state', '=', 'abandoned')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_partner_id" string="Supplier" context="{'group_by': 'partner_id'}"/>
+                    <filter name="by_purchase_id" string="Purchase order" context="{'group_by': 'purchase_id'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_grn_reassignment" model="ir.ui.view">
+        <field name="name">mos.grn.reassignment.search</field>
+        <field name="model">mos.grn.reassignment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reason"/>
+                <field name="visit_id"/>
+                <field name="from_order_id"/>
+                <field name="to_order_id"/>
+                <separator/>
+                <filter name="state_requested" string="Requested" domain="[('state', '=', 'requested')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_visit_id" string="Visit" context="{'group_by': 'visit_id'}"/>
+                    <filter name="by_from_order_id" string="From Order" context="{'group_by': 'from_order_id'}"/>
+                    <filter name="by_to_order_id" string="To Order" context="{'group_by': 'to_order_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_idp_group_map" model="ir.ui.view">
+        <field name="name">mos.idp.group.map.search</field>
+        <field name="model">mos.idp.group.map</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="idp_group"/>
+                <field name="group_id"/>
+                <group>
+                    <filter name="by_group_id" string="MOS role" context="{'group_by': 'group_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_item_conversion" model="ir.ui.view">
+        <field name="name">mos.item.conversion.search</field>
+        <field name="model">mos.item.conversion</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="unit_name"/>
+                <field name="product_id"/>
+                <group>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_journal_batch" model="ir.ui.view">
+        <field name="name">mos.journal.batch.search</field>
+        <field name="model">mos.journal.batch</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="sha256"/>
+                <field name="exported_by_id"/>
+                <group>
+                    <filter name="by_exported_by_id" string="Exported By" context="{'group_by': 'exported_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_coa" model="ir.ui.view">
+        <field name="name">mos.lab.coa.search</field>
+        <field name="model">mos.lab.coa</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="product_id"/>
+                <field name="grade_id"/>
+                <separator/>
+                <filter name="state_issued" string="Issued" domain="[('state', '=', 'issued')]"/>
+                <filter name="state_revoked" string="Revoked" domain="[('state', '=', 'revoked')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_visit_id" string="Visit" context="{'group_by': 'visit_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="by_grade_id" string="Grade" context="{'group_by': 'grade_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_deduction_rule" model="ir.ui.view">
+        <field name="name">mos.lab.deduction.rule.search</field>
+        <field name="model">mos.lab.deduction.rule</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="spec_id"/>
+                <field name="line_id"/>
+                <group>
+                    <filter name="by_spec_id" string="Spec" context="{'group_by': 'spec_id'}"/>
+                    <filter name="by_line_id" string="Parameter" context="{'group_by': 'line_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_inspection" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.search</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="state_tested" string="Tested" domain="[('state', '=', 'tested')]"/>
+                <filter name="state_decided" string="Decided" domain="[('state', '=', 'decided')]"/>
+                <filter name="state_closed" string="Closed without receipt" domain="[('state', '=', 'closed')]"/>
+                <group>
+                    <filter name="by_suggested_outcome" string="Suggested Outcome" context="{'group_by': 'suggested_outcome'}"/>
+                    <filter name="by_decision" string="Decision" context="{'group_by': 'decision'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_visit_id" string="Visit" context="{'group_by': 'visit_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_instrument" model="ir.ui.view">
+        <field name="name">mos.lab.instrument.search</field>
+        <field name="model">mos.lab.instrument</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <separator/>
+                <filter name="kind_balance" string="Balance" domain="[('kind', '=', 'balance')]"/>
+                <filter name="kind_moisture" string="Moisture meter" domain="[('kind', '=', 'moisture')]"/>
+                <filter name="kind_oven" string="Oven" domain="[('kind', '=', 'oven')]"/>
+                <filter name="kind_mill" string="Laboratory mill" domain="[('kind', '=', 'mill')]"/>
+                <filter name="kind_other" string="Other" domain="[('kind', '=', 'other')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_method" model="ir.ui.view">
+        <field name="name">mos.lab.method.search</field>
+        <field name="model">mos.lab.method</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="standard"/>
+                <field name="description"/>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_parameter" model="ir.ui.view">
+        <field name="name">mos.lab.parameter.search</field>
+        <field name="model">mos.lab.parameter</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="unit"/>
+                <field name="method_id"/>
+                <group>
+                    <filter name="by_method_id" string="Method" context="{'group_by': 'method_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_policy" model="ir.ui.view">
+        <field name="name">mos.lab.policy.search</field>
+        <field name="model">mos.lab.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <group>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="by_categ_id" string="Product category" context="{'group_by': 'categ_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_revision" model="ir.ui.view">
+        <field name="name">mos.lab.revision.search</field>
+        <field name="model">mos.lab.revision</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="inspection_id"/>
+                <separator/>
+                <filter name="state_requested" string="Requested" domain="[('state', '=', 'requested')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="by_old_decision" string="Old Decision" context="{'group_by': 'old_decision'}"/>
+                    <filter name="by_new_decision" string="New Decision" context="{'group_by': 'new_decision'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_inspection_id" string="Inspection" context="{'group_by': 'inspection_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_sampling_plan" model="ir.ui.view">
+        <field name="name">mos.lab.sampling.plan.search</field>
+        <field name="model">mos.lab.sampling.plan</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <field name="method"/>
+                <group>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lab_spec" model="ir.ui.view">
+        <field name="name">mos.lab.spec.search</field>
+        <field name="model">mos.lab.spec</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_retired" string="Retired" domain="[('state', '=', 'retired')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_lot_attribute" model="ir.ui.view">
+        <field name="name">mos.lot.attribute.search</field>
+        <field name="model">mos.lot.attribute</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="choices"/>
+                <field name="category_id"/>
+                <separator/>
+                <filter name="kind_number" string="Number" domain="[('kind', '=', 'number')]"/>
+                <filter name="kind_text" string="Text" domain="[('kind', '=', 'text')]"/>
+                <filter name="kind_date" string="Date" domain="[('kind', '=', 'date')]"/>
+                <filter name="kind_choice" string="One of a list" domain="[('kind', '=', 'choice')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_category_id" string="Category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_mrp_suggestion" model="ir.ui.view">
+        <field name="name">mos.mrp.suggestion.search</field>
+        <field name="model">mos.mrp.suggestion</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="reason"/>
+                <field name="peg"/>
+                <field name="result"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_open" string="Open" domain="[('state', '=', 'open')]"/>
+                <filter name="state_accepted" string="Accepted" domain="[('state', '=', 'accepted')]"/>
+                <filter name="state_dismissed" string="Dismissed" domain="[('state', '=', 'dismissed')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_pack_run" model="ir.ui.view">
+        <field name="name">mos.pack.run.search</field>
+        <field name="model">mos.pack.run</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="source_batch_id"/>
+                <field name="flour_id"/>
+                <separator/>
+                <filter name="state_draft" string="Planned" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_done" string="Completed" domain="[('state', '=', 'done')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_source_batch_id" string="Source Batch" context="{'group_by': 'source_batch_id'}"/>
+                    <filter name="by_flour_id" string="Product" context="{'group_by': 'flour_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_paper_book" model="ir.ui.view">
+        <field name="name">mos.paper.book.search</field>
+        <field name="model">mos.paper.book</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="site_id"/>
+                <group>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_paying_account" model="ir.ui.view">
+        <field name="name">mos.paying.account.search</field>
+        <field name="model">mos.paying.account</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="site_id"/>
+                <separator/>
+                <filter name="kind_bank" string="Bank account" domain="[('kind', '=', 'bank')]"/>
+                <filter name="kind_cash" string="Cash box" domain="[('kind', '=', 'cash')]"/>
+                <filter name="kind_wallet" string="Mobile-money wallet" domain="[('kind', '=', 'wallet')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_payment" model="ir.ui.view">
+        <field name="name">mos.payment.search</field>
+        <field name="model">mos.payment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="cheque_number"/>
+                <field name="supplier_id"/>
+                <field name="voucher_id"/>
+                <field name="account_id"/>
+                <separator/>
+                <filter name="method_transfer" string="Bank transfer" domain="[('method', '=', 'transfer')]"/>
+                <filter name="method_cheque" string="Cheque" domain="[('method', '=', 'cheque')]"/>
+                <filter name="method_cash" string="Cash" domain="[('method', '=', 'cash')]"/>
+                <filter name="method_wallet" string="Mobile money" domain="[('method', '=', 'wallet')]"/>
+                <group>
+                    <filter name="by_method" string="Method" context="{'group_by': 'method'}"/>
+                    <filter name="by_supplier_id" string="Supplier" context="{'group_by': 'supplier_id'}"/>
+                    <filter name="by_voucher_id" string="Voucher" context="{'group_by': 'voucher_id'}"/>
+                    <filter name="by_account_id" string="Account" context="{'group_by': 'account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_payment_reversal" model="ir.ui.view">
+        <field name="name">mos.payment.reversal.search</field>
+        <field name="model">mos.payment.reversal</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reason"/>
+                <field name="payment_id"/>
+                <field name="reversed_by_id"/>
+                <group>
+                    <filter name="by_payment_id" string="Payment" context="{'group_by': 'payment_id'}"/>
+                    <filter name="by_reversed_by_id" string="Reversed By" context="{'group_by': 'reversed_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_payment_run" model="ir.ui.view">
+        <field name="name">mos.payment.run.search</field>
+        <field name="model">mos.payment.run</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="account_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_executed" string="Executed" domain="[('state', '=', 'executed')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_method" string="Method" context="{'group_by': 'method'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_account_id" string="Account" context="{'group_by': 'account_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_payment_voucher" model="ir.ui.view">
+        <field name="name">mos.payment.voucher.search</field>
+        <field name="model">mos.payment.voucher</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_submitted" string="Submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_partially_paid" string="Partially paid" domain="[('state', '=', 'partially_paid')]"/>
+                <filter name="state_paid" string="Paid" domain="[('state', '=', 'paid')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_supplier_id" string="Supplier" context="{'group_by': 'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_period_lock" model="ir.ui.view">
+        <field name="name">mos.period.lock.search</field>
+        <field name="model">mos.period.lock</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="area"/>
+                <field name="change_reason"/>
+                <field name="changed_by_id"/>
+                <separator/>
+                <filter name="area_payables" string="Payables (invoices, payments, vouchers, debit notes)" domain="[('area', '=', 'payables')]"/>
+                <filter name="area_receivables" string="Receivables (customer invoices, receipts)" domain="[('area', '=', 'receivables')]"/>
+                <filter name="area_inventory" string="Inventory (adjustments)" domain="[('area', '=', 'inventory')]"/>
+                <filter name="area_production" string="Production (milling runs)" domain="[('area', '=', 'production')]"/>
+                <group>
+                    <filter name="by_area" string="Area" context="{'group_by': 'area'}"/>
+                    <filter name="by_changed_by_id" string="Changed By" context="{'group_by': 'changed_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_po_amendment" model="ir.ui.view">
+        <field name="name">mos.po.amendment.search</field>
+        <field name="model">mos.po.amendment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="reason"/>
+                <field name="purchase_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_pending" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_purchase_id" string="Purchase" context="{'group_by': 'purchase_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_price_floor" model="ir.ui.view">
+        <field name="name">mos.price.floor.search</field>
+        <field name="model">mos.price.floor</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <group>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_purchase_contract" model="ir.ui.view">
+        <field name="name">mos.purchase.contract.search</field>
+        <field name="model">mos.purchase.contract</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supplier_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_active" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="state_closed" string="Closed" domain="[('state', '=', 'closed')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_supplier_id" string="Supplier" context="{'group_by': 'supplier_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_purchase_request" model="ir.ui.view">
+        <field name="name">mos.purchase.request.search</field>
+        <field name="model">mos.purchase.request</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="department"/>
+                <field name="site_id"/>
+                <field name="requester_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_pending" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_converted" string="Ordered" domain="[('state', '=', 'converted')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="by_requester_id" string="Requester" context="{'group_by': 'requester_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_pv_draft" model="ir.ui.view">
+        <field name="name">mos.pv.draft.search</field>
+        <field name="model">mos.pv.draft</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="purchase_id"/>
+                <field name="supplier_id"/>
+                <field name="invoice_id"/>
+                <field name="voucher_id"/>
+                <separator/>
+                <filter name="state_awaiting_invoice" string="Awaiting invoice" domain="[('state', '=', 'awaiting_invoice')]"/>
+                <filter name="state_drafted" string="Voucher drafted" domain="[('state', '=', 'drafted')]"/>
+                <filter name="state_submitted" string="Voucher submitted" domain="[('state', '=', 'submitted')]"/>
+                <filter name="state_reversed" string="Receipt reversed" domain="[('state', '=', 'reversed')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_visit_id" string="Visit" context="{'group_by': 'visit_id'}"/>
+                    <filter name="by_purchase_id" string="Purchase" context="{'group_by': 'purchase_id'}"/>
+                    <filter name="by_supplier_id" string="Vendor" context="{'group_by': 'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_reason" model="ir.ui.view">
+        <field name="name">mos.reason.search</field>
+        <field name="model">mos.reason</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <separator/>
+                <filter name="domain_adjustment" string="Stock adjustment" domain="[('domain', '=', 'adjustment')]"/>
+                <filter name="domain_scrap" string="Scrap" domain="[('domain', '=', 'scrap')]"/>
+                <filter name="domain_status_change" string="Stock status change" domain="[('domain', '=', 'status_change')]"/>
+                <filter name="domain_transit_loss" string="Transit loss" domain="[('domain', '=', 'transit_loss')]"/>
+                <filter name="domain_count" string="Count difference" domain="[('domain', '=', 'count')]"/>
+                <filter name="domain_gate_rejection" string="Gate rejection" domain="[('domain', '=', 'gate_rejection')]"/>
+                <filter name="domain_reweigh" string="Re-weigh" domain="[('domain', '=', 'reweigh')]"/>
+                <filter name="domain_quality" string="Quality" domain="[('domain', '=', 'quality')]"/>
+                <group>
+                    <filter name="by_domain" string="Domain" context="{'group_by': 'domain'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_receipt" model="ir.ui.view">
+        <field name="name">mos.receipt.search</field>
+        <field name="model">mos.receipt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="customer_id"/>
+                <field name="invoice_id"/>
+                <field name="session_id"/>
+                <separator/>
+                <filter name="method_cash" string="Cash" domain="[('method', '=', 'cash')]"/>
+                <filter name="method_transfer" string="Bank transfer" domain="[('method', '=', 'transfer')]"/>
+                <filter name="method_cheque" string="Cheque" domain="[('method', '=', 'cheque')]"/>
+                <filter name="method_wallet" string="Mobile money" domain="[('method', '=', 'wallet')]"/>
+                <group>
+                    <filter name="by_method" string="Method" context="{'group_by': 'method'}"/>
+                    <filter name="by_customer_id" string="Customer" context="{'group_by': 'customer_id'}"/>
+                    <filter name="by_invoice_id" string="Invoice" context="{'group_by': 'invoice_id'}"/>
+                    <filter name="by_session_id" string="Session" context="{'group_by': 'session_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_receipt_policy" model="ir.ui.view">
+        <field name="name">mos.receipt.policy.search</field>
+        <field name="model">mos.receipt.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="over_action_block" string="Refuse the excess" domain="[('over_action', '=', 'block')]"/>
+                <filter name="over_action_approve" string="Accept with a manager's approval" domain="[('over_action', '=', 'approve')]"/>
+                <filter name="over_action_warn" string="Accept and flag" domain="[('over_action', '=', 'warn')]"/>
+                <group>
+                    <filter name="by_over_action" string="Over Action" context="{'group_by': 'over_action'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_recipe" model="ir.ui.view">
+        <field name="name">mos.recipe.search</field>
+        <field name="model">mos.recipe</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_retired" string="Retired" domain="[('state', '=', 'retired')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_report_job" model="ir.ui.view">
+        <field name="name">mos.report.job.search</field>
+        <field name="model">mos.report.job</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <separator/>
+                <filter name="state_queued" string="Queued" domain="[('state', '=', 'queued')]"/>
+                <filter name="state_running" string="Running" domain="[('state', '=', 'running')]"/>
+                <filter name="state_done" string="Ready" domain="[('state', '=', 'done')]"/>
+                <filter name="state_failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <group>
+                    <filter name="by_report" string="Report" context="{'group_by': 'report'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_reservation" model="ir.ui.view">
+        <field name="name">mos.reservation.search</field>
+        <field name="model">mos.reservation</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="order_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_active" string="Active" domain="[('state', '=', 'active')]"/>
+                <filter name="state_released" string="Released" domain="[('state', '=', 'released')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_order_id" string="Order" context="{'group_by': 'order_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_rfq" model="ir.ui.view">
+        <field name="name">mos.rfq.search</field>
+        <field name="model">mos.rfq</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="site_id"/>
+                <field name="request_id"/>
+                <field name="order_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_sent" string="Out for quotes" domain="[('state', '=', 'sent')]"/>
+                <filter name="state_awarded" string="Awarded" domain="[('state', '=', 'awarded')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="by_request_id" string="Request" context="{'group_by': 'request_id'}"/>
+                    <filter name="by_order_id" string="Order" context="{'group_by': 'order_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_routing" model="ir.ui.view">
+        <field name="name">mos.routing.search</field>
+        <field name="model">mos.routing</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_retired" string="Retired" domain="[('state', '=', 'retired')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_product_id" string="Flour" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_service_category" model="ir.ui.view">
+        <field name="name">mos.service.category.search</field>
+        <field name="model">mos.service.category</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <separator/>
+                <filter name="kind_product" string="Product" domain="[('kind', '=', 'product')]"/>
+                <filter name="kind_service" string="Service" domain="[('kind', '=', 'service')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_service_receipt" model="ir.ui.view">
+        <field name="name">mos.service.receipt.search</field>
+        <field name="model">mos.service.receipt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="note"/>
+                <field name="order_id"/>
+                <field name="product_id"/>
+                <field name="confirmed_by_id"/>
+                <group>
+                    <filter name="by_order_id" string="Order Reference" context="{'group_by': 'order_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                    <filter name="by_confirmed_by_id" string="Confirmed By" context="{'group_by': 'confirmed_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_shift_log" model="ir.ui.view">
+        <field name="name">mos.shift.log.search</field>
+        <field name="model">mos.shift.log</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="notes"/>
+                <field name="handover"/>
+                <field name="work_centre_id"/>
+                <field name="supervisor_id"/>
+                <separator/>
+                <filter name="shift_day" string="Day" domain="[('shift', '=', 'day')]"/>
+                <filter name="shift_night" string="Night" domain="[('shift', '=', 'night')]"/>
+                <group>
+                    <filter name="by_shift" string="Shift" context="{'group_by': 'shift'}"/>
+                    <filter name="by_work_centre_id" string="Work Centre" context="{'group_by': 'work_centre_id'}"/>
+                    <filter name="by_supervisor_id" string="Supervisor" context="{'group_by': 'supervisor_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_silo" model="ir.ui.view">
+        <field name="name">mos.silo.search</field>
+        <field name="model">mos.silo</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="product_id"/>
+                <group>
+                    <filter name="by_product_id" string="Grain" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_silo_dip" model="ir.ui.view">
+        <field name="name">mos.silo.dip.search</field>
+        <field name="model">mos.silo.dip</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="silo_id"/>
+                <field name="adjustment_id"/>
+                <group>
+                    <filter name="by_silo_id" string="Silo" context="{'group_by': 'silo_id'}"/>
+                    <filter name="by_adjustment_id" string="Adjustment" context="{'group_by': 'adjustment_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_silo_hold" model="ir.ui.view">
+        <field name="name">mos.silo.hold.search</field>
+        <field name="model">mos.silo.hold</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="chemical"/>
+                <field name="silo_id"/>
+                <separator/>
+                <filter name="state_active" string="On hold" domain="[('state', '=', 'active')]"/>
+                <filter name="state_released" string="Released" domain="[('state', '=', 'released')]"/>
+                <group>
+                    <filter name="by_reason" string="Reason" context="{'group_by': 'reason'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_silo_id" string="Silo" context="{'group_by': 'silo_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_site" model="ir.ui.view">
+        <field name="name">mos.site.search</field>
+        <field name="model">mos.site</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="warehouse_id"/>
+                <separator/>
+                <filter name="tz_Africa_Abidjan" string="Africa/Abidjan" domain="[('tz', '=', 'Africa/Abidjan')]"/>
+                <filter name="tz_Africa_Accra" string="Africa/Accra" domain="[('tz', '=', 'Africa/Accra')]"/>
+                <filter name="tz_Africa_Addis_Ababa" string="Africa/Addis_Ababa" domain="[('tz', '=', 'Africa/Addis_Ababa')]"/>
+                <filter name="tz_Africa_Algiers" string="Africa/Algiers" domain="[('tz', '=', 'Africa/Algiers')]"/>
+                <filter name="tz_Africa_Asmara" string="Africa/Asmara" domain="[('tz', '=', 'Africa/Asmara')]"/>
+                <filter name="tz_Africa_Bamako" string="Africa/Bamako" domain="[('tz', '=', 'Africa/Bamako')]"/>
+                <filter name="tz_Africa_Bangui" string="Africa/Bangui" domain="[('tz', '=', 'Africa/Bangui')]"/>
+                <filter name="tz_Africa_Banjul" string="Africa/Banjul" domain="[('tz', '=', 'Africa/Banjul')]"/>
+                <group>
+                    <filter name="by_tz" string="Time zone" context="{'group_by': 'tz'}"/>
+                    <filter name="by_warehouse_id" string="Warehouse" context="{'group_by': 'warehouse_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_sourcing_policy" model="ir.ui.view">
+        <field name="name">mos.sourcing.policy.search</field>
+        <field name="model">mos.sourcing.policy</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="site_id"/>
+                <group>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_stock_adjustment" model="ir.ui.view">
+        <field name="name">mos.stock.adjustment.search</field>
+        <field name="model">mos.stock.adjustment</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="site_id"/>
+                <field name="location_id"/>
+                <field name="reason_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_pending" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                    <filter name="by_location_id" string="Location" context="{'group_by': 'location_id'}"/>
+                    <filter name="by_reason_id" string="Reason" context="{'group_by': 'reason_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_stock_status_change" model="ir.ui.view">
+        <field name="name">mos.stock.status.change.search</field>
+        <field name="model">mos.stock.status.change</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_id"/>
+                <field name="reason_id"/>
+                <separator/>
+                <filter name="state_draft" string="Requested" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_done" string="Done" domain="[('state', '=', 'done')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_from_status" string="From Status" context="{'group_by': 'from_status'}"/>
+                    <filter name="by_to_status" string="To Status" context="{'group_by': 'to_status'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_supplier_bank_change" model="ir.ui.view">
+        <field name="name">mos.supplier.bank.change.search</field>
+        <field name="model">mos.supplier.bank.change</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="new_account_masked"/>
+                <field name="reason"/>
+                <field name="partner_id"/>
+                <field name="requested_by_id"/>
+                <separator/>
+                <filter name="state_requested" string="Requested" domain="[('state', '=', 'requested')]"/>
+                <filter name="state_verified" string="Verified by call-back" domain="[('state', '=', 'verified')]"/>
+                <filter name="state_applied" string="Applied" domain="[('state', '=', 'applied')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_partner_id" string="Partner" context="{'group_by': 'partner_id'}"/>
+                    <filter name="by_requested_by_id" string="Requested By" context="{'group_by': 'requested_by_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_supplier_invite" model="ir.ui.view">
+        <field name="name">mos.supplier.invite.search</field>
+        <field name="model">mos.supplier.invite</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="email"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter name="state_open" string="Link sent" domain="[('state', '=', 'open')]"/>
+                <filter name="state_registered" string="Registered" domain="[('state', '=', 'registered')]"/>
+                <filter name="state_expired" string="Expired" domain="[('state', '=', 'expired')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_partner_id" string="Registered as" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_supplier_invoice" model="ir.ui.view">
+        <field name="name">mos.supplier.invoice.search</field>
+        <field name="model">mos.supplier.invoice</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supplier_ref"/>
+                <field name="supplier_id"/>
+                <field name="purchase_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_payable" string="Payable" domain="[('state', '=', 'payable')]"/>
+                <filter name="state_vouchered" string="On a payment voucher" domain="[('state', '=', 'vouchered')]"/>
+                <filter name="state_paid" string="Paid" domain="[('state', '=', 'paid')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_match_state" string="Match State" context="{'group_by': 'match_state'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_supplier_id" string="Supplier" context="{'group_by': 'supplier_id'}"/>
+                    <filter name="by_purchase_id" string="Purchase order" context="{'group_by': 'purchase_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_supplier_notice" model="ir.ui.view">
+        <field name="name">mos.supplier.notice.search</field>
+        <field name="model">mos.supplier.notice</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="subject"/>
+                <field name="partner_id"/>
+                <separator/>
+                <filter name="state_queued" string="Queued" domain="[('state', '=', 'queued')]"/>
+                <filter name="state_sent" string="Sent" domain="[('state', '=', 'sent')]"/>
+                <filter name="state_failed" string="Failed" domain="[('state', '=', 'failed')]"/>
+                <filter name="state_no_email" string="Supplier has no e-mail address" domain="[('state', '=', 'no_email')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_partner_id" string="Supplier" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_supplier_return" model="ir.ui.view">
+        <field name="name">mos.supplier.return.search</field>
+        <field name="model">mos.supplier.return</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="purchase_id"/>
+                <field name="supplier_id"/>
+                <field name="product_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_approved" string="Approved" domain="[('state', '=', 'approved')]"/>
+                <filter name="state_dispatched" string="Dispatched" domain="[('state', '=', 'dispatched')]"/>
+                <filter name="state_credited" string="Credited" domain="[('state', '=', 'credited')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_purchase_id" string="Purchase" context="{'group_by': 'purchase_id'}"/>
+                    <filter name="by_supplier_id" string="Vendor" context="{'group_by': 'supplier_id'}"/>
+                    <filter name="by_product_id" string="Product" context="{'group_by': 'product_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_supplier_submission" model="ir.ui.view">
+        <field name="name">mos.supplier.submission.search</field>
+        <field name="model">mos.supplier.submission</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="supplier_ref"/>
+                <field name="supplier_id"/>
+                <field name="order_id"/>
+                <separator/>
+                <filter name="state_new" string="New" domain="[('state', '=', 'new')]"/>
+                <filter name="state_reviewed" string="Entered by payables" domain="[('state', '=', 'reviewed')]"/>
+                <filter name="state_rejected" string="Rejected" domain="[('state', '=', 'rejected')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_supplier_id" string="Supplier" context="{'group_by': 'supplier_id'}"/>
+                    <filter name="by_order_id" string="Order" context="{'group_by': 'order_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_transfer_order" model="ir.ui.view">
+        <field name="name">mos.transfer.order.search</field>
+        <field name="model">mos.transfer.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="from_site_id"/>
+                <field name="to_site_id"/>
+                <separator/>
+                <filter name="state_draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_dispatched" string="In transit" domain="[('state', '=', 'dispatched')]"/>
+                <filter name="state_received" string="Received" domain="[('state', '=', 'received')]"/>
+                <filter name="state_cancelled" string="Cancelled" domain="[('state', '=', 'cancelled')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_from_site_id" string="From" context="{'group_by': 'from_site_id'}"/>
+                    <filter name="by_to_site_id" string="To" context="{'group_by': 'to_site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_weigh_ticket" model="ir.ui.view">
+        <field name="name">mos.weigh.ticket.search</field>
+        <field name="model">mos.weigh.ticket</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="visit_id"/>
+                <separator/>
+                <filter name="state_draft" string="Weighing" domain="[('state', '=', 'draft')]"/>
+                <filter name="state_weighed" string="Awaiting verification" domain="[('state', '=', 'weighed')]"/>
+                <filter name="state_posted" string="Posted" domain="[('state', '=', 'posted')]"/>
+                <filter name="state_superseded" string="Superseded" domain="[('state', '=', 'superseded')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_visit_id" string="Visit" context="{'group_by': 'visit_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_weighbridge" model="ir.ui.view">
+        <field name="name">mos.weighbridge.search</field>
+        <field name="model">mos.weighbridge</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="post_id"/>
+                <group>
+                    <filter name="by_post_id" string="Post" context="{'group_by': 'post_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_wht_certificate" model="ir.ui.view">
+        <field name="name">mos.wht.certificate.search</field>
+        <field name="model">mos.wht.certificate</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="payment_id"/>
+                <field name="supplier_id"/>
+                <separator/>
+                <filter name="state_issued" string="Issued" domain="[('state', '=', 'issued')]"/>
+                <filter name="state_void" string="Void" domain="[('state', '=', 'void')]"/>
+                <group>
+                    <filter name="by_state" string="State" context="{'group_by': 'state'}"/>
+                    <filter name="by_payment_id" string="Payment" context="{'group_by': 'payment_id'}"/>
+                    <filter name="by_supplier_id" string="Supplier" context="{'group_by': 'supplier_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="search_mos_work_centre" model="ir.ui.view">
+        <field name="name">mos.work.centre.search</field>
+        <field name="model">mos.work.centre</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="site_id"/>
+                <separator/>
+                <filter name="kind_cleaning" string="Cleaning" domain="[('kind', '=', 'cleaning')]"/>
+                <filter name="kind_milling" string="Milling" domain="[('kind', '=', 'milling')]"/>
+                <filter name="kind_packing" string="Packing" domain="[('kind', '=', 'packing')]"/>
+                <filter name="kind_other" string="Other" domain="[('kind', '=', 'other')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_site_id" string="Site" context="{'group_by': 'site_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+</odoo>

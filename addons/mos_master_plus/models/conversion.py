@@ -66,6 +66,8 @@ class MosItemConversion(models.Model):
     def action_new_version(self, factor, effective_from):
         """Replace the factor from a date: this conversion ends the day before, a new one starts."""
         self.ensure_one()
+        if not effective_from:
+            raise UserError(self.env._('Give the date the new factor starts.'))
         if effective_from <= self.effective_from:
             raise UserError(self.env._('The new conversion must start after %s.', self.effective_from))
         new = self.create({'product_id': self.product_id.id, 'unit_name': self.unit_name, 'factor': factor, 'effective_from': effective_from})

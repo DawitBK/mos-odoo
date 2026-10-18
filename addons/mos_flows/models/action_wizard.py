@@ -32,9 +32,13 @@ class MosActionWizard(models.TransientModel):
     title = fields.Char(readonly=True)
     needs = fields.Char(readonly=True)
     reason = fields.Char()
-    number = fields.Float(digits=(14, 1))
+    number = fields.Float(digits=(14, 3))
     order_id = fields.Many2one('purchase.order', domain="[('state', 'in', ('purchase', 'done'))]")
     basis = fields.Selection([('bridge', 'Bridge weight'), ('declared', 'Declared weight')])
+
+    def _mos_values(self):
+        """What each kind of argument is worth in this dialog; other modules add their own kinds."""
+        return {'reason': self.reason or '', 'number': self.number, 'order': self.order_id, 'basis': self.basis}
 
     def action_confirm(self):
         self.ensure_one()
@@ -42,7 +46,7 @@ class MosActionWizard(models.TransientModel):
         if key not in ALLOWED:
             raise UserError(self.env._('That action is not available here.'))
         record = self.env[self.res_model].browse(self.res_id)
-        values = {'reason': self.reason or '', 'number': self.number, 'order': self.order_id, 'basis': self.basis}
+        values = self._mos_values()
         args = [values[name] for name in ALLOWED[key]]
         getattr(record, self.method)(*args)
         return {'type': 'ir.actions.act_window_close'}

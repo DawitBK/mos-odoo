@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The generic dialog learns the new kinds of answer -->
+    <record id="view_mos_action_wizard_more" model="ir.ui.view">
+        <field name="name">mos.action.wizard.form.more</field>
+        <field name="model">mos.action.wizard</field>
+        <field name="inherit_id" ref="mos_flows.view_mos_action_wizard"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='number']" position="after">
+                <field name="text" invisible="'text' not in needs"/>
+                <field name="date" invisible="'date' not in needs"/>
+                <field name="partner_id" invisible="'supplier' not in needs" required="'supplier' in needs" options="{'no_create': True}"/>
+                <field name="decision" invisible="'decision' not in needs" required="'decision' in needs"/>
+                <field name="reweigh_reason_id" invisible="'reweigh_reason' not in needs" required="'reweigh_reason' in needs" options="{'no_create': True}"/>
+                <field name="filename" invisible="'filename' not in needs"/>
+                <field name="file" filename="filename" invisible="'file' not in needs" required="'file' in needs"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- The weighbridge dialog -->
+    <record id="view_mos_weigh_wizard_form" model="ir.ui.view">
+        <field name="name">mos.weigh.wizard.form</field>
+        <field name="model">mos.weigh.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="ticket_id" invisible="1"/>
+                    <field name="step" invisible="1"/>
+                    <div class="alert alert-info" role="alert" colspan="2"><field name="instruction" class="d-inline"/></div>
+                    <field name="weight" invisible="step == 'verify'" required="step != 'verify'"/>
+                    <field name="weight_gross" invisible="step != 'verify'" required="step == 'verify'"/>
+                    <field name="weight_tare" invisible="step != 'verify'" required="step == 'verify'"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Record" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- The weigh ticket gets a form of its own -->
+    <record id="view_mos_weigh_ticket_form" model="ir.ui.view">
+        <field name="name">mos.weigh.ticket.form</field>
+        <field name="model">mos.weigh.ticket</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <header>
+                    <button name="action_weigh_ui" string="Record the weighing" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_weigh_ui" string="Verify the weights" type="object" class="btn-primary" invisible="state != 'weighed'"/>
+                    <button name="action_ui" string="Re-weigh" type="object" context="{'mos_method': 'reweigh', 'mos_title': 'Re-weigh: why is the ticket replaced?'}" invisible="state != 'posted'"/>
+                    <button name="action_ui" string="Attach a photo" type="object" context="{'mos_method': 'action_attach_photo', 'mos_title': 'Photo of the weighing'}" invisible="state == 'superseded'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,weighed,posted"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="visit_id"/>
+                            <field name="direction"/>
+                            <field name="tare_source"/>
+                            <field name="supersedes_id" invisible="not supersedes_id"/>
+                            <field name="superseded_by_id" invisible="not superseded_by_id"/>
+                        </group>
+                        <group>
+                            <field name="first_weight"/>
+                            <field name="second_weight"/>
+                            <field name="gross_weight"/>
+                            <field name="tare_weight"/>
+                            <field name="net_weight"/>
+                            <field name="tare_deviation" invisible="not tare_deviation"/>
+                            <field name="overloaded" invisible="not overloaded"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="first_by_id"/>
+                        <field name="second_by_id"/>
+                        <field name="verified_by_id"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- The visit: weigh from here -->
+    <record id="view_mos_gate_visit_form_weigh" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.weigh</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_start_weighing']" position="after">
+                <field name="ticket_stage" invisible="1"/>
+                <button name="action_weigh_ui" string="Record the first weighing" type="object" class="btn-primary" invisible="ticket_stage != 'first'"/>
+                <button name="action_weigh_ui" string="Record the second weighing" type="object" class="btn-primary" invisible="ticket_stage != 'second'"/>
+                <button name="action_weigh_ui" string="Verify the weights (blind)" type="object" class="btn-primary" invisible="ticket_stage != 'verify'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Exceptions: resolve or dismiss -->
+    <record id="view_mos_exception_form_close" model="ir.ui.view">
+        <field name="name">mos.exception.form.close</field>
+        <field name="model">mos.exception</field>
+        <field name="inherit_id" ref="mos_controls.view_mos_exception_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_assign']" position="after">
+                <button name="action_ui" string="Resolve" type="object" context="{'mos_method': 'action_resolve', 'mos_title': 'What was done?'}" invisible="state not in ('open', 'assigned')"/>
+                <button name="action_ui" string="Not a problem" type="object" context="{'mos_method': 'action_dismiss', 'mos_title': 'Why is it not a problem?'}" invisible="state not in ('open', 'assigned')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Inspection: ask for a revision after the receipt -->
+    <record id="view_mos_lab_inspection_form_revision" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form.revision</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_inspection_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_submit_results']" position="after">
+                <button name="action_ui" string="Ask for a revision" type="object" context="{'mos_method': 'action_request_revision', 'mos_title': 'Revise the usage decision'}" invisible="state not in ('decided', 'closed')"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Certificates, samples, cheque leaves -->
+    <record id="view_mos_lab_coa_form_revoke" model="ir.ui.view">
+        <field name="name">mos.lab.coa.form.revoke</field>
+        <field name="model">mos.lab.coa</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_coa_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_ui" string="Revoke" type="object" context="{'mos_method': 'action_revoke', 'mos_title': 'Why is the certificate revoked?'}" invisible="state != 'issued'"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_lab_sample_list_discard" model="ir.ui.view">
+        <field name="name">mos.lab.sample.list.discard</field>
+        <field name="model">mos.lab.sample</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_sample_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='state']" position="after">
+                <button name="action_ui" string="Discard" type="object" icon="fa-trash" context="{'mos_method': 'action_discard', 'mos_title': 'Discard the sample'}" invisible="state == 'discarded'"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_cheque_book_form_void" model="ir.ui.view">
+        <field name="name">mos.cheque.book.form.void</field>
+        <field name="model">mos.cheque.book</field>
+        <field name="inherit_id" ref="mos_payables.view_mos_cheque_book_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='leaf_ids']/list/field[@name='void_reason']" position="after">
+                <button name="action_ui" string="Void" type="object" icon="fa-ban" context="{'mos_method': 'action_void', 'mos_title': 'Why is the cheque voided?'}" invisible="state != 'unused'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Contracts, conversions, locks -->
+    <record id="view_mos_purchase_contract_form_actions" model="ir.ui.view">
+        <field name="name">mos.purchase.contract.form.actions</field>
+        <field name="model">mos.purchase.contract</field>
+        <field name="inherit_id" ref="mos_planning_plus.view_mos_purchase_contract_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_cancel']" position="before">
+                <button name="action_ui" string="Call off" type="object" class="btn-primary" context="{'mos_method': 'action_new_calloff', 'mos_title': 'Quantity to call off (kg)'}" invisible="state != 'active'"/>
+                <button name="action_ui" string="Close the contract" type="object" context="{'mos_method': 'action_close', 'mos_title': 'Why is the contract closed?'}" invisible="state != 'active'"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_item_conversion_list_version" model="ir.ui.view">
+        <field name="name">mos.item.conversion.list.version</field>
+        <field name="model">mos.item.conversion</field>
+        <field name="inherit_id" ref="mos_master_plus.view_mos_item_conversion_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='active']" position="after">
+                <button name="action_ui" string="New version" type="object" icon="fa-copy" context="{'mos_method': 'action_new_version', 'mos_title': 'New factor and the date it starts'}" invisible="not id or not active"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_period_lock_list_soft" model="ir.ui.view">
+        <field name="name">mos.period.lock.list.soft</field>
+        <field name="model">mos.period.lock</field>
+        <field name="inherit_id" ref="mos_controls.view_mos_period_lock_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='lock_date']" position="after">
+                <field name="soft_lock_date"/>
+            </xpath>
+            <xpath expr="//button[@name='action_open_wizard']" position="after">
+                <button name="action_ui" string="Soft-close" type="object" icon="fa-unlock-alt" context="{'mos_method': 'set_soft_lock', 'mos_title': 'Soft-close up to a date (empty date reopens)'}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Purchase request: order from a supplier; lot: split -->
+    <record id="view_mos_purchase_request_form_order" model="ir.ui.view">
+        <field name="name">mos.purchase.request.form.order</field>
+        <field name="model">mos.purchase.request</field>
+        <field name="inherit_id" ref="mos_procurement.view_mos_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_submit']" position="after">
+                <button name="action_ui" string="Order from a supplier" type="object" class="btn-primary" context="{'mos_method': 'action_convert', 'mos_title': 'Which supplier?'}" invisible="state != 'approved'"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_stock_lot_form_split" model="ir.ui.view">
+        <field name="name">stock.lot.form.split</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="mos_stock_plus.view_stock_lot_form_mos"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <header>
+                    <button name="action_ui" string="Split the lot" type="object" context="{'mos_method': 'action_split', 'mos_title': 'Quantity to split off and the new lot name (empty = next batch number)'}" invisible="not id"/>
+                </header>
+            </xpath>
+        </field>
+    </record>
+</odoo>
