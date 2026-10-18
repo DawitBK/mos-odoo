@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_work_order" model="ir.sequence">
+        <field name="name">MOS work order</field>
+        <field name="code">mos.work.order</field>
+        <field name="prefix">WO-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_silo_dip" model="ir.sequence">
+        <field name="name">MOS silo dip</field>
+        <field name="code">mos.silo.dip</field>
+        <field name="prefix">SD-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_silo_hold" model="ir.sequence">
+        <field name="name">MOS silo hold</field>
+        <field name="code">mos.silo.hold</field>
+        <field name="prefix">SH-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+</odoo>
