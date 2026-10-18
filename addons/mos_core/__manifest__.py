@@ -12,6 +12,7 @@
         'data/mos_cron.xml',
         'views/mos_core_views.xml',
         'views/mos_menus.xml',
+        'views/mos_attachment_views.xml',
     ],
     'application': True,
     'installable': True,
