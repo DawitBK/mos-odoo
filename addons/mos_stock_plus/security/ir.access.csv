@@ -1,0 +1,20 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_lot_counter_admin,mos.lot.counter: admin,mos.lot.counter,mos_core.group_mos_admin,r,
+access_mos_lot_attribute_user,mos.lot.attribute: user,mos.lot.attribute,mos_core.group_mos_user,r,
+access_mos_lot_attribute_inventory,mos.lot.attribute: inventory manager,mos.lot.attribute,mos_inventory.group_mos_inventory_manager,crud,
+access_mos_lot_attribute_admin,mos.lot.attribute: admin,mos.lot.attribute,mos_core.group_mos_admin,crud,
+access_mos_lot_attribute_value_user,mos.lot.attribute.value: user,mos.lot.attribute.value,mos_core.group_mos_user,r,
+access_mos_lot_attribute_value_store,mos.lot.attribute.value: storekeeper,mos.lot.attribute.value,mos_inbound.group_mos_storekeeper,crud,
+access_mos_lot_attribute_value_lab,mos.lot.attribute.value: lab analyst,mos.lot.attribute.value,mos_lab.group_mos_lab_analyst,crud,
+access_mos_lot_attribute_value_admin,mos.lot.attribute.value: admin,mos.lot.attribute.value,mos_core.group_mos_admin,crud,
+access_mos_lot_expiry_user,mos.lot.expiry: user,mos.lot.expiry,mos_core.group_mos_user,r,
+access_mos_transfer_order_user,mos.transfer.order: user,mos.transfer.order,mos_core.group_mos_user,r,"['|', ('from_site_id', 'in', user.mos_site_ids.ids), ('to_site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_transfer_order_store,mos.transfer.order: storekeeper,mos.transfer.order,mos_inbound.group_mos_storekeeper,cru,"['|', ('from_site_id', 'in', user.mos_site_ids.ids), ('to_site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_transfer_order_admin,mos.transfer.order: admin,mos.transfer.order,mos_core.group_mos_admin,cru,
+access_mos_transfer_order_line_user,mos.transfer.order.line: user,mos.transfer.order.line,mos_core.group_mos_user,r,
+access_mos_transfer_order_line_store,mos.transfer.order.line: storekeeper,mos.transfer.order.line,mos_inbound.group_mos_storekeeper,crud,
+access_mos_transfer_order_line_admin,mos.transfer.order.line: admin,mos.transfer.order.line,mos_core.group_mos_admin,crud,
+access_mos_service_category_user,mos.service.category: user,mos.service.category,mos_core.group_mos_user,r,
+access_mos_service_category_procurement,mos.service.category: procurement,mos.service.category,mos_procurement.group_mos_procurement_user,crud,
+access_mos_service_category_admin,mos.service.category: admin,mos.service.category,mos_core.group_mos_admin,crud,
+access_mos_site_transfer,MOS site: storekeepers see every site name for transfers,mos.site,mos_inbound.group_mos_storekeeper,r,

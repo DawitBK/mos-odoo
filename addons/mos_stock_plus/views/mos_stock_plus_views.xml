@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Lots -->
+    <record id="view_stock_lot_form_mos" model="ir.ui.view">
+        <field name="name">stock.lot.form.mos</field>
+        <field name="model">stock.lot</field>
+        <field name="inherit_id" ref="stock.view_production_lot_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Batch details">
+                    <group>
+                        <field name="mos_supplier_lot"/>
+                        <field name="mos_mfg_date"/>
+                        <field name="mos_expiry_date"/>
+                        <field name="mos_days_to_expiry" invisible="not mos_expiry_date"/>
+                    </group>
+                    <group>
+                        <field name="mos_status"/>
+                        <field name="mos_parent_lot_id" invisible="not mos_parent_lot_id"/>
+                        <field name="mos_category_id"/>
+                    </group>
+                </group>
+                <field name="mos_attribute_ids">
+                    <list editable="bottom">
+                        <field name="attribute_id"/>
+                        <field name="value"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_lot_attribute_list" model="ir.ui.view">
+        <field name="name">mos.lot.attribute.list</field>
+        <field name="model">mos.lot.attribute</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="category_id"/>
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="choices" invisible="kind != 'choice'"/>
+                <field name="required"/>
+                <field name="min_value" invisible="kind != 'number'"/>
+                <field name="max_value" invisible="kind != 'number'"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_lot_attribute" model="ir.actions.act_window">
+        <field name="name">Lot attributes</field>
+        <field name="res_model">mos.lot.attribute</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_lot_expiry_list" model="ir.ui.view">
+        <field name="name">mos.lot.expiry.list</field>
+        <field name="model">mos.lot.expiry</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0" decoration-danger="days_left &lt; 0" decoration-warning="days_left &gt;= 0 and days_left &lt;= 30">
+                <field name="lot_id"/>
+                <field name="product_id"/>
+                <field name="location_id"/>
+                <field name="status" widget="badge"/>
+                <field name="qty" sum="Total"/>
+                <field name="expiry"/>
+                <field name="days_left"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_lot_expiry" model="ir.actions.act_window">
+        <field name="name">Expiry list</field>
+        <field name="res_model">mos.lot.expiry</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <!-- Transfers -->
+    <record id="view_mos_transfer_order_list" model="ir.ui.view">
+        <field name="name">mos.transfer.order.list</field>
+        <field name="model">mos.transfer.order</field>
+        <field name="arch" type="xml"><list decoration-warning="state == 'dispatched'" decoration-muted="state == 'cancelled'"><field name="name"/><field name="from_site_id"/><field name="to_site_id"/><field name="dispatched_at"/><field name="days_in_transit"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_transfer_order_form" model="ir.ui.view">
+        <field name="name">mos.transfer.order.form</field>
+        <field name="model">mos.transfer.order</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_dispatch" string="Dispatch" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_receive" string="Receive everything" type="object" class="btn-primary" invisible="state != 'dispatched'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'dispatched')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,dispatched,received"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group><field name="from_site_id" readonly="state != 'draft'"/><field name="to_site_id" readonly="state != 'draft'"/><field name="note"/></group>
+                        <group><field name="dispatched_by_id"/><field name="dispatched_at"/><field name="received_by_id"/><field name="received_at"/><field name="loss_reason_id" invisible="not loss_reason_id"/></group>
+                    </group>
+                    <field name="line_ids" readonly="state != 'draft'">
+                        <list editable="bottom">
+                            <field name="product_id"/>
+                            <field name="lot_id"/>
+                            <field name="qty" sum="Sent"/>
+                            <field name="received_qty" sum="Received"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_transfer_order" model="ir.actions.act_window">
+        <field name="name">Transfers between sites</field>
+        <field name="res_model">mos.transfer.order</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Supplier categories -->
+    <record id="view_mos_service_category_list" model="ir.ui.view">
+        <field name="name">mos.service.category.list</field>
+        <field name="model">mos.service.category</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="name"/><field name="kind"/><field name="active"/></list></field>
+    </record>
+    <record id="action_mos_service_category" model="ir.actions.act_window">
+        <field name="name">Product and service categories</field>
+        <field name="res_model">mos.service.category</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <menuitem id="menu_mos_transfers" name="Transfers between sites" parent="mos_inventory.menu_mos_inventory" action="action_mos_transfer_order" sequence="20"/>
+    <menuitem id="menu_mos_lot_expiry" name="Expiry list" parent="mos_platform_plus.menu_mos_platform_reports" action="action_mos_lot_expiry" sequence="50"/>
+    <menuitem id="menu_mos_lot_attribute" name="Lot attributes" parent="mos_core.menu_mos_config" action="action_mos_lot_attribute" sequence="70"/>
+    <menuitem id="menu_mos_service_category" name="Product and service categories" parent="mos_core.menu_mos_config" action="action_mos_service_category" sequence="71"/>
+</odoo>
