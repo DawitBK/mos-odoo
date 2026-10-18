@@ -1,0 +1,8 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_gate_weigh_step_user,mos.gate.weigh.step: user,mos.gate.weigh.step,mos_core.group_mos_user,r,
+access_mos_gate_weigh_step_guard,mos.gate.weigh.step: guard,mos.gate.weigh.step,mos_gate.group_mos_gate_guard,crud,
+access_mos_gate_weigh_step_admin,mos.gate.weigh.step: admin,mos.gate.weigh.step,mos_core.group_mos_admin,crud,
+access_mos_gate_visit_share_user,mos.gate.visit.share: user,mos.gate.visit.share,mos_core.group_mos_user,r,
+access_mos_gate_visit_share_guard,mos.gate.visit.share: guard,mos.gate.visit.share,mos_gate.group_mos_gate_guard,crud,
+access_mos_gate_visit_share_store,mos.gate.visit.share: storekeeper,mos.gate.visit.share,mos_inbound.group_mos_storekeeper,cru,
+access_mos_gate_visit_share_admin,mos.gate.visit.share: admin,mos.gate.visit.share,mos_core.group_mos_admin,crud,

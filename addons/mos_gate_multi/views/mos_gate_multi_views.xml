@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_gate_visit_form_multi" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.multi</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='ticket_ids']" position="before">
+                <group string="Other documents on this truck" invisible="purpose != 'inbound_po'">
+                    <field name="primary_kg"/>
+                    <field name="shares_kg"/>
+                </group>
+                <field name="step_ids" invisible="purpose != 'inbound_po'">
+                    <list editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <field name="weight_kg"/>
+                        <field name="note"/>
+                        <field name="by_id"/>
+                    </list>
+                </field>
+                <field name="share_ids" invisible="purpose != 'inbound_po'">
+                    <list editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <field name="purchase_id"/>
+                        <field name="product_id"/>
+                        <field name="allocated_kg" sum="Total"/>
+                        <field name="grn_state" widget="badge"/>
+                    </list>
+                </field>
+                <div invisible="purpose != 'inbound_po' or not share_ids">
+                    <button name="action_allocate_from_steps" string="Work out the weights from the weighings" type="object"/>
+                    <button name="action_prepare_share_grns" string="Prepare their receipts" type="object"/>
+                    <button name="action_confirm_share_grns" string="Confirm their receipts" type="object"/>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
