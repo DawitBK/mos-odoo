@@ -46,7 +46,7 @@ for code, name in (('SHORT', 'Shortage on delivery'), ('DMG', 'Damaged bags'), (
     reasons[code] = env['mos.reason'].create({'domain': 'credit', 'code': code, 'name': name})
 return_reason = env['mos.reason'].create({'domain': 'customer_return', 'code': 'RET-DMG', 'name': 'Damaged in transit'})
 env['mos.approval.rule'].create({'doc_type': 'mos.credit.note', 'sequence': 10, 'amount_from': 5000, 'group_id': env.ref('mos_approvals.group_mos_finance_manager').id, 'sla_hours': 24})
-invoices = env['mos.customer.invoice'].search([('balance', '>', 20000)], order='id desc', limit=4)
+invoices = env['mos.customer.invoice'].search([('balance', '>', 15000)], order='id desc', limit=4)
 for invoice, code, amount, finish in zip(invoices, ('SHORT', 'PRICE', 'DMG', 'SHORT'), (1800.0, 3200.0, 9500.0, 12000.0), (True, True, False, None)):
     note = env['mos.credit.note'].with_user(salesrep).create({'customer_id': invoice.customer_id.id, 'invoice_id': invoice.id, 'reason_id': reasons[code].id, 'amount': amount, 'note': 'Raised from the delivery documents'})
     if finish is None:

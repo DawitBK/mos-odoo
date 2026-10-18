@@ -45,12 +45,16 @@ class MosGateVisit(models.Model):
         if self.grn_picking_id:
             return self.grn_picking_id
         insp = self.inspection_id
-        if not insp or insp.state != 'decided':
+        if self._mos_inspection_waived() and not (insp and insp.state == 'decided'):
+            product, qty = self._po_product(), self.net_weight  # a waived delivery is received at the bridge weight
+        elif not insp or insp.state != 'decided':
             raise UserError(self.env._('The inspection must be decided before the receipt is prepared.'))
-        if insp.decision == 'reject':
+        elif insp.decision == 'reject':
             self.write({'grn_state': 'rejected'})
             self.env['mos.audit.event'].record('load_rejected', self, self.name)
             return False
+        else:
+            product, qty = insp.product_id, insp.payable_qty
         if not self.ticket_id or self.ticket_id.state != 'posted':
             raise UserError(self.env._('The weigh ticket must be posted before the receipt is prepared.'))
         # The people who run the weighbridge and the lab need not have purchasing rights; MOS groups authorise the step.
@@ -60,22 +64,22 @@ class MosGateVisit(models.Model):
         picking = po.picking_ids.filtered(lambda p: p.state not in ('done', 'cancel') and p.picking_type_code == 'incoming')[:1]
         if not picking:
             raise UserError(self.env._('The purchase order has no open receipt.'))
-        move = picking.move_ids.filtered(lambda m: m.product_id == insp.product_id)[:1]
+        move = picking.move_ids.filtered(lambda m: m.product_id == product)[:1]
         if not move:
-            raise UserError(self.env._('The receipt has no line for %s.', insp.product_id.display_name))
-        self._mos_check_receipt(po, insp.product_id, insp.payable_qty)
+            raise UserError(self.env._('The receipt has no line for %s.', product.display_name))
+        self._mos_check_receipt(po, product, qty)
         silo = self.silo_id.sudo().fresh()
         if silo:
             # The wheat goes into the silo the guard sent the truck to; a silo cannot take more than it has room for.
-            if insp.payable_qty > silo.free_kg + 0.0001:
+            if qty > silo.free_kg + 0.0001:
                 raise UserError(
-                    self.env._('Silo %(silo)s has only %(free)s kg free, the load is %(qty)s kg: choose another silo.', silo=silo.code, free=round(silo.free_kg), qty=round(insp.payable_qty))
+                    self.env._('Silo %(silo)s has only %(free)s kg free, the load is %(qty)s kg: choose another silo.', silo=silo.code, free=round(silo.free_kg), qty=round(qty))
                 )
             picking.write({'location_dest_id': silo.location_id.id})
             move.write({'location_dest_id': silo.location_id.id})
-        move.write({'quantity': insp.payable_qty, 'picked': True})
+        move.write({'quantity': qty, 'picked': True})
         self.sudo().write({'grn_picking_id': picking.id, 'grn_state': 'prepared'})
-        self.env['mos.audit.event'].record('grn_prepared', self, f'{picking.name}: {insp.payable_qty} kg')
+        self.env['mos.audit.event'].record('grn_prepared', self, f'{picking.name}: {qty} kg')
         self._mos_after_prepare()
         return picking
 
@@ -86,6 +90,10 @@ class MosGateVisit(models.Model):
     def _mos_after_confirm(self):
         """Hook: the receipt has just been confirmed (the payable side starts here)."""
         return None
+
+    def _mos_inspection_waived(self):
+        """Hook: quality policy may waive the inspection of a delivery (the receipt then follows the bridge weight)."""
+        return False
 
     def _mos_inspection_before_exit(self):
         """Hook: flow A waits for the usage decision before the truck leaves; other flows override this."""

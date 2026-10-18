@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Methods and parameters -->
+    <record id="view_mos_lab_method_list" model="ir.ui.view">
+        <field name="name">mos.lab.method.list</field>
+        <field name="model">mos.lab.method</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="code"/><field name="name"/><field name="standard"/><field name="description"/></list></field>
+    </record>
+    <record id="action_mos_lab_method" model="ir.actions.act_window">
+        <field name="name">Test methods</field>
+        <field name="res_model">mos.lab.method</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_lab_parameter_list" model="ir.ui.view">
+        <field name="name">mos.lab.parameter.list</field>
+        <field name="model">mos.lab.parameter</field>
+        <field name="arch" type="xml"><list editable="bottom"><field name="name"/><field name="unit"/><field name="method_id"/><field name="typical_min"/><field name="typical_max"/></list></field>
+    </record>
+    <record id="action_mos_lab_parameter" model="ir.actions.act_window">
+        <field name="name">Quality parameters</field>
+        <field name="res_model">mos.lab.parameter</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Specification lines -->
+    <record id="view_mos_lab_spec_form_quality_lines" model="ir.ui.view">
+        <field name="name">mos.lab.spec.form.quality.lines</field>
+        <field name="model">mos.lab.spec</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_spec_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="before">
+                <field name="parameter_id" optional="show"/>
+            </xpath>
+            <xpath expr="//field[@name='unit']" position="after">
+                <field name="method_id" optional="show"/>
+                <field name="code" optional="hide"/>
+                <field name="formula" optional="hide"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Policy -->
+    <record id="view_mos_lab_policy_list" model="ir.ui.view">
+        <field name="name">mos.lab.policy.list</field>
+        <field name="model">mos.lab.policy</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="product_id"/>
+                <field name="categ_id"/>
+                <field name="inspection_required"/>
+                <field name="skip_lot"/>
+                <field name="clean_streak" column_invisible="0"/>
+                <field name="skip_every"/>
+                <field name="coa_required"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_lab_policy" model="ir.actions.act_window">
+        <field name="name">QC policy</field>
+        <field name="res_model">mos.lab.policy</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Instruments -->
+    <record id="view_mos_lab_instrument_list" model="ir.ui.view">
+        <field name="name">mos.lab.instrument.list</field>
+        <field name="model">mos.lab.instrument</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="state in ('overdue', 'out_of_service', 'never')" decoration-warning="state == 'due_soon'">
+                <field name="code"/>
+                <field name="name"/>
+                <field name="kind"/>
+                <field name="last_calibrated"/>
+                <field name="next_due"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_lab_instrument_form" model="ir.ui.view">
+        <field name="name">mos.lab.instrument.form</field>
+        <field name="model">mos.lab.instrument</field>
+        <field name="arch" type="xml">
+            <form>
+                <header><field name="state" widget="statusbar" statusbar_visible="never,ok,due_soon,overdue"/></header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="kind"/>
+                            <field name="interval_days"/>
+                        </group>
+                        <group>
+                            <field name="last_calibrated"/>
+                            <field name="next_due"/>
+                        </group>
+                    </group>
+                    <field name="calibration_ids">
+                        <list create="1" editable="bottom">
+                            <field name="date"/>
+                            <field name="result"/>
+                            <field name="certificate_ref"/>
+                            <field name="by"/>
+                            <field name="note"/>
+                        </list>
+                    </field>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_lab_instrument" model="ir.actions.act_window">
+        <field name="name">Instruments</field>
+        <field name="res_model">mos.lab.instrument</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Lab queue -->
+    <record id="view_mos_lab_queue_list" model="ir.ui.view">
+        <field name="name">mos.lab.queue.list</field>
+        <field name="model">mos.lab.queue</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="out_of_spec" decoration-warning="priority == 'urgent'" create="0">
+                <field name="inspection_id"/>
+                <field name="product_id"/>
+                <field name="waiting"/>
+                <field name="priority" widget="badge"/>
+                <field name="suggested_outcome" widget="badge"/>
+                <field name="age_hours" widget="float_time" string="Waiting (h)"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_lab_queue_pivot" model="ir.ui.view">
+        <field name="name">mos.lab.queue.pivot</field>
+        <field name="model">mos.lab.queue</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="product_id" type="row"/>
+                <field name="waiting" type="col"/>
+                <field name="count" type="measure"/>
+                <field name="age_hours" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="action_mos_lab_queue" model="ir.actions.act_window">
+        <field name="name">Lab queue</field>
+        <field name="res_model">mos.lab.queue</field>
+        <field name="view_mode">list,pivot</field>
+    </record>
+
+    <!-- Inspection: priority -->
+    <record id="view_mos_lab_inspection_form_priority" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form.priority</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_inspection_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='spec_id']" position="after">
+                <field name="priority"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_lab_queue" name="Lab queue" parent="mos_lab.menu_mos_lab" action="action_mos_lab_queue" sequence="5"/>
+    <menuitem id="menu_mos_lab_instruments" name="Instruments" parent="mos_lab.menu_mos_lab_config" action="action_mos_lab_instrument" sequence="30"/>
+    <menuitem id="menu_mos_lab_policy" name="QC policy" parent="mos_lab.menu_mos_lab_config" action="action_mos_lab_policy" sequence="40"/>
+    <menuitem id="menu_mos_lab_methods" name="Test methods" parent="mos_lab.menu_mos_lab_config" action="action_mos_lab_method" sequence="50"/>
+    <menuitem id="menu_mos_lab_parameters" name="Quality parameters" parent="mos_lab.menu_mos_lab_config" action="action_mos_lab_parameter" sequence="60"/>
+</odoo>

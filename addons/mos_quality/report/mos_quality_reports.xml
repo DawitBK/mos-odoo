@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_sample_label" model="ir.actions.report">
+        <field name="name">Sample label</field>
+        <field name="model">mos.lab.sample</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_quality.report_sample_label</field>
+        <field name="binding_model_id" ref="mos_lab.model_mos_lab_sample"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_sample_label">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="sample">
+                <div class="page" style="page-break-after: always; text-align: center;">
+                    <h2 t-out="sample.name"/>
+                    <p><strong t-out="sample.product_id.display_name"/></p>
+                    <p>Inspection <span t-out="sample.inspection_id.name"/> · delivery <span t-out="sample.inspection_id.visit_id.name"/></p>
+                    <p>Stored <span t-out="sample.stored_on"/> · keep until <span t-out="sample.retain_until"/></p>
+                    <p t-if="sample.location">Shelf <span t-out="sample.location"/></p>
+                    <img t-attf-src="/report/barcode/?barcode_type=QR&amp;value={{ sample.name }}&amp;width=160&amp;height=160" alt="QR" style="width: 160px; height: 160px;"/>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

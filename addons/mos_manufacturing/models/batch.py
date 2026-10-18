@@ -58,17 +58,23 @@ class MosBatch(models.Model):
         if existing:
             return existing
         insp = visit.inspection_id
-        if not insp or insp.decision == 'reject':
+        if insp and insp.decision == 'reject':
+            return self.browse()
+        if insp and insp.state == 'decided':
+            product, qty = insp.product_id, insp.payable_qty
+        elif visit._mos_inspection_waived():
+            product, qty = visit._po_product(), visit.net_weight
+        else:
             return self.browse()
         return self.sudo().create(
             {
                 'kind': 'wheat',
-                'product_id': insp.product_id.id,
+                'product_id': product.id,
                 'site_id': visit.site_id.id,
-                'qty': insp.payable_qty,
+                'qty': qty,
                 'silo_id': visit.silo_id.id,
                 'visit_id': visit.id,
-                'unit_cost': (visit.sudo().purchase_id.order_line.filtered(lambda line: line.product_id == insp.product_id)[:1].price_unit),
+                'unit_cost': (visit.sudo().purchase_id.order_line.filtered(lambda line: line.product_id == product)[:1].price_unit),
             }
         )
 
