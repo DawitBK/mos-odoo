@@ -174,7 +174,7 @@ for n, inv in enumerate(open_invoices):
     Receipt.with_user(cashier).create({'customer_id': inv.customer_id.id, 'invoice_id': inv.id, 'amount': amount, 'method': method, 'reference': f'SLIP-{1000 + n}' if method != 'cash' else False})
     paid += 1
 # A customer pays ahead of delivery.
-Receipt.with_user(cashier).create({'customer_id': customers[0].id, 'amount': 150000, 'method': 'transfer', 'reference': 'ADVANCE-GCB-17'})
+Receipt.with_user(cashier).create({'customer_id': customers[0].id, 'amount': 12000, 'method': 'transfer', 'reference': 'ADVANCE-GCB-17'})
 session.with_user(cashier).action_close(session.expected_cash - 150, 'Change given to a customer was not recorded')
 env['mos.cash.session'].with_user(cashier).create({'float_amount': 5000})  # today's till is open
 env.cr.execute("UPDATE mos_receipt r SET date = i.date + 3 FROM mos_customer_invoice i WHERE i.id = r.invoice_id")
