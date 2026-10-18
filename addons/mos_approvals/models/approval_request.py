@@ -184,6 +184,8 @@ class MosApprovalStep(models.Model):
         document = request._document()
         excluded = request.requester_id | (document.create_uid if document else self.env['res.users'])
         excluded |= siblings.filtered(lambda s: s.state == 'approved').mapped('decided_by_id')
+        if document and hasattr(document, '_mos_approval_excluded_users'):
+            excluded |= document._mos_approval_excluded_users()  # e.g. the analyst who entered the results being conceded
         return users - excluded
 
     def _activate(self):

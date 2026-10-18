@@ -1,0 +1,9 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_item_conversion_user,mos.item.conversion: user,mos.item.conversion,mos_core.group_mos_user,r,
+access_mos_item_conversion_inventory,mos.item.conversion: inventory manager,mos.item.conversion,mos_inventory.group_mos_inventory_manager,crud,
+access_mos_item_conversion_admin,mos.item.conversion: admin,mos.item.conversion,mos_core.group_mos_admin,crud,
+access_mos_concession_user,mos.concession: user,mos.concession,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_concession_lab_manager,mos.concession: lab manager,mos.concession,mos_lab.group_mos_lab_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_concession_admin,mos.concession: admin,mos.concession,mos_core.group_mos_admin,cru,
+access_mos_report_job_user,mos.report.job: own jobs,mos.report.job,mos_core.group_mos_user,cru,"[('requested_by_id', '=', user.id)]"
+access_mos_report_job_admin,mos.report.job: admin,mos.report.job,mos_core.group_mos_admin,cru,

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_concession" model="ir.sequence">
+        <field name="name">MOS quality concession</field>
+        <field name="code">mos.concession</field>
+        <field name="prefix">CON-%(range_year)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_report_job" model="ir.sequence">
+        <field name="name">MOS background report</field>
+        <field name="code">mos.report.job</field>
+        <field name="prefix">RPT-%(range_year)s-</field>
+        <field name="padding">4</field>
+        <field name="implementation">standard</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="cron_report_jobs" model="ir.cron">
+        <field name="name">MOS: build queued reports</field>
+        <field name="model_id" ref="model_mos_report_job"/>
+        <field name="state">code</field>
+        <field name="code">model._cron_process()</field>
+        <field name="interval_number">5</field>
+        <field name="interval_type">minutes</field>
+    </record>
+</odoo>

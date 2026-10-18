@@ -58,7 +58,7 @@ class MosGateVisit(models.Model):
                 'qty': qty,
                 'unit_price': price,
                 'vat_pct': voucher_vat,
-                'wht_pct': partner.mos_wht_pct,
+                'wht_pct': partner._mos_effective_wht_pct(),
                 'self_billed': True,
                 'source_visit_id': self.id,
             }

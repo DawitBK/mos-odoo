@@ -78,7 +78,7 @@ class MosSupplierInvoice(models.Model):
                 vals['name'] = self.env['ir.sequence'].next_by_code('mos.supplier.invoice')
             partner = self.env['res.partner'].browse(vals.get('supplier_id'))
             vals.setdefault('vat_pct', partner.mos_vat_pct)
-            vals.setdefault('wht_pct', partner.mos_wht_pct)
+            vals.setdefault('wht_pct', partner._mos_effective_wht_pct())
         return super().create(vals_list)
 
     @api.constrains('qty', 'unit_price')

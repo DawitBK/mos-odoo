@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_item_conversion_list" model="ir.ui.view">
+        <field name="name">mos.item.conversion.list</field>
+        <field name="model">mos.item.conversion</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="product_id"/>
+                <field name="unit_name"/>
+                <field name="factor"/>
+                <field name="effective_from"/>
+                <field name="effective_to"/>
+                <field name="use_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_item_conversion" model="ir.actions.act_window">
+        <field name="name">Item conversions</field>
+        <field name="res_model">mos.item.conversion</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <record id="view_mos_concession_list" model="ir.ui.view">
+        <field name="name">mos.concession.list</field>
+        <field name="model">mos.concession</field>
+        <field name="arch" type="xml"><list decoration-danger="severity == 'major'" decoration-muted="state in ('rejected', 'cancelled')"><field name="name"/><field name="inspection_id"/><field name="product_id"/><field name="decision"/><field name="deduction_pct"/><field name="amount"/><field name="severity" widget="badge"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_concession_form" model="ir.ui.view">
+        <field name="name">mos.concession.form</field>
+        <field name="model">mos.concession</field>
+        <field name="arch" type="xml">
+            <form create="0">
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'pending')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,applied"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group><field name="inspection_id"/><field name="product_id"/><field name="decision"/><field name="deduction_pct"/><field name="auto_deduction_pct"/></group>
+                        <group><field name="failed_params"/><field name="amount"/><field name="severity"/><field name="requested_by_id"/><field name="mos_approval_state"/></group>
+                    </group>
+                    <field name="justification"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_concession" model="ir.actions.act_window">
+        <field name="name">Quality concessions</field>
+        <field name="res_model">mos.concession</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_mos_report_job_list" model="ir.ui.view">
+        <field name="name">mos.report.job.list</field>
+        <field name="model">mos.report.job</field>
+        <field name="arch" type="xml"><list decoration-danger="state == 'failed'" decoration-success="state == 'done'"><field name="name"/><field name="report"/><field name="date_from"/><field name="date_to"/><field name="rows"/><field name="state" widget="badge"/><field name="finished_at"/></list></field>
+    </record>
+    <record id="view_mos_report_job_form" model="ir.ui.view">
+        <field name="name">mos.report.job.form</field>
+        <field name="model">mos.report.job</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_run" string="Build now" type="object" invisible="state not in ('queued', 'failed')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="queued,running,done"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group><field name="report" readonly="state != 'queued'"/><field name="date_from" readonly="state != 'queued'"/><field name="date_to" readonly="state != 'queued'"/></group>
+                        <group><field name="rows"/><field name="file" filename="filename" invisible="not file"/><field name="filename" invisible="1"/><field name="finished_at"/></group>
+                    </group>
+                    <field name="error" invisible="not error"/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_report_job" model="ir.actions.act_window">
+        <field name="name">Background reports</field>
+        <field name="res_model">mos.report.job</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="view_partner_form_mos_master" model="ir.ui.view">
+        <field name="name">res.partner.form.mos.master</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="before">
+                <div class="alert alert-warning" role="alert" invisible="not mos_duplicate_warning">
+                    <field name="mos_duplicate_warning" class="d-inline"/>
+                </div>
+            </xpath>
+            <xpath expr="//field[@name='vat']" position="after">
+                <field name="mos_individual"/>
+                <field name="mos_national_id" invisible="not mos_individual"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_item_conversion" name="Item conversions" parent="mos_core.menu_mos_config" action="action_mos_item_conversion" sequence="72"/>
+    <menuitem id="menu_mos_concession" name="Quality concessions" parent="mos_lab.menu_mos_lab" action="action_mos_concession" sequence="40"/>
+    <menuitem id="menu_mos_report_job" name="Background reports" parent="mos_platform_plus.menu_mos_platform_reports" action="action_mos_report_job" sequence="60"/>
+</odoo>
