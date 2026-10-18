@@ -101,4 +101,27 @@ def suggestions():
     print('planning suggestions:', len(found))
 
 
+@part('master')
+def master():
+    wheat = env['mos.silo'].search([('product_id', '!=', False)], limit=1).product_id
+    env['mos.item.conversion'].create({'product_id': wheat.id, 'unit_name': 'bag', 'factor': 50.0, 'effective_from': today.replace(month=1, day=1)})
+    env['mos.item.conversion'].create({'product_id': wheat.id, 'unit_name': 'quintal', 'factor': 100.0, 'effective_from': today.replace(month=1, day=1)})
+    for name, kind in (('Transport', 'service'), ('Equipment repair', 'service'), ('Laboratory work', 'service'), ('Packaging materials', 'product'), ('Spare parts', 'product')):
+        env['mos.service.category'].create({'name': name, 'kind': kind})
+    gm = env.ref('mos_approvals.group_mos_general_manager')
+    for doc_type, amount in (('mos.concession', 0.0), ('mos.concession.major', 0.0)):
+        env['mos.approval.rule'].create({'doc_type': doc_type, 'amount_from': amount, 'group_id': gm.id})
+    env['ir.config_parameter'].sudo().set_str('mos_master_plus.concession_approval', 'True')
+
+
+@part('lots')
+def lots():
+    category = env['mos.silo'].search([('product_id', '!=', False)], limit=1).product_id.categ_id
+    if not category:
+        raise ValueError('the wheat has no category')
+    env['mos.lot.attribute'].create({'category_id': category.id, 'name': 'Moisture (%)', 'kind': 'number', 'min_value': 6.0, 'max_value': 20.0, 'required': False})
+    env['mos.lot.attribute'].create({'category_id': category.id, 'name': 'Origin', 'kind': 'choice', 'choices': 'Arsi, Bale, Gojjam, Shewa, Imported'})
+    env['mos.lot.attribute'].create({'category_id': category.id, 'name': "Supplier's certificate", 'kind': 'text'})
+
+
 print('extras ready:', ', '.join(done) or 'nothing')
