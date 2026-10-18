@@ -8,6 +8,29 @@
         <field name="implementation">no_gap</field>
         <field name="use_date_range" eval="True"/>
     </record>
+    <record id="seq_lab_revision" model="ir.sequence">
+        <field name="name">MOS decision revision</field>
+        <field name="code">mos.lab.revision</field>
+        <field name="prefix">RV-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_wht_certificate" model="ir.sequence">
+        <field name="name">MOS withholding certificate</field>
+        <field name="code">mos.wht.certificate</field>
+        <field name="prefix">WHT-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_payment_reversal" model="ir.sequence">
+        <field name="name">MOS payment reversal</field>
+        <field name="code">mos.payment.reversal</field>
+        <field name="prefix">PR-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
     <record id="flow_setting_default" model="mos.flow.setting">
         <field name="grn_mode">confirm</field>
         <field name="pv_mode">draft</field>

@@ -86,6 +86,8 @@ class MosPaymentVoucher(models.Model):
             # The invoices are freed so they can go on another voucher.
             self.sudo().write({'state': 'rejected' if state == 'rejected' else 'draft'})
             self.line_ids.invoice_id.sudo().write({'state': 'payable'})
+            if state == 'rejected':
+                self.line_ids.sudo().write({'live': False})
 
     def action_cancel(self):
         for v in self:
@@ -95,6 +97,7 @@ class MosPaymentVoucher(models.Model):
                 continue
             v.sudo().write({'state': 'cancelled'})
             v.line_ids.invoice_id.sudo().write({'state': 'payable'})
+            v.line_ids.sudo().write({'live': False})
 
     def _refresh_state(self):
         for v in self:
@@ -118,7 +121,9 @@ class MosPaymentVoucherLine(models.Model):
     net = fields.Float(related='invoice_id.payable_amount', store=True)
     paid_amount = fields.Float(compute='_compute_paid')
 
-    _invoice_once = models.Constraint('unique(invoice_id)', 'An invoice can be on only one voucher.')
+    live = fields.Boolean(default=True, help='False once the voucher is cancelled or rejected: the invoice is free again.')
+
+    _invoice_once = models.UniqueIndex('(invoice_id) WHERE live', 'An invoice can be on only one live voucher.')
 
     def _compute_paid(self):
         for line in self:

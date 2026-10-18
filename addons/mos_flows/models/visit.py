@@ -145,7 +145,7 @@ class MosGateVisit(models.Model):
         quarantine = self.env['mos.stock.status.change'].status_location(self.site_id, 'quarantine')
         picking.write({'location_dest_id': quarantine.id})
         move.write({'location_dest_id': quarantine.id, 'quantity': qty, 'picked': True})
-        result = picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=picking.ids).button_validate()
+        result = picking.with_context(skip_backorder=True).button_validate()
         if isinstance(result, dict):
             raise UserError(self.env._('The receipt needs attention in Inventory.'))
         self.sudo().write({'grn_picking_id': picking.id, 'grn_state': 'confirmed', 'received_qty': qty})
@@ -235,13 +235,19 @@ class MosWeighTicket(models.Model):
 class MosLabInspection(models.Model):
     _inherit = 'mos.lab.inspection'
 
-    @api.depends('net_weight', 'deduction_pct', 'decision', 'visit_id.received_qty', 'visit_id.flow')
+    @api.depends('net_weight', 'deduction_pct', 'decision', 'visit_id.received_qty', 'visit_id.flow', 'visit_id.weight_basis', 'visit_id.declared_qty')
     def _compute_payable(self):
         for insp in self:
             if insp.decision == 'reject':
                 insp.payable_qty = 0.0
             else:
-                base = insp.visit_id.received_qty if (insp.visit_id.flow == 'B' and insp.visit_id.received_qty) else insp.net_weight
+                visit = insp.visit_id
+                if visit.flow == 'B' and visit.received_qty:
+                    base = visit.received_qty
+                elif visit.weight_basis == 'declared' and visit.declared_qty:
+                    base = visit.declared_qty  # the weight the two sides agreed on (FRD 9.5 #11)
+                else:
+                    base = insp.net_weight
                 insp.payable_qty = round(base * (1 - insp.deduction_pct / 100.0), 1)
 
     def decide(self, decision, deduction_pct=0.0, note=''):

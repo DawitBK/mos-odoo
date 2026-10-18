@@ -6,6 +6,7 @@
     'license': 'LGPL-3',
     'depends': ['mos_controls'],
     'data': [
+        'security/mos_flows_security.xml',
         'security/ir.access.csv',
         'data/mos_flows_data.xml',
         'views/mos_flows_views.xml',

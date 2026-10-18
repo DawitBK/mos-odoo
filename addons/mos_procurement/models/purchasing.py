@@ -196,13 +196,14 @@ class MosReceiptPolicy(models.Model):
 
     product_id = fields.Many2one('product.product', help='Empty is the default for every product.')
     over_pct = fields.Float(string='Excess allowed (%)', default=2.0)
-    over_action = fields.Selection([('block', 'Refuse the excess'), ('warn', 'Accept and flag')], default='block', required=True)
+    over_action = fields.Selection([('block', 'Refuse the excess'), ('approve', 'Accept with a manager\'s approval'), ('warn', 'Accept and flag')], default='block', required=True)
+    under_pct = fields.Float(string='Short delivery that closes the line (%)', default=5.0, help='When what is still owed is within this share of the order, the rest is closed.')
 
-    @api.constrains('over_pct')
+    @api.constrains('over_pct', 'under_pct')
     def _check(self):
         for policy in self:
-            if policy.over_pct < 0:
-                raise ValidationError(self.env._('The allowed excess cannot be negative.'))
+            if policy.over_pct < 0 or policy.under_pct < 0:
+                raise ValidationError(self.env._('The tolerances cannot be negative.'))
 
     _product_uniq = models.Constraint('unique(product_id)', 'This product already has a receipt policy.')
 

@@ -97,7 +97,141 @@
         <field name="code">action = {'type': 'ir.actions.act_window', 'res_model': 'mos.flow.setting', 'res_id': model._singleton().id, 'view_mode': 'form', 'target': 'current'}</field>
     </record>
 
+    <!-- The reason dialog and the buttons that open it -->
+    <record id="view_mos_action_wizard" model="ir.ui.view">
+        <field name="name">mos.action.wizard.form</field>
+        <field name="model">mos.action.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="needs" invisible="1"/>
+                    <field name="res_model" invisible="1"/>
+                    <field name="res_id" invisible="1"/>
+                    <field name="method" invisible="1"/>
+                    <field name="order_id" invisible="'order' not in needs" required="'order' in needs"/>
+                    <field name="basis" invisible="'basis' not in needs" required="'basis' in needs"/>
+                    <field name="number" invisible="'number' not in needs"/>
+                    <field name="reason" invisible="'reason' not in needs" required="'reason' in needs"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mos_gate_visit_form_exceptions" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.exceptions</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ui" string="Link purchase order" type="object" context="{'mos_method': 'action_link_po', 'mos_title': 'Link purchase order'}" invisible="state in ('exited', 'cancelled', 'abandoned') or grn_state in ('confirmed', 'rejected')"/>
+                <button name="action_ui" string="Reject at gate" type="object" context="{'mos_method': 'action_reject_at_gate', 'mos_title': 'Reject at the gate'}" invisible="state not in ('expected', 'arrived', 'weighing', 'weighed')"/>
+                <button name="action_ui" string="Receive into quarantine" type="object" context="{'mos_method': 'action_receive_quarantine', 'mos_title': 'Counted in (kg)'}" invisible="flow != 'B' or grn_state == 'confirmed' or state not in ('arrived', 'weighing', 'weighed')"/>
+                <button name="action_ui" string="Exit without tare" type="object" context="{'mos_method': 'action_exit_without_tare', 'mos_title': 'Exit without second weighing: estimated tare (kg)'}" invisible="state != 'weighing'"/>
+                <button name="action_ui" string="Abandon" type="object" context="{'mos_method': 'action_abandon', 'mos_title': 'Abandon the visit'}" invisible="state not in ('weighing', 'weighed', 'cleared') or grn_state != 'none'"/>
+                <button name="action_ui" string="Weight dispute" type="object" context="{'mos_method': 'action_resolve_weight_dispute', 'mos_title': 'Settle the weight dispute'}" invisible="flow == 'B'"/>
+                <button name="action_ui" string="Reverse receipt" type="object" context="{'mos_method': 'action_reverse_grn', 'mos_title': 'Reverse the goods receipt'}" invisible="grn_state != 'confirmed'"/>
+                <button name="action_ui" string="Release payment block" type="object" context="{'mos_method': 'action_release_payment_block', 'mos_title': 'Accept the estimated tare'}" invisible="not payment_blocked"/>
+                <button name="action_ui" string="Approve excess" type="object" context="{'mos_method': 'action_approve_excess', 'mos_title': 'Accept the excess delivery'}" invisible="purpose != 'inbound_po'"/>
+                <button name="action_ui" string="Supervisor override" type="object" context="{'mos_method': 'action_supervisor_override', 'mos_title': 'Let the truck leave'}" invisible="not receipt_exception_note"/>
+            </xpath>
+            <xpath expr="//field[@name='delivery_note']" position="after">
+                <field name="declared_qty"/>
+                <field name="weight_basis"/>
+                <field name="weight_variance" invisible="not declared_qty"/>
+                <field name="payment_blocked" invisible="not payment_blocked"/>
+                <field name="tare_estimated" invisible="not tare_estimated"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mos_lab_inspection_form_reopen" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form.reopen</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_inspection_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ui" string="Reopen decision" type="object" context="{'mos_method': 'action_reopen', 'mos_title': 'Reopen the decision'}" invisible="state != 'decided'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Revisions, certificates, reversals -->
+    <record id="view_mos_lab_revision_list" model="ir.ui.view">
+        <field name="name">mos.lab.revision.list</field>
+        <field name="model">mos.lab.revision</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="inspection_id"/><field name="old_decision"/><field name="old_deduction_pct"/><field name="new_decision"/><field name="new_deduction_pct"/><field name="delta_kg"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="view_mos_lab_revision_form" model="ir.ui.view">
+        <field name="name">mos.lab.revision.form</field>
+        <field name="model">mos.lab.revision</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_approve" string="Approve and apply" type="object" class="btn-primary" invisible="state != 'requested'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="state != 'requested'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="inspection_id"/>
+                            <field name="old_decision"/>
+                            <field name="old_deduction_pct"/>
+                            <field name="old_payable_qty"/>
+                        </group>
+                        <group>
+                            <field name="new_decision"/>
+                            <field name="new_deduction_pct" invisible="new_decision != 'accept_deduction'"/>
+                            <field name="note"/>
+                            <field name="delta_kg"/>
+                            <field name="debit_note_id"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_lab_revision" model="ir.actions.act_window">
+        <field name="name">Decision revisions</field>
+        <field name="res_model">mos.lab.revision</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <record id="view_mos_wht_certificate_list" model="ir.ui.view">
+        <field name="name">mos.wht.certificate.list</field>
+        <field name="model">mos.wht.certificate</field>
+        <field name="arch" type="xml"><list decoration-muted="state == 'void'" create="0"><field name="name"/><field name="payment_id"/><field name="supplier_id"/><field name="base_amount"/><field name="wht_amount"/><field name="state" widget="badge"/></list></field>
+    </record>
+    <record id="action_mos_wht_certificate" model="ir.actions.act_window">
+        <field name="name">Withholding certificates</field>
+        <field name="res_model">mos.wht.certificate</field>
+        <field name="view_mode">list</field>
+    </record>
+    <record id="view_mos_payment_reversal_list" model="ir.ui.view">
+        <field name="name">mos.payment.reversal.list</field>
+        <field name="model">mos.payment.reversal</field>
+        <field name="arch" type="xml"><list><field name="name"/><field name="payment_id"/><field name="amount"/><field name="reason"/><field name="reversed_by_id"/></list></field>
+    </record>
+    <record id="view_mos_payment_reversal_form" model="ir.ui.view">
+        <field name="name">mos.payment.reversal.form</field>
+        <field name="model">mos.payment.reversal</field>
+        <field name="arch" type="xml"><form><sheet><group><field name="payment_id"/><field name="reason"/><field name="amount"/><field name="reversed_by_id"/></group></sheet></form></field>
+    </record>
+    <record id="action_mos_payment_reversal" model="ir.actions.act_window">
+        <field name="name">Payment reversals</field>
+        <field name="res_model">mos.payment.reversal</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
     <menuitem id="menu_mos_flows" name="Receiving" parent="mos_core.menu_mos_root" sequence="25"/>
+    <menuitem id="menu_mos_lab_revisions" name="Decision revisions" parent="menu_mos_flows" action="action_mos_lab_revision" sequence="30"/>
+    <menuitem id="menu_mos_wht_certificates" name="Withholding certificates" parent="menu_mos_flows" action="action_mos_wht_certificate" sequence="40"/>
+    <menuitem id="menu_mos_payment_reversals" name="Payment reversals" parent="menu_mos_flows" action="action_mos_payment_reversal" sequence="50"/>
     <menuitem id="menu_mos_flow_intake" name="Lab intake (flow C)" parent="menu_mos_flows" action="action_mos_flow_intake" sequence="10"/>
     <menuitem id="menu_mos_pv_drafts" name="Payments from receipts" parent="menu_mos_flows" action="action_mos_pv_draft" sequence="20"/>
     <menuitem id="menu_mos_flow_setting" name="Receiving automation" parent="mos_core.menu_mos_config" action="action_mos_flow_setting" sequence="50"/>

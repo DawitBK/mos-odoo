@@ -95,10 +95,32 @@ if flour:
     except Exception:  # nothing directly in the main stock location in this demo
         count.unlink()
 
+# --- the other two receiving flows, one delivery each ----------------------------------------------------------------
+analyst = user('mos.analyst@examplecorp.com')
+supplier = env['res.partner'].search([('mos_supplier_state', '=', 'approved')], limit=1)
+if wheat and supplier:
+    def order_for(qty):
+        po = env['purchase.order'].with_user(buyer).create({'partner_id': supplier.id, 'order_line': [Command.create({'product_id': wheat.id, 'product_qty': qty, 'price_unit': wheat.standard_price or 20.0})]})
+        po.with_user(buyer).button_confirm()
+        return po
+
+    env.cr.commit()
+    try:
+        po_c = order_for(30000.0)
+        env['mos.gate.visit'].with_user(analyst).lab_intake(po_c, 'ET-C-4471', gross=44000.0, tare=14500.0, driver_name='Tesfaye Alemu', delivery_note='DN-2210', bags=0)
+        po_b = order_for(6000.0)
+        visit_b = env['mos.gate.visit'].with_user(guard).create({'site_id': site.id, 'plate': 'ET-B-3302', 'purpose': 'inbound_po', 'flow': 'B', 'purchase_id': po_b.id, 'partner_id': supplier.id, 'bags': 120, 'delivery_note': 'DN-9034'})
+        visit_b.with_user(store).action_receive_quarantine(5900.0)
+    except Exception as error:  # the demo must not stop the rest of the set-up
+        env.cr.rollback()
+        print('flow B and C demo skipped:', error)
+
 # --- the date windows (after the history is loaded) ---------------------------------------------------------------
 for area in ('payables', 'receivables', 'inventory', 'production'):
     env['mos.date.policy'].create({'area': area, 'max_back_days': 7, 'max_forward_days': 1})
 
+# From here on the supervisor-level controls apply (purchase order before weighing, tare and re-weigh confirmation).
+env['ir.config_parameter'].sudo().set_str('mos_flows.strict_controls', 'True')
 env['mos.exception']._cron_scan()
 env.cr.commit()
 print('controls ready:', env['mos.exception'].search_count([('state', 'in', ('open', 'assigned'))]), 'open exceptions')

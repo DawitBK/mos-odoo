@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="group_mos_gate_supervisor" model="res.groups">
+        <field name="name">Gate supervisor</field>
+        <field name="sequence">33</field>
+        <field name="privilege_id" ref="mos_core.res_groups_privilege_mos"/>
+        <field name="implied_ids" eval="[(4, ref('mos_gate.group_mos_gate_guard'))]"/>
+    </record>
+</odoo>

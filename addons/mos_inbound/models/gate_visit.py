@@ -103,7 +103,7 @@ class MosGateVisit(models.Model):
             if visit.sudo().purchase_id.create_uid.id == self.env.uid:
                 raise UserError(self.env._('The person who created the purchase order cannot confirm its goods receipt.'))
             picking = visit.grn_picking_id.sudo()
-            result = picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=picking.ids).button_validate()
+            result = picking.with_context(skip_backorder=True).button_validate()
             if isinstance(result, dict):
                 raise UserError(self.env._('The receipt needs attention in Inventory before it can be confirmed.'))
             visit.sudo().write({'grn_state': 'confirmed'})

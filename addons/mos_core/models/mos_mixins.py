@@ -46,7 +46,11 @@ class MosPosted(models.AbstractModel):
     _mos_final_states = ('posted',)
     _mos_editable_after_post = set()
 
+    _mos_reopenable = False  # a model may allow an audited reopen of a final document (context key ``mos_allow_reopen``)
+
     def write(self, vals):
+        if self._mos_reopenable and self.env.context.get('mos_allow_reopen'):
+            return super().write(vals)
         for rec in self:
             if rec.state in self._mos_final_states and set(vals) - self._mos_editable_after_post - self._mos_quiet_fields:
                 raise UserError(self.env._('%s is posted and cannot be changed. Create a reversal or a superseding document instead.', rec.display_name))

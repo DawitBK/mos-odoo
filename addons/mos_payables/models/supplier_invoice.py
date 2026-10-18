@@ -47,7 +47,7 @@ class MosSupplierInvoice(models.Model):
         tracking=True,
     )
     debit_note_ids = fields.One2many('mos.debit.note', 'invoice_id')
-    voucher_line_ids = fields.One2many('mos.payment.voucher.line', 'invoice_id')
+    voucher_line_ids = fields.One2many('mos.payment.voucher.line', 'invoice_id', domain=[('live', '=', True)])
     paid_amount = fields.Float(compute='_compute_paid', string='Paid')
 
     @api.depends('supplier_ref')
@@ -111,12 +111,19 @@ class MosSupplierInvoice(models.Model):
             if not lines:
                 raise UserError(self.env._('The purchase order has no line for %s.', inv.product_id.display_name))
             ordered = sum(lines.mapped('product_qty'))
-            ordered_price = lines[0].price_unit
+            ordered_price = inv._mos_expected_price(po, inv.product_id, lines[0].price_unit)
+            wait = inv._mos_match_wait(po, inv.product_id)
+            if wait:
+                inv.sudo().write({'match_state': wait[0], 'state': 'draft'})
+                self.env['mos.audit.event'].record('invoice_held', inv, f'{inv.name}: {wait[1]}')
+                continue
             moves = po.picking_ids.move_ids.filtered(lambda m: m.state == 'done' and m.product_id == inv.product_id and m.picking_type_id.code == 'incoming')
             received = sum(moves.mapped('quantity'))
             qty_var = inv.qty - received
+            quality_kg = inv._mos_quality_deduction_kg(po, inv.product_id)
+            auto_debit = bool(quality_kg) and qty_var > 0 and abs(qty_var - quality_kg) <= max(received * tol_qty / 100.0, 1.0)
             price_var = ((inv.unit_price - ordered_price) / ordered_price * 100.0) if ordered_price else 0.0
-            exception = (received <= 0) or (abs(qty_var) > received * tol_qty / 100.0) or (price_var > tol_price)
+            exception = (received <= 0) or ((abs(qty_var) > received * tol_qty / 100.0) and not auto_debit) or (price_var > tol_price)
             inv.sudo().write(
                 {
                     'ordered_qty': ordered,
@@ -129,6 +136,29 @@ class MosSupplierInvoice(models.Model):
                 }
             )
             self.env['mos.audit.event'].record('invoice_matched', inv, f'{inv.name}: {inv.match_state}, qty {qty_var:+.1f} kg, price {price_var:+.2f}%')
+            if auto_debit and not exception:
+                # The excess is exactly the quality deduction: the supplier credits it by a debit note (FRD 9.5 #24).
+                excess = round(qty_var * inv.unit_price, 2)
+                self.env['mos.debit.note'].sudo().create(
+                    {
+                        'invoice_id': inv.id,
+                        'supplier_id': inv.supplier_id.id,
+                        'amount': round(excess * (1 + inv.vat_pct / 100.0), 2),
+                        'reason': self.env._('Quality deduction on the received load'),
+                    }
+                )
+
+    def _mos_expected_price(self, order, product, base_price):
+        """Hook: the price the order allows after any quality adjustment."""
+        return base_price
+
+    def _mos_match_wait(self, order, product):
+        """Hook: return (match state, reason) when the invoice must wait (no receipt yet, goods still in quality hold)."""
+        return None
+
+    def _mos_quality_deduction_kg(self, order, product):
+        """Hook: kilograms taken off the received loads as quality deduction."""
+        return 0.0
 
     def action_accept_variance(self):
         """After the approval chain accepted the variance, the invoice is payable as billed (FR-AP-004)."""

@@ -68,10 +68,9 @@ class MosPvDraft(models.Model):
         """Find the matched payable invoice for the order and draft the voucher from it."""
         for draft in self.filtered(lambda d: d.state == 'awaiting_invoice'):
             invoice = self.env['mos.supplier.invoice'].sudo().search(
-                [('purchase_id', '=', draft.purchase_id.id), ('supplier_id', '=', draft.supplier_id.id), ('state', '=', 'payable'), ('voucher_line_ids', '=', False)],
+                [('purchase_id', '=', draft.purchase_id.id), ('supplier_id', '=', draft.supplier_id.id), ('state', '=', 'payable')],
                 order='id',
-                limit=1,
-            )
+            ).filtered(lambda i: not i.voucher_line_ids)[:1]
             if not invoice or self.sudo().search_count([('invoice_id', '=', invoice.id)]):
                 continue
             voucher = self.env['mos.payment.voucher'].sudo().create({'supplier_id': draft.supplier_id.id, 'line_ids': [(0, 0, {'invoice_id': invoice.id})]})
