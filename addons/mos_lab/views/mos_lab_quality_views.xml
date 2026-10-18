@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Specification: weight column, grades, rules -->
+    <record id="view_mos_lab_spec_form_quality" model="ir.ui.view">
+        <field name="name">mos.lab.spec.form.quality</field>
+        <field name="model">mos.lab.spec</field>
+        <field name="inherit_id" ref="view_mos_lab_spec_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='max_value']" position="after">
+                <field name="weight"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']" position="after">
+                <separator string="Grades"/>
+                <field name="grade_ids">
+                    <list editable="bottom">
+                        <field name="name"/>
+                        <field name="min_score"/>
+                    </list>
+                </field>
+                <button name="action_view_rules" type="object" string="Deduction rules" class="btn-secondary"/>
+                <field name="rule_count" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mos_lab_rule_list" model="ir.ui.view">
+        <field name="name">mos.lab.deduction.rule.list</field>
+        <field name="model">mos.lab.deduction.rule</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="spec_id" readonly="1" optional="show"/>
+                <field name="line_id" domain="[('spec_id.state', '=', 'draft')]"/>
+                <field name="from_value"/>
+                <field name="to_value"/>
+                <field name="weight_deduction_pct"/>
+                <field name="price_adjust_pct"/>
+            </list>
+        </field>
+    </record>
+    <record id="action_mos_lab_rule" model="ir.actions.act_window">
+        <field name="name">Deduction rules</field>
+        <field name="res_model">mos.lab.deduction.rule</field>
+        <field name="view_mode">list</field>
+    </record>
+
+    <!-- Inspection: enter results, decide, samples -->
+    <record id="view_mos_lab_inspection_form_quality" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form.quality</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="inherit_id" ref="view_mos_lab_inspection_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_submit_results']" position="after">
+                <button name="action_open_decide" string="Usage decision" type="object" class="btn-primary" invisible="state != 'tested'"/>
+            </xpath>
+            <xpath expr="//field[@name='payable_qty']" position="after">
+                <field name="score"/>
+                <field name="grade_id"/>
+                <field name="auto_deduction_pct"/>
+                <field name="price_adjust_pct"/>
+                <field name="samples_required"/>
+                <field name="samples_taken" readonly="state == 'decided'"/>
+            </xpath>
+            <xpath expr="//field[@name='result_ids']" position="replace">
+                <field name="result_ids" readonly="state == 'decided'">
+                    <list editable="bottom" decoration-muted="not valid" decoration-danger="valid and not passed">
+                        <field name="line_id" domain="[('spec_id', '=', parent.spec_id)]" readonly="id"/>
+                        <field name="value" readonly="id"/>
+                        <field name="passed"/>
+                        <field name="valid"/>
+                        <field name="invalid_cause"/>
+                        <button name="action_open_invalidate" string="Invalidate" type="object" icon="fa-ban" invisible="not id or not valid"/>
+                    </list>
+                </field>
+                <separator string="Retention samples"/>
+                <field name="sample_ids" readonly="1">
+                    <list>
+                        <field name="name"/>
+                        <field name="location"/>
+                        <field name="retain_until"/>
+                        <field name="state" widget="badge"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mos_lab_decide_wizard" model="ir.ui.view">
+        <field name="name">mos.lab.decide.wizard.form</field>
+        <field name="model">mos.lab.decide.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="inspection_id"/>
+                    <field name="suggested_outcome" widget="badge"/>
+                    <field name="auto_deduction_pct"/>
+                    <field name="decision"/>
+                    <field name="deduction_pct" invisible="decision == 'reject'"/>
+                    <field name="note" placeholder="Required when accepting a failed result or going below the rule-based deduction"/>
+                </group>
+                <footer>
+                    <button name="action_decide" string="Confirm decision" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_lab_invalidate_wizard" model="ir.ui.view">
+        <field name="name">mos.lab.invalidate.wizard.form</field>
+        <field name="model">mos.lab.invalidate.wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="result_id"/>
+                    <field name="cause"/>
+                </group>
+                <footer>
+                    <button name="action_invalidate" string="Invalidate" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- Sampling plans -->
+    <record id="view_mos_lab_plan_form" model="ir.ui.view">
+        <field name="name">mos.lab.sampling.plan.form</field>
+        <field name="model">mos.lab.sampling.plan</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="product_id"/>
+                        <field name="method"/>
+                    </group>
+                    <field name="line_ids">
+                        <list editable="bottom">
+                            <field name="from_kg"/>
+                            <field name="samples"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_lab_plan_list" model="ir.ui.view">
+        <field name="name">mos.lab.sampling.plan.list</field>
+        <field name="model">mos.lab.sampling.plan</field>
+        <field name="arch" type="xml">
+            <list><field name="product_id"/><field name="method"/></list>
+        </field>
+    </record>
+    <record id="action_mos_lab_plan" model="ir.actions.act_window">
+        <field name="name">Sampling plans</field>
+        <field name="res_model">mos.lab.sampling.plan</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Retention samples -->
+    <record id="view_mos_lab_sample_list" model="ir.ui.view">
+        <field name="name">mos.lab.sample.list</field>
+        <field name="model">mos.lab.sample</field>
+        <field name="arch" type="xml">
+            <list decoration-danger="due" decoration-muted="state == 'discarded'">
+                <field name="name"/>
+                <field name="inspection_id"/>
+                <field name="product_id"/>
+                <field name="location"/>
+                <field name="stored_on"/>
+                <field name="retain_until"/>
+                <field name="due" column_invisible="1"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_lab_sample_search" model="ir.ui.view">
+        <field name="name">mos.lab.sample.search</field>
+        <field name="model">mos.lab.sample</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="product_id"/>
+                <filter name="due" string="Due for disposal" domain="[('due', '=', True)]"/>
+                <filter name="retained" string="Retained" domain="[('state', '=', 'retained')]"/>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_lab_sample" model="ir.actions.act_window">
+        <field name="name">Retention samples</field>
+        <field name="res_model">mos.lab.sample</field>
+        <field name="view_mode">list</field>
+        <field name="context">{'search_default_retained': 1}</field>
+    </record>
+
+    <!-- Certificates of analysis -->
+    <record id="view_mos_lab_coa_list" model="ir.ui.view">
+        <field name="name">mos.lab.coa.list</field>
+        <field name="model">mos.lab.coa</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'revoked'" create="0">
+                <field name="name"/>
+                <field name="visit_id"/>
+                <field name="partner_id"/>
+                <field name="product_id"/>
+                <field name="grade_id"/>
+                <field name="score"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_lab_coa_form" model="ir.ui.view">
+        <field name="name">mos.lab.coa.form</field>
+        <field name="model">mos.lab.coa</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <group>
+                        <group>
+                            <field name="visit_id"/>
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                        </group>
+                        <group>
+                            <field name="inspection_id"/>
+                            <field name="grade_id"/>
+                            <field name="score"/>
+                            <field name="state"/>
+                            <field name="issued_by_id"/>
+                        </group>
+                    </group>
+                    <field name="results_text"/>
+                    <field name="revoke_reason" invisible="state != 'revoked'"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_lab_coa" model="ir.actions.act_window">
+        <field name="name">Certificates of analysis</field>
+        <field name="res_model">mos.lab.coa</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- Report -->
+    <record id="view_mos_lab_report_pivot" model="ir.ui.view">
+        <field name="name">mos.lab.report.pivot</field>
+        <field name="model">mos.lab.report</field>
+        <field name="arch" type="xml">
+            <pivot>
+                <field name="product_id" type="row"/>
+                <field name="decision" type="col"/>
+                <field name="inspections" type="measure"/>
+                <field name="score" type="measure"/>
+                <field name="deducted_kg" type="measure"/>
+                <field name="rejected_kg" type="measure"/>
+            </pivot>
+        </field>
+    </record>
+    <record id="view_mos_lab_report_graph" model="ir.ui.view">
+        <field name="name">mos.lab.report.graph</field>
+        <field name="model">mos.lab.report</field>
+        <field name="arch" type="xml">
+            <graph type="line">
+                <field name="day" interval="day"/>
+                <field name="score" type="measure"/>
+            </graph>
+        </field>
+    </record>
+    <record id="action_mos_lab_report" model="ir.actions.act_window">
+        <field name="name">Lab quality</field>
+        <field name="res_model">mos.lab.report</field>
+        <field name="view_mode">pivot,graph</field>
+    </record>
+
+    <menuitem id="menu_mos_lab_samples" name="Retention samples" parent="menu_mos_lab" action="action_mos_lab_sample" sequence="30"/>
+    <menuitem id="menu_mos_lab_coa" name="Certificates of analysis" parent="menu_mos_lab" action="action_mos_lab_coa" sequence="40"/>
+    <menuitem id="menu_mos_lab_report" name="Lab quality" parent="menu_mos_lab" action="action_mos_lab_report" sequence="50"/>
+    <menuitem id="menu_mos_lab_config" name="Lab set-up" parent="menu_mos_lab" sequence="90"/>
+    <menuitem id="menu_mos_lab_plans" name="Sampling plans" parent="menu_mos_lab_config" action="action_mos_lab_plan" sequence="10"/>
+    <menuitem id="menu_mos_lab_rules" name="Deduction rules" parent="menu_mos_lab_config" action="action_mos_lab_rule" sequence="20"/>
+</odoo>

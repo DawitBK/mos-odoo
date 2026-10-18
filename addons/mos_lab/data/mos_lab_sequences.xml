@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="1">
+    <record id="seq_lab_sample" model="ir.sequence">
+        <field name="name">MOS retention sample</field>
+        <field name="code">mos.lab.sample</field>
+        <field name="prefix">RS-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="seq_lab_coa" model="ir.sequence">
+        <field name="name">MOS certificate of analysis</field>
+        <field name="code">mos.lab.coa</field>
+        <field name="prefix">COA-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+</odoo>

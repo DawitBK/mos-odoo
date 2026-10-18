@@ -18,6 +18,22 @@ class MosLabSpec(models.Model):
     version = fields.Integer(default=1, required=True, readonly=True)
     state = fields.Selection([('draft', 'Draft'), ('approved', 'Approved'), ('retired', 'Retired')], default='draft', required=True, readonly=True)
     line_ids = fields.One2many('mos.lab.spec.line', 'spec_id', string='Parameters')
+    grade_ids = fields.One2many('mos.lab.grade', 'spec_id', string='Grades')
+    rule_count = fields.Integer(compute='_compute_rule_count')
+
+    def _compute_rule_count(self):
+        for spec in self:
+            spec.rule_count = len(spec.line_ids.rule_ids)
+
+    def action_view_rules(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._('Deduction rules'),
+            'res_model': 'mos.lab.deduction.rule',
+            'view_mode': 'list',
+            'domain': [('spec_id', '=', self.id)],
+        }
 
     _version_uniq = models.Constraint('unique(product_id, version)', 'This specification version already exists.')
 
@@ -43,6 +59,8 @@ class MosLabSpec(models.Model):
         new = self.create({'product_id': self.product_id.id, 'version': top.version + 1})
         for line in self.line_ids:
             line.copy({'spec_id': new.id})
+        for grade in self.grade_ids:
+            grade.copy({'spec_id': new.id})
         return new
 
     @api.model
@@ -61,6 +79,14 @@ class MosLabSpecLine(models.Model):
     unit = fields.Char()
     min_value = fields.Float(digits=(12, 3))
     max_value = fields.Float(digits=(12, 3))
+    weight = fields.Float(default=1.0, help='How much this parameter counts in the quality score.')
+    rule_ids = fields.One2many('mos.lab.deduction.rule', 'line_id', string='Deduction bands', copy=True)
+
+    @api.constrains('weight')
+    def _check_weight(self):
+        for line in self:
+            if line.weight <= 0:
+                raise ValidationError(self.env._('Parameter %s: the weight must be above zero.', line.name))
 
     @api.constrains('min_value', 'max_value')
     def _check_limits(self):

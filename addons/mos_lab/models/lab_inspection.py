@@ -37,6 +37,14 @@ class MosLabInspection(models.Model):
     decided_by_id = fields.Many2one('res.users', readonly=True)
     net_weight = fields.Float(related='visit_id.net_weight', string='Net weight (kg)')
     payable_qty = fields.Float(string='Payable quantity (kg)', digits=(12, 1), compute='_compute_payable', store=True)
+    score = fields.Float(string='Quality score', digits=(5, 1), compute='_compute_quality', store=True)
+    grade_id = fields.Many2one('mos.lab.grade', compute='_compute_quality', store=True, string='Grade')
+    auto_deduction_pct = fields.Float(string='Rule-based deduction (%)', digits=(5, 2), compute='_compute_quality', store=True)
+    auto_price_adjust_pct = fields.Float(string='Rule-based price adjustment (%)', digits=(5, 2), compute='_compute_quality', store=True)
+    price_adjust_pct = fields.Float(string='Price adjustment (%)', digits=(5, 2), readonly=True, help='Fixed with the decision; negative lowers the price paid.')
+    samples_required = fields.Integer(readonly=True, help='From the sampling plan for this product and consignment size.')
+    samples_taken = fields.Integer()
+    sample_ids = fields.One2many('mos.lab.sample', 'inspection_id', string='Retention samples')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -48,6 +56,11 @@ class MosLabInspection(models.Model):
                 if not spec:
                     raise UserError(self.env._('No approved specification exists for this product.'))
                 vals['spec_id'] = spec.id
+            if 'samples_required' not in vals and vals.get('visit_id') and vals.get('product_id'):
+                visit = self.env['mos.gate.visit'].browse(vals['visit_id'])
+                weight = visit.net_weight or visit.ticket_id.first_weight
+                product = self.env['product.product'].browse(vals['product_id'])
+                vals['samples_required'] = self.env['mos.lab.sampling.plan'].samples_required(product, weight)
         return super().create(vals_list)
 
     @api.depends('result_ids.valid', 'result_ids.passed', 'result_ids.line_id', 'spec_id.line_ids')
@@ -59,6 +72,28 @@ class MosLabInspection(models.Model):
                 insp.suggested_outcome = 'incomplete'
             else:
                 insp.suggested_outcome = 'pass' if all(r.passed for r in current.values()) else 'fail'
+
+    @api.depends('result_ids.valid', 'result_ids.value', 'result_ids.line_id', 'spec_id.line_ids.weight', 'spec_id.grade_ids.min_score')
+    def _compute_quality(self):
+        for insp in self:
+            current = insp._current_results()
+            lines = insp.spec_id.line_ids
+            insp.auto_deduction_pct = insp.auto_price_adjust_pct = insp.score = 0.0
+            insp.grade_id = False
+            if not lines or any(line not in current for line in lines):
+                continue
+            total = sum(lines.mapped('weight'))
+            good = sum(line.weight for line, result in current.items() if result.passed)
+            insp.score = round(100.0 * good / total, 1) if total else 0.0
+            weight_cut = price_cut = 0.0
+            for line, result in current.items():
+                band = line.rule_ids.filtered(lambda r: r.from_value <= result.value <= r.to_value)[:1]
+                weight_cut += band.weight_deduction_pct
+                price_cut += band.price_adjust_pct
+            insp.auto_deduction_pct = min(weight_cut, 99.99)
+            insp.auto_price_adjust_pct = max(-100.0, min(price_cut, 100.0))
+            grades = insp.spec_id.grade_ids.filtered(lambda g: g.min_score <= insp.score).sorted('min_score', reverse=True)
+            insp.grade_id = grades[:1]
 
     @api.depends('net_weight', 'deduction_pct', 'decision')
     def _compute_payable(self):
@@ -82,17 +117,22 @@ class MosLabInspection(models.Model):
             raise UserError(self.env._('The inspection is decided; results can no longer be entered.'))
         if line.spec_id != self.spec_id:
             raise UserError(self.env._('That parameter does not belong to this inspection\'s specification.'))
-        if self.state == 'tested':
-            self.write({'state': 'open'})
         return self.env['mos.lab.result'].create({'inspection_id': self.id, 'line_id': line.id, 'value': value})
 
     def action_submit_results(self):
         for insp in self:
             if insp.suggested_outcome == 'incomplete':
                 raise UserError(self.env._('Every parameter needs a valid result before the results are submitted.'))
+            if insp.samples_taken < insp.samples_required:
+                raise UserError(
+                    self.env._('The sampling plan asks for %(need)s samples and %(got)s were recorded.', need=insp.samples_required, got=insp.samples_taken)
+                )
             insp.write({'state': 'tested', 'tested_by_id': self.env.uid})
+            if not insp.sample_ids:
+                self.env['mos.lab.sample'].sudo().create({'inspection_id': insp.id})
 
     def decide(self, decision, deduction_pct=0.0, note=''):
+        """The usage decision. The deduction from the quality rules always applies; a smaller one is a concession."""
         self.ensure_one()
         if self.state != 'tested':
             raise UserError(self.env._('Submit the results before deciding.'))
@@ -100,8 +140,19 @@ class MosLabInspection(models.Model):
             raise UserError(self.env._('The usage decision must be made by someone other than the person who entered the results.'))
         if decision == 'accept_deduction' and not 0 < deduction_pct < 100:
             raise UserError(self.env._('Accept with deduction needs a deduction between 0 and 100 percent.'))
-        if decision != 'accept_deduction':
-            deduction_pct = 0.0
+        auto = self.auto_deduction_pct
+        price_adjust = self.auto_price_adjust_pct
+        if decision == 'reject':
+            deduction_pct = price_adjust = 0.0
+        else:
+            if deduction_pct and deduction_pct < auto:
+                if not note:
+                    raise UserError(self.env._('A deduction below the rule-based %s%% needs a written justification.', auto))
+                if not self.env.user.has_group('mos_lab.group_mos_lab_manager'):
+                    raise UserError(self.env._('Only a lab manager can go below the rule-based deduction.'))
+            deduction_pct = deduction_pct or auto
+            if deduction_pct and decision == 'accept':
+                decision = 'accept_deduction'
         if decision == 'accept' and self.suggested_outcome == 'fail':
             if not note:
                 raise UserError(self.env._('Accepting a failed result is a concession and needs a written justification.'))
@@ -112,6 +163,7 @@ class MosLabInspection(models.Model):
                 'state': 'decided',
                 'decision': decision,
                 'deduction_pct': deduction_pct,
+                'price_adjust_pct': price_adjust,
                 'decision_note': note,
                 'decided_by_id': self.env.uid,
             }
@@ -136,6 +188,30 @@ class MosLabResult(models.Model):
     def _compute_passed(self):
         for r in self:
             r.passed = r.line_id.min_value <= r.value <= r.line_id.max_value
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        inspections = self.env['mos.lab.inspection'].browse([v['inspection_id'] for v in vals_list])
+        lines = self.env['mos.lab.spec.line'].browse([v['line_id'] for v in vals_list])
+        for insp, line in zip(inspections, lines):
+            if insp.state == 'decided':
+                raise UserError(self.env._('The inspection is decided; results can no longer be entered.'))
+            if line.spec_id != insp.spec_id:
+                raise UserError(self.env._("That parameter does not belong to this inspection's specification."))
+        for insp in inspections.filtered(lambda i: i.state == 'tested'):
+            insp.write({'state': 'open'})
+        return super().create(vals_list)
+
+    def action_open_invalidate(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._('Invalidate result'),
+            'res_model': 'mos.lab.invalidate.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_result_id': self.id},
+        }
 
     def write(self, vals):
         locked = {'value', 'line_id', 'inspection_id'}

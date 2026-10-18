@@ -8,3 +8,17 @@ access_mos_lab_inspection_analyst,Inspection: analyst,mos.lab.inspection,group_m
 access_mos_lab_inspection_admin,Inspection: administrators,mos.lab.inspection,mos_core.group_mos_admin,r,
 access_mos_lab_result_user,Inspection result: assigned sites,mos.lab.result,mos_core.group_mos_user,r,"[('inspection_id.site_id', 'in', user.mos_site_ids.ids)]"
 access_mos_lab_result_analyst,Inspection result: analyst,mos.lab.result,group_mos_lab_analyst,cru,"[('inspection_id.site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_rule_user,Deduction rule: read,mos.lab.deduction.rule,mos_core.group_mos_user,r,
+access_mos_lab_rule_manager,Deduction rule: lab manager,mos.lab.deduction.rule,group_mos_lab_manager,crud,
+access_mos_lab_grade_user,Grade: read,mos.lab.grade,mos_core.group_mos_user,r,
+access_mos_lab_grade_manager,Grade: lab manager,mos.lab.grade,group_mos_lab_manager,crud,
+access_mos_lab_plan_user,Sampling plan: read,mos.lab.sampling.plan,mos_core.group_mos_user,r,
+access_mos_lab_plan_manager,Sampling plan: lab manager,mos.lab.sampling.plan,group_mos_lab_manager,cru,
+access_mos_lab_plan_line_user,Sampling plan band: read,mos.lab.sampling.plan.line,mos_core.group_mos_user,r,
+access_mos_lab_plan_line_manager,Sampling plan band: lab manager,mos.lab.sampling.plan.line,group_mos_lab_manager,crud,
+access_mos_lab_sample_user,Retention sample: assigned sites,mos.lab.sample,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_sample_analyst,Retention sample: analyst,mos.lab.sample,group_mos_lab_analyst,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_coa_user,Certificate of analysis: assigned sites,mos.lab.coa,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_coa_manager,Certificate of analysis: lab manager,mos.lab.coa,group_mos_lab_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_report_user,Lab report: assigned sites,mos.lab.report,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_lab_report_admin,Lab report: administrators,mos.lab.report,mos_core.group_mos_admin,r,
