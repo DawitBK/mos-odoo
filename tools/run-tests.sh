@@ -4,7 +4,7 @@ set -euo pipefail
 export MSYS_NO_PATHCONV=1
 E="${1:?env file}"
 # Every module with tests; the install list pulls in their dependencies.
-MODULES="mos_core mos_gate mos_lab mos_inbound mos_silo mos_production mos_dashboard mos_approvals mos_payables mos_sales mos_procurement mos_inventory mos_controls mos_flows mos_manufacturing mos_commercial mos_quality mos_gate_plus mos_production_plus mos_finance_plus mos_procurement_plus mos_reports mos_platform_plus mos_planning_plus mos_stock_plus mos_gate_multi mos_notify mos_master_plus mos_supplier_portal mos_operations_ui"
+MODULES="mos_core mos_auth_oidc mos_gate mos_lab mos_inbound mos_silo mos_production mos_dashboard mos_approvals mos_payables mos_sales mos_procurement mos_inventory mos_controls mos_flows mos_manufacturing mos_commercial mos_quality mos_gate_plus mos_production_plus mos_finance_plus mos_procurement_plus mos_reports mos_platform_plus mos_planning_plus mos_stock_plus mos_gate_multi mos_notify mos_master_plus mos_supplier_portal mos_operations_ui"
 INSTALL="mos_dashboard,mos_auth_oidc,mos_approvals,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_gate_plus,mos_production_plus,mos_finance_plus,mos_procurement_plus,mos_reports,mos_platform_plus,mos_planning_plus,mos_stock_plus,mos_gate_multi,mos_notify,mos_master_plus,mos_supplier_portal,mos_operations_ui"
 TAGS=$(for m in $MODULES; do printf '/%s,' "$m"; done)
 PW=$(grep MOS_DB_PASSWORD "$E" | cut -d= -f2)

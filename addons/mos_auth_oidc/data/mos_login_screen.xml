@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The sign-in page offers MOS's own single sign-on and the local password, and nothing else: no Odoo.com / Google / Facebook buttons and no
+         "Don't have an account?" link (an account is created by a MOS administrator, FR-PLT-011). A function and not records, because the
+         standard providers are noupdate data that an upgrade would not touch. Runs at every install and upgrade. -->
+    <function model="res.users" name="_mos_apply_login_screen_defaults"/>
+</odoo>
