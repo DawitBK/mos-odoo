@@ -44,4 +44,19 @@ Sign-in through the identity provider: `tools/register-sso-client.mjs` registers
 four `mos_auth_oidc.*` system parameters (issuer, client id, client secret, optional redirect URI) and enable the
 "SSO" provider under Settings, Users, OAuth providers.
 
+## After you change a model, a view or a data file
+
+The `addons` folder is mounted into the running container, so new code is loaded at the next start, but the database is not
+changed by that. A new field, view or data file needs an upgrade of its addon, otherwise every page that reads the changed
+table fails (a missing column made every sign-in answer "Forbidden" on 2026-10-24). Back up, upgrade, restart:
+
+```powershell
+$env = "C:\Users\$env:USERNAME\runtime\mos\mos.env"
+docker compose --env-file $env run --rm odoo odoo -d mos -u <addon>[,<addon>] --stop-after-init --no-http
+docker compose --env-file $env restart odoo
+```
+
+Check it with `tools/sso-login-check.mjs` (a real sign-in through the public address), and read the container log for errors
+after the restart.
+
 Licence: LGPL-3.0, as Odoo.
