@@ -29,7 +29,7 @@ from urllib.parse import urlencode
 import requests
 from markupsafe import escape
 
-from odoo import http
+from odoo import SUPERUSER_ID, http
 from odoo.http import request
 from odoo.http.session import authenticate
 from odoo.addons.web.controllers.utils import _get_login_redirect_url, ensure_db
@@ -103,6 +103,7 @@ def _deny(reason, email=''):
 _DENIED_TEXT = {
     'no-account': 'Single sign-on has you signed in as <strong>{email}</strong>, and MOS has no account for that address. Ask a MOS administrator to add you, or sign in as someone else.',
     'different-person': 'The person signed in to single sign-on is not the person this MOS account (<strong>{email}</strong>) belongs to. Ask a MOS administrator to look at the account, or sign in as someone else.',
+    'no-access': 'You have not been given access to MOS. Ask an administrator to give you a role for it in the identity provider, or sign in as someone else.',
     'failed': 'Single sign-on did not complete. Try again; if it keeps happening, tell a MOS administrator.',
 }
 
@@ -138,7 +139,8 @@ class MosOidcController(http.Controller):
             {
                 'client_id': _param('client_id'),
                 'response_type': 'code',
-                'scope': 'openid email profile',
+                # app_roles: the roles the identity provider gave this person for MOS, when it manages MOS's access from its console.
+                'scope': 'openid email profile app_roles',
                 'redirect_uri': _redirect_uri(),
                 'state': state,
                 'nonce': nonce,
@@ -152,6 +154,9 @@ class MosOidcController(http.Controller):
     def callback(self, **kw):
         ensure_db()
         saved = request.session.pop('mos_oidc', None)
+        # The provider refused because this person holds no role for MOS there: say so, rather than "did not complete".
+        if saved and kw.get('error') == 'access_denied' and secrets.compare_digest(kw.get('state', ''), saved['state']):
+            return _deny('no-access')
         if not saved or not secrets.compare_digest(kw.get('state', ''), saved['state']) or 'code' not in kw:
             return _deny('failed')
         try:
@@ -189,8 +194,15 @@ class MosOidcController(http.Controller):
             _logger.exception('OIDC sign-in failed')
             return _deny('failed')
 
-        users = request.env['res.users'].sudo()
+        # As the system user for the rest of this request, not `sudo()` on the route's own environment: a public route has no user at all (uid
+        # None), and Odoo flushes pending work (a new account's avatar, binding an identity) through whichever environment it finds, which
+        # then fails its access checks with "Expected singleton". `authenticate` below builds its own environment, so it is unaffected.
+        request.update_env(user=SUPERUSER_ID)
+        users = request.env['res.users']
         user = users.search([('login', '=ilike', identity['email']), ('active', '=', True)], limit=1)
+        if not user and hasattr(users, '_mos_provision_from_idp'):
+            # Only when the deployment lets the identity provider decide who may use MOS (mos_platform_plus, off by default).
+            user = users._mos_provision_from_idp(identity)
         if not user:
             _logger.info('OIDC sign-in refused: %s has no MOS account', identity['email'])
             return _deny('no-account', identity['email'])
@@ -201,6 +213,9 @@ class MosOidcController(http.Controller):
             user._mos_apply_idp_claims(identity)
         session_token = secrets.token_urlsafe(32)
         user.write({'oauth_access_token': session_token})
+        # Settle what is still to be computed (a new account's avatar, for one) with the system user's environment: the commit would otherwise
+        # flush it through this route's own, which has no user and cannot pass the access check.
+        users.env.flush_all()
         request.env.cr.commit()
         auth_info = authenticate(request.session, request.env, {'login': user.login, 'token': session_token, 'type': 'oauth_token'})
         response = request.redirect(_get_login_redirect_url(auth_info['uid'], saved['next']), 303)

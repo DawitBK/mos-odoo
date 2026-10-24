@@ -1,4 +1,4 @@
-from odoo import api, fields, models
+from odoo import SUPERUSER_ID, api, fields, models
 
 
 class MosIdpGroupMap(models.Model):
@@ -23,6 +23,55 @@ class ResUsers(models.Model):
     mos_idp_group_ids = fields.Many2many('res.groups', 'mos_idp_user_group_rel', 'user_id', 'group_id', string='Roles from the identity provider', readonly=True)
     mos_idp_site_ids = fields.Many2many('mos.site', 'mos_idp_user_site_rel', 'user_id', 'site_id', string='Sites from the identity provider', readonly=True)
 
+    @api.model
+    def _mos_idp_reported(self, identity):
+        """The groups or roles the identity provider reported for this person, or None when it sent none (the claim is absent)."""
+        claim = self.env['ir.config_parameter'].sudo().get_str('mos_auth_oidc.groups_claim', 'groups')
+        if not claim or claim not in identity:
+            return None
+        raw = identity.get(claim) or []
+        return {str(g).strip() for g in (raw if isinstance(raw, (list, tuple)) else str(raw).split(','))} - {''}
+
+    @api.model
+    def _mos_provision_from_idp(self, identity):
+        """Create the account of a person the identity provider has given a MOS role, at their first sign-in. Returns the user, or an empty set.
+
+        Off unless the system parameter `mos_platform_plus.idp_create_accounts` is 1: MOS's own rule is that an administrator creates accounts,
+        and a deployment that wants the identity provider's console to decide who may use MOS says so here. Even then an account is only made
+        for a person who holds at least one role that maps to a MOS role: the administrator role is never given by a mapping, so a person who
+        holds only that one is still refused until a MOS administrator creates their account.
+        """
+        users = self.sudo()
+        if self.env['ir.config_parameter'].sudo().get_str('mos_platform_plus.idp_create_accounts', '0') != '1':
+            return users.browse()
+        email = (identity.get('email') or '').strip().lower()
+        reported = self._mos_idp_reported(identity)
+        if not email or not reported:
+            return users.browse()
+        admin = self.env.ref('mos_core.group_mos_admin')
+        maps = self.env['mos.idp.group.map'].sudo().search([('idp_group', 'in', list(reported))])
+        if not (maps.mapped('group_id') - admin):
+            return users.browse()
+        name = (identity.get('name') or ' '.join(p for p in (identity.get('given_name'), identity.get('family_name')) if p) or email).strip()
+        # A sign-in arrives on a public route, where there is no current company to default from: name the company (MOS runs one per install).
+        company = self.env.ref('base.main_company', raise_if_not_found=False) or self.env['res.company'].sudo().search([], order='id', limit=1)
+        # Made as the system user: a public route has no user at all, and creating one (its avatar, for a start) needs one.
+        user = self.with_user(SUPERUSER_ID).with_context(no_reset_password=True).create(
+            {
+                'name': name,
+                'login': email,
+                'email': email,
+                'company_id': company.id,
+                'company_ids': [(6, 0, company.ids)],
+                'group_ids': [(4, self.env.ref('base.group_user').id)],
+            }
+        )
+        # The person is the one who acted (their first sign-in), so the entry is theirs.
+        self.env['mos.audit.event'].with_user(user.id).sudo().record(
+            'idp_account_created', user, f'{user.login}: created at the first sign-in; the identity provider gave {sorted(reported)}'
+        )
+        return user
+
     def _mos_apply_idp_claims(self, identity):
         """Give the person the roles and sites their identity-provider groups map to, and take back what a group no longer gives.
 
@@ -30,11 +79,9 @@ class ResUsers(models.Model):
         The administrator role is never granted or removed here, whatever the mapping says.
         """
         self.ensure_one()
-        claim = self.env['ir.config_parameter'].sudo().get_str('mos_auth_oidc.groups_claim', 'groups')
-        if not claim or claim not in identity:
+        reported = self._mos_idp_reported(identity)
+        if reported is None:
             return False
-        raw = identity.get(claim) or []
-        reported = {str(g).strip() for g in (raw if isinstance(raw, (list, tuple)) else str(raw).split(','))} - {''}
         maps = self.env['mos.idp.group.map'].sudo().search([('idp_group', 'in', list(reported))])
         admin = self.env.ref('mos_core.group_mos_admin')
         want_groups = maps.mapped('group_id') - admin

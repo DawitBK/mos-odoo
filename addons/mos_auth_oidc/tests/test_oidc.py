@@ -190,3 +190,35 @@ class TestHttp(HttpCase):
         self.assertIn('You are not signed in to MOS', page.text)
         self.assertIn(f'{ISSUER}/session/end', page.text)
         self.assertNotIn('invitation', page.text)
+
+    def _start_login(self):
+        """Begin a sign-in and return the query the browser is sent to the provider with (and keep the session cookie, like a browser)."""
+        from urllib.parse import parse_qs, urlparse
+
+        with patch('odoo.addons.mos_auth_oidc.controllers.main.requests.get', side_effect=self._fake_get):
+            reply = self.url_open('/mos/oidc/login', allow_redirects=False)
+        self.assertEqual(reply.status_code, 303)
+        return {k: v[0] for k, v in parse_qs(urlparse(reply.headers['Location']).query).items()}
+
+    def test_the_sign_in_asks_for_the_roles_the_provider_manages(self):
+        query = self._start_login()
+        self.assertEqual(query['scope'].split(), ['openid', 'email', 'profile', 'app_roles'])
+        self.assertEqual(query['code_challenge_method'], 'S256')
+
+    def test_the_provider_refusing_says_there_is_no_access_not_that_it_did_not_complete(self):
+        query = self._start_login()
+        reply = self.url_open(f"/mos/oidc/callback?error=access_denied&state={query['state']}", allow_redirects=False)
+        self.assertEqual(reply.status_code, 303)
+        self.assertTrue(reply.headers['Location'].endswith('/mos/oidc/denied'))
+        with patch('odoo.addons.mos_auth_oidc.controllers.main.requests.get', side_effect=self._fake_get):
+            page = self.url_open('/mos/oidc/denied')
+        self.assertIn('You have not been given access to MOS', page.text)
+        self.assertNotIn('did not complete', page.text)
+
+    def test_a_refusal_with_the_wrong_state_is_not_believed(self):
+        self._start_login()
+        reply = self.url_open('/mos/oidc/callback?error=access_denied&state=forged', allow_redirects=False)
+        self.assertEqual(reply.status_code, 303)
+        with patch('odoo.addons.mos_auth_oidc.controllers.main.requests.get', side_effect=self._fake_get):
+            page = self.url_open('/mos/oidc/denied')
+        self.assertIn('did not complete', page.text)

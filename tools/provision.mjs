@@ -11,7 +11,8 @@
  *   3. loads the flour-mill demo data (tools/seed_demo.py)
  *   4. points sign-in at the identity provider (system parameters, never in code) and sets the public address
  *   5. sets the demo password on the MOS demo users, but not on the platform administrator
- *   6. (with --visitor-email) gives the public sandbox login a MOS administrator account, single sign-on only (tools/seed_visitor.py)
+ *   6. maps the roles the identity provider's console offers for MOS to MOS roles and lets it create accounts (tools/seed_idp_roles.py)
+ *   7. (with --visitor-email) gives the public sandbox login a MOS administrator account, single sign-on only (tools/seed_visitor.py)
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -140,6 +141,10 @@ env.cr.commit()
 print('configured')
 `;
 must(odooShell(configure), 'configure');
+console.log("mapping the identity provider's roles to MOS roles...");
+const roleMap = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_idp_roles.py'), 'utf8'));
+must(roleMap, 'identity role mapping');
+console.log((roleMap.stdout ?? '').trim().split('\n').slice(-1)[0]);
 if (visitorEmail) {
   console.log('giving the public sandbox login its administrator account...');
   const header = `VISITOR_EMAIL = ${JSON.stringify(visitorEmail)}\nVISITOR_NAME = ${JSON.stringify(visitorName ?? 'Demo Administrator')}\n`;

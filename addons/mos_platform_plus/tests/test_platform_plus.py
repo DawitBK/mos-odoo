@@ -150,6 +150,71 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
         user._mos_apply_idp_claims({'roles': 'other, lab'})
         self.assertIn(lab, user.group_ids)
 
+    # -- Accounts created at the first sign-in, when the deployment lets the identity provider decide -------------------
+    def _idp_roles_setup(self, create='1'):
+        params = self.env['ir.config_parameter'].sudo()
+        params.set_str('mos_auth_oidc.groups_claim', 'app_roles')
+        params.set_str('mos_platform_plus.idp_create_accounts', create)
+        lab = self.env.ref('mos_lab.group_mos_lab_analyst')
+        self.env['mos.idp.group.map'].create({'idp_group': 'analyst', 'group_id': lab.id, 'site_ids': [Command.set(self.site.ids)]})
+        return lab
+
+    def _identity(self, email, roles, **extra):
+        return {'sub': 'sub-' + email, 'email': email, 'email_verified': True, 'app_roles': roles, **extra}
+
+    def test_idp_account_creation_is_off_unless_the_deployment_turns_it_on(self):
+        self._idp_roles_setup(create='0')
+        self.assertFalse(self.env['res.users']._mos_provision_from_idp(self._identity('xnew1@example.com', ['analyst'])))
+        self.assertFalse(self.env['res.users'].sudo().search([('login', '=', 'xnew1@example.com')]))
+        self.env['ir.config_parameter'].sudo().search([('key', '=', 'mos_platform_plus.idp_create_accounts')]).unlink()
+        self.assertFalse(self.env['res.users']._mos_provision_from_idp(self._identity('xnew2@example.com', ['analyst'])), 'no setting means off')
+
+    def test_idp_account_is_created_for_a_person_with_a_mapped_role_and_gets_it_with_its_sites(self):
+        lab = self._idp_roles_setup()
+        user = self.env['res.users']._mos_provision_from_idp(self._identity('xnew3@example.com', ['analyst'], given_name='Abebe', family_name='Kebede'))
+        self.assertTrue(user)
+        self.assertEqual((user.login, user.email, user.name), ('xnew3@example.com', 'xnew3@example.com', 'Abebe Kebede'))
+        self.assertTrue(user.active)
+        user._mos_apply_idp_claims(self._identity('xnew3@example.com', ['analyst']))
+        self.assertIn(lab, user.group_ids)
+        self.assertIn(self.site, user.mos_site_ids)
+        self.assertFalse(user.password, 'single sign-on only: no password is set')
+        event = self.env['mos.audit.event'].sudo().search([('action', '=', 'idp_account_created'), ('res_id', '=', user.id)])
+        self.assertTrue(event)
+
+    def test_idp_account_creation_works_on_a_sign_in_route_where_there_is_no_user_and_no_company(self):
+        # The sign-in callback runs on a public route whose environment has no user at all (uid None), so no current company either. Creating the
+        # account the plain way fails there on a missing company, and then on the avatar write that needs a user (found on the live system).
+        from odoo.api import Environment
+
+        lab = self._idp_roles_setup()
+        route = Environment(self.env.cr, None, {})
+        self.assertFalse(route.company, 'the route environment really has no company')
+        user = route['res.users']._mos_provision_from_idp(self._identity('xroute@example.com', ['analyst'], given_name='Quinn', family_name='Gate'))
+        self.assertTrue(user)
+        self.assertEqual(user.company_ids, user.company_id)
+        self.assertTrue(user.company_id)
+        user._mos_apply_idp_claims(self._identity('xroute@example.com', ['analyst']))
+        self.assertIn(lab, user.sudo().group_ids)
+        event = self.env['mos.audit.event'].sudo().search([('action', '=', 'idp_account_created'), ('res_id', '=', user.id)])
+        self.assertEqual(event.user_id, user, 'the person is the one who acted')
+
+    def test_idp_account_is_never_created_for_the_administrator_role_alone_or_for_an_unmapped_role(self):
+        self._idp_roles_setup()
+        admin = self.env.ref('mos_core.group_mos_admin')
+        self.env['mos.idp.group.map'].create({'idp_group': 'admin', 'group_id': admin.id})
+        users = self.env['res.users']
+        self.assertFalse(users._mos_provision_from_idp(self._identity('xnew4@example.com', ['admin'])), 'a mapping never gives the administrator role, so there is nothing to create')
+        self.assertFalse(users._mos_provision_from_idp(self._identity('xnew5@example.com', ['wizard'])))
+        self.assertFalse(users._mos_provision_from_idp(self._identity('xnew6@example.com', [])))
+        self.assertFalse(users._mos_provision_from_idp({'sub': 's', 'email': 'xnew7@example.com', 'email_verified': True}), 'no claim at all')
+        self.assertFalse(users.sudo().search([('login', 'in', ['xnew4@example.com', 'xnew5@example.com', 'xnew6@example.com', 'xnew7@example.com'])]))
+
+    def test_idp_account_creation_reads_a_comma_separated_claim_and_uses_the_address_when_there_is_no_name(self):
+        self._idp_roles_setup()
+        user = self.env['res.users']._mos_provision_from_idp({'sub': 's', 'email': ' XNew8@Example.com ', 'email_verified': True, 'app_roles': 'wizard, analyst'})
+        self.assertEqual((user.login, user.name), ('xnew8@example.com', 'xnew8@example.com'))
+
     # -- Session limit ----------------------------------------------------------------------------------------------
     def test_idle_session_limit(self):
         http = self.env['ir.http']
