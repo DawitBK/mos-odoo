@@ -3,13 +3,15 @@
  * Builds (or rebuilds) the MOS database from nothing and leaves it ready to use:
  *
  *   node provision.mjs --mos-env <file with MOS_DB_PASSWORD> --runtime <dir with secrets.json> \
- *        --mos-origin https://mos.example.com --issuer https://portal.example.com/sso [--password <demo password>] [--reset]
+ *        --mos-origin https://mos.example.com --issuer https://portal.example.com/sso [--password <demo password>] [--reset] \
+ *        [--visitor-email <public sandbox login>] [--visitor-name <its name>]
  *
  *   1. (with --reset) drops the database "mos"
  *   2. installs the MOS addons
  *   3. loads the flour-mill demo data (tools/seed_demo.py)
  *   4. points sign-in at the identity provider (system parameters, never in code) and sets the public address
  *   5. sets the demo password on the MOS demo users, but not on the platform administrator
+ *   6. (with --visitor-email) gives the public sandbox login a MOS administrator account, single sign-on only (tools/seed_visitor.py)
  */
 import fs from 'node:fs';
 import path from 'node:path';
@@ -28,6 +30,8 @@ const mosOrigin = (arg('mos-origin') ?? '').replace(/\/+$/, '');
 const issuer = (arg('issuer') ?? '').replace(/\/+$/, '');
 const password = arg('password');
 const reset = args.includes('--reset');
+const visitorEmail = arg('visitor-email');
+const visitorName = arg('visitor-name');
 if (!envFile || !runtime || !mosOrigin || !issuer) {
   console.error('Usage: provision.mjs --mos-env <file> --runtime <dir> --mos-origin <url> --issuer <url> [--password <p>] [--reset]');
   process.exit(2);
@@ -136,4 +140,11 @@ env.cr.commit()
 print('configured')
 `;
 must(odooShell(configure), 'configure');
+if (visitorEmail) {
+  console.log('giving the public sandbox login its administrator account...');
+  const header = `VISITOR_EMAIL = ${JSON.stringify(visitorEmail)}\nVISITOR_NAME = ${JSON.stringify(visitorName ?? 'Demo Administrator')}\n`;
+  const visitor = odooShell(header + fs.readFileSync(path.join(root, 'tools', 'seed_visitor.py'), 'utf8'));
+  must(visitor, 'visitor account');
+  console.log((visitor.stdout ?? '').trim().split('\n').slice(-1)[0]);
+}
 console.log('MOS is ready at', mosOrigin);
