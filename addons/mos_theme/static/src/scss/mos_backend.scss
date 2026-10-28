@@ -121,3 +121,109 @@ $mos-info-bg: #dbeafe;
 .mos-trend .mos-bar { height: 10px; border-radius: 5px; background: $mos-blue; min-width: 2px; }
 .mos-card .btn-link.mos-card-label { color: $mos-navy; text-decoration: none; font-size: 0.85rem; opacity: 0.85; }
 .mos-card .btn-link.mos-card-label:hover { text-decoration: underline; opacity: 1; }
+
+// -- Page layout of the client screens (page header, section cards, action bar) ----------------------------------------
+
+// The header of a screen: an icon, the title, one line saying what the screen is for, and where it sits.
+.mos-page-head {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 16px;
+    .mos-page-icon {
+        flex: 0 0 auto;
+        width: 44px;
+        height: 44px;
+        border-radius: 10px;
+        background: $mos-info-bg;
+        color: $mos-blue;
+        font-size: 1.4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .mos-page-title { flex: 1 1 auto; min-width: 0; }
+    h2 { margin: 0; color: $mos-navy; font-weight: 700; font-size: 1.4rem; }
+    p { margin: 0; color: rgba($mos-navy, 0.65); font-size: 0.9rem; }
+    .mos-page-crumb { flex: 0 0 auto; color: rgba($mos-navy, 0.6); font-size: 0.85rem; }
+}
+
+// A block of a screen with its own icon and title, like "Delivery Information" or "Quality Parameters".
+.mos-section {
+    background: #fff;
+    border: 1px solid $mos-line;
+    border-radius: 12px;
+    padding: 4px 16px 12px;
+    margin: 0 0 16px;
+    > .mos-section-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin: 0 -16px 10px;
+        padding: 10px 16px;
+        background: linear-gradient(90deg, $mos-soft, #fff);
+        border-bottom: 1px solid $mos-line;
+        border-radius: 12px 12px 0 0;
+        color: $mos-navy;
+        font-weight: 700;
+        font-size: 1rem;
+        i { color: $mos-blue; font-size: 1.1rem; }
+    }
+}
+
+// The note under a grid ("You can add several items …").
+.mos-note {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 8px 14px;
+    margin: 8px 0 12px;
+    border-radius: 8px;
+    background: $mos-info-bg;
+    color: $mos-info;
+    font-size: 0.88rem;
+    i { font-size: 1rem; }
+}
+
+// The bar at the foot of a screen with Cancel, Save, Reject, Approve and the like.
+.mos-action-bar {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 8px;
+    padding-top: 14px;
+    border-top: 1px solid $mos-line;
+    .btn { min-width: 7.5em; }
+    .mos-bar-left { margin-right: auto; }
+}
+.btn-success { background-color: $mos-green; border-color: $mos-green; border-radius: 8px; }
+
+// "Add item": the add-a-line link of an editable grid looks like the client's blue button.
+.o_form_view .mos-section .o_field_x2many_list .o_field_x2many_list_row_add a {
+    display: inline-block;
+    background: $mos-blue;
+    color: #fff !important;
+    padding: 4px 14px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    &::before { content: '+ '; }
+}
+
+// Totals row under a grid.
+.mos-summary-row { display: flex; gap: 16px; flex-wrap: wrap; > div { flex: 1 1 200px; } }
+.mos-summary-row .mos-sum-label { color: rgba($mos-navy, 0.7); font-size: 0.85rem; }
+.mos-summary-row .mos-sum-value { background: $mos-soft; border: 1px solid $mos-line; border-radius: 8px; padding: 6px 12px; font-weight: 600; color: $mos-navy; min-height: 2.2em; }
+
+// Sheets that carry a page header use the full width, like the mock-ups.
+.o_form_view .o_form_sheet:has(.mos-page-head) { max-width: none; }
+
+// The form and its history stack top to bottom (the chatter is never beside the sheet): see chatter_below.js.
+.o_form_view .o_form_renderer.o_form_editable,
+.o_form_view .o_form_renderer.o_form_readonly,
+.o_form_view .o_form_renderer {
+    &.d-flex.flex-nowrap { flex-direction: column !important; height: auto !important; }
+    > .o_form_sheet_bg { flex: 0 0 auto; width: 100%; overflow: visible; }
+    > .o-mail-Form-chatter { width: 100%; max-width: none; }
+}

@@ -5,3 +5,66 @@ $mos-blue: #1a62d8;
 .oe_login_form .btn-primary, .o_portal .btn-primary { background-color: $mos-blue; border-color: $mos-blue; border-radius: 8px; }
 body.o_database_list, .oe_website_login_container { color: $mos-navy; }
 .card { border-radius: 12px; }
+
+// -- The sign-in page (client screen 2) ---------------------------------------------------------------------------
+$mos-soft: #eef3fb;
+$mos-line: #d9e2f1;
+
+body.bg-100:has(.mos-login) { background: #fff !important; }
+.mos-login {
+    min-height: 100vh;
+    display: flex;
+    background: #fff;
+    color: $mos-navy;
+}
+.mos-login-left {
+    flex: 1 1 50%;
+    display: flex;
+    flex-direction: column;
+    padding: 48px 56px 28px;
+    background: linear-gradient(180deg, #e8f0fc 0%, #f4f8ff 100%);
+    border-right: 1px solid $mos-line;
+}
+.mos-login-brand { display: flex; align-items: center; gap: 14px; }
+.mos-login-logo {
+    width: 54px; height: 54px; border-radius: 12px; background: #fff; color: $mos-blue; font-size: 1.9rem;
+    display: flex; align-items: center; justify-content: center; border: 1px solid $mos-line;
+}
+.mos-login-name { font-size: 2rem; font-weight: 700; line-height: 1; }
+.mos-login-tag { font-size: 0.95rem; margin-top: 4px; }
+.mos-login-welcome { margin: 52px 0 8px; font-size: 2.1rem; font-weight: 700; }
+.mos-login-lead { max-width: 24em; color: rgba($mos-navy, 0.75); font-size: 1.05rem; }
+.mos-login-art { width: 100%; max-width: 560px; margin: 24px 0 28px; }
+.mos-login-modules {
+    display: flex; background: #fff; border: 1px solid $mos-line; border-radius: 12px; padding: 14px 8px; margin-top: auto;
+    > div { flex: 1 1 0; text-align: center; font-size: 0.8rem; padding: 0 6px; border-right: 1px solid $mos-line; }
+    > div:last-child { border-right: 0; }
+    .mos-ico { display: block; margin: 0 auto 8px; width: 2rem; height: 2rem; color: $mos-blue; }
+}
+.mos-login-foot { margin-top: 28px; font-size: 0.85rem; color: rgba($mos-navy, 0.7); }
+.mos-login-right { flex: 1 1 50%; display: flex; align-items: center; justify-content: center; padding: 32px; }
+.mos-login-card { width: 100%; max-width: 440px; }
+.mos-login-title { font-size: 2.2rem; font-weight: 700; margin: 0 0 6px; }
+.mos-login-sub { color: rgba($mos-navy, 0.7); margin-bottom: 28px; }
+.mos-login-card .form-label { font-weight: 600; color: $mos-navy; }
+.mos-login-card .mos-required { color: #d92d20; }
+.mos-login-card .form-control { height: 48px; border-radius: 8px; border-color: $mos-line; }
+.mos-login-card .input-group .btn { border-color: $mos-line; border-radius: 0 8px 8px 0; }
+.mos-login-card .mos-login-button { height: 50px; border-radius: 8px; font-weight: 600; font-size: 1.05rem; }
+.mos-login-card .list-group-item { border: 1px solid $mos-line; border-radius: 8px !important; margin-bottom: 8px; color: $mos-navy; font-weight: 600; }
+.mos-login-card .o_login_auth em { color: rgba($mos-navy, 0.6); }
+.mos-login-help { margin-top: 28px; text-align: center; color: rgba($mos-navy, 0.7); font-size: 0.9rem; }
+@media (max-width: 900px) {
+    .mos-login { flex-direction: column; }
+    .mos-login-left { display: none; }
+}
+.mos-login-card {
+    --bs-primary: #{$mos-blue};
+    --bs-link-color: #{$mos-blue};
+    --bs-link-hover-color: #{darken($mos-blue, 10%)};
+    a, .btn-link { color: $mos-blue; }
+    .btn-primary { background-color: $mos-blue !important; border-color: $mos-blue !important; color: #fff; }
+    .list-group-item i { color: $mos-blue; }
+    .list-group-item:hover { background: $mos-soft; }
+}
+.mos-login-art { max-width: 100%; }

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The sign-in page of the client's screen 2: the brand panel with the five areas of the system on the left, the sign-in card on the right.
+         It re-skins the one layout every sign-in page uses (sign in, reset password, confirm access), so they all look alike. -->
+    <template id="login_layout" inherit_id="web.login_layout" name="MOS sign-in page">
+        <xpath expr="//div[hasclass('container')]" position="replace">
+            <div class="mos-login">
+                <div class="mos-login-left">
+                    <div class="mos-login-brand">
+                        <span class="mos-login-logo"><i class="mos-ico mos-ico-cube"/></span>
+                        <div>
+                            <div class="mos-login-name">MOS</div>
+                            <div class="mos-login-tag">Integrated. Automated. Efficient.</div>
+                        </div>
+                    </div>
+                    <h2 class="mos-login-welcome">Welcome Back!</h2>
+                    <p class="mos-login-lead">Sign in to access your mill operating system and manage your operations efficiently.</p>
+                    <svg class="mos-login-art" viewBox="0 0 640 230" role="img" aria-label="A flour mill with silos and a delivery truck">
+                        <rect x="0" y="196" width="640" height="34" fill="#cfdcf3"/>
+                        <rect x="30" y="92" width="52" height="104" rx="6" fill="#dbe6f8"/>
+                        <rect x="120" y="76" width="22" height="120" fill="#9db6e0"/>
+                        <rect x="116" y="68" width="30" height="12" rx="2" fill="#8aa6d6"/>
+                        <rect x="150" y="104" width="120" height="92" fill="#b7caec"/>
+                        <polygon points="150,104 210,78 270,104" fill="#7f9fd2"/>
+                        <rect x="168" y="126" width="16" height="16" fill="#e8effb"/><rect x="198" y="126" width="16" height="16" fill="#e8effb"/><rect x="228" y="126" width="16" height="16" fill="#e8effb"/>
+                        <rect x="196" y="156" width="28" height="40" fill="#6f90c8"/>
+                        <rect x="280" y="120" width="170" height="76" fill="#a9c0e8"/>
+                        <rect x="296" y="140" width="34" height="56" fill="#6f90c8"/><rect x="346" y="140" width="34" height="56" fill="#6f90c8"/>
+                        <rect x="398" y="136" width="14" height="14" fill="#e8effb"/><rect x="420" y="136" width="14" height="14" fill="#e8effb"/>
+                        <rect x="330" y="54" width="22" height="70" fill="#9db6e0"/>
+                        <rect x="470" y="60" width="44" height="136" rx="8" fill="#b7caec"/><ellipse cx="492" cy="60" rx="22" ry="10" fill="#9db6e0"/>
+                        <rect x="524" y="60" width="44" height="136" rx="8" fill="#b7caec"/><ellipse cx="546" cy="60" rx="22" ry="10" fill="#9db6e0"/>
+                        <rect x="478" y="96" width="28" height="6" fill="#8aa6d6"/><rect x="532" y="96" width="28" height="6" fill="#8aa6d6"/>
+                        <rect x="590" y="130" width="40" height="66" rx="4" fill="#dbe6f8"/>
+                        <rect x="20" y="168" width="78" height="28" rx="3" fill="#f2f6fd"/><rect x="92" y="176" width="26" height="20" rx="3" fill="#7f9fd2"/>
+                        <circle cx="42" cy="198" r="8" fill="#51648a"/><circle cx="104" cy="198" r="8" fill="#51648a"/>
+                    </svg>
+                    <div class="mos-login-modules">
+                        <div><i class="mos-ico mos-ico-cube"/><span>Inventory Management</span></div>
+                        <div><i class="mos-ico mos-ico-cart"/><span>Procurement &amp; Purchasing</span></div>
+                        <div><i class="mos-ico mos-ico-factory"/><span>Production Management</span></div>
+                        <div><i class="mos-ico mos-ico-money"/><span>Finance &amp; Accounts</span></div>
+                        <div><i class="mos-ico mos-ico-chart"/><span>Reports &amp; Analytics</span></div>
+                    </div>
+                    <div class="mos-login-foot">© <t t-out="datetime.date.today().year"/> <t t-out="res_company.name or 'MOS'"/>. All rights reserved.</div>
+                </div>
+                <div class="mos-login-right">
+                    <div t-attf-class="mos-login-card {{login_card_classes}} o_database_list">
+                        <t t-out="0"/>
+                        <div class="mos-login-help" t-if="not disable_footer">
+                            Need help? Contact your administrator.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="login" inherit_id="web.login" name="MOS sign-in form">
+        <xpath expr="//h1[hasclass('visually-hidden')]" position="replace">
+            <h1 class="mos-login-title">Login</h1>
+            <p class="mos-login-sub">Please enter your credentials to continue</p>
+        </xpath>
+        <xpath expr="//label[@for='login']" position="replace">
+            <label for="login" class="form-label">Username <span class="mos-required">*</span></label>
+        </xpath>
+        <xpath expr="//input[@name='login']" position="attributes">
+            <attribute name="placeholder">Enter your username</attribute>
+        </xpath>
+        <xpath expr="//label[@for='password']" position="replace">
+            <label for="password" class="form-label">Password <span class="mos-required">*</span></label>
+        </xpath>
+        <xpath expr="//button[@type='submit'][hasclass('btn-primary')]" position="replace">
+            <button type="submit" class="btn btn-primary mos-login-button">Login</button>
+        </xpath>
+    </template>
+</odoo>

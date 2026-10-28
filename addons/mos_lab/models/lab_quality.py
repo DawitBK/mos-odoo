@@ -61,7 +61,7 @@ class MosLabGrade(models.Model):
     _order = 'spec_id, min_score desc'
 
     spec_id = fields.Many2one('mos.lab.spec', required=True, ondelete='cascade')
-    name = fields.Char(string='Grade', required=True)
+    name = fields.Char(string='Grade', required=True, copy=True)  # copy=True: a new specification version keeps the grade names
     min_score = fields.Float(string='Minimum score', digits=(5, 1), required=True)
 
     _grade_uniq = models.Constraint('unique(spec_id, name)', 'A grade name must be unique within a specification.')

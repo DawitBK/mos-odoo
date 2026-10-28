@@ -61,6 +61,7 @@ class MosGateVisit(models.Model):
     delivery_date = fields.Date(default=fields.Date.context_today)
     delivery_line_ids = fields.One2many('mos.gate.visit.line', 'visit_id', string='Delivery items', copy=False)
     declared_totals = fields.Html(compute='_compute_declared_totals', sanitize=False)
+    delivery_item_count = fields.Integer(compute='_compute_declared_totals', string='Total items')
     entry_state = fields.Selection(
         [('entered', 'Entered'), ('approved', 'Approved for inspection'), ('rejected', 'Rejected at the gate')],
         string='Delivery entry',
@@ -83,6 +84,7 @@ class MosGateVisit(models.Model):
             if bags:
                 parts.append(Markup('<strong>{:,}</strong> bags').format(bags))
             visit.declared_totals = Markup(' &nbsp;+&nbsp; ').join(parts) if parts else False
+            visit.delivery_item_count = len(visit.delivery_line_ids)
 
     # -- the client's Approve and Reject on the entry --------------------------------------------------------------------------
     def action_entry_approve(self):

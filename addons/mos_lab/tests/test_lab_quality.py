@@ -121,6 +121,13 @@ class TestLabQuality(TransactionCase):
         self.assertEqual(len(new.grade_ids), 3)
         self.assertEqual(len(new.line_ids.rule_ids), 2)
 
+    def test_new_version_keeps_the_names_of_parameters_and_grades(self):
+        """Odoo adds "(copy)" to the name of a copied record unless the field says copy=True: every new version once renamed its parameters."""
+        new = self.spec.action_new_version()
+        self.assertEqual(sorted(new.line_ids.mapped('name')), sorted(self.spec.line_ids.mapped('name')))
+        self.assertEqual(sorted(new.grade_ids.mapped('name')), sorted(self.spec.grade_ids.mapped('name')))
+        self.assertFalse([n for n in new.line_ids.mapped('name') + new.grade_ids.mapped('name') if '(copy)' in n])
+
     # -- sampling plan and retention samples -----------------------------------------------------------
     def test_sampling_plan_requires_samples(self):
         plan = self.env['mos.lab.sampling.plan'].create(

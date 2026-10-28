@@ -26,52 +26,69 @@
         <field name="arch" type="xml">
             <form>
                 <header>
-                    <button name="action_entry_approve" string="Approve and send to inspection" type="object" class="btn-primary" invisible="entry_state != 'entered' or purpose != 'inbound_po'"/>
-                    <button name="action_entry_reject_dialog" string="Reject" type="object" class="btn-danger" invisible="entry_state != 'entered' or purpose != 'inbound_po'"/>
                     <field name="entry_state" widget="statusbar"/>
                 </header>
                 <sheet>
-                    <h1><field name="name"/></h1>
                     <field name="purpose" invisible="1"/>
-                    <separator string="Delivery header"/>
-                    <group>
-                        <group>
-                            <field name="delivery_note" string="Delivery note number" readonly="entry_state != 'entered'"/>
-                            <field name="purchase_id" readonly="entry_state != 'entered'" options="{'no_create': True}"/>
-                            <field name="partner_id" string="Supplier" readonly="entry_state != 'entered'" options="{'no_create': True}"/>
-                            <field name="delivery_date" readonly="entry_state != 'entered'"/>
-                        </group>
-                        <group>
-                            <field name="site_id" readonly="entry_state != 'entered'"/>
-                            <field name="plate" readonly="entry_state != 'entered'"/>
-                            <field name="driver_name" readonly="entry_state != 'entered'"/>
-                            <field name="transporter" readonly="entry_state != 'entered'"/>
-                            <field name="arrived_at"/>
-                        </group>
-                    </group>
-                    <separator string="Delivery items"/>
-                    <field name="delivery_line_ids" nolabel="1" readonly="entry_state != 'entered'">
-                        <list editable="bottom" decoration-danger="over_order">
-                            <field name="sequence" widget="handle"/>
-                            <field name="product_id" options="{'no_create': True}"/>
-                            <field name="declared_qty"/>
-                            <field name="uom_id" options="{'no_create': True}"/>
-                            <field name="bags"/>
-                            <field name="ordered_qty"/>
-                            <field name="outstanding_qty"/>
-                            <field name="over_order" column_invisible="1"/>
-                            <field name="note"/>
-                        </list>
-                    </field>
-                    <div class="mos-cards">
-                        <div class="mos-card mos-card-green">
-                            <div class="mos-card-label">Total declared quantity (one total for each unit)</div>
-                            <div class="mos-card-value"><field name="declared_totals"/></div>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-truck"/></span>
+                        <div class="mos-page-title">
+                            <h2>Supplier Delivery Entry</h2>
+                            <p>Record supplier delivery information before receiving goods</p>
                         </div>
+                        <div class="mos-page-crumb">Procurement › Supplier Delivery Entry · <field name="name" class="d-inline"/></div>
                     </div>
-                    <group invisible="entry_state != 'rejected'">
-                        <field name="entry_reject_reason"/>
-                    </group>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Delivery Information</div>
+                        <group>
+                            <group>
+                                <field name="partner_id" string="Supplier" required="1" readonly="entry_state != 'entered'" options="{'no_create': True}"/>
+                                <field name="purchase_id" string="PO Number" required="1" readonly="entry_state != 'entered'" options="{'no_create': True}"/>
+                                <field name="delivery_note" string="Delivery Note Number" required="1" readonly="entry_state != 'entered'"/>
+                                <field name="delivery_date" required="1" readonly="entry_state != 'entered'"/>
+                            </group>
+                            <group>
+                                <field name="plate" string="Truck Plate Number" required="1" readonly="entry_state != 'entered'"/>
+                                <field name="driver_name" required="1" readonly="entry_state != 'entered'"/>
+                                <field name="arrived_at" string="Arrival Date" readonly="entry_state != 'entered'"/>
+                                <field name="entry_state" string="Delivery Status" widget="badge" decoration-success="entry_state == 'approved'" decoration-danger="entry_state == 'rejected'" decoration-warning="entry_state == 'entered'"/>
+                                <field name="site_id" readonly="entry_state != 'entered'"/>
+                                <field name="transporter" readonly="entry_state != 'entered'"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Delivered Items</div>
+                        <field name="delivery_line_ids" nolabel="1" readonly="entry_state != 'entered'">
+                            <list editable="bottom" decoration-danger="over_order">
+                                <field name="sequence" widget="handle"/>
+                                <field name="product_id" string="Item / Material" options="{'no_create': True}"/>
+                                <field name="uom_id" string="Unit of Measure" options="{'no_create': True}"/>
+                                <field name="declared_qty" string="Preliminary Quantity"/>
+                                <field name="bags"/>
+                                <field name="ordered_qty"/>
+                                <field name="outstanding_qty"/>
+                                <field name="over_order" column_invisible="1"/>
+                                <field name="note" string="Remarks"/>
+                            </list>
+                        </field>
+                        <div class="mos-note"><i class="mos-ico mos-ico-info"/> You can add multiple items for this delivery. The delivered quantity will be verified during Goods Receiving.</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Summary</div>
+                        <div class="mos-summary-row">
+                            <div><div class="mos-sum-label">Total Items</div><div class="mos-sum-value"><field name="delivery_item_count"/></div></div>
+                            <div><div class="mos-sum-label">Total Preliminary Quantity (one total for each unit)</div><div class="mos-sum-value"><field name="declared_totals"/></div></div>
+                            <div><div class="mos-sum-label">Delivery Status</div><div class="mos-sum-value"><field name="entry_state" widget="badge" decoration-success="entry_state == 'approved'" decoration-danger="entry_state == 'rejected'" decoration-warning="entry_state == 'entered'"/></div></div>
+                        </div>
+                        <group invisible="entry_state != 'rejected'">
+                            <field name="entry_reject_reason"/>
+                        </group>
+                    </div>
+                    <div class="mos-action-bar">
+                        <button name="action_entry_reject_dialog" string="Reject" type="object" class="btn-danger" invisible="entry_state != 'entered' or purpose != 'inbound_po'"/>
+                        <button name="action_entry_approve" string="Approve" type="object" class="btn-primary" invisible="entry_state != 'entered' or purpose != 'inbound_po'"/>
+                    </div>
                 </sheet>
                 <chatter/>
             </form>

@@ -1,6 +1,6 @@
 {
     'name': 'MOS Lab and Quality',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.0.1',
     'category': 'Manufacturing/MOS',
     'summary': 'Versioned specifications, inspections, rule-based deductions, grading, sampling plans, retention samples, certificates of analysis and lab reports',
     'license': 'LGPL-3',

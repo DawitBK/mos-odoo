@@ -47,6 +47,7 @@ kg = env.ref('uom.product_uom_kgm')
 warehouse = env['stock.warehouse'].search([], limit=1)
 company = env.company
 company.name = 'Example Flour Mill'
+warehouse.name = 'Main Warehouse'
 
 site = env['mos.site'].create({'name': 'Example Flour Mill', 'code': 'MILL', 'warehouse_id': warehouse.id})
 
@@ -159,17 +160,33 @@ SILOS = [
     ('S05', 'Imported wheat silo 1', hrw, 400_000, 0.55),
     ('S06', 'Imported wheat silo 2', hrw, 400_000, 0.18),
 ]
+
+
+def stock_with_movement(prod, location, delta, when=None):
+    """Change the stock of a location by posting an inventory adjustment, never by writing the quantity: a quantity without a movement
+    leaves the bin card and the stock card unable to reach the stock on hand. `when` dates the movement (the opening stock is older than
+    everything that follows, so the running balance never dips below zero)."""
+    Quant = env['stock.quant'].sudo()
+    current = sum(Quant.search([('product_id', '=', prod.id), ('location_id', '=', location.id)]).mapped('quantity'))
+    Quant.with_context(inventory_mode=True).create({'product_id': prod.id, 'location_id': location.id, 'inventory_quantity': current + delta}).action_apply_inventory()
+    if when:
+        lines = env['stock.move.line'].sudo().search([('product_id', '=', prod.id), ('location_dest_id', '=', location.id), ('move_id.is_inventory', '=', True)], order='id desc', limit=1)
+        lines.write({'date': when})
+        lines.move_id.write({'date': when})
+
+
+OPENING_DATE = fields.Datetime.now() - timedelta(days=45)
 silos = {}
 for code, name, prod, cap, fill in SILOS:
     silo = env['mos.silo'].create({'code': code, 'name': name, 'site_id': site.id, 'product_id': prod.id, 'capacity_kg': cap})
     silos[code] = (silo, fill)
-    env['stock.quant'].sudo()._update_available_quantity(prod, silo.location_id, cap * fill * 0.9)  # the rest arrives by truck below
+    stock_with_movement(prod, silo.location_id, cap * fill * 0.9, OPENING_DATE)  # the rest arrives by truck below
 
 
 def set_level(silo, target):
     delta = target - silo.fresh().level_kg
     if abs(delta) > 0.5:
-        env['stock.quant'].sudo()._update_available_quantity(silo.product_id, silo.location_id, delta)
+        stock_with_movement(silo.product_id, silo.location_id, delta)
 
 
 # --- suppliers -----------------------------------------------------------------------------------------------

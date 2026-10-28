@@ -75,7 +75,8 @@ class MosLabSpecLine(models.Model):
 
     spec_id = fields.Many2one('mos.lab.spec', required=True, ondelete='cascade')
     sequence = fields.Integer(default=10)
-    name = fields.Char(string='Parameter', required=True)
+    # copy=True: a new version of a specification keeps its parameter names (Odoo's default for a field called name is to add "(copy)")
+    name = fields.Char(string='Parameter', required=True, copy=True)
     unit = fields.Char()
     min_value = fields.Float(digits=(12, 3))
     max_value = fields.Float(digits=(12, 3))
