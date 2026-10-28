@@ -215,18 +215,6 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
         user = self.env['res.users']._mos_provision_from_idp({'sub': 's', 'email': ' XNew8@Example.com ', 'email_verified': True, 'app_roles': 'wizard, analyst'})
         self.assertEqual((user.login, user.name), ('xnew8@example.com', 'xnew8@example.com'))
 
-    # -- Session limit ----------------------------------------------------------------------------------------------
-    def test_idle_session_limit(self):
-        http = self.env['ir.http']
-        params = self.env['ir.config_parameter'].sudo()
-        params.set_str('mos_platform_plus.idle_timeout_minutes', '0')
-        self.assertFalse(http._mos_session_is_idle(time.time() - 86400), 'no limit by default')
-        params.set_str('mos_platform_plus.idle_timeout_minutes', '30')
-        self.assertTrue(http._mos_session_is_idle(time.time() - 3600))
-        self.assertFalse(http._mos_session_is_idle(time.time() - 600))
-        params.set_str('mos_platform_plus.idle_timeout_minutes', 'garbage')
-        self.assertFalse(http._mos_session_is_idle(time.time() - 3600), 'a bad value means no limit')
-
     # -- Stock reports ----------------------------------------------------------------------------------------------
     def test_stock_overview_receipt_valuation_and_balance(self):
         order = self._order(qty=40000.0)
@@ -347,15 +335,20 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
 
 
 @tagged('post_install', '-at_install')
-class TestIdleSessionRequest(HttpCase):
-    def test_a_request_after_the_idle_limit_signs_the_person_out_instead_of_failing(self):
-        """The first version called a method Odoo 20 does not have, so every request from an old browser session answered 500."""
-        self.env['ir.config_parameter'].sudo().set_str('mos_platform_plus.idle_timeout_minutes', '30')
-        session = self.authenticate('admin', 'admin')
-        session['mos_last_seen'] = time.time() - 7200
+class TestExpiredSession(HttpCase):
+    def test_the_idle_limit_is_odoos_own_and_set_to_eight_hours(self):
+        from odoo.http.session import get_session_max_inactivity
+
+        self.assertEqual(get_session_max_inactivity(self.env), 8 * 3600)
+
+    def test_a_request_from_an_expired_session_ends_at_the_sign_in_page(self):
+        """Every redirect is followed: an expired session once answered 500, and a first repair made the sign-in page redirect to itself until the browser gave up (HTTP 431)."""
         from odoo.http.session import session_store
 
+        session = self.authenticate('admin', 'admin')
+        session['deletion_time'] = time.time() - 10
         session_store().save(session)
-        response = self.url_open('/odoo', allow_redirects=False)
-        self.assertNotEqual(response.status_code, 500)
-        self.assertIn(response.status_code, (200, 301, 302, 303))
+        response = self.url_open('/odoo', allow_redirects=True)
+        self.assertEqual(response.status_code, 200)
+        self.assertLess(len(response.history), 6, 'a short chain of redirects, not a loop')
+        self.assertLess(len(response.url), 400)

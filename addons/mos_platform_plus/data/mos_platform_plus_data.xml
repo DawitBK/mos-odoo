@@ -8,4 +8,11 @@
         <field name="interval_number">1</field>
         <field name="interval_type">days</field>
     </record>
+    <!-- FR-PLT-015: a session idle for 8 hours ends. This is Odoo's own limit (the cookie, the stored session and the redirect to sign-in), not a copy of it. -->
+    <data noupdate="1">
+        <record id="param_session_max_inactivity" model="ir.config_parameter">
+            <field name="key">sessions.max_inactivity_seconds</field>
+            <field name="value">28800</field>
+        </record>
+    </data>
 </odoo>

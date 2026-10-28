@@ -1,4 +1,4 @@
-"""Demo data for the later modules: sourcing (RFQ, bag types, a contract), platform (identity-group mapping, idle limit),
+"""Demo data for the later modules: sourcing (RFQ, bag types, a contract), platform (identity-group mapping),
 planning (routing, work-centre rates, planning suggestions). Run inside the Odoo shell after the other seed scripts. Skips itself
 when it has run before; each part is independent so one failing does not stop the others.
 """
@@ -72,7 +72,6 @@ def idp():
     store = env.ref('mos_inbound.group_mos_storekeeper')
     for claim, group in (('mos-lab', lab), ('mos-gate', gate), ('mos-store', store)):
         env['mos.idp.group.map'].create({'idp_group': claim, 'group_id': group.id, 'site_ids': [Command.set(site.ids)]})
-    env['ir.config_parameter'].sudo().set_str('mos_platform_plus.idle_timeout_minutes', '120')
 
 
 @part('routing')
