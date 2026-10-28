@@ -2,7 +2,7 @@ import time
 
 from odoo import api, models
 from odoo.http import request
-from odoo.http.session import SessionExpiredException
+from odoo.http.session import SessionExpiredException, logout
 
 TOUCH_EVERY = 60
 
@@ -27,7 +27,7 @@ class IrHttp(models.AbstractModel):
         now = time.time()
         last = session.get('mos_last_seen')
         if last and now - last > minutes * 60:
-            session.logout(keep_db=True)
+            logout(session, keep_db=True)  # a function in Odoo 20, not a method of the session
             raise SessionExpiredException('Session idle for too long')
         if not last or now - last > TOUCH_EVERY:
             session['mos_last_seen'] = now

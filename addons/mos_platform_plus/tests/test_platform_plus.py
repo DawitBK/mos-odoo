@@ -3,7 +3,7 @@ from datetime import date, timedelta
 
 from odoo import Command, fields
 from odoo.exceptions import UserError, ValidationError
-from odoo.tests import tagged
+from odoo.tests import HttpCase, tagged
 from odoo.tests.common import TransactionCase, new_test_user
 
 from odoo.addons.mos_platform_plus.models.ethiopian import from_ethiopian, to_ethiopian
@@ -344,3 +344,18 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
         self.assertTrue(field.with_context(lang='am_ET').field_description)
         arrived = dict(self.env['mos.gate.visit'].with_context(lang='am_ET').fields_get(['state'])['state']['selection'])['arrived']
         self.assertEqual(arrived, 'ደርሷል')
+
+
+@tagged('post_install', '-at_install')
+class TestIdleSessionRequest(HttpCase):
+    def test_a_request_after_the_idle_limit_signs_the_person_out_instead_of_failing(self):
+        """The first version called a method Odoo 20 does not have, so every request from an old browser session answered 500."""
+        self.env['ir.config_parameter'].sudo().set_str('mos_platform_plus.idle_timeout_minutes', '30')
+        session = self.authenticate('admin', 'admin')
+        session['mos_last_seen'] = time.time() - 7200
+        from odoo.http.session import session_store
+
+        session_store().save(session)
+        response = self.url_open('/odoo', allow_redirects=False)
+        self.assertNotEqual(response.status_code, 500)
+        self.assertIn(response.status_code, (200, 301, 302, 303))
