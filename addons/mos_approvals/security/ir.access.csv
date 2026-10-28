@@ -8,3 +8,4 @@ access_mos_approval_step_admin,Approval step: administrators read,mos.approval.s
 access_mos_approval_delegation_user,Delegation: own,mos.approval.delegation,mos_core.group_mos_user,crud,"['|', ('delegator_id', '=', user.id), ('delegate_id', '=', user.id)]"
 access_mos_approval_delegation_admin,Delegation: administrators,mos.approval.delegation,mos_core.group_mos_admin,r,
 access_mos_approval_decide_user,Decision dialog,mos.approval.decide,mos_core.group_mos_user,crud,
+access_mos_approval_submit_user,Submit dialog,mos.approval.submit,mos_core.group_mos_user,crud,

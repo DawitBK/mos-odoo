@@ -71,6 +71,16 @@ async function pickFirst(page, field) {
   await item.click();
   return label;
 }
+// Choose the entry whose name contains the text (an order that still has something to receive, not just the first one listed).
+async function pickText(page, field, text) {
+  const input = page.locator(`.o_field_widget[name="${field}"] input`);
+  await input.click();
+  await input.fill(text);
+  await settle(page, 600);
+  const item = page.locator('.o-autocomplete--dropdown-item').filter({ hasText: text }).first();
+  await item.waitFor({ timeout: 8000 });
+  await item.click();
+}
 const rpc = (page, model, method, args = [], kwargs = {}) =>
   page.evaluate(
     async ([model, method, args, kwargs]) => {
@@ -96,7 +106,9 @@ try {
   await guard.page.locator('.o_field_widget[name="plate"] input').fill(plate);
   const siteInput = guard.page.locator('.o_field_widget[name="site_id"] input');
   if (!(await siteInput.inputValue())) await pickFirst(guard.page, 'site_id');
-  await pickFirst(guard.page, 'purchase_id');
+  const [open] = await rpc(guard.page, 'purchase.order', 'search_read', [[['state', '=', 'purchase'], ['receipt_status', '!=', 'full'], ['order_line.product_id.name', 'ilike', '(local)']]], { fields: ['name'], limit: 1, order: 'id' });
+  if (!open) throw new Error('no purchase order for local wheat has anything left to receive (imported wheat needs a certificate of analysis from the supplier, which this journey does not attach): reprovision the demo data (tools/provision.mjs --reset)');
+  await pickText(guard.page, 'purchase_id', open.name);
   await guard.page.locator('.o_form_button_save').click();
   await settle(guard.page);
   const visitId = Number(guard.page.url().split('/').pop());
@@ -189,7 +201,10 @@ try {
 async function openVisit(page) {
   await menuAction(page, 'MOS/Gate/Visits');
   await page.locator('.o_searchview input').fill(plate);
+  // Wait for the suggestions before pressing Enter, and for the search to apply, or the click lands on the wrong list.
+  await page.locator('.o_searchview_autocomplete li, .o-dropdown--menu .o-dropdown-item').first().waitFor({ timeout: 8000 }).catch(() => {});
   await page.keyboard.press('Enter');
+  await page.locator('.o_searchview_facet').first().waitFor({ timeout: 8000 });
   await settle(page, 1000);
   await page.locator('.o_data_row').first().click();
   await page.waitForSelector('.o_form_view');
@@ -238,6 +253,9 @@ try {
     await analyst.page.locator('.o_form_sheet h1, .o_form_sheet').first().click({ position: { x: 5, y: 5 } });
     await settle(analyst.page, 500);
   }
+  // The sampling plan of a large load asks for retention samples: the analyst records how many were taken.
+  const [{ samples_required: samplesRequired }] = await rpc(analyst.page, 'mos.lab.inspection', 'read', [[inspectionId], ['samples_required']]);
+  if (samplesRequired > 0) await analyst.page.locator('.o_field_widget[name="samples_taken"] input').fill(String(samplesRequired));
   await analyst.page.locator('.o_form_button_save').click();
   await settle(analyst.page, 1000);
   check(!(await dialogError(analyst.page)), `the ${params.length} result(s) are saved`);

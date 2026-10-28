@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The mill overview as cards: the day, the month and what needs attention. The detail groups stay below. -->
+    <record id="view_mos_overview_form_cards" model="ir.ui.view">
+        <field name="name">mos.overview.form.cards</field>
+        <field name="model">mos.overview</field>
+        <field name="inherit_id" ref="mos_dashboard.view_mos_overview_form"/>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//sheet/group[1]" position="before">
+                <separator string="Today"/>
+                <div class="mos-cards">
+                    <div class="mos-card">
+                        <button name="action_open_trucks" type="object" class="btn btn-link p-0 mos-card-label">Trucks on site</button>
+                        <div class="mos-card-value"><field name="trucks_on_site"/></div>
+                    </div>
+                    <div class="mos-card mos-card-amber">
+                        <button name="action_open_inspections" type="object" class="btn btn-link p-0 mos-card-label">Waiting for a lab decision</button>
+                        <div class="mos-card-value"><field name="inspections_open"/></div>
+                    </div>
+                    <div class="mos-card mos-card-green">
+                        <div class="mos-card-label">Wheat received today (kg)</div>
+                        <div class="mos-card-value"><field name="received_today_kg"/></div>
+                    </div>
+                    <div class="mos-card">
+                        <button name="action_open_planned_runs" type="object" class="btn btn-link p-0 mos-card-label">Milling runs planned</button>
+                        <div class="mos-card-value"><field name="planned_runs"/></div>
+                    </div>
+                    <div class="mos-card mos-card-purple">
+                        <div class="mos-card-label">Flour made today (kg)</div>
+                        <div class="mos-card-value"><field name="flour_today_kg"/></div>
+                    </div>
+                    <div class="mos-card">
+                        <button name="action_open_silos" type="object" class="btn btn-link p-0 mos-card-label">Silo capacity used</button>
+                        <div class="mos-card-value"><field name="silo_fill_pct"/> %</div>
+                    </div>
+                </div>
+
+                <separator string="This month"/>
+                <div class="mos-cards">
+                    <div class="mos-card mos-card-green">
+                        <div class="mos-card-label">Wheat received (kg)</div>
+                        <div class="mos-card-value"><field name="received_month_kg"/></div>
+                    </div>
+                    <div class="mos-card mos-card-red">
+                        <div class="mos-card-label">Rejection rate</div>
+                        <div class="mos-card-value"><field name="rejection_rate"/> %</div>
+                    </div>
+                    <div class="mos-card mos-card-purple">
+                        <div class="mos-card-label">Extraction rate, last 30 days</div>
+                        <div class="mos-card-value"><field name="extraction_30d"/> %</div>
+                    </div>
+                    <div class="mos-card">
+                        <div class="mos-card-label">Invoiced to customers (with VAT)</div>
+                        <div class="mos-card-value"><field name="sales_month_amount"/></div>
+                    </div>
+                    <div class="mos-card mos-card-amber">
+                        <div class="mos-card-label">We owe suppliers</div>
+                        <div class="mos-card-value"><field name="payable_total"/></div>
+                    </div>
+                    <div class="mos-card mos-card-amber">
+                        <div class="mos-card-label">Customers owe us</div>
+                        <div class="mos-card-value"><field name="receivable_total"/></div>
+                    </div>
+                </div>
+
+                <separator string="Needs attention"/>
+                <div class="mos-cards">
+                    <div class="mos-card mos-card-amber">
+                        <button name="action_open_approvals" type="object" class="btn btn-link p-0 mos-card-label">Approvals waiting for me</button>
+                        <div class="mos-card-value"><field name="approvals_waiting"/></div>
+                        <button name="%(mos_dashboards.action_mos_approval_dashboard)d" type="action" class="btn btn-link p-0 mos-card-label">Approvals dashboard</button>
+                    </div>
+                    <div class="mos-card mos-card-red">
+                        <button name="action_open_exceptions" type="object" class="btn btn-link p-0 mos-card-label">Exceptions on me</button>
+                        <div class="mos-card-value"><field name="exceptions_mine"/></div>
+                    </div>
+                    <div class="mos-card mos-card-red">
+                        <button name="action_open_late_deliveries" type="object" class="btn btn-link p-0 mos-card-label">Late deliveries</button>
+                        <div class="mos-card-value"><field name="orders_late"/></div>
+                    </div>
+                    <div class="mos-card mos-card-amber">
+                        <button name="action_open_vouchers" type="object" class="btn btn-link p-0 mos-card-label">Vouchers to pay</button>
+                        <div class="mos-card-value"><field name="vouchers_to_pay"/></div>
+                    </div>
+                    <div class="mos-card">
+                        <button name="action_open_lab_queue" type="object" class="btn btn-link p-0 mos-card-label">In the lab queue</button>
+                        <div class="mos-card-value"><field name="lab_waiting"/></div>
+                    </div>
+                    <div class="mos-card mos-card-purple">
+                        <div class="mos-card-label">Stock in quarantine (kg)</div>
+                        <div class="mos-card-value"><field name="quarantine_kg"/></div>
+                    </div>
+                </div>
+
+                <separator string="Details"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

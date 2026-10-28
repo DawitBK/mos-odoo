@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_purchase_request_form_parts" model="ir.ui.view">
+        <field name="name">mos.purchase.request.form.parts</field>
+        <field name="model">mos.purchase.request</field>
+        <field name="inherit_id" ref="mos_procurement.view_mos_purchase_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]" position="before">
+                <separator string="Part 1: Purchase request header"/>
+            </xpath>
+            <xpath expr="//field[@name='site_id']" position="after">
+                <field name="request_date"/>
+                <field name="priority" widget="radio" options="{'horizontal': true}"/>
+            </xpath>
+            <xpath expr="//field[@name='department']" position="attributes">
+                <attribute name="string">Requesting department</attribute>
+            </xpath>
+            <xpath expr="//field[@name='needed_by']" position="attributes">
+                <attribute name="string">Required date</attribute>
+            </xpath>
+            <xpath expr="//field[@name='requester_id']" position="after">
+                <field name="requester_ref"/>
+            </xpath>
+            <xpath expr="//field[@name='reason']" position="before">
+                <separator string="Purpose of request"/>
+            </xpath>
+            <xpath expr="//field[@name='reason']" position="after">
+                <separator string="Remarks"/>
+                <field name="remarks" placeholder="Anything else the approver or the buyer should know"/>
+                <separator string="Part 2: Purchase request details (line items)"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/list" position="replace">
+                <list editable="bottom">
+                    <field name="product_id"/>
+                    <field name="category_id" optional="show"/>
+                    <field name="uom_id"/>
+                    <field name="qty" string="Requested quantity"/>
+                    <field name="available_qty"/>
+                    <field name="qty_to_purchase" sum="Total to purchase"/>
+                    <field name="increase_reason" optional="show" required="qty_to_purchase &gt; proposed_qty"/>
+                    <field name="proposed_qty" column_invisible="1"/>
+                    <field name="estimated_price" string="Estimated unit cost"/>
+                    <field name="line_total" sum="Total estimated cost"/>
+                    <field name="specification" widget="url" optional="show"/>
+                    <field name="note" optional="show"/>
+                </list>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mos_purchase_request_list_parts" model="ir.ui.view">
+        <field name="name">mos.purchase.request.list.parts</field>
+        <field name="model">mos.purchase.request</field>
+        <field name="inherit_id" ref="mos_procurement.view_mos_purchase_request_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="request_date" optional="show"/>
+                <field name="priority" widget="badge" decoration-danger="priority == 'urgent'" decoration-warning="priority == 'high'" decoration-info="priority == 'medium'" decoration-muted="priority == 'low'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_form_parts" model="ir.ui.view">
+        <field name="name">purchase.order.form.parts</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet/group[1]" position="before">
+                <separator string="Part 1: Purchase order header"/>
+            </xpath>
+            <xpath expr="//field[@name='partner_ref']" position="after">
+                <field name="mos_department"/>
+            </xpath>
+            <xpath expr="//notebook" position="before">
+                <separator string="Part 2: Purchase order line items"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -181,3 +181,52 @@ class TestApprovals(TransactionCase):
         po.action_mos_submit_approval()
         with self.assertRaises(UserError):
             po.write({'partner_id': self.env['res.partner'].create({'name': 'Other'}).id})
+
+    # -- the "I agree" statements (FR-PLT-025) ---------------------------------------------------------------------
+    def test_attestation_is_off_until_it_is_switched_on(self):
+        po = self._po(20000)
+        self.assertIsNone(po.action_mos_submit_approval(), 'submitted at once, no dialog')
+        self.assertFalse(po.mos_approval_request_id.submit_attestation)
+
+    def test_submitter_must_agree_and_the_statement_is_kept(self):
+        self.env['ir.config_parameter'].sudo().set_str('mos_approvals.require_attestation', 'True')
+        po = self._po(20000)
+        dialog = po.action_mos_submit_approval()
+        self.assertEqual(dialog['res_model'], 'mos.approval.submit')
+        self.assertEqual(po.mos_approval_state, 'none', 'nothing happened yet')
+        wizard = self.env['mos.approval.submit'].with_user(self.buyer).create({'res_model': 'purchase.order', 'res_id': po.id})
+        with self.assertRaises(UserError):
+            wizard.action_confirm()  # the box is not ticked
+        wizard.agree = True
+        wizard.action_confirm()
+        self.assertEqual(po.mos_approval_state, 'pending')
+        self.assertIn('complete and correct', po.mos_approval_request_id.submit_attestation)
+
+    def test_approver_must_agree_to_approve_but_not_to_reject(self):
+        self.env['ir.config_parameter'].sudo().set_str('mos_approvals.require_attestation', 'True')
+        self.env['ir.config_parameter'].sudo().set_str('mos_approvals.attestation_approve', 'I checked the prices.')
+        po = self._po(20000)
+        po.with_context(mos_attestation='x').action_mos_submit_approval()
+        step = self._step(po, self.dept1)
+        with self.assertRaises(UserError):
+            step.action_approve('ok')  # no statement given
+        wizard = self.env['mos.approval.decide'].with_user(self.dept1).create({'step_id': step.id, 'outcome': 'approved'})
+        self.assertTrue(wizard.attestation_required)
+        self.assertEqual(wizard.attestation_text, 'I checked the prices.')
+        with self.assertRaises(UserError):
+            wizard.action_confirm()
+        wizard.agree = True
+        wizard.action_confirm()
+        self.assertEqual(po.mos_approval_state, 'approved')
+        self.assertEqual(po.mos_approval_request_id.step_ids.attestation, 'I checked the prices.')
+        other = self._po(20000)
+        other.with_context(mos_attestation='x').action_mos_submit_approval()
+        self._step(other, self.dept1).action_reject('too dear')  # rejecting needs no statement
+        self.assertEqual(other.mos_approval_state, 'rejected')
+
+    def test_bulk_approval_is_off_while_statements_are_required(self):
+        self.env['ir.config_parameter'].sudo().set_str('mos_approvals.require_attestation', 'True')
+        po = self._po(20000)
+        po.with_context(mos_attestation='x').action_mos_submit_approval()
+        with self.assertRaises(UserError):
+            self._step(po, self.dept1).action_bulk_approve()

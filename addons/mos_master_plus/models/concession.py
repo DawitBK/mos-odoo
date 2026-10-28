@@ -98,6 +98,9 @@ class MosConcession(models.Model):
         self.env['mos.audit.event'].record('concession_applied', self, f'{self.name}: {self.inspection_id.name} {self.decision} {self.deduction_pct}%')
 
     def action_submit(self):
+        dialog = self._mos_attestation_dialog('action_submit')
+        if dialog:
+            return dialog
         for concession in self:
             if concession.state != 'draft':
                 raise UserError(self.env._('Only a draft concession can be submitted.'))

@@ -62,6 +62,9 @@ class MosCreditNote(models.Model):
             self.sudo().write({'mos_approval_state': state, 'state': 'draft' if state in ('returned', 'cancelled') else 'cancelled'})
 
     def action_submit(self):
+        dialog = self._mos_attestation_dialog('action_submit')
+        if dialog:
+            return dialog
         for note in self:
             if note.state != 'draft':
                 raise UserError(self.env._('Only a draft credit note can be submitted.'))

@@ -58,6 +58,9 @@ class MosPurchaseRequest(models.Model):
             self.sudo().write({'mos_approval_state': state, 'state': 'draft' if state in ('returned', 'cancelled') else 'rejected'})
 
     def action_submit(self):
+        dialog = self._mos_attestation_dialog('action_submit')
+        if dialog:
+            return dialog
         for req in self:
             if req.state != 'draft':
                 raise UserError(self.env._('Only a draft request can be submitted.'))
@@ -314,6 +317,9 @@ class MosPoAmendment(models.Model):
             self.sudo().write({'mos_approval_state': state, 'state': 'draft' if state in ('returned', 'cancelled') else 'rejected'})
 
     def action_submit(self):
+        dialog = self._mos_attestation_dialog('action_submit')
+        if dialog:
+            return dialog
         for amd in self:
             if amd.state != 'draft':
                 raise UserError(self.env._('Only a draft amendment can be submitted.'))

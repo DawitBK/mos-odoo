@@ -116,3 +116,8 @@ $mos-info-bg: #dbeafe;
 
 // The mill overview: tidy section blocks.
 .mos-overview-section-title { color: $mos-navy; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }
+
+// A bar in a trend table: its width says how large the figure is next to the others.
+.mos-trend .mos-bar { height: 10px; border-radius: 5px; background: $mos-blue; min-width: 2px; }
+.mos-card .btn-link.mos-card-label { color: $mos-navy; text-decoration: none; font-size: 0.85rem; opacity: 0.85; }
+.mos-card .btn-link.mos-card-label:hover { text-decoration: underline; opacity: 1; }

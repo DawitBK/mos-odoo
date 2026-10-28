@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_count_sheet" model="ir.actions.report">
+        <field name="name">Count sheet</field>
+        <field name="model">mos.cycle.count</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_counts.report_count_sheet</field>
+        <field name="binding_model_id" ref="mos_inventory.model_mos_cycle_count"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <template id="report_count_sheet">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="count">
+                <div class="page" style="page-break-after: always;">
+                    <h2>Count sheet <span t-out="count.name"/></h2>
+                    <p>
+                        <strong t-out="count.site_id.name"/> · <span t-out="count.location_id.display_name"/> ·
+                        <span t-if="count.blind">blind count</span><span t-else="">with book quantities</span>
+                    </p>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>No.</th><th>Item code</th><th>Item</th><th>Unit</th>
+                                <th t-if="not count.blind" class="text-end">Book quantity</th>
+                                <th style="width:20%">Counted quantity</th><th style="width:20%">Remarks</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="count.line_ids" t-as="line" style="height:34px;">
+                                <td t-out="line_index + 1"/>
+                                <td t-out="line.code"/>
+                                <td t-out="line.product_id.display_name"/>
+                                <td t-out="line.uom_id.name"/>
+                                <td t-if="not count.blind" class="text-end" t-out="line.system_qty" t-options="{'widget': 'float', 'precision': 1}"/>
+                                <td/>
+                                <td/>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <table class="table table-borderless" style="margin-top:40px;">
+                        <tr>
+                            <td>Counted by: ______________________ Date: ____________</td>
+                            <td>Checked by: ______________________ Date: ____________</td>
+                        </tr>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

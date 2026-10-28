@@ -34,8 +34,32 @@
                     <field name="outcome"/>
                     <field name="comment" placeholder="Why? (required to reject or send back)"/>
                 </group>
+                <field name="attestation_required" invisible="1"/>
+                <div class="alert alert-info" invisible="not attestation_required">
+                    <field name="attestation_text" class="oe_inline"/>
+                    <div><field name="agree"/> <label for="agree"/></div>
+                </div>
                 <footer>
                     <button name="action_confirm" string="Confirm" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_approval_submit_form" model="ir.ui.view">
+        <field name="name">mos.approval.submit.form</field>
+        <field name="model">mos.approval.submit</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="document"/>
+                </group>
+                <div class="alert alert-info">
+                    <field name="attestation_text" class="oe_inline"/>
+                    <div><field name="agree"/> <label for="agree"/></div>
+                </div>
+                <footer>
+                    <button name="action_confirm" string="Submit for approval" type="object" class="btn-primary"/>
                     <button string="Cancel" special="cancel"/>
                 </footer>
             </form>
@@ -108,6 +132,7 @@
                         </group>
                     </group>
                     <field name="comment" placeholder="Comment"/>
+                    <group><field name="attestation" invisible="not attestation"/></group>
                 </sheet>
             </form>
         </field>
@@ -163,6 +188,7 @@
                             <field name="requester_id"/>
                             <field name="submitted_at"/>
                             <field name="closed_at"/>
+                            <field name="submit_attestation" invisible="not submit_attestation"/>
                         </group>
                     </group>
                     <field name="step_ids">

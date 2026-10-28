@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_cycle_count_form_review" model="ir.ui.view">
+        <field name="name">mos.cycle.count.form.review</field>
+        <field name="model">mos.cycle.count</field>
+        <field name="inherit_id" ref="mos_inventory.view_mos_cycle_count_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_submit']" position="attributes">
+                <attribute name="invisible">state != 'counting' or review_required</attribute>
+            </xpath>
+            <xpath expr="//button[@name='action_submit']" position="after">
+                <button name="action_send_review" string="Send for review" type="object" class="btn-primary" invisible="state != 'counting' or not review_required"/>
+                <button name="action_review_approve" string="Approve the count" type="object" class="btn-primary" invisible="state != 'review'"/>
+                <button name="action_request_changes_dialog" string="Request changes" type="object" invisible="state != 'review'"/>
+                <button name="action_import_dialog" string="Import from a spreadsheet" type="object" icon="fa-upload" invisible="state != 'counting'"/>
+                <button name="action_print_sheet" string="Print the count sheet" type="object" icon="fa-print" invisible="state == 'draft'"/>
+            </xpath>
+            <xpath expr="//field[@name='state']" position="attributes">
+                <attribute name="statusbar_visible">draft,counting,review,submitted,closed</attribute>
+            </xpath>
+            <xpath expr="//field[@name='adjustment_id']" position="after">
+                <field name="blind" readonly="state != 'draft'"/>
+                <field name="reviewer_id" invisible="not reviewer_id"/>
+                <field name="review_required" invisible="1"/>
+                <field name="hide_book" invisible="1"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']" position="before">
+                <div class="alert alert-warning" role="alert" invisible="not review_note or state != 'counting'">
+                    <strong>The reviewer asked for changes:</strong> <field name="review_note" class="oe_inline"/>
+                </div>
+                <div class="alert alert-info" role="alert" invisible="not recount_lines">
+                    <field name="recount_lines" class="oe_inline"/> line(s) must be counted again by somebody other than the person who counted them first.
+                </div>
+                <div class="mos-cards" invisible="state == 'draft'">
+                    <div class="mos-card mos-card-green">
+                        <div class="mos-card-label">Matched</div>
+                        <div class="mos-card-value"><field name="matched_lines"/></div>
+                    </div>
+                    <div class="mos-card mos-card-red">
+                        <div class="mos-card-label">With a variance</div>
+                        <div class="mos-card-value"><field name="variance_lines"/></div>
+                    </div>
+                </div>
+                <separator string="Count sheet"/>
+            </xpath>
+            <xpath expr="//field[@name='line_ids']/list" position="replace">
+                <list editable="bottom" create="0" delete="0" decoration-danger="recount" decoration-success="counted and variance == 0">
+                    <field name="code"/>
+                    <field name="product_id" readonly="1"/>
+                    <field name="uom_id"/>
+                    <field name="system_qty" column_invisible="parent.hide_book"/>
+                    <field name="counted_qty" readonly="parent.state != 'counting'"/>
+                    <field name="variance" column_invisible="parent.hide_book"/>
+                    <field name="previous_qty" optional="show" invisible="not recounted"/>
+                    <field name="recount" widget="boolean" optional="show"/>
+                    <field name="counted" column_invisible="1"/>
+                    <field name="recounted" column_invisible="1"/>
+                </list>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mos_count_import_form" model="ir.ui.view">
+        <field name="name">mos.count.import.form</field>
+        <field name="model">mos.count.import</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="count_id"/>
+                    <field name="file" filename="filename"/>
+                    <field name="filename" invisible="1"/>
+                </group>
+                <p class="text-muted">A CSV or Excel file with a column for the item (its code or its name) and a column for the counted quantity, in its first row. Nothing is entered unless every row is understood.</p>
+                <footer>
+                    <button name="action_import" string="Import" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mos_count_changes_form" model="ir.ui.view">
+        <field name="name">mos.count.changes.form</field>
+        <field name="model">mos.count.changes</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="count_id"/>
+                    <field name="note" placeholder="What is wrong, and what should the counter check?"/>
+                </group>
+                <field name="line_ids" nolabel="1">
+                    <list>
+                        <field name="product_id"/>
+                        <field name="counted_qty"/>
+                        <field name="variance"/>
+                    </list>
+                </field>
+                <footer>
+                    <button name="action_confirm" string="Send back to be counted again" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

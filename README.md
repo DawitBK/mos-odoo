@@ -16,6 +16,11 @@ writes the small version it needs rather than waiting.
 | `mos_inbound` | **Flow A**: the receipt is prepared by the system at the payable quantity and confirmed by a storekeeper (not the buyer); exit clearance checks the decision and the receipt | FR-INB-001..007, FR-PRC-013 |
 | `mos_theme` | The look of the client screens: colours, status pills, section bars, summary cards | - |
 | `mos_stock_cards` | **Bin card** and **Stock card** (filters, stock by bin, transactions with running balance, print, export) from the one stock ledger | FR-INV-014, 023, 024 |
+| `mos_dashboards` | Approvals dashboard (KPI cards, six-month trend, drill-down) and the mill overview as cards | FR-PLT-030, FR-RPT-001 |
+| `mos_documents` | Typed attachment slots with Verify on the main documents; optional approval of every supplier invoice; optional document rules | FR-PLT-044, FR-AP-020 |
+| `mos_deliveries` | Supplier delivery entry: items from the order, totals per unit, approve to inspection or reject | FR-PRC-023 |
+| `mos_request_forms` | The purchase requisition as drawn by the client: priority, available stock, quantity to purchase; PART 1 / PART 2 forms | FR-PRC-007 |
+| `mos_counts` | Blind counting, a printable count sheet, import of counts from CSV or Excel, a recount by another person for large variances, and a review that can ask for changes | FR-INV-009 |
 | `mos_auth_oidc` | Sign in through the identity provider: authorization code flow with PKCE; users must already exist | FR-PLT-010, 011 |
 
 **Not built yet:** the approvals and segregation-of-duties matrix (`mos_approvals`), payables (self-billing, PV, cheque
@@ -60,5 +65,18 @@ docker compose --env-file $env restart odoo
 
 Check it with `tools/sso-login-check.mjs` (a real sign-in through the public address), and read the container log for errors
 after the restart.
+
+## Checking the screens
+
+The unit tests prove the code, not that a person can use the screen, so three browser and role checks sit beside them (they need Playwright;
+`DAWIT-LABS/saas/node_modules` has it):
+
+```powershell
+node tools/ui-smoke.mjs --base http://localhost:8069 --login mos.admin@examplecorp.com --password <pw> --playwright-from <dir>   # opens every menu action
+node tools/ui-journey.mjs --base http://localhost:8069 --password <pw> --playwright-from <dir>                                    # a wheat delivery through six people
+```
+
+`tools/role_check.py` does the same for every role in seconds, inside the Odoo shell. The journey receives one whole order of local wheat each
+time it runs; `tools/seed_journey_orders.py` (run in the Odoo shell) tops the open orders up again.
 
 Licence: LGPL-3.0, as Odoo.

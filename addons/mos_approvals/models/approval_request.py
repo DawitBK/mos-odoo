@@ -36,6 +36,19 @@ class MosApprovalRequest(models.Model):
     current_step_id = fields.Many2one('mos.approval.step', compute='_compute_current')
     submitted_at = fields.Datetime(default=fields.Datetime.now, readonly=True)
     closed_at = fields.Datetime(readonly=True)
+    submit_attestation = fields.Char(string='Submitter agreed to', readonly=True, help='The statement the submitter confirmed with "I agree" (FR-PLT-025).')
+
+    @api.model
+    def _attestation_required(self):
+        return self.env['ir.config_parameter'].sudo().get_bool('mos_approvals.require_attestation')
+
+    @api.model
+    def _attestation_text(self, kind):
+        """The statement shown with the "I agree" box; kind is 'submit' or 'approve'. Both can be reworded in the system parameters."""
+        icp = self.env['ir.config_parameter'].sudo()
+        if kind == 'submit':
+            return icp.get_str('mos_approvals.attestation_submit') or self.env._('I confirm that the information in this document is complete and correct.')
+        return icp.get_str('mos_approvals.attestation_approve') or self.env._('I have reviewed this document and approve it within my authority.')
 
     @api.depends('step_ids.state')
     def _compute_current(self):
@@ -73,6 +86,7 @@ class MosApprovalRequest(models.Model):
                 'amount': amount,
                 'site_id': site.id if site else False,
                 'requester_id': requester.id,
+                'submit_attestation': self.env.context.get('mos_attestation') or False,
             }
         )
         steps = self.env['mos.approval.step'].sudo()
@@ -153,6 +167,7 @@ class MosApprovalStep(models.Model):
     comment = fields.Text(readonly=True)
     due_at = fields.Datetime(readonly=True)
     escalated = fields.Boolean(readonly=True)
+    attestation = fields.Char(string='Approver agreed to', readonly=True, help='The statement the approver confirmed with "I agree" (FR-PLT-025).')
 
     # Display of the request in the inbox.
     doc_name = fields.Char(related='request_id.doc_name')
@@ -232,6 +247,9 @@ class MosApprovalStep(models.Model):
             raise AccessError(self.env._('You may not decide this step: it is not yours, or segregation of duties excludes you.'))
         if outcome in ('rejected', 'returned') and not (comment or '').strip():
             raise UserError(self.env._('A comment is required to reject a document or send it back.'))
+        attestation = self.env.context.get('mos_attestation') or False
+        if outcome == 'approved' and self.env['mos.approval.request']._attestation_required() and not attestation:
+            raise UserError(self.env._('Confirm the statement with "I agree" before approving.'))
         step = self.sudo().with_context(mos_approval_internal=True)
         step.write(
             {
@@ -240,6 +258,7 @@ class MosApprovalStep(models.Model):
                 'on_behalf_of_id': on_behalf.id if on_behalf else False,
                 'decided_at': fields.Datetime.now(),
                 'comment': comment or False,
+                'attestation': attestation if outcome == 'approved' else False,
             }
         )
         request = self.request_id.sudo()
@@ -271,6 +290,8 @@ class MosApprovalStep(models.Model):
     def action_bulk_approve(self):
         """Approve the selected steps; each is still checked on its own, and a rule may forbid bulk (FR-PLT-032)."""
         done = 0
+        if self.env['mos.approval.request']._attestation_required():
+            raise UserError(self.env._('Bulk approval is off while approvers must confirm a statement: open each document and approve it on its own.'))
         for step in self:
             if not step.allow_bulk:
                 raise UserError(self.env._('Bulk approval is off for %s: open it and decide on its own.', step.doc_name))

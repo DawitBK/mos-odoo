@@ -33,7 +33,29 @@ class MosApprovable(models.AbstractModel):
         self.ensure_one()
         return bool(self.env['mos.approval.rule'].sudo().matching(self._mos_doc_type(), self._mos_approval_amount(), self._mos_approval_site()))
 
+    def _mos_attestation_dialog(self, method='action_mos_submit_approval'):
+        """The dialog that asks the submitter to confirm the statement, or None when none is needed: the statement is off, it was
+        already confirmed, or the document needs no approval. The dialog runs ``method`` again once the box is ticked."""
+        if not self.env['mos.approval.request']._attestation_required() or self.env.context.get('mos_attestation'):
+            return None
+        docs = self.filtered(lambda d: d._mos_approval_required())
+        if not docs:
+            return None
+        if len(self) != 1:
+            raise UserError(self.env._('While submitters must confirm a statement, documents are submitted one at a time.'))
+        return {
+            'type': 'ir.actions.act_window',
+            'name': self.env._('Submit for approval'),
+            'res_model': 'mos.approval.submit',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_res_model': self._name, 'default_res_id': self.id, 'default_method': method},
+        }
+
     def action_mos_submit_approval(self):
+        dialog = self._mos_attestation_dialog()
+        if dialog:
+            return dialog
         for doc in self:
             if doc.mos_approval_state == 'pending':
                 raise UserError(self.env._('This document is already waiting for approval.'))

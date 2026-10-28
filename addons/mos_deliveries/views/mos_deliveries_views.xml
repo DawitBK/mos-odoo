@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_delivery_entry_list" model="ir.ui.view">
+        <field name="name">mos.delivery.entry.list</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="entry_state == 'rejected'">
+                <field name="name"/>
+                <field name="delivery_note"/>
+                <field name="partner_id"/>
+                <field name="purchase_id"/>
+                <field name="plate"/>
+                <field name="delivery_date"/>
+                <field name="arrived_at"/>
+                <field name="declared_totals"/>
+                <field name="entry_state" widget="badge" decoration-success="entry_state == 'approved'" decoration-danger="entry_state == 'rejected'" decoration-info="entry_state == 'entered'"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_mos_delivery_entry_form" model="ir.ui.view">
+        <field name="name">mos.delivery.entry.form</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_entry_approve" string="Approve and send to inspection" type="object" class="btn-primary" invisible="entry_state != 'entered' or purpose != 'inbound_po'"/>
+                    <button name="action_entry_reject_dialog" string="Reject" type="object" class="btn-danger" invisible="entry_state != 'entered' or purpose != 'inbound_po'"/>
+                    <field name="entry_state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <field name="purpose" invisible="1"/>
+                    <separator string="Delivery header"/>
+                    <group>
+                        <group>
+                            <field name="delivery_note" string="Delivery note number" readonly="entry_state != 'entered'"/>
+                            <field name="purchase_id" readonly="entry_state != 'entered'" options="{'no_create': True}"/>
+                            <field name="partner_id" string="Supplier" readonly="entry_state != 'entered'" options="{'no_create': True}"/>
+                            <field name="delivery_date" readonly="entry_state != 'entered'"/>
+                        </group>
+                        <group>
+                            <field name="site_id" readonly="entry_state != 'entered'"/>
+                            <field name="plate" readonly="entry_state != 'entered'"/>
+                            <field name="driver_name" readonly="entry_state != 'entered'"/>
+                            <field name="transporter" readonly="entry_state != 'entered'"/>
+                            <field name="arrived_at"/>
+                        </group>
+                    </group>
+                    <separator string="Delivery items"/>
+                    <field name="delivery_line_ids" nolabel="1" readonly="entry_state != 'entered'">
+                        <list editable="bottom" decoration-danger="over_order">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" options="{'no_create': True}"/>
+                            <field name="declared_qty"/>
+                            <field name="uom_id" options="{'no_create': True}"/>
+                            <field name="bags"/>
+                            <field name="ordered_qty"/>
+                            <field name="outstanding_qty"/>
+                            <field name="over_order" column_invisible="1"/>
+                            <field name="note"/>
+                        </list>
+                    </field>
+                    <div class="mos-cards">
+                        <div class="mos-card mos-card-green">
+                            <div class="mos-card-label">Total declared quantity (one total for each unit)</div>
+                            <div class="mos-card-value"><field name="declared_totals"/></div>
+                        </div>
+                    </div>
+                    <group invisible="entry_state != 'rejected'">
+                        <field name="entry_reject_reason"/>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_mos_delivery_reject_form" model="ir.ui.view">
+        <field name="name">mos.delivery.reject.form</field>
+        <field name="model">mos.delivery.reject</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="visit_id"/>
+                    <field name="reason" placeholder="Why is the delivery refused?"/>
+                </group>
+                <footer>
+                    <button name="action_confirm" string="Reject the delivery" type="object" class="btn-danger"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mos_delivery_entry" model="ir.actions.act_window">
+        <field name="name">Supplier deliveries</field>
+        <field name="res_model">mos.gate.visit</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('purpose', '=', 'inbound_po')]</field>
+        <field name="context">{'default_purpose': 'inbound_po'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_delivery_entry_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_mos_delivery_entry_form')})]"/>
+    </record>
+    <menuitem id="menu_mos_delivery_entry" name="Supplier deliveries" parent="mos_gate.menu_mos_gate" action="action_mos_delivery_entry" sequence="5"/>
+</odoo>

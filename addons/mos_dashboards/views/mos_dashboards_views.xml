@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_approval_dashboard_form" model="ir.ui.view">
+        <field name="name">mos.approval.dashboard.form</field>
+        <field name="model">mos.approval.dashboard</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0" duplicate="0">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>Approvals dashboard</h1>
+                        <h3 class="text-muted">How many documents were sent for approval, what happened to them and how long it took.</h3>
+                    </div>
+                    <div class="mos-filter-bar">
+                        <group>
+                            <group>
+                                <field name="res_model" string="Document" placeholder="Every kind of document"/>
+                                <field name="site_id" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="date_from" string="From date"/>
+                                <field name="date_to" string="To date"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div class="mos-cards">
+                        <div class="mos-card">
+                            <button name="action_open_total" type="object" class="btn btn-link p-0 mos-card-label">Total submitted</button>
+                            <div class="mos-card-value"><field name="total"/></div>
+                        </div>
+                        <div class="mos-card mos-card-amber">
+                            <button name="action_open_pending" type="object" class="btn btn-link p-0 mos-card-label">Pending</button>
+                            <div class="mos-card-value"><field name="pending"/></div>
+                        </div>
+                        <div class="mos-card mos-card-green">
+                            <button name="action_open_approved" type="object" class="btn btn-link p-0 mos-card-label">Approved</button>
+                            <div class="mos-card-value"><field name="approved"/></div>
+                        </div>
+                        <div class="mos-card mos-card-red">
+                            <button name="action_open_rejected" type="object" class="btn btn-link p-0 mos-card-label">Rejected</button>
+                            <div class="mos-card-value"><field name="rejected"/></div>
+                        </div>
+                        <div class="mos-card mos-card-purple">
+                            <button name="action_open_returned" type="object" class="btn btn-link p-0 mos-card-label">Returned for changes</button>
+                            <div class="mos-card-value"><field name="returned"/></div>
+                        </div>
+                        <div class="mos-card">
+                            <div class="mos-card-label">Average approval time</div>
+                            <div class="mos-card-value"><field name="avg_hours"/> h</div>
+                        </div>
+                        <div class="mos-card mos-card-red" invisible="not overdue">
+                            <button name="action_open_overdue" type="object" class="btn btn-link p-0 mos-card-label">Past their time limit</button>
+                            <div class="mos-card-value"><field name="overdue"/></div>
+                        </div>
+                    </div>
+                    <separator string="Last six months"/>
+                    <field name="trend_html" nolabel="1"/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mos_approval_dashboard" model="ir.actions.act_window">
+        <field name="name">Approvals dashboard</field>
+        <field name="res_model">mos.approval.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+    </record>
+
+    <menuitem id="menu_mos_approval_dashboard" name="Dashboard" parent="mos_approvals.menu_mos_approvals" action="action_mos_approval_dashboard" sequence="5"/>
+</odoo>

@@ -48,19 +48,27 @@ env['mos.approval.rule'].create({'doc_type': 'mos.purchase.request', 'sequence':
 env['mos.approval.rule'].create({'doc_type': 'mos.po.amendment', 'sequence': 10, 'amount_from': 100000, 'group_id': env.ref('mos_approvals.group_mos_finance_manager').id, 'sla_hours': 24})
 
 # --- purchase requests ---------------------------------------------------------------------------------------------
-spare = env['product.product'].search([('type', '=', 'consu'), ('purchase_ok', '=', True)], limit=2)
-if spare:
-    for reason, qty, price in (('Polypropylene flour bags for the packing line', 20000, 18.0), ('Lubricant for the roller mills', 120, 450.0), ('Sieve cloth for the plansifter', 12, 2600.0)):
-        request = env['mos.purchase.request'].with_user(buyer).create(
-            {
-                'site_id': site.id,
-                'department': 'Operations',
-                'reason': reason,
-                'needed_by': today + timedelta(days=14),
-                'line_ids': [Command.create({'product_id': spare[0].id, 'qty': qty, 'estimated_price': price})],
-            }
-        )
-        request.with_user(buyer).action_submit()
+kg = env.ref('uom.product_uom_kgm')
+items = {}
+for name, price in (('Polypropylene flour bags', 18.0), ('Roller mill lubricant', 450.0), ('Plansifter sieve cloth', 2600.0)):
+    items[name] = env['product.product'].search([('name', '=', name)], limit=1) or env['product.product'].create(
+        {'name': name, 'type': 'consu', 'is_storable': True, 'purchase_ok': True, 'sale_ok': False, 'uom_id': kg.id, 'standard_price': price}
+    )
+for reason, name, qty, price in (
+    ('Polypropylene flour bags for the packing line', 'Polypropylene flour bags', 20000, 18.0),
+    ('Lubricant for the roller mills', 'Roller mill lubricant', 120, 450.0),
+    ('Sieve cloth for the plansifter', 'Plansifter sieve cloth', 12, 2600.0),
+):
+    request = env['mos.purchase.request'].with_user(buyer).create(
+        {
+            'site_id': site.id,
+            'department': 'Operations',
+            'reason': reason,
+            'needed_by': today + timedelta(days=14),
+            'line_ids': [Command.create({'product_id': items[name].id, 'qty': qty, 'estimated_price': price})],
+        }
+    )
+    request.with_user(buyer).action_submit()
 
 if suppliers:
     env['ir.config_parameter'].sudo().set_str('mos_procurement.enforce_asl', 'True')

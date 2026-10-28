@@ -61,6 +61,9 @@ class MosPaymentVoucher(models.Model):
         return self.gross_amount
 
     def action_submit(self):
+        dialog = self._mos_attestation_dialog('action_submit')
+        if dialog:
+            return dialog
         for v in self:
             if v.state != 'draft':
                 raise UserError(self.env._('Only a draft voucher can be submitted.'))
