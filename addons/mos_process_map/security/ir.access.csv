@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_process_stage_user,mos.process.stage: user,mos.process.stage,mos_core.group_mos_user,crud,
+access_mos_process_trail_user,mos.process.trail: user,mos.process.trail,mos_core.group_mos_user,crud,
+access_mos_process_trail_line_user,mos.process.trail.line: user,mos.process.trail.line,mos_core.group_mos_user,crud,

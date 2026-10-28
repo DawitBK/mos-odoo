@@ -1,0 +1,25 @@
+// The process map: three lanes of stages, each stage a card with what is waiting in it, a line down to the next one.
+.o_mos_process_kanban {
+    .o_kanban_group { min-width: 270px; }
+    .o_kanban_record {
+        position: relative;
+        margin-bottom: 18px;
+        &:not(:last-child)::after {
+            content: '\2193';
+            position: absolute;
+            left: 50%;
+            bottom: -17px;
+            transform: translateX(-50%);
+            color: #12305f;
+            opacity: 0.45;
+            font-size: 1.1rem;
+            line-height: 1;
+        }
+    }
+    .mos-stage-title { color: #12305f; font-weight: 600; }
+    .mos-stage-count { color: #1a62d8; font-size: 1.7rem; font-weight: 700; line-height: 1.15; }
+    .mos-stage-caption { color: #6b7280; font-size: 0.8rem; font-weight: 400; margin-left: 4px; }
+    .mos-stage-alert .mos-stage-count { color: #b45309; }
+    .mos-stage-foot { display: flex; justify-content: space-between; font-size: 0.78rem; margin-top: 4px; }
+    .mos-stage-attention { color: #b91c1c; font-weight: 600; }
+}

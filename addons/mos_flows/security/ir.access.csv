@@ -6,6 +6,7 @@ access_mos_flow_setting_admin,Receiving modes: administrators,mos.flow.setting,m
 access_mos_flow_intake_wizard_user,Lab intake dialog,mos.flow.intake.wizard,mos_lab.group_mos_lab_analyst,crud,
 access_mos_lab_revision_user,Decision revision: read,mos.lab.revision,mos_core.group_mos_user,r,
 access_mos_lab_revision_manager,Decision revision: lab manager,mos.lab.revision,mos_lab.group_mos_lab_manager,cru,
+access_mos_lab_revision_admin,Decision revision: administrators,mos.lab.revision,mos_core.group_mos_admin,cru,
 access_mos_wht_certificate_user,Withholding certificate: read,mos.wht.certificate,mos_core.group_mos_user,r,
 access_mos_wht_certificate_admin,Withholding certificate: administrators,mos.wht.certificate,mos_core.group_mos_admin,r,
 access_mos_payment_reversal_user,Payment reversal: read,mos.payment.reversal,mos_core.group_mos_user,r,

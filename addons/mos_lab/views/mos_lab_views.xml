@@ -48,6 +48,7 @@
             <form>
                 <header>
                     <button name="action_submit_results" string="Submit results" type="object" class="btn-primary" invisible="state != 'open'"/>
+                    <button name="action_issue_coa" string="Issue certificate" type="object" invisible="state != 'decided' or decision == 'reject'" groups="mos_lab.group_mos_lab_manager"/>
                     <field name="state" widget="statusbar"/>
                 </header>
                 <sheet>
@@ -78,6 +79,16 @@
                             <field name="passed" column_invisible="1"/>
                             <field name="valid"/>
                             <field name="invalid_cause"/>
+                        </list>
+                    </field>
+                    <separator string="Certificates of analysis" invisible="not coa_ids"/>
+                    <field name="coa_ids" invisible="not coa_ids">
+                        <list create="0" edit="0" decoration-muted="state == 'revoked'">
+                            <field name="name"/>
+                            <field name="grade_id"/>
+                            <field name="score"/>
+                            <field name="issued_by_id"/>
+                            <field name="state" widget="badge" decoration-success="state == 'issued'" decoration-danger="state == 'revoked'"/>
                         </list>
                     </field>
                 </sheet>

@@ -190,6 +190,24 @@ class TestLabQuality(TransactionCase):
         self.assertEqual(coa.state, 'revoked')
         self.assertTrue(any('certificate of analysis' in p for p in visit._exit_blockers()))
 
+    def test_a_lab_manager_issues_the_certificate_from_the_inspection(self):
+        visit = self._visit('CO-3')
+        insp = self._inspection(12.0, 1.0, visit=visit)
+        insp.action_submit_results()
+        with self.assertRaises(UserError):
+            insp.with_user(self.manager).action_issue_coa()  # not decided yet
+        insp.with_user(self.manager).decide('accept')
+        with self.assertRaises(UserError):
+            insp.with_user(self.analyst).action_issue_coa()  # an analyst cannot issue it
+        action = insp.with_user(self.manager).action_issue_coa()
+        coa = self.env['mos.lab.coa'].browse(action['res_id'])
+        self.assertEqual((coa.state, coa.inspection_id, insp.coa_ids), ('issued', insp, coa))
+        with self.assertRaises(UserError):
+            insp.with_user(self.manager).action_issue_coa()  # one at a time
+        coa.with_user(self.manager).action_revoke('Wrong lot')
+        insp.with_user(self.manager).action_issue_coa()  # after a revocation another can be issued
+        self.assertEqual(len(insp.coa_ids), 2)
+
     def test_coa_needs_an_accepted_decision(self):
         visit = self._visit('CO-2')
         insp = self._inspection(16.0, 5.0, visit=visit)

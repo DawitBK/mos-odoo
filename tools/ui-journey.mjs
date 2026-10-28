@@ -106,7 +106,28 @@ try {
   await guard.page.locator('.o_field_widget[name="plate"] input').fill(plate);
   const siteInput = guard.page.locator('.o_field_widget[name="site_id"] input');
   if (!(await siteInput.inputValue())) await pickFirst(guard.page, 'site_id');
-  const [open] = await rpc(guard.page, 'purchase.order', 'search_read', [[['state', '=', 'purchase'], ['receipt_status', '!=', 'full'], ['order_line.product_id.name', 'ilike', '(local)']]], { fields: ['name'], limit: 1, order: 'id' });
+  // an order nobody has driven to yet: the demo data also has orders with trucks already on them, or waiting on an amendment
+  const candidates = await rpc(guard.page, 'purchase.order', 'search_read', [[['state', '=', 'purchase'], ['receipt_status', '!=', 'full'], ['order_line.product_id.name', 'ilike', '(local)']]], { fields: ['name', 'partner_id'], limit: 12, order: 'id' });
+  // The quality policy waives the inspection of a supplier whose last deliveries of the item were all clean (skip-lot): that is a
+  // different path, so this journey takes an order that will be inspected.
+  const wouldBeWaived = async (order) => {
+    const [line] = await rpc(guard.page, 'purchase.order.line', 'search_read', [[['order_id', '=', order.id]]], { fields: ['product_id'], limit: 1 });
+    const [policy] = await rpc(guard.page, 'mos.lab.policy', 'search_read', [[['product_id', '=', line.product_id[0]]]], { fields: ['skip_lot', 'clean_streak', 'inspection_required'], limit: 1 });
+    if (!policy) return false;
+    if (!policy.inspection_required) return true;
+    if (!policy.skip_lot) return false;
+    const history = await rpc(guard.page, 'mos.lab.inspection', 'search_read', [[['product_id', '=', line.product_id[0]], ['visit_id.partner_id', '=', order.partner_id[0]], ['state', '=', 'decided']]], { fields: ['decision', 'suggested_outcome', 'deduction_pct'], limit: policy.clean_streak, order: 'id desc' });
+    return history.length >= policy.clean_streak && history.every((i) => i.decision === 'accept' && i.suggested_outcome === 'pass' && !i.deduction_pct);
+  };
+  let open;
+  for (const candidate of candidates) {
+    const untouched = (await rpc(guard.page, 'mos.gate.visit', 'search_count', [[['purchase_id', '=', candidate.id]]], {})) === 0;
+    if (untouched && !(await wouldBeWaived(candidate))) {
+      open = candidate;
+      break;
+    }
+  }
+  if (!open) throw new Error('every open order for local wheat is with a supplier the quality policy waives (skip-lot), or already has a truck on it: top up with tools/seed_journey_orders.py');
   if (!open) throw new Error('no purchase order for local wheat has anything left to receive (imported wheat needs a certificate of analysis from the supplier, which this journey does not attach): reprovision the demo data (tools/provision.mjs --reset)');
   await pickText(guard.page, 'purchase_id', open.name);
   await guard.page.locator('.o_form_button_save').click();
@@ -153,16 +174,24 @@ try {
   await shot(guard.page, 'journey-guard-failure');
 }
 
+// Search a list for the plate and open the first row. Wait for the suggestions before Enter and for the search to apply, or the click lands on
+// the wrong (unfiltered) list.
+async function openByPlate(page) {
+  await page.locator('.o_searchview input').fill(plate);
+  await page.locator('.o_searchview_autocomplete li, .o-dropdown--menu .o-dropdown-item').first().waitFor({ timeout: 8000 }).catch(() => {});
+  await page.keyboard.press('Enter');
+  await page.locator('.o_searchview_facet').first().waitFor({ timeout: 8000 });
+  await settle(page, 1000);
+  await page.locator('.o_data_row').first().click();
+  await page.waitForSelector('.o_form_view');
+}
+
 // 2. A second person verifies without seeing the weights
 console.log('A second person verifies the weights blind');
 const verifier = await session(verifierLogin);
 try {
   await menuAction(verifier.page, 'MOS/Gate/Visits');
-  await verifier.page.locator('.o_searchview input').fill(plate);
-  await verifier.page.keyboard.press('Enter');
-  await settle(verifier.page, 1000);
-  await verifier.page.locator('.o_data_row').first().click();
-  await verifier.page.waitForSelector('.o_form_view');
+  await openByPlate(verifier.page);
   const button = verifier.page.getByRole('button', { name: /Verify the weights/ });
   await button.waitFor({ timeout: 8000 });
   await button.click();
@@ -227,11 +256,7 @@ try {
   await openVisit(analyst.page);
   await press(analyst.page, 'Open inspection', 'the inspection is opened from the visit');
   await menuAction(analyst.page, 'MOS/Lab/Inspections');
-  await analyst.page.locator('.o_searchview input').fill(plate);
-  await analyst.page.keyboard.press('Enter');
-  await settle(analyst.page, 1000);
-  await analyst.page.locator('.o_data_row').first().click();
-  await analyst.page.waitForSelector('.o_form_view');
+  await openByPlate(analyst.page);
   const specId = await analyst.page.evaluate(() => null);
   const url = analyst.page.url();
   const inspectionId = Number(url.split('/').pop());
@@ -269,11 +294,7 @@ try {
 const labManager = await session('mos.labmanager@examplecorp.com');
 try {
   await menuAction(labManager.page, 'MOS/Lab/Inspections');
-  await labManager.page.locator('.o_searchview input').fill(plate);
-  await labManager.page.keyboard.press('Enter');
-  await settle(labManager.page, 1000);
-  await labManager.page.locator('.o_data_row').first().click();
-  await labManager.page.waitForSelector('.o_form_view');
+  await openByPlate(labManager.page);
   await labManager.page.getByRole('button', { name: 'Usage decision' }).click();
   await labManager.page.waitForSelector('.modal .o_form_view');
   await shot(labManager.page, 'journey-6-decision');

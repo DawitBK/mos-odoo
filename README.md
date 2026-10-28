@@ -21,6 +21,7 @@ writes the small version it needs rather than waiting.
 | `mos_deliveries` | Supplier delivery entry: items from the order, totals per unit, approve to inspection or reject | FR-PRC-023 |
 | `mos_request_forms` | The purchase requisition as drawn by the client: priority, available stock, quantity to purchase; PART 1 / PART 2 forms | FR-PRC-007 |
 | `mos_counts` | Blind counting, a printable count sheet, import of counts from CSV or Excel, a recount by another person for large variances, and a review that can ask for changes | FR-INV-009 |
+| `mos_process_map` | The whole mill on one board (supplier to payment, wheat to flour, order to cash, controls) with what is waiting at each stage and a click into its list; the document trail of a purchase or sales order | beyond the FRD |
 | `mos_auth_oidc` | Sign in through the identity provider: authorization code flow with PKCE; users must already exist | FR-PLT-010, 011 |
 
 **Not built yet:** the approvals and segregation-of-duties matrix (`mos_approvals`), payables (self-billing, PV, cheque
@@ -66,6 +67,23 @@ docker compose --env-file $env restart odoo
 Check it with `tools/sso-login-check.mjs` (a real sign-in through the public address), and read the container log for errors
 after the restart.
 
+## Demo data in every state
+
+`tools/seed_lifecycle.sh <env file> [part ...]` fills the demo database with records in every state of their life, by calling the same actions the
+screens call (so every rule, approval and separation of duties applies to the demo data as to real work). Six parts, run in order, each step recorded
+under the system parameter `mos_seed.<step>` so a second run skips what is already there and a failed step leaves nothing behind:
+
+| Part | What it adds |
+| --- | --- |
+| `1_stock` | reason codes, a second site, lots with expiry and attributes, silo holds, approval delegations, background reports, stock adjustments, transfers between sites and cycle counts in every state |
+| `2_procurement` | suppliers in every standing, bank changes, invitations, requests, requests for quotation, a contract, quotes, amendments, supplier returns, receipt reassignments, a service order with receipts, the supplier portal and the notices owed to suppliers |
+| `3_quality` | deduction bands, inspections at every stage, concessions in every state, decision revisions, certificates of analysis, a lost sample, work orders in every state with labour |
+| `4_finance` | quotations, orders waiting for approval or over the credit limit, confirmed orders not yet delivered, trucks waiting at the gate and on the scale, customer returns, vouchers waiting or refused, invoices being entered, a payment reversal, planning suggestions |
+| `5_gate` | a contractor with tools, a visitor, transfer trucks, a cancelled arrival, one truck carrying two orders weighed in steps |
+| `6_more` | lot attributes, finished-goods inspections and packing from the released batches, stock status changes, payment runs, journal exports, guard shifts |
+
+Run it after `tools/provision.mjs` and the older `seed_*.py` scripts. `ui-smoke.mjs` ends by listing the screens that still open with no records.
+
 ## Checking the screens
 
 The unit tests prove the code, not that a person can use the screen, so three browser and role checks sit beside them (they need Playwright;
@@ -76,7 +94,7 @@ node tools/ui-smoke.mjs --base http://localhost:8069 --login mos.admin@exampleco
 node tools/ui-journey.mjs --base http://localhost:8069 --password <pw> --playwright-from <dir>                                    # a wheat delivery through six people
 ```
 
-`tools/role_check.py` does the same for every role in seconds, inside the Odoo shell. The journey receives one whole order of local wheat each
+`tools/role_check.py` does the same for every role in seconds, inside the Odoo shell (it takes `PEOPLE`, a JSON list of logins, defined first). The journey receives one whole order of local wheat each
 time it runs; `tools/seed_journey_orders.py` (run in the Odoo shell) tops the open orders up again.
 
 Licence: LGPL-3.0, as Odoo.

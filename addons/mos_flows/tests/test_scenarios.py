@@ -281,6 +281,17 @@ class TestScenarios(TransactionCase):
         with self.assertRaises(UserError):
             rev.write({'note': 'edited'})
 
+    def test_an_administrator_can_approve_a_revision_too(self):
+        """The check lets an administrator through, so the access rows must as well (the screen and the model agree)."""
+        order = self._order()
+        visit = self._received(order, 'S-14A')
+        insp = visit.inspection_id
+        rev = insp.with_user(self.manager).action_request_revision('accept_deduction', 2.0, 'Third-party laboratory found more foreign matter')
+        admin = new_test_user(self.env, login='sadmin_rev', groups='mos_core.group_mos_admin')
+        admin.mos_site_ids = [Command.set(self.site.ids)]
+        rev.with_user(admin).action_approve()
+        self.assertEqual(rev.state, 'applied')
+
     def test_lost_sample_is_replaced_and_its_results_invalidated(self):
         order = self._order()
         visit = self._weighed(order, 'S-15')

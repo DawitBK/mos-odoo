@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- The process map: one lane per part of the work, one card per stage, a click opens what the card counts. -->
+    <record id="view_mos_process_stage_kanban" model="ir.ui.view">
+        <field name="name">mos.process.stage.kanban</field>
+        <field name="model">mos.process.stage</field>
+        <field name="arch" type="xml">
+            <kanban class="o_mos_process_kanban" default_group_by="lane" create="0" edit="0" delete="0" group_create="0" group_delete="0" group_edit="0" records_draggable="0" action="action_open" type="object">
+                <field name="attention"/>
+                <templates>
+                    <t t-name="card">
+                        <div t-attf-class="#{record.attention.raw_value ? 'mos-stage-alert' : ''}">
+                            <div class="mos-stage-title"><field name="name"/></div>
+                            <div class="mos-stage-count"><field name="count"/><span class="mos-stage-caption"><field name="caption"/></span></div>
+                            <div class="text-muted small"><field name="description"/></div>
+                            <div class="mos-stage-foot">
+                                <span class="mos-stage-attention" invisible="attention == 0"><field name="attention"/> need attention</span>
+                                <span class="text-muted ms-auto">In all: <field name="total"/></span>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="action_mos_process_map" model="ir.actions.server">
+        <field name="name">Process map</field>
+        <field name="model_id" ref="model_mos_process_stage"/>
+        <field name="state">code</field>
+        <field name="code">action = model.action_open_map()</field>
+    </record>
+
+    <!-- The document trail of one order -->
+    <record id="view_mos_process_trail_form" model="ir.ui.view">
+        <field name="name">mos.process.trail.form</field>
+        <field name="model">mos.process.trail</field>
+        <field name="arch" type="xml">
+            <form create="0" edit="0" delete="0">
+                <sheet>
+                    <h1><field name="name"/></h1>
+                    <p class="text-muted">Every document of this order in the order the work happened. Open any line to see the document itself.</p>
+                    <field name="line_ids" nolabel="1">
+                        <list create="0" edit="0" delete="0">
+                            <field name="stage"/>
+                            <field name="name"/>
+                            <field name="status" widget="badge"/>
+                            <field name="note"/>
+                            <field name="when"/>
+                            <field name="by_id" widget="many2one_avatar_user"/>
+                            <button name="action_open" type="object" string="Open" icon="fa-external-link"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_purchase_order_form_trail" model="ir.ui.view">
+        <field name="name">purchase.order.form.mos.trail</field>
+        <field name="model">purchase.order</field>
+        <field name="inherit_id" ref="purchase.purchase_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_mos_trail" string="Document trail" type="object" invisible="not id"/>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_sale_order_form_trail" model="ir.ui.view">
+        <field name="name">sale.order.form.mos.trail</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_mos_trail" string="Document trail" type="object" invisible="not id"/>
+            </xpath>
+        </field>
+    </record>
+
+    <menuitem id="menu_mos_process_map" name="Process map" parent="mos_core.menu_mos_root" action="action_mos_process_map" sequence="2"/>
+</odoo>

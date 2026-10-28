@@ -130,6 +130,18 @@ class MosLabInspection(models.Model):
             raise UserError(self.env._('That parameter does not belong to this inspection\'s specification.'))
         return self.env['mos.lab.result'].create({'inspection_id': self.id, 'line_id': line.id, 'value': value})
 
+    coa_ids = fields.One2many('mos.lab.coa', 'inspection_id', string='Certificates of analysis')
+
+    def action_issue_coa(self):
+        """A lab manager issues the certificate of analysis for an accepted, decided inspection (the screen's button for FR-QC-021)."""
+        self.ensure_one()
+        if not self.env.user.has_group('mos_lab.group_mos_lab_manager'):
+            raise UserError(self.env._('Only a lab manager can issue a certificate of analysis.'))
+        if self.coa_ids.filtered(lambda c: c.state == 'issued'):
+            raise UserError(self.env._('A certificate has already been issued for this inspection; revoke it first to issue another.'))
+        coa = self.env['mos.lab.coa'].issue(self, self.visit_id)
+        return {'type': 'ir.actions.act_window', 'res_model': 'mos.lab.coa', 'res_id': coa.id, 'view_mode': 'form', 'target': 'current'}
+
     def action_submit_results(self):
         for insp in self:
             if insp.suggested_outcome == 'incomplete':

@@ -3,7 +3,8 @@
  * Opens every MOS menu action in a real browser and fails on any client error, so a view that references a missing field, a button
  * for a method that does not exist or a broken action is found before a person finds it.
  *   node ui-smoke.mjs --base http://localhost:8069 --login mos.admin@examplecorp.com --password <pw> --playwright-from <dir with @playwright/test> [--only <text>] [--shots <dir>]
- * For each menu with an action it loads the action; if the result is a list with rows it also opens the first record.
+ * For each menu with an action it loads the action; if the result is a list with rows it also opens the first record, and it lists the screens
+ * that open with no records at all (demo data that is still missing).
  */
 import path from 'node:path';
 import { createRequire } from 'node:module';
@@ -57,6 +58,7 @@ const mine = menus.filter((m) => /^MOS|^mos/i.test(m.complete_name.split('/')[0]
 console.log(`${mine.length} MOS menu actions to open`);
 
 let failed = 0;
+const empty = [];
 const errorText = async () => {
   const dialog = page.locator('.o_error_dialog, .modal .o_dialog_error, .modal:has(.o_error_dialog)');
   if (await dialog.count()) {
@@ -79,6 +81,7 @@ for (const menu of mine) {
     await page.waitForSelector('.o_action_manager .o_action, .o_action_manager .o_content, .o_error_dialog, .modal-dialog', { timeout: 20000 });
     await page.waitForTimeout(700);
     let err = await errorText();
+    if (!err && (await page.locator('.o_action_manager .o_view_nocontent').count())) empty.push(menu.complete_name);
     if (!err && model === 'ir.actions.act_window') {
       // every other way of looking at the same records (pivot, graph, kanban, calendar...)
       const switches = page.locator('.o_cp_switch_buttons .o_switch_view:not(.active)');
@@ -118,5 +121,7 @@ for (const menu of mine) {
 }
 
 await browser.close();
+if (empty.length) console.log(`
+${empty.length} screens opened with no records: ${empty.join('; ')}`);
 console.log(failed ? `\n${failed} of ${mine.length} actions failed` : `\nAll ${mine.length} actions opened cleanly`);
 process.exit(failed ? 1 : 0);

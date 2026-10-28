@@ -172,3 +172,14 @@ class TestOperationsUi(ProcurementPlusSetup, TransactionCase):
             self.assertTrue(hasattr(record, 'action_ui'), f'{model} cannot open the dialog')
             for kind in needs:
                 self.assertIn(kind, ('reason', 'number', 'order', 'basis', 'text', 'date', 'supplier', 'decision', 'filename', 'file', 'reweigh_reason'), f'unknown kind {kind}')
+
+    def test_no_form_shows_a_chatter_for_a_model_without_one(self):
+        """A chatter on a model that is not a mail thread fails when a person opens the record (the weigh ticket form did)."""
+        bad = []
+        for view in self.env['ir.ui.view'].search([('type', '=', 'form'), ('mode', '=', 'primary')]):
+            if view.model not in self.env or not view.model.startswith('mos.'):
+                continue
+            arch = self.env[view.model].get_view(view.id, 'form')['arch']
+            if '<chatter' in arch and 'message_ids' not in self.env[view.model]._fields:
+                bad.append(view.model)
+        self.assertFalse(bad, f'forms with a chatter on a model that is not a mail thread: {sorted(set(bad))}')

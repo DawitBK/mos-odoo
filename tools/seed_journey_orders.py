@@ -21,11 +21,20 @@ open_orders = env['purchase.order'].sudo().search_count(
     [('state', '=', 'purchase'), ('receipt_status', '!=', 'full'), ('order_line.product_id', 'in', products.ids)]
 )
 added = 0
+
+
+def history(supplier, product):
+    return env['mos.lab.inspection'].sudo().search_count([('product_id', '=', product.id), ('visit_id.partner_id', '=', supplier.id), ('state', '=', 'decided')])
+
+
 for number in range(max(WANTED - open_orders, 0)):
     product = products[number % len(products)]
+    # the quality policy waives the inspection of a supplier with a long clean run (skip-lot): order from the one with the shortest history,
+    # so the journey always has a delivery that is inspected
+    supplier = min(suppliers, key=lambda s: (history(s, product), s.id))
     order = env['purchase.order'].with_user(buyer).create(
         {
-            'partner_id': suppliers[number % len(suppliers)].id,
+            'partner_id': supplier.id,
             'order_line': [Command.create({'product_id': product.id, 'product_qty': random.choice((30000, 32000, 34000, 36000, 38000)), 'price_unit': product.standard_price})],
         }
     )

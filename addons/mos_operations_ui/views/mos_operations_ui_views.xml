@@ -79,7 +79,6 @@
                         <field name="verified_by_id"/>
                     </group>
                 </sheet>
-                <chatter/>
             </form>
         </field>
     </record>
