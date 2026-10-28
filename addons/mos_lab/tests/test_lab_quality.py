@@ -61,6 +61,19 @@ class TestLabQuality(TransactionCase):
         insp.record_result(self.foreign, foreign)
         return insp
 
+
+    # -- the QC summary on the inspection screen --------------------------------------------------------
+    def test_summary_counts_and_result_pills(self):
+        insp = self._inspection(14.2, 1.0)
+        self.assertEqual((insp.params_total, insp.params_passed, insp.params_failed), (2, 1, 1))
+        outcomes = {r.line_id.name: r.outcome for r in insp.result_ids}
+        self.assertEqual(outcomes, {'Moisture %': 'fail', 'Foreign matter %': 'pass'})
+        self.assertEqual(insp.result_ids.filtered(lambda r: r.line_id == self.moisture).range_text, '<= 13.5')
+        wrong = insp.result_ids.filtered(lambda r: r.line_id == self.moisture)
+        wrong.action_invalidate('typed wrong')
+        self.assertEqual(wrong.outcome, 'invalid')
+        self.assertEqual(insp.params_failed, 0, 'an invalidated result no longer counts')
+
     # -- rules, score, grade ----------------------------------------------------------------------------
     def test_rule_based_deduction_score_and_grade(self):
         insp = self._inspection(14.2, 1.0)

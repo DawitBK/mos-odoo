@@ -45,6 +45,17 @@ class MosLabInspection(models.Model):
     samples_required = fields.Integer(readonly=True, help='From the sampling plan for this product and consignment size.')
     samples_taken = fields.Integer()
     sample_ids = fields.One2many('mos.lab.sample', 'inspection_id', string='Retention samples')
+    params_total = fields.Integer(string='Total parameters', compute='_compute_param_counts')
+    params_passed = fields.Integer(string='Passed', compute='_compute_param_counts')
+    params_failed = fields.Integer(string='Failed', compute='_compute_param_counts')
+
+    @api.depends('result_ids.valid', 'result_ids.passed', 'result_ids.line_id', 'spec_id.line_ids')
+    def _compute_param_counts(self):
+        for insp in self:
+            current = insp._current_results()
+            insp.params_total = len(insp.spec_id.line_ids)
+            insp.params_passed = sum(1 for r in current.values() if r.passed)
+            insp.params_failed = sum(1 for r in current.values() if not r.passed)
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -183,6 +194,26 @@ class MosLabResult(models.Model):
     valid = fields.Boolean(default=True)
     invalid_cause = fields.Char()
     passed = fields.Boolean(compute='_compute_passed', store=True)
+    unit = fields.Char(related='line_id.unit')
+    range_text = fields.Char(string='Standard / acceptable range', compute='_compute_range_text')
+    outcome = fields.Selection([('pass', 'Pass'), ('fail', 'Fail'), ('invalid', 'Invalidated')], string='Result', compute='_compute_outcome')
+
+    @api.depends('line_id.min_value', 'line_id.max_value', 'line_id.unit')
+    def _compute_range_text(self):
+        for r in self:
+            low, high, unit = r.line_id.min_value, r.line_id.max_value, r.line_id.unit or ''
+            if not low:
+                text = f'<= {high:g}'
+            elif not high:
+                text = f'>= {low:g}'
+            else:
+                text = f'{low:g} to {high:g}'
+            r.range_text = f'{text} {unit}'.strip()
+
+    @api.depends('valid', 'passed')
+    def _compute_outcome(self):
+        for r in self:
+            r.outcome = 'invalid' if not r.valid else 'pass' if r.passed else 'fail'
 
     @api.depends('value', 'line_id.min_value', 'line_id.max_value')
     def _compute_passed(self):

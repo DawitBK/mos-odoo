@@ -1,0 +1,7 @@
+// The sign-in page and the supplier portal use the same palette.
+$mos-navy: #12305f;
+$mos-blue: #1a62d8;
+
+.oe_login_form .btn-primary, .o_portal .btn-primary { background-color: $mos-blue; border-color: $mos-blue; border-radius: 8px; }
+body.o_database_list, .oe_website_login_container { color: $mos-navy; }
+.card { border-radius: 12px; }

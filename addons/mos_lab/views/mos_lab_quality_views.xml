@@ -64,13 +64,42 @@
                 <field name="result_ids" readonly="state == 'decided'">
                     <list editable="bottom" decoration-muted="not valid" decoration-danger="valid and not passed">
                         <field name="line_id" domain="[('spec_id', '=', parent.spec_id)]" readonly="id"/>
+                        <field name="range_text"/>
                         <field name="value" readonly="id"/>
-                        <field name="passed"/>
+                        <field name="unit"/>
+                        <field name="outcome" widget="badge" decoration-success="outcome == 'pass'" decoration-danger="outcome == 'fail'" decoration-muted="outcome == 'invalid'"/>
+                        <field name="passed" column_invisible="1"/>
                         <field name="valid"/>
                         <field name="invalid_cause"/>
                         <button name="action_open_invalidate" string="Invalidate" type="object" icon="fa-ban" invisible="not id or not valid"/>
                     </list>
                 </field>
+                <separator string="QC summary"/>
+                <div class="mos-cards">
+                    <div class="mos-card">
+                        <div class="mos-card-label">Total parameters</div>
+                        <div class="mos-card-value"><field name="params_total"/></div>
+                    </div>
+                    <div class="mos-card mos-card-green">
+                        <div class="mos-card-label">Passed</div>
+                        <div class="mos-card-value"><field name="params_passed"/></div>
+                    </div>
+                    <div class="mos-card mos-card-red">
+                        <div class="mos-card-label">Failed</div>
+                        <div class="mos-card-value"><field name="params_failed"/></div>
+                    </div>
+                    <div class="mos-card mos-card-amber">
+                        <div class="mos-card-label">Overall result</div>
+                        <div class="mos-card-value"><field name="suggested_outcome" widget="badge" decoration-success="suggested_outcome == 'pass'" decoration-danger="suggested_outcome == 'fail'" decoration-warning="suggested_outcome == 'incomplete'"/></div>
+                    </div>
+                </div>
+                <div class="alert alert-danger" role="alert" invisible="suggested_outcome != 'fail' or state == 'decided'">
+                    <strong>Action required:</strong> the results do not meet the specification. The usage decision is to reject the delivery or, with a reason, to accept it with a deduction.
+                </div>
+                <group>
+                    <group><field name="tested_by_id" string="Analyzed by"/></group>
+                    <group><field name="decided_by_id" string="Checked by"/></group>
+                </group>
                 <separator string="Retention samples"/>
                 <field name="sample_ids" readonly="1">
                     <list>

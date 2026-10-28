@@ -1,0 +1,118 @@
+// MOS look: palette, pills, cards, section bars. Classes starting mos- are for the MOS views; the rest restyle Odoo's own parts.
+$mos-navy: #12305f;
+$mos-blue: #1a62d8;
+$mos-soft: #eef3fb;
+$mos-line: #d9e2f1;
+$mos-green: #1b7a3e;
+$mos-green-bg: #dcf5e4;
+$mos-red: #b42318;
+$mos-red-bg: #fde4e1;
+$mos-amber: #9a5b00;
+$mos-amber-bg: #fdf0cf;
+$mos-purple: #6b3fa8;
+$mos-purple-bg: #eee3fb;
+$mos-info: #14589c;
+$mos-info-bg: #dbeafe;
+
+.o_web_client {
+    background-color: $mos-soft;
+}
+
+// The top bar is navy, as in the screens.
+.o_main_navbar {
+    background-color: $mos-navy;
+    border-bottom: 0;
+}
+
+// Page title and the control bar.
+.o_control_panel {
+    background-color: #fff;
+    border-bottom: 1px solid $mos-line;
+    .breadcrumb-item.active, .o_breadcrumb .active { color: $mos-navy; font-weight: 600; }
+}
+
+// Sheets are cards with soft corners.
+.o_form_view .o_form_sheet_bg { background-color: $mos-soft; }
+.o_form_view .o_form_sheet {
+    border: 1px solid $mos-line;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba($mos-navy, 0.08);
+}
+
+// Section headers like "PART 1: MATERIAL REQUEST HEADER".
+.o_form_view .o_horizontal_separator, .o_form_view .o_inner_group > .o_horizontal_separator {
+    color: $mos-navy;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-size: 0.82rem;
+    font-weight: 700;
+    padding: 6px 12px;
+    background: $mos-soft;
+    border-left: 4px solid $mos-blue;
+    border-radius: 0 6px 6px 0;
+}
+
+// Table headers.
+.o_list_view .o_list_table thead th {
+    background-color: $mos-soft;
+    color: $mos-navy;
+    font-weight: 600;
+    border-bottom: 1px solid $mos-line;
+}
+.o_list_view .o_list_table tbody tr:hover { background-color: rgba($mos-blue, 0.04); }
+
+// Status pills: every badge field gets the same rounded pill, coloured by its meaning.
+.o_field_badge .badge, .badge {
+    border-radius: 999px;
+    padding: 0.28em 0.8em;
+    font-weight: 600;
+}
+.o_field_badge .badge.text-bg-success, .o_field_badge .badge.text-bg-success-subtle { background-color: $mos-green-bg !important; color: $mos-green !important; }
+.o_field_badge .badge.text-bg-danger, .o_field_badge .badge.text-bg-danger-subtle { background-color: $mos-red-bg !important; color: $mos-red !important; }
+.o_field_badge .badge.text-bg-warning, .o_field_badge .badge.text-bg-warning-subtle { background-color: $mos-amber-bg !important; color: $mos-amber !important; }
+.o_field_badge .badge.text-bg-info, .o_field_badge .badge.text-bg-info-subtle { background-color: $mos-info-bg !important; color: $mos-info !important; }
+.o_field_badge .badge.text-bg-primary { background-color: $mos-info-bg !important; color: $mos-blue !important; }
+
+// Buttons.
+.btn-primary { background-color: $mos-blue; border-color: $mos-blue; border-radius: 8px; }
+.btn-primary:hover { background-color: darken($mos-blue, 8%); border-color: darken($mos-blue, 8%); }
+.btn-secondary { border-radius: 8px; }
+
+// -- Reusable pieces for MOS views --------------------------------------------------------------------------------
+
+// A row of summary cards ("Opening balance", "Total received" and so on).
+.mos-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 4px 0 16px;
+}
+.mos-card {
+    flex: 1 1 180px;
+    border-radius: 10px;
+    padding: 12px 16px;
+    background: $mos-info-bg;
+    border: 1px solid rgba($mos-navy, 0.08);
+    .mos-card-label { color: $mos-navy; font-size: 0.85rem; opacity: 0.75; }
+    .mos-card-value { color: $mos-navy; font-size: 1.5rem; font-weight: 700; line-height: 1.2; }
+    .mos-card-value .o_field_widget { font-size: inherit; font-weight: inherit; }
+    &.mos-card-green { background: $mos-green-bg; .mos-card-value { color: $mos-green; } }
+    &.mos-card-red { background: $mos-red-bg; .mos-card-value { color: $mos-red; } }
+    &.mos-card-purple { background: $mos-purple-bg; .mos-card-value { color: $mos-purple; } }
+    &.mos-card-amber { background: $mos-amber-bg; .mos-card-value { color: $mos-amber; } }
+}
+
+// The filter strip above a card or report.
+.mos-filter-bar {
+    background: #fff;
+    border: 1px solid $mos-line;
+    border-radius: 10px;
+    padding: 10px 16px;
+    margin-bottom: 16px;
+}
+
+// Transaction-type pills for the bin card and stock card lists (decoration classes of the list view, see mos_stock_cards).
+.o_list_view .o_data_row .o_field_badge[name="kind"] .badge { min-width: 7em; }
+
+// The mill overview: tidy section blocks.
+.mos-overview-section-title { color: $mos-navy; text-transform: uppercase; letter-spacing: 0.04em; font-weight: 700; }

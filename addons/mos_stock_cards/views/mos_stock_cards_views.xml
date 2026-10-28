@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Transactions list (shared by both cards and by the export) -->
+    <record id="view_mos_stock_card_line_list" model="ir.ui.view">
+        <field name="name">mos.stock.card.line.list</field>
+        <field name="model">mos.stock.card.line</field>
+        <field name="arch" type="xml">
+            <list create="0" edit="0" delete="0">
+                <field name="number"/>
+                <field name="date"/>
+                <field name="reference"/>
+                <field name="kind" widget="badge" decoration-success="kind == 'receipt'" decoration-danger="kind == 'issue'" decoration-info="kind in ('transfer_in', 'transfer_out')" decoration-warning="kind == 'adjustment'"/>
+                <field name="lot_id"/>
+                <field name="location_id" string="Bin"/>
+                <field name="qty_in" string="Qty in" sum="Total in"/>
+                <field name="qty_out" string="Qty out" sum="Total out"/>
+                <field name="balance"/>
+                <field name="remarks"/>
+                <field name="user_id" widget="many2one_avatar_user"/>
+                <field name="uom_id" optional="hide"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Stock by bin: one card per bin -->
+    <record id="view_mos_stock_card_bin_kanban" model="ir.ui.view">
+        <field name="name">mos.stock.card.bin.kanban</field>
+        <field name="model">mos.stock.card.bin</field>
+        <field name="arch" type="xml">
+            <kanban create="0" edit="0" delete="0" class="o_kanban_small_column">
+                <field name="location_id"/>
+                <field name="area"/>
+                <field name="quantity"/>
+                <field name="uom_id"/>
+                <field name="capacity"/>
+                <field name="fill_pct"/>
+                <field name="state"/>
+                <templates>
+                    <t t-name="card">
+                        <div class="d-flex justify-content-between align-items-start">
+                            <div>
+                                <strong class="text-primary"><field name="location_id"/></strong>
+                                <div class="text-muted small"><field name="area"/></div>
+                            </div>
+                            <div class="text-end">
+                                <strong><field name="quantity"/> <field name="uom_id"/></strong>
+                                <div><field name="state" widget="badge" decoration-success="state == 'in_stock'" decoration-muted="state == 'empty'"/></div>
+                            </div>
+                        </div>
+                        <div t-if="record.capacity.raw_value" class="text-muted small mt-1">
+                            <field name="fill_pct"/>% of <field name="capacity"/> capacity
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_mos_stock_card_form" model="ir.ui.view">
+        <field name="name">mos.stock.card.form</field>
+        <field name="model">mos.stock.card</field>
+        <field name="arch" type="xml">
+            <form create="0" delete="0">
+                <header>
+                    <button name="action_search" string="Search" type="object" class="btn-primary" icon="fa-search"/>
+                    <button name="action_reset" string="Reset" type="object" icon="fa-refresh" invisible="mode == 'bin'"/>
+                    <button name="action_print" string="Print" type="object" icon="fa-print" invisible="not searched"/>
+                    <button name="action_export" string="Export" type="object" icon="fa-download" invisible="not searched"/>
+                </header>
+                <sheet>
+                    <field name="mode" invisible="1"/>
+                    <field name="searched" invisible="1"/>
+                    <field name="uom_id" invisible="1"/>
+                    <div class="mos-filter-bar">
+                        <group>
+                            <group>
+                                <field name="warehouse_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="location_id" string="Bin code" required="mode == 'bin'" invisible="mode != 'bin'" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="product_id" string="Item" options="{'no_create': True, 'no_open': True}"/>
+                            </group>
+                            <group>
+                                <field name="date_from" string="From date"/>
+                                <field name="date_to" string="To date"/>
+                            </group>
+                        </group>
+                    </div>
+
+                    <div class="alert alert-warning" role="alert" invisible="not searched or not ledger_gap">
+                        The movements in this period add up to <field name="closing" class="oe_inline"/>, but <field name="current_stock" class="oe_inline"/> is on hand now:
+                        <field name="ledger_gap" class="oe_inline"/> has no movement behind it (stock set directly, or movements before the first date).
+                    </div>
+
+                    <div invisible="not searched">
+                        <!-- Bin card header -->
+                        <div invisible="mode != 'bin'">
+                            <separator string="Bin information"/>
+                            <group>
+                                <group>
+                                    <field name="location_id" string="Bin code" readonly="1"/>
+                                    <field name="warehouse_id" string="Warehouse" readonly="1"/>
+                                    <field name="bin_parent" string="Storage location"/>
+                                </group>
+                                <group>
+                                    <field name="product_id" string="Item" readonly="1"/>
+                                    <field name="capacity" invisible="not capacity"/>
+                                    <field name="uom_id" string="Unit"/>
+                                </group>
+                            </group>
+                        </div>
+                        <!-- Stock card header -->
+                        <div invisible="mode != 'item'">
+                            <div class="mos-cards">
+                                <div class="mos-card">
+                                    <div class="mos-card-label">Item</div>
+                                    <div class="mos-card-value"><field name="product_id" readonly="1" options="{'no_open': True}"/></div>
+                                </div>
+                                <div class="mos-card">
+                                    <div class="mos-card-label">Warehouse</div>
+                                    <div class="mos-card-value"><field name="warehouse_id" readonly="1" options="{'no_open': True}"/></div>
+                                </div>
+                                <div class="mos-card mos-card-green">
+                                    <div class="mos-card-label">Current stock (total)</div>
+                                    <div class="mos-card-value"><field name="current_stock"/> <field name="uom_id"/></div>
+                                </div>
+                                <div class="mos-card mos-card-purple">
+                                    <div class="mos-card-label">Bins with stock</div>
+                                    <div class="mos-card-value"><field name="bin_count"/></div>
+                                </div>
+                            </div>
+                            <separator string="Stock by bin"/>
+                            <field name="bin_ids" mode="kanban" readonly="1"/>
+                        </div>
+
+                        <div class="mos-cards" invisible="mode != 'bin'">
+                            <div class="mos-card">
+                                <div class="mos-card-label">Opening balance</div>
+                                <div class="mos-card-value"><field name="opening"/> <field name="uom_id"/></div>
+                            </div>
+                            <div class="mos-card mos-card-green">
+                                <div class="mos-card-label">Total received</div>
+                                <div class="mos-card-value"><field name="received"/> <field name="uom_id"/></div>
+                            </div>
+                            <div class="mos-card mos-card-red">
+                                <div class="mos-card-label">Total issued</div>
+                                <div class="mos-card-value"><field name="issued"/> <field name="uom_id"/></div>
+                            </div>
+                            <div class="mos-card mos-card-purple">
+                                <div class="mos-card-label">Current balance</div>
+                                <div class="mos-card-value"><field name="closing"/> <field name="uom_id"/></div>
+                            </div>
+                        </div>
+                        <div class="mos-cards" invisible="mode != 'item'">
+                            <div class="mos-card">
+                                <div class="mos-card-label">Opening balance</div>
+                                <div class="mos-card-value"><field name="opening"/> <field name="uom_id"/></div>
+                            </div>
+                            <div class="mos-card mos-card-green">
+                                <div class="mos-card-label">Total received</div>
+                                <div class="mos-card-value"><field name="received"/> <field name="uom_id"/></div>
+                            </div>
+                            <div class="mos-card mos-card-red">
+                                <div class="mos-card-label">Total issued</div>
+                                <div class="mos-card-value"><field name="issued"/> <field name="uom_id"/></div>
+                            </div>
+                            <div class="mos-card mos-card-purple">
+                                <div class="mos-card-label">Closing balance</div>
+                                <div class="mos-card-value"><field name="closing"/> <field name="uom_id"/></div>
+                            </div>
+                        </div>
+
+                        <separator string="Transactions"/>
+                        <field name="line_ids" readonly="1" nolabel="1" view_id="mos_stock_cards.view_mos_stock_card_line_list"/>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_mos_bin_card" model="ir.actions.act_window">
+        <field name="name">Bin card</field>
+        <field name="res_model">mos.stock.card</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_mode': 'bin'}</field>
+    </record>
+    <record id="action_mos_stock_card" model="ir.actions.act_window">
+        <field name="name">Stock card</field>
+        <field name="res_model">mos.stock.card</field>
+        <field name="view_mode">form</field>
+        <field name="target">current</field>
+        <field name="context">{'default_mode': 'item'}</field>
+    </record>
+
+    <menuitem id="menu_mos_bin_card" name="Bin card" parent="mos_platform_plus.menu_mos_platform_reports" action="action_mos_bin_card" sequence="22"/>
+    <menuitem id="menu_mos_stock_card" name="Stock card" parent="mos_platform_plus.menu_mos_platform_reports" action="action_mos_stock_card" sequence="24"/>
+</odoo>

@@ -14,6 +14,8 @@ writes the small version it needs rather than waiting.
 | `mos_gate` | Gate visits (one open visit per vehicle), **weigh tickets**: first and second weighing, blind verification by a second person, superseding re-weigh with a reason, gap-free numbers | FR-GATE-001..014, 030 |
 | `mos_lab` | Versioned, approved **specifications**, inspections frozen to the spec in force, results that are never overwritten, automatic pass/fail, usage decision by a different person, quality deduction, concession needs a lab manager | FR-QC-001..003, 008..014 |
 | `mos_inbound` | **Flow A**: the receipt is prepared by the system at the payable quantity and confirmed by a storekeeper (not the buyer); exit clearance checks the decision and the receipt | FR-INB-001..007, FR-PRC-013 |
+| `mos_theme` | The look of the client screens: colours, status pills, section bars, summary cards | - |
+| `mos_stock_cards` | **Bin card** and **Stock card** (filters, stock by bin, transactions with running balance, print, export) from the one stock ledger | FR-INV-014, 023, 024 |
 | `mos_auth_oidc` | Sign in through the identity provider: authorization code flow with PKCE; users must already exist | FR-PLT-010, 011 |
 
 **Not built yet:** the approvals and segregation-of-duties matrix (`mos_approvals`), payables (self-billing, PV, cheque

@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+access_mos_stock_card_user,mos.stock.card: user,mos.stock.card,mos_core.group_mos_user,crud,
+access_mos_stock_card_line_user,mos.stock.card.line: user,mos.stock.card.line,mos_core.group_mos_user,crud,
+access_mos_stock_card_bin_user,mos.stock.card.bin: user,mos.stock.card.bin,mos_core.group_mos_user,crud,

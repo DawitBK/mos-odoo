@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_report_stock_card" model="ir.actions.report">
+        <field name="name">Bin card / stock card</field>
+        <field name="model">mos.stock.card</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_stock_cards.report_stock_card</field>
+    </record>
+
+    <template id="report_stock_card">
+        <t t-call="web.basic_layout">
+            <t t-foreach="docs" t-as="card">
+                <div class="page">
+                    <h2><span t-if="card.mode == 'bin'">Bin card</span><span t-else="">Stock card</span>: <span t-out="card.product_id.display_name"/></h2>
+                    <p>
+                        <strong t-out="card.warehouse_id.name"/>
+                        <span t-if="card.mode == 'bin'"> / <t t-out="card.location_id.complete_name"/></span>
+                        · <span t-out="card.date_from"/> to <span t-out="card.date_to"/>
+                    </p>
+                    <table class="table table-sm">
+                        <tr>
+                            <th>Opening balance</th><td class="text-end"><span t-out="card.opening" t-options="{'widget': 'float', 'precision': 3}"/> <t t-out="card.uom_id.name"/></td>
+                            <th>Total received</th><td class="text-end"><span t-out="card.received" t-options="{'widget': 'float', 'precision': 3}"/></td>
+                            <th>Total issued</th><td class="text-end"><span t-out="card.issued" t-options="{'widget': 'float', 'precision': 3}"/></td>
+                            <th>Closing balance</th><td class="text-end"><span t-out="card.closing" t-options="{'widget': 'float', 'precision': 3}"/></td>
+                        </tr>
+                    </table>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>No.</th><th>Date</th><th>Reference</th><th>Type</th><th>Batch / lot</th><th>Bin</th>
+                                <th class="text-end">Qty in</th><th class="text-end">Qty out</th><th class="text-end">Balance</th><th>Remarks</th><th>By</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr t-foreach="card.line_ids" t-as="line">
+                                <td t-out="line.number"/>
+                                <td t-out="line.date" t-options="{'widget': 'datetime'}"/>
+                                <td t-out="line.reference"/>
+                                <td t-out="dict(line._fields['kind'].selection).get(line.kind)"/>
+                                <td t-out="line.lot_id.name"/>
+                                <td t-out="line.location_id.name"/>
+                                <td class="text-end" t-out="line.qty_in" t-options="{'widget': 'float', 'precision': 3}"/>
+                                <td class="text-end" t-out="line.qty_out" t-options="{'widget': 'float', 'precision': 3}"/>
+                                <td class="text-end" t-out="line.balance" t-options="{'widget': 'float', 'precision': 3}"/>
+                                <td t-out="line.remarks"/>
+                                <td t-out="line.user_id.name"/>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </t>
+        </t>
+    </template>
+</odoo>

@@ -52,6 +52,7 @@
                 </header>
                 <sheet>
                     <h1><field name="name"/></h1>
+                    <separator string="General information"/>
                     <group>
                         <group>
                             <field name="visit_id"/>
@@ -66,11 +67,15 @@
                             <field name="payable_qty"/>
                         </group>
                     </group>
+                    <separator string="Quality parameters"/>
                     <field name="result_ids">
                         <list create="0" edit="0">
                             <field name="line_id"/>
+                            <field name="range_text"/>
                             <field name="value"/>
-                            <field name="passed"/>
+                            <field name="unit"/>
+                            <field name="outcome" widget="badge" decoration-success="outcome == 'pass'" decoration-danger="outcome == 'fail'" decoration-muted="outcome == 'invalid'"/>
+                            <field name="passed" column_invisible="1"/>
                             <field name="valid"/>
                             <field name="invalid_cause"/>
                         </list>
