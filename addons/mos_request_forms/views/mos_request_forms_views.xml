@@ -10,7 +10,7 @@
             </xpath>
             <xpath expr="//field[@name='site_id']" position="after">
                 <field name="request_date"/>
-                <field name="priority" widget="radio" options="{'horizontal': true}"/>
+                <field name="priority" widget="badges_selection"/>
             </xpath>
             <xpath expr="//field[@name='department']" position="attributes">
                 <attribute name="string">Requesting department</attribute>

@@ -135,6 +135,26 @@ class MosGateVisit(models.Model):
         return super().action_start_weighing()
 
 
+class MosLabInspection(models.Model):
+    """What the client's QC inspection page shows about the delivery that is being tested (page 8): its delivery note, where the wheat
+    comes from, and the quantity in quintals (100 kg) and in bags."""
+
+    _inherit = 'mos.lab.inspection'
+
+    delivery_note = fields.Char(related='visit_id.delivery_note', string='Delivery note number')
+    supplier_address = fields.Text(compute='_compute_delivery_facts', string='Address of the wheat')
+    quantity_quintal = fields.Float(compute='_compute_delivery_facts', string='Net weight (quintals)', digits=(12, 2), help='One quintal is 100 kg.')
+    bags_count = fields.Integer(compute='_compute_delivery_facts', string='Bags')
+
+    @api.depends('visit_id.partner_id', 'visit_id.net_weight', 'visit_id.delivery_line_ids.bags', 'visit_id.delivery_line_ids.product_id', 'product_id')
+    def _compute_delivery_facts(self):
+        for insp in self:
+            partner = insp.visit_id.partner_id.sudo()
+            insp.supplier_address = (partner._display_address() or '').strip() or False
+            insp.quantity_quintal = insp.visit_id.net_weight / 100.0
+            insp.bags_count = sum(insp.visit_id.delivery_line_ids.filtered(lambda line: line.product_id == insp.product_id).mapped('bags'))
+
+
 class MosDeliveryReject(models.TransientModel):
     _name = 'mos.delivery.reject'
     _description = 'Reject a delivery at the gate'

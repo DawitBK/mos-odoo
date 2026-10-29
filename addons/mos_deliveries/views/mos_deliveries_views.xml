@@ -95,6 +95,22 @@
         </field>
     </record>
 
+    <record id="view_mos_lab_inspection_form_deliveries" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form.deliveries</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_inspection_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='visit_id']" position="after">
+                <field name="delivery_note"/>
+                <field name="supplier_address"/>
+            </xpath>
+            <xpath expr="//field[@name='payable_qty']" position="after">
+                <field name="quantity_quintal"/>
+                <field name="bags_count"/>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_mos_delivery_reject_form" model="ir.ui.view">
         <field name="name">mos.delivery.reject.form</field>
         <field name="model">mos.delivery.reject</field>

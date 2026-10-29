@@ -112,3 +112,15 @@ class TestDeliveries(ProcurementPlusSetup, TransactionCase):
         visit = self.env['mos.gate.visit'].with_user(self.guard).create({'site_id': self.site.id, 'plate': 'DE-0004', 'purpose': 'outbound_do'})
         with self.assertRaises(UserError):
             visit.with_user(self.guard).action_entry_approve()
+
+    def test_the_inspection_shows_the_delivery_note_the_address_the_quintals_and_the_bags(self):
+        order = self._order()
+        visit = self._entry(order)
+        wheat = order.order_line[0].product_id
+        self._line(visit, wheat, 500.0, bags=10)
+        order.partner_id.write({'street': 'Kombolcha Road', 'city': 'Oromia'})
+        inspection = self.env['mos.lab.inspection'].new({'visit_id': visit.id, 'product_id': wheat.id})
+        self.assertEqual(inspection.delivery_note, 'DN-77')
+        self.assertIn('Kombolcha Road', inspection.supplier_address)
+        self.assertEqual(inspection.bags_count, 10)
+        self.assertEqual(inspection.quantity_quintal, visit.net_weight / 100.0)

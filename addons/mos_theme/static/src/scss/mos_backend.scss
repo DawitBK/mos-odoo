@@ -306,3 +306,11 @@ $mos-info-bg: #dbeafe;
 .mos-sidecard { background: $mos-info-bg; border: 1px solid $mos-line; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
 .mos-sidecard-title { font-weight: 700; color: $mos-navy; margin-bottom: 4px; }
 .mos-sidecard .o_field_widget { display: inline; font-weight: 600; color: $mos-navy; }
+
+// The priority of a request as coloured pills, like the client's screen (Low, Medium, High, Urgent).
+.o_field_badges_selection .o_selection_badge { border-radius: 999px; font-weight: 600; border: 2px solid transparent; }
+.o_field_badges_selection .o_selection_badge[value='"low"'] { background: $mos-green-bg; color: $mos-green; }
+.o_field_badges_selection .o_selection_badge[value='"medium"'] { background: $mos-amber-bg; color: $mos-amber; }
+.o_field_badges_selection .o_selection_badge[value='"high"'] { background: #f6c9c4; color: $mos-red; }
+.o_field_badges_selection .o_selection_badge[value='"urgent"'] { background: $mos-red-bg; color: $mos-red; }
+.o_field_badges_selection .o_selection_badge.active { border-color: $mos-navy; box-shadow: 0 0 0 1px $mos-navy; }
