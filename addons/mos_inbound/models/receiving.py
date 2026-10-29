@@ -1,6 +1,6 @@
-from markupsafe import Markup, escape
-
 from odoo import api, fields, models
+
+from odoo.addons.mos_core.units import totals_html
 
 
 class StockMove(models.Model):
@@ -31,11 +31,6 @@ class StockPicking(models.Model):
         string='Receiving status',
     )
 
-    @api.model
-    def _mos_totals_html(self, totals):
-        parts = [Markup('<strong>{:,.1f}</strong> {}').format(qty, escape(unit)) for unit, qty in sorted(totals.items()) if qty]
-        return Markup(' &nbsp;+&nbsp; ').join(parts) if parts else Markup('<strong>0</strong>')
-
     @api.depends('move_ids.product_uom_qty', 'move_ids.quantity', 'move_ids.mos_short_qty', 'move_ids.uom_id')
     def _compute_mos_totals(self):
         for picking in self:
@@ -46,9 +41,9 @@ class StockPicking(models.Model):
                 accepted[unit] = accepted.get(unit, 0.0) + move.quantity
                 short[unit] = short.get(unit, 0.0) + move.mos_short_qty
             picking.mos_item_count = len(picking.move_ids)
-            picking.mos_ordered_totals = self._mos_totals_html(ordered)
-            picking.mos_accepted_totals = self._mos_totals_html(accepted)
-            picking.mos_short_totals = self._mos_totals_html(short)
+            picking.mos_ordered_totals = totals_html(ordered)
+            picking.mos_accepted_totals = totals_html(accepted)
+            picking.mos_short_totals = totals_html(short)
 
     @api.depends('state', 'move_ids.quantity', 'move_ids.picked', 'move_ids.mos_short_qty')
     def _compute_mos_status(self):

@@ -60,6 +60,84 @@
         </field>
     </record>
 
+    <record id="view_mos_cycle_count_form_page" model="ir.ui.view">
+        <field name="name">mos.cycle.count.form.page</field>
+        <field name="model">mos.cycle.count</field>
+        <field name="inherit_id" ref="mos_inventory.view_mos_cycle_count_form"/>
+        <field name="priority">20</field>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="replace">
+                <sheet>
+                    <field name="review_required" invisible="1"/>
+                    <field name="hide_book" invisible="1"/>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-clipboard"/></span>
+                        <div class="mos-page-title"><h2>Physical Count</h2><p>Record the actual quantity of items in the warehouse. After saving, you can review and create an adjustment if needed.</p></div>
+                        <div class="mos-page-crumb">Inventory › Physical Count</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Count Information</div>
+                        <div class="mos-split mos-split-wide">
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="name" string="Count no."/><field name="name"/></div>
+                                <div><label for="site_id"/><field name="site_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                                <div><label for="location_id" string="Storage location"/><field name="location_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                                <div><label for="count_date"/><field name="count_date" readonly="state != 'draft'"/></div>
+                                <div><label for="counter_id" string="Counted by"/><field name="counter_id"/></div>
+                                <div><label for="blind"/><field name="blind" readonly="state != 'draft'"/></div>
+                                <div class="mos-fieldgrid-wide"><label for="remarks"/><field name="remarks" readonly="state in ('submitted', 'closed')" placeholder="Remarks about this count"/></div>
+                            </div>
+                            <div class="mos-sidecard">
+                                <div class="mos-sidecard-title"><i class="mos-ico mos-ico-clipboard"/> Counting Information</div>
+                                <div><span class="text-muted">Warehouse:</span> <field name="warehouse_id"/></div>
+                                <div><span class="text-muted">Location:</span> <field name="location_id" readonly="1"/></div>
+                                <div><span class="text-muted">Count date:</span> <field name="count_date" readonly="1"/></div>
+                                <div><span class="text-muted">Counted by:</span> <field name="counter_id"/></div>
+                                <div><span class="text-muted">Status:</span> <field name="state" readonly="1"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Counted Items</div>
+                        <div class="alert alert-warning" role="alert" invisible="not review_note or state != 'counting'">
+                            <strong>The reviewer asked for changes:</strong> <field name="review_note" class="oe_inline"/>
+                        </div>
+                        <div class="alert alert-info" role="alert" invisible="not recount_lines">
+                            <field name="recount_lines" class="oe_inline"/> line(s) must be counted again by somebody other than the person who counted them first.
+                        </div>
+                        <field name="line_ids" nolabel="1">
+                            <list editable="bottom" create="0" delete="0" decoration-danger="recount">
+                                <field name="code" string="Item code"/>
+                                <field name="product_id" string="Item name" readonly="1"/>
+                                <field name="uom_id" string="UOM"/>
+                                <field name="bin_id"/>
+                                <field name="system_qty" column_invisible="parent.hide_book"/>
+                                <field name="counted_qty" string="Physical qty" readonly="parent.state != 'counting'"/>
+                                <field name="variance" column_invisible="parent.hide_book"/>
+                                <field name="status" widget="badge" decoration-success="status == 'matched'" decoration-warning="status == 'variance'" decoration-muted="status == 'pending'" column_invisible="parent.hide_book"/>
+                                <field name="remark" readonly="parent.state != 'counting'"/>
+                                <field name="previous_qty" optional="hide" invisible="not recounted"/>
+                                <field name="recount" widget="boolean" optional="hide"/>
+                                <field name="counted" column_invisible="1"/>
+                                <field name="recounted" column_invisible="1"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="mos-summary-row mos-summary-5" invisible="state == 'draft'">
+                        <div class="mos-sum-card mos-sum-ok"><div class="mos-sum-label">Matched</div><div class="mos-sum-value"><field name="matched_lines"/> items (<field name="matched_pct"/>%)</div></div>
+                        <div class="mos-sum-card mos-sum-warn"><div class="mos-sum-label">Variance</div><div class="mos-sum-value"><field name="variance_lines"/> items (<field name="variance_pct"/>%)</div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total system qty</div><div class="mos-sum-value"><field name="system_totals"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total physical qty</div><div class="mos-sum-value"><field name="physical_totals"/></div></div>
+                        <div class="mos-sum-card mos-sum-bad"><div class="mos-sum-label">Total variance</div><div class="mos-sum-value"><field name="difference_totals"/></div></div>
+                    </div>
+                    <div class="mos-note" invisible="state != 'review'"><i class="mos-ico mos-ico-info"/> Review the variances and remarks. You can approve, request changes or reject the physical count.</div>
+                    <field name="adjustment_id" invisible="not adjustment_id"/>
+                    <field name="reviewer_id" invisible="not reviewer_id"/>
+                </sheet>
+            </xpath>
+        </field>
+    </record>
+
     <record id="view_mos_count_import_form" model="ir.ui.view">
         <field name="name">mos.count.import.form</field>
         <field name="model">mos.count.import</field>

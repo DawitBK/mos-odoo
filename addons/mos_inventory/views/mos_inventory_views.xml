@@ -20,28 +20,66 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,applied"/>
                 </header>
                 <sheet>
-                    <h1><field name="name"/></h1>
-                    <group>
-                        <group>
-                            <field name="site_id"/>
-                            <field name="location_id"/>
-                            <field name="date"/>
-                        </group>
-                        <group>
-                            <field name="reason_id"/>
-                            <field name="note"/>
-                            <field name="amount"/>
-                            <field name="cycle_count_id"/>
-                        </group>
-                    </group>
-                    <field name="line_ids">
-                        <list editable="bottom">
-                            <field name="product_id"/>
-                            <field name="system_qty"/>
-                            <field name="new_qty"/>
-                            <field name="delta"/>
-                        </list>
-                    </field>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-scales"/></span>
+                        <div class="mos-page-title"><h2>Stock Adjustment</h2><p>Review the adjustment details and post the transaction to update inventory.</p></div>
+                        <div class="mos-page-crumb">Inventory › Stock Adjustment</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Adjustment Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="name" string="Adjustment no."/><field name="name"/></div>
+                            <div><label for="site_id"/><field name="site_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="location_id" string="Storage location"/><field name="location_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="adjustment_type"/><field name="adjustment_type" widget="badge" decoration-success="adjustment_type == 'increase'" decoration-danger="adjustment_type == 'decrease'" decoration-warning="adjustment_type == 'mixed'"/></div>
+                            <div><label for="date" string="Adjustment date"/><field name="date" readonly="state != 'draft'"/></div>
+                            <div><label for="requested_by_id" string="Created by"/><field name="requested_by_id"/></div>
+                            <div><label for="approved_by_id"/><field name="approved_by_id"/></div>
+                            <div><label for="reason_id" string="Reason"/><field name="reason_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div class="mos-fieldgrid-wide"><label for="note" string="Comments"/><field name="note" readonly="state != 'draft'" placeholder="Add any additional notes or comments..."/></div>
+                            <div invisible="not cycle_count_id"><label for="cycle_count_id" string="From the count"/><field name="cycle_count_id"/></div>
+                            <div><label for="amount" string="Value of the change"/><field name="amount"/></div>
+                        </div>
+                    </div>
+                    <div class="mos-summary-row mos-summary-5">
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total items</div><div class="mos-sum-value"><field name="item_count"/></div></div>
+                        <div class="mos-sum-card mos-sum-ok"><div class="mos-sum-label">Total increase</div><div class="mos-sum-value"><field name="increase_totals"/></div></div>
+                        <div class="mos-sum-card mos-sum-bad"><div class="mos-sum-label">Total decrease</div><div class="mos-sum-value"><field name="decrease_totals"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total system qty (before)</div><div class="mos-sum-value"><field name="before_totals"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total system qty (after)</div><div class="mos-sum-value"><field name="after_totals"/></div></div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Adjustment Items</div>
+                        <field name="line_ids" nolabel="1">
+                            <list editable="bottom">
+                                <field name="code" string="Item code"/>
+                                <field name="product_id" string="Item name"/>
+                                <field name="uom_id" string="UOM"/>
+                                <field name="system_qty" string="System qty (before)"/>
+                                <field name="new_qty" string="Physical qty"/>
+                                <field name="delta" string="Difference" decoration-success="delta &gt; 0" decoration-danger="delta &lt; 0"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Adjustment Summary</div>
+                            <div class="mos-summary-row">
+                                <div><div class="mos-sum-label">Total increase</div><div class="mos-sum-value mos-sum-green"><field name="increase_totals"/></div></div>
+                                <div><div class="mos-sum-label">Total decrease</div><div class="mos-sum-value mos-sum-red"><field name="decrease_totals"/></div></div>
+                                <div><div class="mos-sum-label">Net adjustment</div><div class="mos-sum-value"><field name="net_totals"/></div></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-info"/> Before posting, please ensure</div>
+                            <ul class="mos-notes">
+                                <li>All items are selected correctly.</li>
+                                <li>The counted quantity is entered.</li>
+                                <li>The reason and remarks are provided.</li>
+                                <li>Required approvals are completed.</li>
+                            </ul>
+                        </div>
+                    </div>
                 </sheet>
                 <chatter/>
             </form>

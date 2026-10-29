@@ -185,3 +185,50 @@ class TestCounts(TransactionCase):
         self._line(count, self.flour).with_user(self.store).write({'counted_qty': 1000.0})
         self._line(count, self.bran).with_user(self.store).write({'counted_qty': 450.0})
         self.assertEqual((count.matched_lines, count.variance_lines), (1, 1))
+
+    # -- the count page and the adjustment page (client screens 13-15) ----------------------------------------------------------
+    def test_the_count_adds_up_matched_and_variance_lines_and_one_total_for_each_unit(self):
+        pieces = self.env['product.product'].create({'name': 'Count bags', 'default_code': 'CB-9', 'type': 'consu', 'is_storable': True, 'uom_id': self.env.ref('uom.product_uom_unit').id})
+        self.env['stock.quant'].with_context(inventory_mode=True).create({'product_id': pieces.id, 'location_id': self.location.id, 'inventory_quantity': 100.0}).action_apply_inventory()
+        count = self._count()
+        self.assertEqual((count.item_count, count.matched_lines, count.variance_lines), (3, 0, 0))
+        self._line(count, self.flour).with_user(self.store).write({'counted_qty': 1200.0, 'remark': 'more than the book'})
+        self._line(count, self.bran).with_user(self.store).write({'counted_qty': 500.0})
+        self._line(count, pieces).with_user(self.store).write({'counted_qty': 80.0})
+        self.assertEqual((count.matched_lines, count.variance_lines), (1, 2))
+        self.assertEqual((round(count.matched_pct), round(count.variance_pct)), (33, 67))
+        self.assertEqual([self._line(count, p).status for p in (self.flour, self.bran, pieces)], ['variance', 'matched', 'variance'])
+        self.assertIn('1,700.0', count.physical_totals, 'kilograms add up with kilograms')
+        self.assertIn('80.0', count.physical_totals)
+        self.assertNotIn('1,780', count.physical_totals, 'and never with pieces')
+        self.assertIn('+200.0', count.difference_totals)
+        self.assertIn('-20.0', count.difference_totals)
+        self.assertEqual(self._line(count, self.flour).bin_id, self.location)
+        self.assertEqual(count.warehouse_id, self.location.warehouse_id)
+
+    def test_a_remark_goes_on_a_line_only_while_the_sheet_is_open(self):
+        count = self._count()
+        line = self._line(count, self.flour)
+        line.with_user(self.store).write({'remark': 'check the corner'})
+        count.write({'state': 'submitted'})
+        with self.assertRaises(UserError):
+            line.write({'remark': 'late'})
+
+    def test_the_adjustment_adds_up_the_increase_and_the_decrease_for_each_unit(self):
+        count = self._count()
+        self._line(count, self.flour).with_user(self.store).write({'counted_qty': 1200.0})
+        self._line(count, self.bran).with_user(self.store).write({'counted_qty': 450.0})
+        adjustment = self.env['mos.stock.adjustment'].create(
+            {
+                'site_id': self.site.id,
+                'location_id': self.location.id,
+                'reason_id': self.env['mos.reason'].create({'domain': 'adjustment', 'code': 'CNT-T', 'name': 'Count test'}).id,
+                'line_ids': [Command.create({'product_id': self.flour.id, 'new_qty': 1200.0}), Command.create({'product_id': self.bran.id, 'new_qty': 450.0})],
+            }
+        )
+        self.assertEqual((adjustment.item_count, adjustment.adjustment_type), (2, 'mixed'))
+        self.assertIn('+200.0', adjustment.increase_totals)
+        self.assertIn('50.0', adjustment.decrease_totals)
+        self.assertIn('+150.0', adjustment.net_totals)
+        self.assertIn('1,500.0', adjustment.before_totals)
+        self.assertIn('1,650.0', adjustment.after_totals)

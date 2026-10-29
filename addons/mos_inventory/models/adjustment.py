@@ -1,6 +1,8 @@
 from odoo import Command, api, fields, models
 from odoo.exceptions import UserError, ValidationError
 
+from odoo.addons.mos_core.units import totals_html
+
 
 class MosStockAdjustment(models.Model):
     """Correct the book stock to what was counted, for a reason, with approval above the matrix threshold (FR-INV-013..016)."""
@@ -23,6 +25,14 @@ class MosStockAdjustment(models.Model):
     requested_by_id = fields.Many2one('res.users', default=lambda self: self.env.user, readonly=True)
     applied_by_id = fields.Many2one('res.users', readonly=True)
     cycle_count_id = fields.Many2one('mos.cycle.count', readonly=True)
+    item_count = fields.Integer(compute='_compute_totals', string='Total items')
+    before_totals = fields.Html(compute='_compute_totals', sanitize=False, string='Total system quantity (before)')
+    after_totals = fields.Html(compute='_compute_totals', sanitize=False, string='Total system quantity (after)')
+    increase_totals = fields.Html(compute='_compute_totals', sanitize=False, string='Total increase')
+    decrease_totals = fields.Html(compute='_compute_totals', sanitize=False, string='Total decrease')
+    net_totals = fields.Html(compute='_compute_totals', sanitize=False, string='Net adjustment')
+    adjustment_type = fields.Selection([('increase', 'Stock increase'), ('decrease', 'Stock decrease'), ('mixed', 'Increase and decrease'), ('none', 'No change')], compute='_compute_totals', string='Adjustment type')
+    approved_by_id = fields.Many2one('res.users', compute='_compute_approved_by', string='Approved by')
     state = fields.Selection(
         [('draft', 'Draft'), ('pending', 'Waiting for approval'), ('approved', 'Approved'), ('applied', 'Applied'), ('rejected', 'Rejected'), ('cancelled', 'Cancelled')],
         default='draft',
@@ -30,6 +40,30 @@ class MosStockAdjustment(models.Model):
         readonly=True,
         tracking=True,
     )
+
+    @api.depends('line_ids.delta', 'line_ids.system_qty', 'line_ids.new_qty', 'line_ids.product_id')
+    def _compute_totals(self):
+        for adj in self:
+            before, after, increase, decrease, net = {}, {}, {}, {}, {}
+            for line in adj.line_ids:
+                unit = line.product_id.uom_id.name or ''
+                before[unit] = before.get(unit, 0.0) + line.system_qty
+                after[unit] = after.get(unit, 0.0) + line.new_qty
+                increase[unit] = increase.get(unit, 0.0) + max(line.delta, 0.0)
+                decrease[unit] = decrease.get(unit, 0.0) + max(-line.delta, 0.0)
+                net[unit] = net.get(unit, 0.0) + line.delta
+            adj.item_count = len(adj.line_ids)
+            adj.before_totals, adj.after_totals = totals_html(before), totals_html(after)
+            adj.increase_totals, adj.decrease_totals = totals_html(increase, sign=True), totals_html(decrease)
+            adj.net_totals = totals_html(net, sign=True)
+            up, down = any(v > 0 for v in increase.values()), any(v > 0 for v in decrease.values())
+            adj.adjustment_type = 'mixed' if up and down else 'increase' if up else 'decrease' if down else 'none'
+
+    @api.depends('mos_approval_request_id.step_ids.decided_by_id')
+    def _compute_approved_by(self):
+        for adj in self:
+            steps = adj.mos_approval_request_id.sudo().step_ids.filtered('decided_by_id').sorted('decided_at')
+            adj.approved_by_id = steps[-1:].decided_by_id
 
     @api.depends('line_ids.delta', 'line_ids.product_id')
     def _compute_amount(self):
@@ -106,6 +140,8 @@ class MosStockAdjustmentLine(models.Model):
     system_qty = fields.Float(string='Book quantity', readonly=True, digits=(14, 1))
     new_qty = fields.Float(string='Counted quantity', required=True, digits=(14, 1))
     delta = fields.Float(compute='_compute_delta', store=True, digits=(14, 1))
+    code = fields.Char(related='product_id.default_code', string='Item code')
+    uom_id = fields.Many2one(related='product_id.uom_id')
 
     @api.depends('system_qty', 'new_qty')
     def _compute_delta(self):

@@ -1,6 +1,8 @@
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
+from odoo.addons.mos_core.units import totals_html
+
 
 class MosCycleCount(models.Model):
     """What the client's count screens add to a cycle count (FR-INV-009): the counter does not see the book quantity (blind), a sheet
@@ -21,6 +23,15 @@ class MosCycleCount(models.Model):
     recount_lines = fields.Integer(compute='_compute_recount_lines')
     matched_lines = fields.Integer(compute='_compute_matched')
     variance_lines = fields.Integer(compute='_compute_matched')
+    count_date = fields.Date(string='Count date', default=fields.Date.context_today, required=True)
+    remarks = fields.Text()
+    warehouse_id = fields.Many2one(related='location_id.warehouse_id', string='Warehouse')
+    item_count = fields.Integer(compute='_compute_matched', string='Total items')
+    matched_pct = fields.Float(compute='_compute_matched', digits=(5, 0))
+    variance_pct = fields.Float(compute='_compute_matched', digits=(5, 0))
+    system_totals = fields.Html(compute='_compute_matched', sanitize=False, string='Total system quantity')
+    physical_totals = fields.Html(compute='_compute_matched', sanitize=False, string='Total physical quantity')
+    difference_totals = fields.Html(compute='_compute_matched', sanitize=False, string='Total difference')
 
     def _compute_review_required(self):
         required = self.env['ir.config_parameter'].sudo().get_bool('mos_counts.require_review')
@@ -37,12 +48,23 @@ class MosCycleCount(models.Model):
         for count in self:
             count.recount_lines = len(count.line_ids.filtered('recount'))
 
-    @api.depends('line_ids.counted', 'line_ids.variance')
+    @api.depends('line_ids.counted', 'line_ids.variance', 'line_ids.system_qty', 'line_ids.counted_qty', 'line_ids.product_id')
     def _compute_matched(self):
         for count in self:
             counted = count.line_ids.filtered('counted')
             count.matched_lines = len(counted.filtered(lambda l: abs(l.variance) < 0.05))
             count.variance_lines = len(counted) - count.matched_lines
+            count.item_count = len(count.line_ids)
+            count.matched_pct = (count.matched_lines / len(counted) * 100.0) if counted else 0.0
+            count.variance_pct = (count.variance_lines / len(counted) * 100.0) if counted else 0.0
+            system, physical, difference = {}, {}, {}
+            for line in counted:  # a quantity is added only to the quantities of its own unit
+                unit = line.product_id.uom_id.name or ''
+                system[unit] = system.get(unit, 0.0) + line.system_qty
+                physical[unit] = physical.get(unit, 0.0) + line.counted_qty
+                difference[unit] = difference.get(unit, 0.0) + line.variance
+            count.system_totals, count.physical_totals = totals_html(system), totals_html(physical)
+            count.difference_totals = totals_html(difference, sign=True)
 
     # -- the steps ----------------------------------------------------------------------------------------------------
     def _recount_limit(self):
@@ -136,9 +158,19 @@ class MosCycleCountLine(models.Model):
     recount = fields.Boolean(string='Count again', readonly=True)
     recounted = fields.Boolean(readonly=True)
     previous_qty = fields.Float(string='First count', readonly=True, digits=(14, 1))
+    bin_id = fields.Many2one(related='count_id.location_id', string='Bin')
+    status = fields.Selection([('pending', 'To count'), ('matched', 'Matched'), ('variance', 'Variance')], compute='_compute_status')
+    remark = fields.Char(string='Remarks')
+
+    @api.depends('counted', 'variance')
+    def _compute_status(self):
+        for line in self:
+            line.status = 'pending' if not line.counted else 'matched' if abs(line.variance) < 0.05 else 'variance'
 
     def write(self, vals):
         if 'counted_qty' not in vals:
+            if 'remark' in vals and any(line.count_id.state != 'counting' for line in self):
+                raise UserError(self.env._('The sheet is not open for counting.'))
             return super().write(vals)
         for line in self:
             if line.count_id.state != 'counting':

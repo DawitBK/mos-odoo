@@ -294,3 +294,15 @@ $mos-info-bg: #dbeafe;
 .mos-fieldgrid-2 { grid-template-columns: repeat(2, 1fr); }
 .mos-fieldgrid-wide { grid-column: 1 / -1; }
 .mos-fieldgrid-4 { grid-template-columns: repeat(4, 1fr); }
+
+// A strip of figure cards under a grid (matched, variance, totals), and the card beside a form ("Counting information").
+.mos-summary-5 > div { flex: 1 1 10rem; }
+.mos-sum-card { background: $mos-soft; border: 1px solid $mos-line; border-radius: 10px; padding: 10px 14px; }
+.mos-sum-card .mos-sum-value { background: transparent; border: 0; padding: 0; font-size: 1.1rem; }
+.mos-sum-card.mos-sum-ok { background: $mos-green-bg; border-color: $mos-green; .mos-sum-label, .mos-sum-value { color: $mos-green; } }
+.mos-sum-card.mos-sum-warn { background: $mos-amber-bg; border-color: $mos-amber; .mos-sum-label, .mos-sum-value { color: $mos-amber; } }
+.mos-sum-card.mos-sum-bad { background: $mos-red-bg; border-color: $mos-red; .mos-sum-label, .mos-sum-value { color: $mos-red; } }
+.mos-split-wide { grid-template-columns: 2fr 1fr; }
+.mos-sidecard { background: $mos-info-bg; border: 1px solid $mos-line; border-radius: 10px; padding: 12px 14px; display: flex; flex-direction: column; gap: 4px; }
+.mos-sidecard-title { font-weight: 700; color: $mos-navy; margin-bottom: 4px; }
+.mos-sidecard .o_field_widget { display: inline; font-weight: 600; color: $mos-navy; }
