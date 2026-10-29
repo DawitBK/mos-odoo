@@ -13,6 +13,14 @@
         <field name="implementation">no_gap</field>
         <field name="use_date_range" eval="True"/>
     </record>
+    <record id="seq_goods_transfer" model="ir.sequence">
+        <field name="name">MOS goods transfer</field>
+        <field name="code">mos.goods.transfer</field>
+        <field name="prefix">GT-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
     <record id="cron_transfer_late" model="ir.cron">
         <field name="name">MOS: flag transfers in transit too long</field>
         <field name="model_id" ref="model_mos_transfer_order"/>

@@ -180,26 +180,51 @@ class TestProcurementPlus(ProcurementPlusSetup, TransactionCase):
             receipt.write({'qty': 1})
 
     # -- registration and reports ---------------------------------------------------------------------------------
-    def test_staff_register_a_supplier_in_one_go(self):
-        wizard = self.env['mos.supplier.registration'].with_user(self.buyer).create(
-            {
-                'name': 'Gojjam Grain Traders',
-                'vat': 'TIN-5550',
-                'trade_licence': 'TL-2210',
-                'licence_expires': fields.Date.today() + timedelta(days=300),
-                'phone': '0911000000',
-                'bank_name': 'Commercial Bank',
-                'bank_account': '1000445566778',
-                'self_billing': True,
-            }
-        )
+    def test_staff_register_a_supplier_through_the_five_steps(self):
+        Wizard = self.env['mos.supplier.registration'].with_user(self.buyer)
+        wizard = Wizard.create({'name': 'Gojjam Grain Traders', 'vat': 'TIN-5550', 'trade_licence': 'TL-2210', 'licence_expires': fields.Date.today() + timedelta(days=300), 'self_billing': True})
+        self.assertEqual(wizard.step, 'basic')
+        wizard.write({'phone': '0911000000'})
+        wizard.action_next()
+        self.assertEqual(wizard.step, 'contacts')
+        wizard.write({'contact_ids': [Command.create({'name': 'Almaz Bekele', 'role': 'Sales', 'phone': '0911222333', 'email': 'almaz@gojjam.example'})]})
+        wizard.action_next()
+        with self.assertRaises(UserError):
+            wizard.action_next()  # the address step needs a country and the physical address
+        wizard.write({'country_id': self.env.ref('base.et').id, 'city': 'Bahir Dar', 'zip': '6000', 'address': 'Industrial zone, plot 12', 'same_as_physical': True})
+        wizard.action_next()
+        self.assertEqual(wizard.step, 'financial')
+        wizard.write({'bank_ids': [Command.create({'bank_name': 'Commercial Bank', 'account_name': 'Gojjam Grain Traders', 'account_number': '1000445566778', 'currency_id': self.env.ref('base.ETB').id})]})
+        wizard.action_next()
+        self.assertEqual(wizard.step, 'products')
+        wizard.action_back()
+        self.assertEqual(wizard.step, 'financial')
+        wizard.action_next()
         action = wizard.with_user(self.buyer).action_register()
         partner = self.env['res.partner'].browse(action['res_id'])
-        self.assertEqual((partner.mos_supplier_state, partner.mos_self_billing), ('candidate', True))
+        self.assertEqual((partner.mos_supplier_state, partner.mos_self_billing, partner.city, partner.country_id.code), ('candidate', True, 'Bahir Dar', 'ET'))
+        self.assertEqual(partner.child_ids.mapped('name'), ['Almaz Bekele'])
         self.assertEqual(set(partner.mos_document_ids.mapped('doc_type')), {'trade_licence', 'tin'})
         self.assertEqual(partner.mos_bank_change_ids.new_account_masked, '*********6778', 'the account goes through the change control')
         with self.assertRaises(UserError):
-            self.env['mos.supplier.registration'].create({'name': 'Duplicate', 'vat': 'TIN-5550', 'trade_licence': 'x', 'licence_expires': fields.Date.today()}).action_register()
+            self.env['mos.supplier.registration'].create({'name': 'Duplicate', 'vat': 'TIN-5550', 'trade_licence': 'x', 'licence_expires': fields.Date.today(), 'phone': '1', 'country_id': self.env.ref('base.et').id, 'address': 'x'}).action_register()
+
+    def test_each_step_of_the_registration_says_what_it_still_needs(self):
+        wizard = self.env['mos.supplier.registration'].with_user(self.buyer).create({'name': 'Half done'})
+        with self.assertRaisesRegex(UserError, 'Tax identification number'):
+            wizard.action_next()
+        self.assertEqual(wizard.step, 'basic', 'a step that is not complete does not let the person go on')
+        with self.assertRaises(UserError):
+            wizard.action_register()
+        wizard.write({'step': 'financial', 'bank_ids': [Command.create({'bank_name': 'Only a bank'})]})
+        with self.assertRaisesRegex(UserError, 'account number'):
+            wizard.action_next()
+
+    def test_the_step_rail_marks_the_step_the_person_is_on(self):
+        wizard = self.env['mos.supplier.registration'].with_user(self.buyer).create({'name': 'Rail', 'step': 'address'})
+        self.assertEqual(wizard.rail.count('mos-step-done'), 2)
+        self.assertEqual(wizard.rail.count('mos-step-current'), 1)
+        self.assertEqual(wizard.rail.count('mos-step-todo'), 2)
 
     def test_reports_show_outstanding_deliveries_request_ageing_and_prices(self):
         order = self._order(qty=40000.0)

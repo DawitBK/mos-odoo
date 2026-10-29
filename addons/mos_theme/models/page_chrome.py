@@ -15,6 +15,7 @@ PAGES = {
     'mos.gate.visit': ('truck', 'Gate Visit', 'A vehicle at the gate, from arrival to exit', 'Gate'),
     'mos.lab.inspection': ('flask', 'QC Inspection', 'Perform quality inspection and testing for incoming wheat', 'Quality Control'),
     'mos.lab.spec': ('clipboard', 'Specification', 'The limits a delivery must meet', 'Quality Control'),
+    'mos.goods.transfer': ('transfer', 'Goods Transfer', 'Transfer goods from one location, bin or warehouse to another', 'Inventory'),
     'mos.stock.card': ('scales', 'Stock Card', 'Every movement of one item in one warehouse, with the running balance', 'Inventory'),
     'mos.transfer.order': ('transfer', 'Transfer Between Sites', 'Move goods from one site to another and receive them there', 'Inventory'),
     'mos.cycle.count': ('clipboard', 'Physical Count', 'Count the stock of a location and compare it with the system', 'Inventory'),

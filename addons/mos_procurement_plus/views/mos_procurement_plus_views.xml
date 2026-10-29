@@ -212,29 +212,81 @@
         <field name="name">mos.supplier.registration.form</field>
         <field name="model">mos.supplier.registration</field>
         <field name="arch" type="xml">
-            <form>
-                <group string="1. Company">
-                    <field name="name"/>
-                    <field name="activity"/>
-                    <field name="self_billing"/>
-                </group>
-                <group string="2. Tax and licence">
-                    <field name="vat"/>
-                    <field name="trade_licence"/>
-                    <field name="licence_expires"/>
-                </group>
-                <group string="3. Contact">
-                    <field name="contact"/>
-                    <field name="phone"/>
-                    <field name="email"/>
-                    <field name="address"/>
-                </group>
-                <group string="4. Bank">
-                    <field name="bank_name"/>
-                    <field name="bank_account" password="1"/>
-                </group>
+            <form string="Supplier Portal: New Registration">
+                <field name="step" invisible="1"/>
+                <div class="mos-wizard">
+                    <div class="mos-wizard-rail">
+                        <div class="mos-wizard-brand">Supplier Portal</div>
+                        <field name="rail" nolabel="1"/>
+                    </div>
+                    <div class="mos-wizard-body">
+                        <div invisible="step != 'basic'">
+                            <h3 class="mos-wizard-title">Step 1: Basic Information</h3>
+                            <group>
+                                <label for="name" string="Supplier ID"/>
+                                <span class="text-muted">Generated when the supplier is registered</span>
+                                <field name="name"/>
+                                <field name="registration_no"/>
+                                <field name="vat"/>
+                                <field name="description" placeholder="What the company does"/>
+                                <field name="trade_licence"/>
+                                <field name="licence_expires"/>
+                                <field name="self_billing"/>
+                                <label for="name" string="Status"/>
+                                <span class="badge text-bg-info">Candidate</span>
+                            </group>
+                        </div>
+                        <div invisible="step != 'contacts'">
+                            <h3 class="mos-wizard-title">Step 2: Contact Information</h3>
+                            <group>
+                                <field name="phone"/>
+                                <field name="email"/>
+                            </group>
+                            <field name="contact_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="role"/>
+                                    <field name="phone"/>
+                                    <field name="email"/>
+                                </list>
+                            </field>
+                        </div>
+                        <div invisible="step != 'address'">
+                            <h3 class="mos-wizard-title">Step 3: Address Information</h3>
+                            <group>
+                                <field name="country_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="state_id" options="{'no_create': True, 'no_open': True}"/>
+                                <field name="city"/>
+                                <field name="zip"/>
+                                <field name="address"/>
+                                <field name="same_as_physical"/>
+                                <field name="mailing_address" readonly="same_as_physical"/>
+                            </group>
+                        </div>
+                        <div invisible="step != 'financial'">
+                            <h3 class="mos-wizard-title">Step 4: Financial Information</h3>
+                            <p class="text-muted">The account number of a supplier goes through a bank change request, which a second person verifies, before it can be paid to.</p>
+                            <field name="bank_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="bank_name"/>
+                                    <field name="account_name"/>
+                                    <field name="account_number"/>
+                                    <field name="currency_id" options="{'no_create': True}"/>
+                                </list>
+                            </field>
+                        </div>
+                        <div invisible="step != 'products'">
+                            <h3 class="mos-wizard-title">Step 5: Products &amp; Services</h3>
+                            <group id="products_group">
+                                <field name="activity"/>
+                            </group>
+                        </div>
+                    </div>
+                </div>
                 <footer>
-                    <button name="action_register" string="Register the supplier" type="object" class="btn-primary"/>
+                    <button name="action_back" string="Back" type="object" invisible="step == 'basic'"/>
+                    <button name="action_next" string="Next" type="object" class="btn-primary" invisible="step == 'products'"/>
+                    <button name="action_register" string="Register the supplier" type="object" class="btn-primary" invisible="step != 'products'"/>
                     <button string="Cancel" special="cancel"/>
                 </footer>
             </form>
@@ -245,6 +297,7 @@
         <field name="res_model">mos.supplier.registration</field>
         <field name="view_mode">form</field>
         <field name="target">new</field>
+        <field name="context">{'dialog_size': 'extra-large'}</field>
     </record>
 
     <!-- Reports -->

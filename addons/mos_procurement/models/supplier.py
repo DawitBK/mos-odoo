@@ -42,6 +42,7 @@ class ResPartner(models.Model):
         copy=False,
         tracking=True,
     )
+    mos_registration_no = fields.Char(string='Business registration number', copy=False)
     mos_status_reason = fields.Char(string='Standing reason', copy=False)
     mos_approved_by_id = fields.Many2one('res.users', readonly=True, copy=False)
     mos_approved_on = fields.Date(readonly=True, copy=False)

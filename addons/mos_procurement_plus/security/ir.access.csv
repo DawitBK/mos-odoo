@@ -26,3 +26,7 @@ access_mos_pr_ageing_user,mos.pr.ageing: user,mos.pr.ageing,mos_core.group_mos_u
 access_mos_price_history_user,mos.price.history: user,mos.price.history,mos_core.group_mos_user,r,
 access_mos_rfq_award_wizard_buyer,RFQ award dialog,mos.rfq.award.wizard,mos_procurement.group_mos_procurement_user,crud,
 access_mos_close_short_wizard_manager,Close short dialog,mos.close.short.wizard,mos_procurement.group_mos_procurement_manager,crud,
+access_mos_supplier_registration_contact_procurement_user,mos.supplier.registration.contact: procurement_user,mos.supplier.registration.contact,mos_procurement.group_mos_procurement_user,crud,
+access_mos_supplier_registration_contact_admin,mos.supplier.registration.contact: admin,mos.supplier.registration.contact,mos_core.group_mos_admin,crud,
+access_mos_supplier_registration_bank_procurement_user,mos.supplier.registration.bank: procurement_user,mos.supplier.registration.bank,mos_procurement.group_mos_procurement_user,crud,
+access_mos_supplier_registration_bank_admin,mos.supplier.registration.bank: admin,mos.supplier.registration.bank,mos_core.group_mos_admin,crud,

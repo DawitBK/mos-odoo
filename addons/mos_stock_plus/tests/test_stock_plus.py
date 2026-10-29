@@ -197,3 +197,108 @@ class TestStockPlus(ProcurementPlusSetup, TransactionCase):
         self.assertEqual(found, self.s1)
         with self.assertRaises(Exception):
             self.env['mos.service.category'].create({'name': 'Transport'})
+
+    # -- goods transfer inside one site (client screen 12) --------------------------------------------------------------------
+    def _bins(self):
+        Location = self.env['stock.location']
+        parent = self.wh1.lot_stock_id
+        return Location.create({'name': 'BIN-A', 'location_id': parent.id, 'usage': 'internal'}), Location.create({'name': 'BIN-B', 'location_id': parent.id, 'usage': 'internal'})
+
+    def _goods_transfer(self, source, destination, qty, user=None, lot=None):
+        line = {'product_id': self.wheat.id, 'qty': qty}
+        if lot:
+            line['lot_id'] = lot.id
+        return self.env['mos.goods.transfer'].with_user(user or self.both).create(
+            {
+                'from_warehouse_id': self.wh1.id,
+                'from_location_id': source.id,
+                'to_warehouse_id': self.wh1.id,
+                'to_location_id': destination.id,
+                'line_ids': [Command.create(line)],
+            }
+        )
+
+    def test_a_goods_transfer_moves_the_stock_between_two_bins_of_the_site(self):
+        bin_a, bin_b = self._bins()
+        self._stock(self.wheat, 1000, bin_a)
+        transfer = self._goods_transfer(bin_a, bin_b, 400)
+        self.assertRegex(transfer.name, r'^GT-\d{4}-\d{5}$')
+        self.assertEqual(transfer.site_id, self.site)
+        self.assertEqual(transfer.line_ids.available_qty, 1000)
+        transfer.action_post()
+        self.assertEqual(transfer.state, 'posted')
+        self.assertEqual(transfer.picking_id.state, 'done')
+        self.assertEqual(self._on_hand(self.wheat, bin_a), 600)
+        self.assertEqual(self._on_hand(self.wheat, bin_b), 400)
+
+    def test_a_goods_transfer_cannot_move_more_than_the_bin_holds(self):
+        bin_a, bin_b = self._bins()
+        self._stock(self.wheat, 100, bin_a)
+        transfer = self._goods_transfer(bin_a, bin_b, 150)
+        with self.assertRaises(UserError):
+            transfer.action_post()
+        self.assertEqual(transfer.state, 'draft')
+        self.assertEqual(self._on_hand(self.wheat, bin_a), 100)
+
+    def test_a_goods_transfer_needs_two_different_places_and_a_quantity(self):
+        bin_a, bin_b = self._bins()
+        with self.assertRaises(ValidationError):
+            self._goods_transfer(bin_a, bin_a, 10)
+        with self.assertRaises(ValidationError):
+            self._goods_transfer(bin_a, bin_b, 0)
+        empty = self.env['mos.goods.transfer'].with_user(self.both).create({'from_warehouse_id': self.wh1.id, 'from_location_id': bin_a.id, 'to_warehouse_id': self.wh1.id, 'to_location_id': bin_b.id})
+        with self.assertRaises(UserError):
+            empty.action_post()
+
+    def test_a_storage_location_must_belong_to_the_warehouse_chosen_with_it(self):
+        bin_a, bin_b = self._bins()
+        with self.assertRaises(ValidationError):
+            self.env['mos.goods.transfer'].with_user(self.both).create(
+                {'from_warehouse_id': self.wh2.id, 'from_location_id': bin_a.id, 'to_warehouse_id': self.wh1.id, 'to_location_id': bin_b.id}
+            )
+
+    def test_a_posted_goods_transfer_cannot_change(self):
+        bin_a, bin_b = self._bins()
+        self._stock(self.wheat, 500, bin_a)
+        transfer = self._goods_transfer(bin_a, bin_b, 100)
+        transfer.action_post()
+        with self.assertRaises(UserError):
+            transfer.write({'reference_no': 'edited'})
+        with self.assertRaises(UserError):
+            transfer.line_ids.write({'qty': 5})
+        with self.assertRaises(UserError):
+            transfer.unlink()
+        with self.assertRaises(UserError):
+            transfer.action_cancel()
+
+    def test_only_a_storekeeper_of_the_site_posts_a_goods_transfer(self):
+        bin_a, bin_b = self._bins()
+        self._stock(self.wheat, 500, bin_a)
+        transfer = self._goods_transfer(bin_a, bin_b, 100)
+        with self.assertRaises(UserError):
+            transfer.with_user(self.store2).action_post()
+        self.assertEqual(transfer.state, 'draft')
+
+    def test_a_draft_goods_transfer_can_be_cancelled_and_then_stays_so(self):
+        bin_a, bin_b = self._bins()
+        transfer = self._goods_transfer(bin_a, bin_b, 100)
+        transfer.action_cancel()
+        self.assertEqual(transfer.state, 'cancelled')
+        with self.assertRaises(UserError):
+            transfer.action_post()
+
+    def test_a_goods_transfer_keeps_the_ledger_equal_to_the_stock_of_both_bins(self):
+        bin_a, bin_b = self._bins()
+        self._stock(self.wheat, 800, bin_a)
+        self._goods_transfer(bin_a, bin_b, 300).action_post()
+        for location in (bin_a, bin_b):
+            lines = self.env['stock.move.line'].sudo().search([('state', '=', 'done'), ('product_id', '=', self.wheat.id)])
+            ledger = sum(lines.filtered(lambda l: l.location_dest_id == location).mapped('quantity')) - sum(lines.filtered(lambda l: l.location_id == location).mapped('quantity'))
+            self.assertEqual(ledger, self._on_hand(self.wheat, location), location.display_name)
+
+    def test_the_totals_of_a_goods_transfer_are_per_unit(self):
+        bin_a, bin_b = self._bins()
+        transfer = self._goods_transfer(bin_a, bin_b, 250)
+        self.assertEqual(transfer.item_count, 1)
+        self.assertIn('250.0', transfer.total_quantity)
+        self.assertIn('kg', transfer.total_quantity)

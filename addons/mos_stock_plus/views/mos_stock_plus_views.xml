@@ -114,6 +114,118 @@
         <field name="view_mode">list,form</field>
     </record>
 
+    <!-- Goods transfer (client screen 12): stock moved from one location to another inside a site, posted as one stock move -->
+    <record id="view_mos_goods_transfer_list" model="ir.ui.view">
+        <field name="name">mos.goods.transfer.list</field>
+        <field name="model">mos.goods.transfer</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancelled'">
+                <field name="name"/>
+                <field name="transfer_date"/>
+                <field name="reference_type"/>
+                <field name="from_location_id"/>
+                <field name="to_location_id"/>
+                <field name="item_count"/>
+                <field name="total_quantity"/>
+                <field name="state" widget="badge" decoration-success="state == 'posted'" decoration-warning="state == 'draft'" decoration-muted="state == 'cancelled'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_goods_transfer_form" model="ir.ui.view">
+        <field name="name">mos.goods.transfer.form</field>
+        <field name="model">mos.goods.transfer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_post" string="Post Transfer" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state != 'draft'"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,posted"/>
+                </header>
+                <sheet>
+                    <field name="site_id" invisible="1"/>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Transfer Information</div>
+                        <group>
+                            <group>
+                                <field name="name"/>
+                                <field name="transfer_date" readonly="state != 'draft'"/>
+                                <field name="reference_type" readonly="state != 'draft'"/>
+                                <field name="reference_no" placeholder="(Optional)" readonly="state != 'draft'"/>
+                            </group>
+                            <group>
+                                <field name="remarks" widget="text" placeholder="Enter remarks…" readonly="state != 'draft'"/>
+                            </group>
+                        </group>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-warehouse"/> From (Source)</div>
+                            <group>
+                                <field name="from_warehouse_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
+                                <field name="from_location_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
+                            </group>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-warehouse"/> To (Destination)</div>
+                            <group>
+                                <field name="to_warehouse_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
+                                <field name="to_location_id" options="{'no_create': True, 'no_open': True}" readonly="state != 'draft'"/>
+                            </group>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Items to Transfer</div>
+                        <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="product_id" options="{'no_create': True}"/>
+                                <field name="lot_id" options="{'no_create': True}"/>
+                                <field name="uom_id"/>
+                                <field name="available_qty" column_invisible="parent.state != 'draft'"/>
+                                <field name="qty" sum="Total transfer quantity"/>
+                                <field name="remarks"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-info"/> Transfer Summary</div>
+                            <div class="mos-summary-row">
+                                <div><div class="mos-sum-label">Total Items</div><div class="mos-sum-value"><field name="item_count"/></div></div>
+                                <div><div class="mos-sum-label">Total Transfer Quantity (one total for each unit)</div><div class="mos-sum-value"><field name="total_quantity"/></div></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Notes</div>
+                            <ul class="mos-notes">
+                                <li>The system will update the Bin Card, the Stock Card and the Inventory Balance automatically after posting.</li>
+                                <li>Make sure the source location has enough stock before posting.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_goods_transfer" model="ir.actions.act_window">
+        <field name="name">Goods transfer</field>
+        <field name="res_model">mos.goods.transfer</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_mos_goods_transfer" name="Goods transfer" parent="mos_inventory.menu_mos_inventory" action="action_mos_goods_transfer" sequence="15"/>
+
+    <record id="view_mos_supplier_registration_categories" model="ir.ui.view">
+        <field name="name">mos.supplier.registration.categories</field>
+        <field name="model">mos.supplier.registration</field>
+        <field name="inherit_id" ref="mos_procurement_plus.view_mos_supplier_registration_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@id='products_group']" position="inside">
+                <field name="category_ids" widget="many2many_tags" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Supplier categories -->
     <record id="view_mos_service_category_list" model="ir.ui.view">
         <field name="name">mos.service.category.list</field>

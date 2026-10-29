@@ -74,6 +74,7 @@
                     <group>
                         <group>
                             <field name="mos_supplier_state" widget="badge"/>
+                            <field name="mos_registration_no"/>
                             <field name="mos_status_reason"/>
                             <field name="mos_documents_ok"/>
                             <field name="mos_missing_documents"/>

@@ -135,6 +135,34 @@ def transfers():
     again.with_user(store).action_cancel()
 
 
+def goods_transfers():
+    """Stock moved between two bins of the mill: one posted from bin to bin, one posted to the production bin, a draft and a cancelled one."""
+    silos = env['mos.silo'].search([('site_id', '=', site.id)], order='code')
+    pairs = [(a, b) for a in silos for b in silos if a != b and a.product_id == b.product_id and available(a.product_id, a.location_id) > 4000]
+    if not pairs:
+        raise RuntimeError('no two silos of the same wheat to move stock between')
+    source, target = pairs[0]
+    Transfer = env['mos.goods.transfer'].with_user(store)
+
+    def make(qty, note, kind='internal', to=target):
+        return Transfer.create(
+            {
+                'from_warehouse_id': site.warehouse_id.id,
+                'from_location_id': source.location_id.id,
+                'to_warehouse_id': site.warehouse_id.id,
+                'to_location_id': to.location_id.id,
+                'reference_type': kind,
+                'remarks': note,
+                'line_ids': [Command.create({'product_id': source.product_id.id, 'qty': qty, 'remarks': 'Balancing the silos'})],
+            }
+        )
+
+    make(1500.0, 'Evening shift balancing').action_post()
+    make(900.0, 'Topping up the silo that feeds line 2', 'production').action_post()
+    make(600.0, 'Planned for tomorrow morning')  # a draft
+    make(300.0, 'Raised twice by mistake').action_cancel()
+
+
 def counts():
     silos = env['mos.silo'].search([], order='code')
     counter = store
@@ -179,4 +207,5 @@ step('delegations', delegations)
 step('report_jobs', reports)
 step('adjustments', adjustments)
 step('transfers', transfers)
+step('goods_transfers', goods_transfers)
 step('counts', counts)

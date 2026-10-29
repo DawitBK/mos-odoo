@@ -200,7 +200,8 @@ $mos-info-bg: #dbeafe;
 .btn-success { background-color: $mos-green; border-color: $mos-green; border-radius: 8px; }
 
 // "Add item": the add-a-line link of an editable grid looks like the client's blue button.
-.o_form_view .mos-section .o_field_x2many_list .o_field_x2many_list_row_add a {
+.o_form_view .mos-section .o_field_x2many_list .o_field_x2many_list_row_add button,
+.o_form_view .mos-wizard .o_field_x2many_list .o_field_x2many_list_row_add button {
     display: inline-block;
     background: $mos-blue;
     color: #fff !important;
@@ -227,3 +228,21 @@ $mos-info-bg: #dbeafe;
     > .o_form_sheet_bg { flex: 0 0 auto; width: 100%; overflow: visible; }
     > .o-mail-Form-chatter { width: 100%; max-width: none; }
 }
+
+// Two cards side by side ("From" and "To"), one under the other on a narrow screen.
+.mos-split { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+@media (max-width: 900px) { .mos-split { grid-template-columns: 1fr; } }
+.mos-notes { margin: 0; padding-left: 1.2em; color: $mos-info; font-size: 0.9rem; li { margin-bottom: 4px; } }
+
+// The supplier registration: a rail of steps on the left, the step on the right (client screens 3 and 4).
+.mos-wizard { display: flex; min-height: 24rem; margin: -1rem; }
+.mos-wizard-rail { flex: 0 0 15rem; background: $mos-soft; border-right: 1px solid $mos-line; padding: 1.2rem 1rem; }
+.mos-wizard-brand { font-weight: 700; color: $mos-navy; font-size: 1.15rem; margin-bottom: 1.2rem; }
+.mos-steps { list-style: none; margin: 0; padding: 0; position: relative; }
+.mos-steps::before { content: ''; position: absolute; left: 13px; top: 14px; bottom: 14px; width: 2px; background: $mos-line; }
+.mos-step { position: relative; display: flex; align-items: center; gap: 12px; padding: 10px 0; color: rgba($mos-navy, 0.7); }
+.mos-step-dot { z-index: 1; width: 28px; height: 28px; border-radius: 50%; background: #fff; border: 2px solid $mos-line; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: 700; }
+.mos-step-current { color: $mos-navy; font-weight: 700; .mos-step-dot { background: $mos-blue; border-color: $mos-blue; color: #fff; } }
+.mos-step-done .mos-step-dot { background: $mos-green-bg; border-color: $mos-green; color: $mos-green; }
+.mos-wizard-body { flex: 1 1 auto; padding: 1.2rem 1.5rem; }
+.mos-wizard-title { color: $mos-navy; font-weight: 700; margin-bottom: 1rem; }
