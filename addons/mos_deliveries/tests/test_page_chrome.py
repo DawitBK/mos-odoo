@@ -34,6 +34,12 @@ class TestPageChrome(TransactionCase):
         arch = self._form('mos.gate.visit', 'mos_deliveries.view_mos_delivery_entry_form')
         self.assertEqual(len(arch.xpath('//div[hasclass("mos-page-head")]')), 1)
 
+    def test_the_purchase_order_gets_the_page_but_keeps_its_buttons_in_the_header(self):
+        arch = self._form('purchase.order')
+        self.assertTrue(arch.xpath('//div[hasclass("mos-page-head")]//h2[text()="Purchase Order"]'))
+        self.assertTrue(arch.xpath('//header/button'), "Odoo's own order keeps its buttons where its flows expect them")
+        self.assertTrue(arch.xpath('//div[hasclass("mos-section")][div/span="Part 1: Purchase order header"]'))
+
     def test_every_mos_form_gets_the_header(self):
         for model in self.env.registry:
             if not model.startswith('mos.') or self.env[model]._transient:

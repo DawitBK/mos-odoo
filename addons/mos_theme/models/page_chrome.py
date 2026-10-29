@@ -11,6 +11,7 @@ from odoo import api, models
 
 # model -> (icon, title, what it is for, section). Models not listed get the model's description and an icon by family.
 PAGES = {
+    'purchase.order': ('cart', 'Purchase Order', 'Order goods from a supplier, with the quantities, prices and delivery date', 'Procurement'),
     'mos.purchase.request': ('cart', 'Purchase Request', 'Ask procurement for the materials the plant needs', 'Procurement'),
     'mos.gate.visit': ('truck', 'Gate Visit', 'A vehicle at the gate, from arrival to exit', 'Gate'),
     'mos.lab.inspection': ('flask', 'QC Inspection', 'Perform quality inspection and testing for incoming wheat', 'Quality Control'),
@@ -79,8 +80,8 @@ class Base(models.AbstractModel):
     @api.model
     def _get_view(self, view_id=None, view_type='form', **options):
         arch, view = super()._get_view(view_id, view_type, **options)
-        # Records people keep are full pages; a transient model is a dialog, unless it is one of the listed screens (the cards)
-        if (view_type or view.type) == 'form' and self._name.startswith('mos.') and (not self._transient or self._name in PAGES):
+        # Every MOS record is a full page; a transient model is a dialog, unless it is one of the listed screens. Odoo's own documents get the layout only when they are listed.
+        if (view_type or view.type) == 'form' and (self._name in PAGES or (self._name.startswith('mos.') and not self._transient)):
             self._mos_page_chrome(arch)
         return arch, view
 
@@ -89,7 +90,8 @@ class Base(models.AbstractModel):
         sheet = arch.find('.//sheet')
         if sheet is None or arch.xpath('.//*[contains(concat(" ", normalize-space(@class), " "), " mos-page-head ")]'):
             return
-        self._mos_move_buttons_to_the_foot(arch, sheet)
+        if self._name.startswith('mos.'):  # the buttons of Odoo's own documents stay where Odoo's flows expect them
+            self._mos_move_buttons_to_the_foot(arch, sheet)
         self._mos_wrap_parts_in_cards(sheet)
         sheet.insert(0, self._mos_page_head())
 
