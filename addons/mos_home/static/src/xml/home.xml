@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mos_home.Home">
+        <div class="mos-home o_action">
+            <t t-if="this.state.data">
+                <div class="mos-home-scroll">
+                    <header class="mos-home-head">
+                        <div>
+                            <h1 t-out="this.greeting"/>
+                            <p><t t-out="this.state.data.site"/> · <t t-out="this.state.data.as_of"/></p>
+                        </div>
+                        <div class="mos-home-head-actions">
+                            <button type="button" class="btn btn-light" t-on-click="() => this.load()" t-att-disabled="this.state.loading">Refresh</button>
+                            <button type="button" class="btn btn-light" t-on-click="() => this.openFigures()">All figures</button>
+                        </div>
+                    </header>
+
+                    <section class="mos-kpis">
+                        <t t-foreach="this.state.data.today" t-as="kpi" t-key="kpi_index">
+                            <div class="mos-kpi" t-att-class="{ ['tone-' + kpi.tone]: true, 'is-link': kpi.method or kpi.xmlid }" t-on-click="() => this.openCard(kpi)">
+                                <span class="mos-kpi-icon"><i t-att-class="'mos-ico mos-ico-' + kpi.icon"/></span>
+                                <span class="mos-kpi-label" t-out="kpi.label"/>
+                                <span class="mos-kpi-value"><t t-out="this.fmt(kpi.value)"/><small t-if="kpi.unit" t-out="kpi.unit"/></span>
+                            </div>
+                        </t>
+                    </section>
+
+                    <div class="mos-home-grid">
+                        <div class="mos-home-main">
+                            <section class="mos-panel">
+                                <div class="mos-panel-head"><h2>Needs your attention</h2></div>
+                                <ul class="mos-attention">
+                                    <li t-foreach="this.state.data.attention" t-as="item" t-key="item_index"
+                                        t-att-class="{ 'is-zero': !item.value, 'is-link': item.method or item.xmlid }"
+                                        t-on-click="() => this.openCard(item)">
+                                        <span class="mos-att-icon" t-att-class="'tone-' + item.tone"><i t-att-class="'mos-ico mos-ico-' + item.icon"/></span>
+                                        <span class="mos-att-label" t-out="item.label"/>
+                                        <span class="mos-att-count" t-att-class="item.value ? 'tone-' + item.tone : ''">
+                                            <t t-out="this.fmt(item.value)"/><small t-if="item.unit" t-out="item.unit"/>
+                                        </span>
+                                        <i t-if="item.method or item.xmlid" class="mos-ico mos-ico-chevron mos-att-go"/>
+                                    </li>
+                                </ul>
+                            </section>
+
+                            <section class="mos-panel" t-if="this.state.data.gate.length">
+                                <div class="mos-panel-head">
+                                    <h2>Trucks at the gate</h2>
+                                    <button type="button" class="mos-link" t-on-click="() => this.openCard({ method: 'action_open_trucks' })">View all</button>
+                                </div>
+                                <table class="mos-table">
+                                    <thead><tr><th>Visit</th><th>Plate</th><th>Supplier</th><th>Status</th><th class="text-end">Arrived</th></tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="this.state.data.gate" t-as="row" t-key="row.id" t-on-click="() => this.openRecord('mos.gate.visit', row.id)">
+                                            <td class="mos-strong" t-out="row.name"/>
+                                            <td t-out="row.plate"/>
+                                            <td t-out="row.who"/>
+                                            <td><span class="mos-pill" t-att-class="'tone-' + this.tone(row.state)" t-out="row.state_label"/></td>
+                                            <td class="text-end mos-muted" t-out="row.at.slice(11, 16)"/>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+
+                            <section class="mos-panel" t-if="this.state.data.runs.length">
+                                <div class="mos-panel-head">
+                                    <h2>Latest milling runs</h2>
+                                    <button type="button" class="mos-link" t-on-click="() => this.openCard({ xmlid: 'mos_production.action_mos_milling_run' })">View all</button>
+                                </div>
+                                <table class="mos-table">
+                                    <thead><tr><th>Run</th><th>Date</th><th class="text-end">Wheat (kg)</th><th class="text-end">Flour (kg)</th><th class="text-end">Extraction</th><th>Status</th></tr></thead>
+                                    <tbody>
+                                        <tr t-foreach="this.state.data.runs" t-as="row" t-key="row.id" t-on-click="() => this.openRecord('mos.milling.run', row.id)">
+                                            <td class="mos-strong" t-out="row.name"/>
+                                            <td t-out="row.date"/>
+                                            <td class="text-end" t-out="this.fmt(row.wheat)"/>
+                                            <td class="text-end" t-out="this.fmt(row.flour)"/>
+                                            <td class="text-end"><t t-out="row.extraction"/> %</td>
+                                            <td><span class="mos-pill" t-att-class="'tone-' + this.tone(row.state)" t-out="row.state_label"/></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </section>
+                        </div>
+
+                        <aside class="mos-home-side">
+                            <section class="mos-panel" t-if="this.state.data.tiles.length">
+                                <div class="mos-panel-head"><h2>Quick actions</h2></div>
+                                <div class="mos-tiles">
+                                    <button t-foreach="this.state.data.tiles" t-as="tile" t-key="tile.xmlid" type="button" class="mos-tile" t-att-class="'tone-' + tile.tone" t-on-click="() => this.openTile(tile)">
+                                        <i t-att-class="'mos-ico mos-ico-' + tile.icon"/>
+                                        <span t-out="tile.label"/>
+                                    </button>
+                                </div>
+                            </section>
+
+                            <section class="mos-panel" t-if="this.state.data.grain_mix.length">
+                                <div class="mos-panel-head"><h2>Wheat in the silos</h2></div>
+                                <div class="mos-donut-row">
+                                    <svg viewBox="0 0 42 42" class="mos-donut" role="img" aria-label="Wheat in the silos by grain">
+                                        <circle cx="21" cy="21" r="15.915" fill="none" stroke="#eef3fb" stroke-width="6"/>
+                                        <circle t-foreach="this.slices" t-as="slice" t-key="slice_index" cx="21" cy="21" r="15.915" fill="none" stroke-width="6"
+                                                t-att-stroke="slice.colour" t-att-stroke-dasharray="slice.dash" t-att-stroke-dashoffset="slice.offset" transform="rotate(-90 21 21)"/>
+                                        <text x="21" y="20" text-anchor="middle" class="mos-donut-total"><t t-out="this.fmt(Math.round(this.siloTotal / 1000))"/></text>
+                                        <text x="21" y="26" text-anchor="middle" class="mos-donut-unit">tonnes</text>
+                                    </svg>
+                                    <ul class="mos-legend">
+                                        <li t-foreach="this.slices" t-as="slice" t-key="slice_index">
+                                            <i t-att-style="'background:' + slice.colour"/>
+                                            <span t-out="slice.label"/>
+                                            <b><t t-out="slice.share"/> %</b>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </section>
+
+                            <section class="mos-panel" t-if="this.state.data.silos.length">
+                                <div class="mos-panel-head">
+                                    <h2>Silos</h2>
+                                    <button type="button" class="mos-link" t-on-click="() => this.openCard({ method: 'action_open_silos' })">View all</button>
+                                </div>
+                                <ul class="mos-silos">
+                                    <li t-foreach="this.state.data.silos" t-as="silo" t-key="silo.id" t-on-click="() => this.openRecord('mos.silo', silo.id)">
+                                        <div class="mos-silo-top"><b t-out="silo.code"/><span class="mos-muted" t-out="silo.grain"/><span class="mos-silo-pct"><t t-out="silo.pct"/> %</span></div>
+                                        <div class="mos-bar"><span t-att-class="'is-' + silo.status" t-att-style="'width:' + Math.min(silo.pct, 100) + '%'"/></div>
+                                    </li>
+                                </ul>
+                            </section>
+                        </aside>
+                    </div>
+
+                    <section class="mos-panel">
+                        <div class="mos-panel-head"><h2>This month</h2></div>
+                        <div class="mos-month">
+                            <div t-foreach="this.state.data.month" t-as="stat" t-key="stat_index" class="mos-stat" t-att-class="'tone-' + stat.tone">
+                                <span t-out="stat.label"/>
+                                <b><t t-out="this.fmt(stat.value)"/><small t-if="stat.unit" t-out="stat.unit"/></b>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </t>
+        </div>
+    </t>
+
+</templates>

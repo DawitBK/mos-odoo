@@ -44,6 +44,11 @@ class MosOverview(models.TransientModel):
 
     @api.model
     def action_open(self):
+        return self.action_open_figures()
+
+    @api.model
+    def action_open_figures(self):
+        """The full set of figures as a form; the home screen links to it."""
         record = self.create({})
         return {
             'type': 'ir.actions.act_window',

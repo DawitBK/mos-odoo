@@ -1,0 +1,112 @@
+// The home screen: white cards on the soft page, big figures, tinted tiles; the same look as the rest of MOS.
+$navy: #12305f;
+$blue: #1a62d8;
+$line: #d9e2f1;
+$muted: #6b7a99;
+$tones: (
+    blue: (#dbeafe, #14589c),
+    green: (#dcf5e4, #1b7a3e),
+    amber: (#fdf0cf, #9a5b00),
+    purple: (#eee3fb, #6b3fa8),
+    red: (#fde4e1, #b42318),
+    neutral: (#eaeef5, #4a5b80),
+);
+
+.mos-home {
+    height: 100%;
+    background: #eef3fb;
+    .mos-home-scroll { height: 100%; overflow-y: auto; padding: 24px 28px 40px; }
+
+    .mos-home-head {
+        display: flex; align-items: flex-end; justify-content: space-between; gap: 16px; margin-bottom: 20px;
+        h1 { margin: 0; font-size: 1.7rem; font-weight: 700; color: $navy; }
+        p { margin: 4px 0 0; color: $muted; }
+        .mos-home-head-actions { display: flex; gap: 8px; .btn { border: 1px solid $line; background: #fff; color: $navy; border-radius: 10px; font-weight: 600; } }
+    }
+
+    // Tones: a tinted background with a strong foreground, used by icons, counts, pills, tiles and stats.
+    @each $name, $pair in $tones {
+        .tone-#{$name} { --tone-bg: #{nth($pair, 1)}; --tone-fg: #{nth($pair, 2)}; }
+    }
+
+    .mos-kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 20px; }
+    .mos-kpi {
+        position: relative; display: flex; flex-direction: column; gap: 6px; padding: 18px 20px; min-height: 112px;
+        background: #fff; border: 1px solid $line; border-radius: 16px; box-shadow: 0 1px 2px rgba($navy, 0.05); text-align: left;
+        &.is-link { cursor: pointer; transition: box-shadow 0.15s, transform 0.15s; &:hover { box-shadow: 0 6px 18px rgba($navy, 0.12); transform: translateY(-1px); } }
+        .mos-kpi-label { color: $muted; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding-right: 44px; }
+        .mos-kpi-icon {
+            position: absolute; top: 16px; right: 16px; width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center;
+            background: var(--tone-bg); color: var(--tone-fg);
+        }
+        .mos-kpi-value { margin-top: auto; font-size: 2.1rem; font-weight: 700; line-height: 1.1; color: $navy; small { font-size: 0.9rem; font-weight: 600; color: $muted; margin-left: 6px; } }
+    }
+
+    .mos-home-grid { display: grid; grid-template-columns: minmax(0, 2fr) minmax(300px, 1fr); gap: 20px; align-items: start; margin-bottom: 20px; }
+    .mos-home-main, .mos-home-side { display: flex; flex-direction: column; gap: 20px; min-width: 0; }
+
+    .mos-panel { background: #fff; border: 1px solid $line; border-radius: 16px; padding: 18px 20px; box-shadow: 0 1px 2px rgba($navy, 0.05); }
+    .mos-panel-head {
+        display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px;
+        h2 { margin: 0; font-size: 1.05rem; font-weight: 700; color: $navy; }
+    }
+    .mos-link { border: 0; background: none; padding: 0; color: $blue; font-weight: 600; font-size: 0.88rem; &:hover { text-decoration: underline; } }
+    .mos-muted { color: $muted; }
+    .mos-strong { font-weight: 600; color: $navy; }
+
+    .mos-attention {
+        list-style: none; margin: 0; padding: 0;
+        li { display: flex; align-items: center; gap: 12px; padding: 10px 8px; border-radius: 10px; border-top: 1px solid #eef2f9; &:first-child { border-top: 0; } }
+        li.is-link { cursor: pointer; &:hover { background: #f6f9fe; } }
+        li.is-zero .mos-att-label { color: $muted; }
+        .mos-att-icon { width: 34px; height: 34px; border-radius: 10px; display: grid; place-items: center; background: var(--tone-bg); color: var(--tone-fg); flex: 0 0 auto; }
+        li.is-zero .mos-att-icon { background: #f1f4f9; color: #9aa7c2; }
+        .mos-att-label { flex: 1 1 auto; font-weight: 500; color: $navy; }
+        .mos-att-count {
+            min-width: 44px; text-align: center; padding: 3px 12px; border-radius: 999px; font-weight: 700; background: #f1f4f9; color: $muted;
+            &[class*="tone-"] { background: var(--tone-bg); color: var(--tone-fg); }
+            small { font-weight: 600; margin-left: 4px; }
+        }
+        .mos-att-go { width: 0.9em; height: 0.9em; color: #9aa7c2; }
+    }
+
+    .mos-table {
+        width: 100%; border-collapse: collapse;
+        th { padding: 8px 10px; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: $muted; border-bottom: 1px solid $line; text-align: left; &.text-end { text-align: right; } }
+        td { padding: 11px 10px; border-bottom: 1px solid #eef2f9; &.text-end { text-align: right; } }
+        tbody tr { cursor: pointer; &:hover { background: #f6f9fe; } &:last-child td { border-bottom: 0; } }
+    }
+    .mos-pill {
+        display: inline-flex; align-items: center; gap: 6px; padding: 2px 10px; border-radius: 999px; font-size: 0.76rem; font-weight: 700; letter-spacing: 0.02em;
+        background: var(--tone-bg); color: var(--tone-fg);
+        &::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: currentColor; }
+    }
+
+    .mos-tiles { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .mos-tile {
+        display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; min-height: 84px; padding: 12px 8px; border: 0; border-radius: 12px;
+        background: var(--tone-bg); color: var(--tone-fg); font-weight: 600; font-size: 0.85rem; text-align: center; transition: transform 0.15s, box-shadow 0.15s;
+        .mos-ico { width: 1.5em; height: 1.5em; }
+        &:hover { transform: translateY(-1px); box-shadow: 0 4px 12px rgba($navy, 0.12); }
+    }
+
+    .mos-donut-row { display: flex; align-items: center; gap: 18px; }
+    .mos-donut { width: 140px; flex: 0 0 140px; .mos-donut-total { font-size: 7px; font-weight: 700; fill: $navy; } .mos-donut-unit { font-size: 3px; fill: $muted; } }
+    .mos-legend { list-style: none; margin: 0; padding: 0; flex: 1 1 auto; li { display: flex; align-items: center; gap: 8px; padding: 4px 0; font-size: 0.88rem; color: $navy; i { width: 10px; height: 10px; border-radius: 3px; flex: 0 0 auto; } span { flex: 1 1 auto; } b { white-space: nowrap; } } }
+
+    .mos-silos {
+        list-style: none; margin: 0; padding: 0;
+        li { padding: 8px 6px; border-radius: 8px; cursor: pointer; &:hover { background: #f6f9fe; } }
+        .mos-silo-top { display: flex; align-items: baseline; gap: 8px; margin-bottom: 5px; font-size: 0.88rem; color: $navy; span:nth-child(2) { flex: 1 1 auto; font-size: 0.8rem; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; } .mos-silo-pct { font-weight: 700; } }
+        .mos-bar { height: 8px; border-radius: 999px; background: #eef3fb; overflow: hidden; span { display: block; height: 100%; border-radius: 999px; background: $blue; &.is-low { background: #d89a1c; } &.is-high { background: #d89a1c; } &.is-full { background: #b42318; } &.is-empty { background: #9aa7c2; } } }
+    }
+
+    .mos-month { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 12px; }
+    .mos-stat {
+        padding: 12px 14px; border-radius: 12px; background: #f6f9fe; border-left: 4px solid var(--tone-fg);
+        span { display: block; color: $muted; font-size: 0.8rem; margin-bottom: 4px; }
+        b { font-size: 1.3rem; color: $navy; small { font-size: 0.8rem; color: $muted; margin-left: 4px; } }
+    }
+
+    @media (max-width: 1100px) { .mos-home-grid { grid-template-columns: 1fr; } }
+}

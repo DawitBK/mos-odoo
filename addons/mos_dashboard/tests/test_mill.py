@@ -90,7 +90,7 @@ class TestMill(TransactionCase):
         self.assertEqual(overview.flour_today_kg, 37000)
         self.assertEqual(overview.extraction_30d, 74.0)
         self.assertEqual(overview.flour_stock_kg, 37000)
-        action = self.env['mos.overview'].action_open()
+        action = self.env['mos.overview'].action_open_figures()
         self.assertEqual(action['res_model'], 'mos.overview')
         self.assertTrue(action['res_id'])
 
