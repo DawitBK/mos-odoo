@@ -18,7 +18,7 @@ class MosWorkOrder(models.Model):
     _order = 'date desc, id desc'
 
     name = fields.Char(readonly=True, copy=False, default='New')
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     kind = fields.Selection([('standard', 'Batch'), ('campaign', 'Campaign (a shift or a day)')], default='campaign', required=True)
     recipe_id = fields.Many2one('mos.recipe', required=True, domain="[('state', '=', 'approved')]")
     product_id = fields.Many2one(related='recipe_id.product_id', store=True, string='Flour')

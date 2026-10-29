@@ -125,7 +125,7 @@ class MosCustomerReturn(models.Model):
     _order = 'id desc'
 
     name = fields.Char(readonly=True, copy=False, default='New')
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     customer_id = fields.Many2one('res.partner', required=True)
     delivery_id = fields.Many2one('mos.delivery.order', domain="[('partner_id', '=', customer_id), ('state', '=', 'dispatched')]")
     product_id = fields.Many2one('product.product', required=True)

@@ -18,3 +18,4 @@ access_mos_close_checklist_line_gm,mos.close.checklist.line: general manager,mos
 access_mos_stock_history_user,mos.stock.history: user,mos.stock.history,mos_core.group_mos_user,r,
 access_mos_close_checklist_admin,mos.close.checklist: admin,mos.close.checklist,mos_core.group_mos_admin,crud,
 access_mos_close_checklist_line_admin,mos.close.checklist.line: admin,mos.close.checklist.line,mos_core.group_mos_admin,crud,
+access_mos_operation_unit_user,Operation unit picker: every MOS user,mos.operation.unit,mos_core.group_mos_user,crud,

@@ -37,7 +37,7 @@ class MosGoodsTransfer(models.Model):
 
     @api.model
     def _default_warehouse(self):
-        site = self.env.user.mos_site_ids[:1]
+        site = self.env.user._mos_current_site()
         return site.warehouse_id or self.env['stock.warehouse'].search([], limit=1)
 
     @api.depends('from_warehouse_id')

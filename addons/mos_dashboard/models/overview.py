@@ -55,19 +55,20 @@ class MosOverview(models.TransientModel):
         }
 
     def _compute_figures(self):
-        site = self.env.user.mos_site_ids[:1] or self.env['mos.site'].search([], limit=1)
+        site = self.env.user._mos_current_site() or self.env['mos.site'].search([], limit=1)
         # "Today" is the date at the mill, not in Greenwich (FR-PLT-004).
         today = site.business_date() if site else fields.Date.context_today(self)
+        site_dom = [('site_id', '=', site.id)] if site else []  # the figures are those of the operation unit the person works at
         month_start = today.replace(day=1)
         visits = self.env['mos.gate.visit']
         inspections = self.env['mos.lab.inspection']
         runs = self.env['mos.milling.run']
-        silos = self.env['mos.silo'].search([]).fresh()
-        recent_runs = runs.search([], limit=8)
-        done_runs = runs.search([('state', '=', 'done'), ('run_date', '>=', today - timedelta(days=30))])
+        silos = self.env['mos.silo'].search(site_dom).fresh()
+        recent_runs = runs.search(site_dom, limit=8)
+        done_runs = runs.search([('state', '=', 'done'), ('run_date', '>=', today - timedelta(days=30))] + site_dom)
         today_runs = done_runs.filtered(lambda r: r.run_date == today)
 
-        exited = visits.search([('state', '=', 'exited'), ('exited_at', '>=', fields.Datetime.to_datetime(month_start))])
+        exited = visits.search([('state', '=', 'exited'), ('exited_at', '>=', fields.Datetime.to_datetime(month_start))] + site_dom)
         confirmed = exited.filtered(lambda v: v.grn_state == 'confirmed')
         rejected = exited.filtered(lambda v: v.grn_state == 'rejected')
         now = fields.Datetime.now()
@@ -91,9 +92,9 @@ class MosOverview(models.TransientModel):
             rec.sales_month_kg = sum(month_invoices.mapped('qty'))
             rec.sales_month_amount = sum(month_invoices.mapped('gross_amount'))
             rec.approvals_waiting = waiting
-            rec.title = self.env._('%(company)s: operations as of %(time)s', company=self.env.company.name, time=fields.Datetime.context_timestamp(rec, now).strftime('%d %b %H:%M'))
-            rec.trucks_on_site = visits.search_count([('state', 'in', OPEN_VISIT_STATES)])
-            rec.inspections_open = inspections.search_count([('state', '!=', 'decided')])
+            rec.title = self.env._('%(company)s: operations as of %(time)s', company=site.name or self.env.company.name, time=fields.Datetime.context_timestamp(rec, now).strftime('%d %b %H:%M'))
+            rec.trucks_on_site = visits.search_count([('state', 'in', OPEN_VISIT_STATES)] + site_dom)
+            rec.inspections_open = inspections.search_count([('state', '!=', 'decided')] + site_dom)
             rec.received_today_kg = sum(received_today.mapped('inspection_id.payable_qty'))
             rec.received_month_kg = sum(confirmed.mapped('inspection_id.payable_qty'))
             rec.rejected_month = len(rejected)
@@ -103,7 +104,7 @@ class MosOverview(models.TransientModel):
             rec.silo_capacity_kg = capacity
             rec.silo_fill_pct = (level / capacity * 100.0) if capacity else 0.0
             rec.silo_ids = silos
-            rec.planned_runs = runs.search_count([('state', '=', 'draft')])
+            rec.planned_runs = runs.search_count([('state', '=', 'draft')] + site_dom)
             rec.wheat_today_kg = sum(today_runs.mapped('wheat_kg'))
             rec.flour_today_kg = sum(today_runs.mapped('flour_kg'))
             rec.extraction_30d = (flour_30 / wheat_30 * 100.0) if wheat_30 else 0.0
@@ -111,19 +112,23 @@ class MosOverview(models.TransientModel):
             rec.run_ids = recent_runs
 
     def action_open_trucks(self):
-        return self._open('mos.gate.visit', self.env._('Trucks on site'), [('state', 'in', OPEN_VISIT_STATES)])
+        return self._open('mos.gate.visit', self.env._('Trucks on site'), [('state', 'in', OPEN_VISIT_STATES)] + self._site_domain())
 
     def action_open_inspections(self):
-        return self._open('mos.lab.inspection', self.env._('Inspections waiting for a decision'), [('state', '!=', 'decided')])
+        return self._open('mos.lab.inspection', self.env._('Inspections waiting for a decision'), [('state', '!=', 'decided')] + self._site_domain())
 
     def action_open_planned_runs(self):
-        return self._open('mos.milling.run', self.env._('Planned milling runs'), [('state', '=', 'draft')])
+        return self._open('mos.milling.run', self.env._('Planned milling runs'), [('state', '=', 'draft')] + self._site_domain())
 
     def action_open_approvals(self):
         return self.env['ir.actions.actions']._for_xml_id('mos_approvals.action_mos_approval_inbox')
 
     def action_open_silos(self):
-        return self._open('mos.silo', self.env._('Silos'), [], 'kanban,list,form')
+        return self._open('mos.silo', self.env._('Silos'), self._site_domain(), 'kanban,list,form')
+
+    def _site_domain(self):
+        site = self.env.user._mos_current_site()
+        return [('site_id', '=', site.id)] if site else []
 
     def _open(self, model, name, domain, modes='list,form'):
         return {'type': 'ir.actions.act_window', 'name': name, 'res_model': model, 'view_mode': modes, 'domain': domain}

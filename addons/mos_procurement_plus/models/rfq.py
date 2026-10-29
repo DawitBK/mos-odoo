@@ -14,7 +14,7 @@ class MosRfq(models.Model):
     _mos_editable_after_post = {'state', 'order_id', 'awarded_quote_id', 'award_reason', 'awarded_by_id'}
 
     name = fields.Char(readonly=True, copy=False, default='New')
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     request_id = fields.Many2one('mos.purchase.request', domain="[('state', '=', 'approved')]")
     deadline = fields.Date()
     line_ids = fields.One2many('mos.rfq.line', 'rfq_id', string='What we need')

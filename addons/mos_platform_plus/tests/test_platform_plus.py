@@ -333,6 +333,34 @@ class TestPlatformPlus(ProcurementPlusSetup, TransactionCase):
         arrived = dict(self.env['mos.gate.visit'].with_context(lang='am_ET').fields_get(['state'])['state']['selection'])['arrived']
         self.assertEqual(arrived, 'ደርሷል')
 
+    # -- the operation unit (decision D2, FR-PLT-019) --------------------------------------------------------------------------
+    def _two_site_user(self, login):
+        warehouse = self.env['stock.warehouse'].search([], limit=1)
+        other = self.env['mos.site'].create({'name': 'Unit mill ' + login, 'code': login[-5:].upper(), 'warehouse_id': warehouse.id})
+        user = new_test_user(self.env, login=login, groups='mos_core.group_mos_user,mos_gate.group_mos_gate_guard')
+        user.mos_site_ids = [Command.set((self.site | other).ids)]
+        return user, other
+
+    def test_a_new_record_is_made_for_the_site_the_person_works_at(self):
+        user, other = self._two_site_user('xunitdef')
+        Visit = self.env['mos.gate.visit'].with_user(user)
+        user.mos_active_site_id = other
+        self.assertEqual(Visit.default_get(['site_id'])['site_id'], other.id)
+        user.mos_active_site_id = self.site
+        self.assertEqual(Visit.default_get(['site_id'])['site_id'], self.site.id)
+        self.assertEqual(Visit.with_context(default_site_id=other.id).default_get(['site_id'])['site_id'], other.id, 'what a screen asks for wins')
+
+    def test_the_operation_unit_dialog_switches_the_unit_and_refuses_a_foreign_one(self):
+        user, other = self._two_site_user('xunitdlg')
+        foreign = self.env['mos.site'].create({'name': 'Not theirs', 'code': 'NOTYR', 'warehouse_id': self.env['stock.warehouse'].search([], limit=1).id})
+        wizard = self.env['mos.operation.unit'].with_user(user).create({'site_id': other.id})
+        self.assertEqual(wizard.allowed_site_ids, self.site | other)
+        action = wizard.action_confirm()
+        self.assertEqual(action['tag'], 'reload')
+        self.assertEqual(user.mos_active_site_id, other)
+        with self.assertRaises(ValidationError):
+            self.env['mos.operation.unit'].with_user(user).create({'site_id': foreign.id}).action_confirm()
+
 
 @tagged('post_install', '-at_install')
 class TestExpiredSession(HttpCase):

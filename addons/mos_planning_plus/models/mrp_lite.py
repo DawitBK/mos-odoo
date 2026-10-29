@@ -31,7 +31,7 @@ class MosMrpSuggestion(models.Model):
         env = self.env
         env.flush_all()  # the planner and outstanding reports are SQL views: write pending changes first
         self.sudo().search([('state', '=', 'open')]).unlink()
-        site = env.user.mos_site_ids[:1] or env['mos.site'].search([], limit=1)
+        site = env.user._mos_current_site() or env['mos.site'].search([], limit=1)
         planner = env['mos.planner.report'].sudo().search([('shortfall', '>', 0)])
         wheat_need = {}
         made = self.browse()

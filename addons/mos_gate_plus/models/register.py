@@ -8,7 +8,7 @@ class MosGateRegister(models.TransientModel):
     _name = 'mos.gate.register'
     _description = 'MOS gate register'
 
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     date = fields.Date(required=True, default=fields.Date.context_today)
     visit_ids = fields.Many2many('mos.gate.visit', compute='_compute_rows')
     ticket_ids = fields.Many2many('mos.weigh.ticket', compute='_compute_rows')
@@ -40,7 +40,7 @@ class MosGateArrival(models.TransientModel):
     _name = 'mos.gate.arrival'
     _description = 'MOS gate arrival'
 
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     gate_post_id = fields.Many2one('mos.gate.post', domain="[('site_id', '=', site_id)]")
     plate = fields.Char(required=True)
     purpose = fields.Selection(

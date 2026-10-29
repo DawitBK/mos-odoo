@@ -1,6 +1,6 @@
 {
     'name': 'MOS Platform Extras',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.0.1',
     'category': 'Manufacturing/MOS',
     'summary': 'Role dashboards, access review, site switching, identity-group role mapping, session limits, stock position and balance reports, period-close checklist, exception notifications, Ethiopian dates',
     'license': 'LGPL-3',
@@ -10,5 +10,6 @@
         'data/mos_platform_plus_data.xml',
         'views/mos_platform_plus_views.xml',
     ],
+    'assets': {'web.assets_backend': ['mos_platform_plus/static/src/js/operation_unit.js']},
     'installable': True,
 }

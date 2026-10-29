@@ -23,7 +23,7 @@ class MosPackRun(models.Model):
     _mos_editable_after_post = set()
 
     name = fields.Char(readonly=True, copy=False, default='New')
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     work_centre_id = fields.Many2one('mos.work.centre', domain="[('kind', '=', 'packing')]")
     date = fields.Date(default=fields.Date.context_today, required=True)
     source_batch_id = fields.Many2one('mos.batch', required=True, domain="[('kind', '=', 'flour'), ('state', '=', 'released')]")

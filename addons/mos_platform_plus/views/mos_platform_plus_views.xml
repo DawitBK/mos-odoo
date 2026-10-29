@@ -65,6 +65,29 @@
         </field>
     </record>
 
+    <!-- The operation unit picker (opened after sign-in for a person with several sites, and from the user menu) -->
+    <record id="view_mos_operation_unit_form" model="ir.ui.view">
+        <field name="name">mos.operation.unit.form</field>
+        <field name="model">mos.operation.unit</field>
+        <field name="arch" type="xml">
+            <form>
+                <field name="allowed_site_ids" invisible="1"/>
+                <p class="text-muted">Choose the operation unit you are working at. New records are made for it, and your overview shows it.</p>
+                <field name="site_id" widget="radio" nolabel="1" options="{'no_create': True}"/>
+                <footer>
+                    <button name="action_confirm" string="Continue" type="object" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_operation_unit" model="ir.actions.act_window">
+        <field name="name">Operation unit</field>
+        <field name="res_model">mos.operation.unit</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
     <!-- Access review -->
     <record id="view_mos_access_review_form" model="ir.ui.view">
         <field name="name">mos.access.review.form</field>

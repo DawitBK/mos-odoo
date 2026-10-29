@@ -119,3 +119,14 @@ def stores_and_bins():
 step('master_items', items)
 step('master_warehouses', warehouses)
 step('master_stores_and_bins', stores_and_bins)
+
+
+def multi_site_people():
+    """The general manager and the finance officer oversee both sites, so they choose the operation unit they work at after signing in."""
+    both = env['mos.site'].search([])
+    for name in ('gm', 'finance'):
+        person = user(name)
+        person.mos_site_ids = [Command.set(both.ids)]
+
+
+step('multi_site_people', multi_site_people)

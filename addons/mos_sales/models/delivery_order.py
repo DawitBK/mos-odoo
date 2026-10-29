@@ -14,7 +14,7 @@ class MosDeliveryOrder(models.Model):
     name = fields.Char(readonly=True, copy=False, default='New')
     sale_id = fields.Many2one('sale.order', required=True, ondelete='restrict')
     partner_id = fields.Many2one(related='sale_id.partner_id', store=True)
-    site_id = fields.Many2one('mos.site', required=True, default=lambda s: s.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda s: s.env.user._mos_current_site())
     picking_id = fields.Many2one('stock.picking', compute='_compute_picking', store=True)
     product_id = fields.Many2one('product.product', compute='_compute_picking', store=True)
     ordered_qty = fields.Float(compute='_compute_picking', store=True, digits=(14, 1))

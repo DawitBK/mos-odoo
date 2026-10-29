@@ -93,3 +93,14 @@ class TestMill(TransactionCase):
         action = self.env['mos.overview'].action_open()
         self.assertEqual(action['res_model'], 'mos.overview')
         self.assertTrue(action['res_id'])
+
+    def test_the_overview_shows_the_operation_unit_the_person_works_at(self):
+        from odoo.tests.common import new_test_user
+
+        other = self.env['mos.site'].create({'name': 'Depot', 'code': 'DEPOT', 'warehouse_id': self.env['stock.warehouse'].search([], limit=1).id})
+        self.env['mos.silo'].create({'code': 'D01', 'name': 'Depot silo', 'site_id': other.id, 'product_id': self.wheat.id, 'capacity_kg': 50000})
+        person = new_test_user(self.env, login='xoverview', groups='mos_core.group_mos_user')
+        person.mos_site_ids = [Command.set(self.site.ids)]
+        mine = self.env['mos.overview'].with_user(person).create({})
+        self.assertEqual(mine.silo_capacity_kg, 100000, 'only the silos of their own unit')
+        self.assertIn('Mill', mine.title)

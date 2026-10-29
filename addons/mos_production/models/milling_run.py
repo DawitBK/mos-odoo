@@ -19,7 +19,7 @@ class MosMillingRun(models.Model):
     _mos_editable_after_post = set()
 
     name = fields.Char(readonly=True, copy=False, default='New')
-    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user.mos_site_ids[:1])
+    site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
     run_date = fields.Date(required=True, default=lambda self: self._default_run_date())
     shift = fields.Selection([('day', 'Day'), ('night', 'Night')], default='day', required=True)
     state = fields.Selection([('draft', 'Planned'), ('done', 'Completed')], default='draft', required=True, readonly=True, tracking=True)
@@ -33,7 +33,7 @@ class MosMillingRun(models.Model):
 
     def _default_run_date(self):
         # The date at the mill (the site's time zone), not in Greenwich (FR-PLT-004).
-        site = self.env.user.mos_site_ids[:1] or self.env['mos.site'].search([], limit=1)
+        site = self.env.user._mos_current_site() or self.env['mos.site'].search([], limit=1)
         return site.business_date() if site else fields.Date.context_today(self)
 
     @api.depends('input_ids.qty_kg', 'output_ids.qty_kg', 'output_ids.kind')
