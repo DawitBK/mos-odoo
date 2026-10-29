@@ -1,6 +1,6 @@
 {
     'name': 'MOS Master Data Extras',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.0.1',
     'category': 'Manufacturing/MOS',
     'summary': 'Unique tax numbers and duplicate warnings, individual suppliers, item conversions that never change once used, quality concessions through the approval matrix, heavy reports as background jobs',
     'license': 'LGPL-3',

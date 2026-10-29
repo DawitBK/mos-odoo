@@ -15,12 +15,18 @@ class ProductTemplate(models.Model):
 
     mos_reorder_min = fields.Float(string='Reorder level', help='Order more when what is available and on order falls below this.')
     mos_reorder_qty = fields.Float(string='Reorder quantity', help='The quantity to order, at least.')
+    mos_safety_stock = fields.Float(string='Safety stock', help='What must always be left. The reorder report marks an item that is below it.')
+    mos_max_level = fields.Float(string='Maximum level', help='The most to hold, counting what is on order. A suggested order never goes beyond it. Zero means no maximum.')
 
-    @api.constrains('mos_reorder_min', 'mos_reorder_qty')
+    @api.constrains('mos_reorder_min', 'mos_reorder_qty', 'mos_safety_stock', 'mos_max_level')
     def _check_reorder(self):
         for product in self:
-            if product.mos_reorder_min < 0 or product.mos_reorder_qty < 0:
-                raise ValidationError(self.env._('Reorder level and quantity cannot be negative.'))
+            if min(product.mos_reorder_min, product.mos_reorder_qty, product.mos_safety_stock, product.mos_max_level) < 0:
+                raise ValidationError(self.env._('Reorder level, reorder quantity, safety stock and maximum level cannot be negative.'))
+            if product.mos_reorder_min and product.mos_safety_stock > product.mos_reorder_min:
+                raise ValidationError(self.env._('The safety stock cannot be above the reorder level.'))
+            if product.mos_max_level and max(product.mos_reorder_min, product.mos_safety_stock) > product.mos_max_level:
+                raise ValidationError(self.env._('The maximum level cannot be below the reorder level or the safety stock.'))
 
 
 class MosReorderReport(models.Model):
@@ -34,6 +40,9 @@ class MosReorderReport(models.Model):
     product_id = fields.Many2one('product.product', readonly=True)
     reorder_min = fields.Float(readonly=True)
     reorder_qty = fields.Float(readonly=True)
+    safety_stock = fields.Float(readonly=True)
+    max_level = fields.Float(readonly=True)
+    below_safety = fields.Boolean(readonly=True, string='Below safety stock')
     on_hand = fields.Float(string='Available now', readonly=True)
     on_order = fields.Float(string='Still to arrive', readonly=True)
     shortfall = fields.Float(readonly=True)
@@ -61,17 +70,23 @@ class MosReorderReport(models.Model):
                        pp.id AS product_id,
                        pt.mos_reorder_min AS reorder_min,
                        pt.mos_reorder_qty AS reorder_qty,
+                       pt.mos_safety_stock AS safety_stock,
+                       pt.mos_max_level AS max_level,
+                       COALESCE(h.qty, 0) < pt.mos_safety_stock AS below_safety,
                        COALESCE(h.qty, 0) AS on_hand,
                        COALESCE(o.qty, 0) AS on_order,
                        GREATEST(pt.mos_reorder_min - COALESCE(h.qty, 0) - COALESCE(o.qty, 0), 0) AS shortfall,
                        CASE WHEN pt.mos_reorder_min - COALESCE(h.qty, 0) - COALESCE(o.qty, 0) > 0
-                            THEN GREATEST(pt.mos_reorder_qty, pt.mos_reorder_min - COALESCE(h.qty, 0) - COALESCE(o.qty, 0))
+                            THEN CASE WHEN pt.mos_max_level > 0
+                                      THEN LEAST(GREATEST(pt.mos_reorder_qty, pt.mos_reorder_min - COALESCE(h.qty, 0) - COALESCE(o.qty, 0)),
+                                                 GREATEST(pt.mos_max_level - COALESCE(h.qty, 0) - COALESCE(o.qty, 0), 0))
+                                      ELSE GREATEST(pt.mos_reorder_qty, pt.mos_reorder_min - COALESCE(h.qty, 0) - COALESCE(o.qty, 0)) END
                             ELSE 0 END AS suggested_qty
                   FROM product_product pp
                   JOIN product_template pt ON pt.id = pp.product_tmpl_id
              LEFT JOIN hand h ON h.product_id = pp.id
              LEFT JOIN ordered o ON o.product_id = pp.id
-                 WHERE pt.mos_reorder_min > 0 AND pp.active
+                 WHERE (pt.mos_reorder_min > 0 OR pt.mos_safety_stock > 0) AND pp.active
             )
             """
         )

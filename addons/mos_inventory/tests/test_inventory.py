@@ -174,6 +174,18 @@ class TestInventoryControl(TransactionCase):
         with self.assertRaises(ValidationError):
             self.product.product_tmpl_id.mos_reorder_min = -1
 
+    def test_safety_stock_and_maximum_level_shape_the_reorder_report(self):
+        template = self.product.product_tmpl_id
+        template.write({'mos_safety_stock': 1200.0, 'mos_reorder_min': 1500.0, 'mos_reorder_qty': 2000.0, 'mos_max_level': 2200.0})
+        self.env.flush_all()
+        row = self.env['mos.reorder.report'].search([('product_id', '=', self.product.id)])
+        self.assertTrue(row.below_safety, '1000 is below the safety stock of 1200')
+        self.assertEqual(row.suggested_qty, 1200.0, 'a suggestion never takes the stock above the maximum: 2200 - 1000')
+        with self.assertRaises(ValidationError):
+            template.mos_safety_stock = 1600.0  # above the reorder level
+        with self.assertRaises(ValidationError):
+            template.mos_max_level = 1400.0  # below the reorder level
+
     # -- archive rules ------------------------------------------------------------------------------------
     def test_archiving_is_blocked_while_it_is_in_use(self):
         with self.assertRaises(UserError):

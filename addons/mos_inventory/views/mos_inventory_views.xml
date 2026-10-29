@@ -150,9 +150,11 @@
         <field name="name">mos.reorder.report.list</field>
         <field name="model">mos.reorder.report</field>
         <field name="arch" type="xml">
-            <list decoration-danger="shortfall &gt; 0" create="0">
+            <list decoration-danger="shortfall &gt; 0 or below_safety" create="0">
                 <field name="product_id"/>
+                <field name="safety_stock"/>
                 <field name="reorder_min"/>
+                <field name="max_level"/>
                 <field name="on_hand"/>
                 <field name="on_order"/>
                 <field name="shortfall"/>
@@ -174,6 +176,8 @@
             <xpath expr="//field[@name='categ_id']" position="after">
                 <field name="mos_reorder_min"/>
                 <field name="mos_reorder_qty"/>
+                <field name="mos_safety_stock"/>
+                <field name="mos_max_level"/>
             </xpath>
         </field>
     </record>

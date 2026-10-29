@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+    <record id="seq_material" model="ir.sequence">
+        <field name="name">MOS material ID</field>
+        <field name="code">mos.material</field>
+        <field name="prefix">MAT</field>
+        <field name="padding">6</field>
+        <field name="implementation">standard</field>
+    </record>
     <record id="seq_concession" model="ir.sequence">
         <field name="name">MOS quality concession</field>
         <field name="code">mos.concession</field>

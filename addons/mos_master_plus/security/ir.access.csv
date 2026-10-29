@@ -7,3 +7,8 @@ access_mos_concession_lab_manager,mos.concession: lab manager,mos.concession,mos
 access_mos_concession_admin,mos.concession: admin,mos.concession,mos_core.group_mos_admin,cru,
 access_mos_report_job_user,mos.report.job: own jobs,mos.report.job,mos_core.group_mos_user,cru,"[('requested_by_id', '=', user.id)]"
 access_mos_report_job_admin,mos.report.job: admin,mos.report.job,mos_core.group_mos_admin,cru,
+access_stock_location_mos_inventory_manager,Stores and bins: inventory manager,stock.location,mos_inventory.group_mos_inventory_manager,cru,
+access_stock_warehouse_mos_inventory_manager,Warehouse master: inventory manager,stock.warehouse,mos_inventory.group_mos_inventory_manager,ru,
+access_product_template_mos_inventory_manager,Item master: inventory manager,product.template,mos_inventory.group_mos_inventory_manager,cru,
+access_product_product_mos_inventory_manager,Item master (variants): inventory manager,product.product,mos_inventory.group_mos_inventory_manager,cru,
+access_mos_lab_policy_inventory_manager,Item inspection flag: inventory manager,mos.lab.policy,mos_inventory.group_mos_inventory_manager,cru,

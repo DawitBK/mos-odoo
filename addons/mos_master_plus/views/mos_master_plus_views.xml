@@ -106,4 +106,329 @@
     <menuitem id="menu_mos_item_conversion" name="Item conversions" parent="mos_core.menu_mos_config" action="action_mos_item_conversion" sequence="72"/>
     <menuitem id="menu_mos_concession" name="Quality concessions" parent="mos_lab.menu_mos_lab" action="action_mos_concession" sequence="40"/>
     <menuitem id="menu_mos_report_job" name="Background reports" parent="mos_platform_plus.menu_mos_platform_reports" action="action_mos_report_job" sequence="60"/>
+
+    <!-- Item master (client page 16) -->
+    <record id="view_mos_item_master_list" model="ir.ui.view">
+        <field name="name">mos.item.master.list</field>
+        <field name="model">product.template</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="mos_material_id" string="Material ID"/>
+                <field name="default_code" string="Material code"/>
+                <field name="name" string="Material name"/>
+                <field name="categ_id" string="Category"/>
+                <field name="mos_material_type" string="Type"/>
+                <field name="uom_id" string="UoM"/>
+                <field name="standard_price" string="Standard cost"/>
+                <field name="active" string="Status" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_item_master_form" model="ir.ui.view">
+        <field name="name">mos.item.master.form</field>
+        <field name="model">product.template</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="type" invisible="1"/>
+                    <field name="is_storable" invisible="1"/>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-cube"/></span>
+                        <div class="mos-page-title"><h2>Item Master</h2><p>Define the materials and goods the plant buys, keeps and sells</p></div>
+                        <div class="mos-page-crumb">Inventory › Item Master</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Basic Information</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="mos_material_id" string="Material ID"/><field name="mos_material_id" placeholder="Auto generated"/></div>
+                            <div><label for="default_code" string="Material code"/><field name="default_code" placeholder="Enter material code"/></div>
+                            <div><label for="name" string="Material name"/><field name="name" placeholder="Enter material name"/></div>
+                            <div><label for="categ_id" string="Material category"/><field name="categ_id" options="{'no_create': True}"/></div>
+                            <div><label for="mos_material_type" string="Material type"/><field name="mos_material_type"/></div>
+                            <div><label for="uom_id" string="UoM"/><field name="uom_id" options="{'no_create': True}"/></div>
+                            <div><label for="mos_reorder_min" string="Reorder level"/><field name="mos_reorder_min"/></div>
+                            <div><label for="mos_safety_stock" string="Safety stock"/><field name="mos_safety_stock"/></div>
+                            <div><label for="mos_max_level" string="Maximum level"/><field name="mos_max_level"/></div>
+                            <div><label for="mos_reorder_qty" string="Reorder quantity"/><field name="mos_reorder_qty"/></div>
+                            <div><label for="standard_price" string="Standard cost"/><field name="standard_price"/></div>
+                            <div><label for="active" string="Status"/><field name="active" widget="boolean_toggle"/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Other Information</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="mos_inspection_required" string="Inspection required"/><field name="mos_inspection_required"/></div>
+                        </div>
+                    </div>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_item_master" model="ir.actions.act_window">
+        <field name="name">Item master</field>
+        <field name="res_model">product.template</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'default_type': 'consu', 'default_is_storable': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_item_master_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_mos_item_master_form')})]"/>
+    </record>
+
+    <!-- Warehouse master (client page 17) -->
+    <record id="view_mos_warehouse_master_list" model="ir.ui.view">
+        <field name="name">mos.warehouse.master.list</field>
+        <field name="model">stock.warehouse</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code" string="Code"/>
+                <field name="name" string="Warehouse"/>
+                <field name="mos_type" string="Type"/>
+                <field name="mos_storekeeper_id"/>
+                <field name="mos_capacity_kg"/>
+                <field name="mos_occupied_pct" widget="progressbar"/>
+                <field name="active" string="Status" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_warehouse_master_form" model="ir.ui.view">
+        <field name="name">mos.warehouse.master.form</field>
+        <field name="model">stock.warehouse</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-warehouse"/></span>
+                        <div class="mos-page-title"><h2>Warehouse Master</h2><p>Define a warehouse: what it is, who keeps it, how much it holds and what may be done in it</p></div>
+                        <div class="mos-page-crumb">Inventory › Warehouse Master</div>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Basic Information</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="code" string="Warehouse code"/><field name="code"/></div>
+                                <div><label for="name" string="Warehouse name"/><field name="name"/></div>
+                                <div><label for="mos_type"/><field name="mos_type"/></div>
+                                <div><label for="mos_storekeeper_id"/><field name="mos_storekeeper_id" options="{'no_create': True}"/></div>
+                                <div class="mos-fieldgrid-wide"><label for="mos_description"/><field name="mos_description"/></div>
+                                <div><label for="active" string="Status"/><field name="active" widget="boolean_toggle"/></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Capacity</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="mos_capacity_kg"/><field name="mos_capacity_kg"/></div>
+                                <div><label for="mos_occupied_kg"/><field name="mos_occupied_kg"/></div>
+                                <div class="mos-fieldgrid-wide"><label for="mos_occupied_pct" string="Current capacity used"/><field name="mos_occupied_pct" widget="progressbar"/></div>
+                                <div><label for="mos_temperature_controlled"/><field name="mos_temperature_controlled" widget="boolean_toggle"/></div>
+                                <div><label for="mos_humidity_controlled"/><field name="mos_humidity_controlled" widget="boolean_toggle"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Inventory Control</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="mos_allow_receipt"/><field name="mos_allow_receipt" widget="boolean_toggle"/></div>
+                            <div><label for="mos_allow_issue"/><field name="mos_allow_issue" widget="boolean_toggle"/></div>
+                            <div><label for="mos_allow_transfer"/><field name="mos_allow_transfer" widget="boolean_toggle"/></div>
+                        </div>
+                        <div class="mos-note"><i class="mos-ico mos-ico-info"/> What is switched off here is refused when a stock move is done: a receipt into the warehouse, an issue from it or a transfer out of it.</div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_warehouse_master" model="ir.actions.act_window">
+        <field name="name">Warehouse master</field>
+        <field name="res_model">stock.warehouse</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_warehouse_master_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_mos_warehouse_master_form')})]"/>
+    </record>
+
+    <!-- Store master (client page 18) -->
+    <record id="view_mos_store_master_list" model="ir.ui.view">
+        <field name="name">mos.store.master.list</field>
+        <field name="model">stock.location</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="mos_code" string="Store code"/>
+                <field name="name" string="Store name"/>
+                <field name="mos_store_type" string="Type"/>
+                <field name="mos_warehouse_id"/>
+                <field name="mos_storekeeper_id"/>
+                <field name="mos_capacity_kg"/>
+                <field name="mos_occupied_pct" widget="progressbar"/>
+                <field name="active" string="Status" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_store_master_form" model="ir.ui.view">
+        <field name="name">mos.store.master.form</field>
+        <field name="model">stock.location</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="mos_kind" invisible="1"/>
+                    <field name="usage" invisible="1"/>
+                    <field name="location_id" invisible="1"/>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-warehouse"/></span>
+                        <div class="mos-page-title"><h2>Store Master Registration</h2><p>Register a storage area of a warehouse</p></div>
+                        <div class="mos-page-crumb">Inventory › Store Master</div>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Basic Information</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="mos_code" string="Store code"/><field name="mos_code"/></div>
+                                <div><label for="name" string="Store name"/><field name="name"/></div>
+                                <div><label for="mos_store_type" string="Store type"/><field name="mos_store_type" required="1"/></div>
+                                <div><label for="active" string="Status"/><field name="active" widget="boolean_toggle"/></div>
+                                <div class="mos-fieldgrid-wide"><label for="mos_description"/><field name="mos_description"/></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Capacity</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="mos_capacity_kg"/><field name="mos_capacity_kg"/></div>
+                                <div><label for="mos_occupied_kg"/><field name="mos_occupied_kg"/></div>
+                                <div class="mos-fieldgrid-wide"><label for="mos_occupied_pct" string="Current capacity used"/><field name="mos_occupied_pct" widget="progressbar"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-building"/> Organization</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="mos_warehouse_id" string="Warehouse"/><field name="mos_warehouse_id" required="1" options="{'no_create': True}"/></div>
+                                <div><label for="mos_storekeeper_id" string="Storekeeper"/><field name="mos_storekeeper_id" options="{'no_create': True}"/></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Inventory Control</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-3">
+                                <div><label for="mos_allow_receipt"/><field name="mos_allow_receipt" widget="boolean_toggle"/></div>
+                                <div><label for="mos_allow_issue"/><field name="mos_allow_issue" widget="boolean_toggle"/></div>
+                                <div><label for="mos_allow_transfer"/><field name="mos_allow_transfer" widget="boolean_toggle"/></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-tag"/> Material Control</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-4">
+                            <div><label for="mos_material_category_id" string="Material category"/><field name="mos_material_category_id" options="{'no_create': True}"/></div>
+                            <div><label for="mos_temperature_controlled"/><field name="mos_temperature_controlled" widget="boolean_toggle"/></div>
+                            <div><label for="mos_humidity_controlled"/><field name="mos_humidity_controlled" widget="boolean_toggle"/></div>
+                            <div><label for="mos_restricted_access"/><field name="mos_restricted_access" widget="boolean_toggle"/></div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_store_master" model="ir.actions.act_window">
+        <field name="name">Store master</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('mos_kind', '=', 'store')]</field>
+        <field name="context">{'default_mos_kind': 'store', 'default_usage': 'internal'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_store_master_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_mos_store_master_form')})]"/>
+    </record>
+
+    <!-- Bin master (client page 20) -->
+    <record id="view_mos_bin_master_list" model="ir.ui.view">
+        <field name="name">mos.bin.master.list</field>
+        <field name="model">stock.location</field>
+        <field name="priority">91</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="mos_code" string="Bin code"/>
+                <field name="mos_warehouse_id"/>
+                <field name="location_id" string="Storage location"/>
+                <field name="mos_item_id" string="Item"/>
+                <field name="mos_capacity_kg"/>
+                <field name="mos_occupied_pct" widget="progressbar"/>
+                <field name="active" string="Status" widget="boolean_toggle"/>
+                <field name="create_date" string="Created on" widget="date"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_bin_master_search" model="ir.ui.view">
+        <field name="name">mos.bin.master.search</field>
+        <field name="model">stock.location</field>
+        <field name="priority">91</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="mos_code" string="Bin code"/>
+                <field name="mos_warehouse_id"/>
+                <field name="location_id" string="Storage location"/>
+                <field name="mos_item_id" string="Item"/>
+                <filter name="active_bins" string="Active" domain="[('active', '=', True)]"/>
+                <filter name="inactive_bins" string="Inactive" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="by_warehouse" string="Warehouse" context="{'group_by': 'mos_warehouse_id'}"/>
+                    <filter name="by_store" string="Storage location" context="{'group_by': 'location_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="view_mos_bin_master_form" model="ir.ui.view">
+        <field name="name">mos.bin.master.form</field>
+        <field name="model">stock.location</field>
+        <field name="priority">91</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <field name="mos_kind" invisible="1"/>
+                    <field name="usage" invisible="1"/>
+                    <field name="name" invisible="1"/>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-bin"/></span>
+                        <div class="mos-page-title"><h2>Bin Master</h2><p>Define and maintain storage bins in each warehouse and location</p></div>
+                        <div class="mos-page-crumb">Inventory › Bin Master</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-bin"/> Bin Information</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="mos_warehouse_id" string="Warehouse"/><field name="mos_warehouse_id" required="1" options="{'no_create': True}"/></div>
+                            <div><label for="mos_description" string="Description"/><field name="mos_description" placeholder="Wheat bin 01"/></div>
+                            <div><div class="o_form_label">Unit of measure</div><div class="o_field_widget">KG</div></div>
+                            <div><label for="location_id" string="Storage location"/><field name="location_id" required="1" options="{'no_create': True}" domain="[('mos_kind', '=', 'store'), ('mos_warehouse_id', '=', mos_warehouse_id)]"/></div>
+                            <div><label for="mos_item_id" string="Item (optional)"/><field name="mos_item_id" options="{'no_create': True}"/></div>
+                            <div><label for="active" string="Status"/><field name="active" widget="boolean_toggle"/></div>
+                            <div><label for="mos_code" string="Bin code"/><field name="mos_code" placeholder="BIN-WHT-01"/></div>
+                            <div><label for="mos_capacity_kg" string="Capacity (KG)"/><field name="mos_capacity_kg"/></div>
+                            <div><label for="mos_remarks" string="Remarks"/><field name="mos_remarks"/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section" invisible="not id">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-scales"/> What the bin holds</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="mos_occupied_kg"/><field name="mos_occupied_kg"/></div>
+                            <div class="mos-fieldgrid-wide"><label for="mos_occupied_pct" string="Capacity used"/><field name="mos_occupied_pct" widget="progressbar"/></div>
+                        </div>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_bin_master" model="ir.actions.act_window">
+        <field name="name">Bin master</field>
+        <field name="res_model">stock.location</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('mos_kind', '=', 'bin')]</field>
+        <field name="context">{'default_mos_kind': 'bin', 'default_usage': 'internal'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_bin_master_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_mos_bin_master_form')})]"/>
+        <field name="search_view_id" ref="view_mos_bin_master_search"/>
+    </record>
+
+    <menuitem id="menu_mos_masters" name="Masters" parent="mos_silo.menu_mos_stock" sequence="50"/>
+    <menuitem id="menu_mos_item_master" name="Item master" parent="menu_mos_masters" action="action_mos_item_master" sequence="10"/>
+    <menuitem id="menu_mos_warehouse_master" name="Warehouse master" parent="menu_mos_masters" action="action_mos_warehouse_master" sequence="20"/>
+    <menuitem id="menu_mos_store_master" name="Store master" parent="menu_mos_masters" action="action_mos_store_master" sequence="30"/>
+    <menuitem id="menu_mos_bin_master" name="Bin master" parent="menu_mos_masters" action="action_mos_bin_master" sequence="40"/>
 </odoo>
