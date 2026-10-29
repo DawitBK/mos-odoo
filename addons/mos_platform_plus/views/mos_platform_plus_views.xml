@@ -209,7 +209,9 @@
                 <field name="supplier_id"/>
                 <field name="product_id"/>
                 <field name="qty" sum="Total"/>
+                <field name="payable" sum="Total" optional="show"/>
                 <field name="unit_price"/>
+                <field name="unit_cost" optional="show"/>
                 <field name="value" sum="Total"/>
                 <field name="invoiced" sum="Total"/>
             </list>

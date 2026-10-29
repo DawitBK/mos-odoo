@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- What each product of a milling run cost: the batch it went into and its value, kept by the costing but shown nowhere. -->
+    <record id="view_mos_milling_run_form_costs" model="ir.ui.view">
+        <field name="name">mos.milling.run.form.costs</field>
+        <field name="model">mos.milling.run</field>
+        <field name="inherit_id" ref="mos_production.view_mos_milling_run_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='output_ids']/list/field[@name='qty_kg']" position="after">
+                <field name="batch_id" optional="show"/>
+                <field name="unit_cost" optional="show"/>
+                <field name="cost_value" sum="Total" optional="show"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

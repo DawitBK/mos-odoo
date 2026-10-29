@@ -31,7 +31,7 @@ class MosSupplierBalance(models.Model):
                 SELECT i.id, i.supplier_id, i.payable_amount AS amount, i.invoice_date,
                        COALESCE((SELECT sum(a.amount)
                                    FROM mos_payment_line a JOIN mos_payment_voucher_line l ON l.id = a.voucher_line_id
-                                  WHERE l.invoice_id = i.id), 0) AS paid
+                                  WHERE l.invoice_id = i.id %s), 0) AS paid
                   FROM mos_supplier_invoice i
                  WHERE i.state NOT IN ('draft', 'cancelled')
             ), aged AS (
@@ -48,4 +48,10 @@ class MosSupplierBalance(models.Model):
               FROM (SELECT row_number() OVER () AS id, * FROM aged) a
              GROUP BY supplier_id
             """
+            % self._mos_allocation_filter()
         )
+
+    def _mos_allocation_filter(self):
+        """Extra SQL condition on the payment allocations counted as paid (alias `a`); later modules exclude what no longer counts, such as reversed payments."""
+        return ''
+

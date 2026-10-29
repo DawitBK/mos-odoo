@@ -41,6 +41,8 @@ PAGES = {
     'mos.approval.request': ('shield', 'Approval', 'What is waiting for a decision, and who decides', 'Approvals'),
 }
 
+MAX_VISIBLE_BUTTONS = 4
+
 # The icon of a model that has no entry above, chosen by its name.
 FAMILY_ICONS = (
     ('gate', 'truck'), ('lab', 'flask'), ('quality', 'flask'), ('payable', 'money'), ('payment', 'money'), ('invoice', 'receipt'),
@@ -146,6 +148,7 @@ class Base(models.AbstractModel):
         if self._name.startswith('mos.'):  # the buttons of Odoo's own documents stay where Odoo's flows expect them
             self._mos_move_buttons_to_the_foot(arch, sheet)
         self._mos_wrap_parts_in_cards(sheet)
+        self._mos_plain_groups_to_grids(sheet)
         self._mos_wrap_loose_blocks(sheet)
         sheet.insert(0, self._mos_page_head())
 
@@ -189,13 +192,87 @@ class Base(models.AbstractModel):
             for node in body:
                 card.append(node)  # moves the node out of the sheet into the card
 
+    WIDE_TYPES = ('one2many', 'many2many', 'text', 'html', 'binary')
+
+    @api.model
+    def _mos_group_to_grid(self, group):
+        """A plain group (columns of label and value) becomes the labelled grid of the hand-built pages: the label above the value.
+
+        Only a group made of fields, labels and sub-headings is converted; one holding buttons, widgets or anything else keeps Odoo's layout.
+        """
+        leaves = []  # (kind, item) in reading order; a group's heading comes before its fields
+
+        def walk(node):
+            for child in node:
+                if not isinstance(child.tag, str):
+                    continue
+                if child.tag == 'group':
+                    if child.get('string'):
+                        leaves.append(('sub', child.get('string')))
+                    if not walk(child):
+                        return False
+                elif child.tag == 'separator':
+                    if child.get('string'):
+                        leaves.append(('sub', child.get('string')))
+                elif child.tag == 'field':
+                    leaves.append(('field', child))
+                elif child.tag == 'label':
+                    continue  # a label of a field is made again from the field
+                else:
+                    return False
+            return True
+
+        if group.get('string'):
+            leaves.append(('sub', group.get('string')))
+        if not walk(group) or not any(kind == 'field' for kind, _ in leaves):
+            return None
+        grid = etree.Element('div', {'class': 'mos-fieldgrid mos-fieldgrid-auto'})
+        for attribute in ('invisible', 'groups'):
+            if group.get(attribute):
+                grid.set(attribute, group.get(attribute))
+        for kind, item in leaves:
+            if kind == 'sub':
+                etree.SubElement(grid, 'div', {'class': 'mos-fieldgrid-wide mos-subhead'}).text = item
+                continue
+            name = item.get('name')
+            field = self._fields.get(name)
+            wide = (field is not None and field.type in self.WIDE_TYPES) or item.get('nolabel') == '1' or item.get('colspan') == '2'
+            cell = etree.SubElement(grid, 'div', {'class': 'mos-fieldgrid-wide' if wide else ''})
+            if item.get('invisible'):
+                cell.set('invisible', item.get('invisible'))
+            if item.get('groups'):
+                cell.set('groups', item.get('groups'))
+            if item.get('nolabel') != '1':
+                label = etree.SubElement(cell, 'label', {'for': name})
+                if item.get('string'):
+                    label.set('string', item.get('string'))
+                    del item.attrib['string']
+            cell.append(item)
+        return grid
+
+    @api.model
+    def _mos_plain_groups_to_grids(self, sheet):
+        """Every plain group of the form: in a card, in a tab, or loose in the sheet."""
+        for group in list(sheet.iter('group')):
+            parent = group.getparent()
+            if parent is None or parent.tag == 'group':
+                continue  # inner groups are taken with their outer group
+            if parent.tag not in ('sheet', 'div', 'page', 'form'):
+                continue
+            if any(a.tag == 'field' for a in group.iterancestors()):
+                continue  # the sub-view of a list or form field keeps its layout
+            grid = self._mos_group_to_grid(group)
+            if grid is not None:
+                parent.replace(group, grid)
+
     @api.model
     def _mos_wrap_loose_blocks(self, sheet):
         """A group or notebook that sits directly in the sheet, outside every card, becomes a card of its own (its string is the card title)."""
         for node in list(sheet):
-            if node.tag not in ('group', 'notebook'):
+            converted = node.tag == 'div' and 'mos-fieldgrid-auto' in (node.get('class') or '')
+            if node.tag not in ('group', 'notebook') and not converted:
                 continue
-            if 'mos-' in (node.get('class') or ''):
+            if 'mos-' in (node.get('class') or '') and not converted:
                 continue
             card = etree.Element('div', {'class': 'mos-section mos-section-loose'})
             for attribute in ('invisible', 'groups'):
@@ -222,6 +299,19 @@ class Base(models.AbstractModel):
             return
         primary = [b for b in buttons if 'btn-primary' in (b.get('class') or '')]
         bar = etree.SubElement(sheet, 'div', {'class': 'mos-action-bar'})
-        for button in [b for b in buttons if b not in primary] + primary:
+        secondary = [b for b in buttons if b not in primary]
+        # Up to MAX_VISIBLE_BUTTONS stay in the bar; the rest wait in a "More actions" menu so a busy screen (a gate visit has a dozen) stays readable.
+        visible, extra = (secondary[:MAX_VISIBLE_BUTTONS], secondary[MAX_VISIBLE_BUTTONS:]) if len(secondary) > MAX_VISIBLE_BUTTONS + 1 else (secondary, [])
+        for button in visible:
+            header.remove(button)
+            bar.append(button)
+        if extra:
+            more = etree.SubElement(bar, 'details', {'class': 'mos-bar-more'})
+            etree.SubElement(more, 'summary', {'class': 'btn btn-secondary'}).text = self.env._('More actions')
+            menu = etree.SubElement(more, 'div', {'class': 'mos-more-menu'})
+            for button in extra:
+                header.remove(button)
+                menu.append(button)
+        for button in primary:
             header.remove(button)
             bar.append(button)

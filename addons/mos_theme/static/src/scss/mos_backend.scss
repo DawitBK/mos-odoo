@@ -318,3 +318,22 @@ $mos-info-bg: #dbeafe;
 .o_form_view .mos-section-loose .o_notebook .nav-tabs { border-bottom: 1px solid $mos-line; }
 .o_form_view .mos-section-loose .o_notebook .nav-link.active { color: $mos-blue; border-bottom: 2px solid $mos-blue; font-weight: 600; }
 .o_form_view .o_inner_group .o_form_label, .o_form_view .o_group .o_form_label.fw-bold { font-weight: 500 !important; }
+
+// Plain forms converted by page_chrome: labelled fields in a responsive grid, the label above the box.
+.mos-fieldgrid-auto { grid-template-columns: repeat(auto-fill, minmax(270px, 1fr)); padding-top: 6px; }
+.mos-fieldgrid-auto > div > label { font-weight: 600; color: #5b6b8c; font-size: 0.8rem; letter-spacing: 0.02em; text-transform: none; }
+.mos-fieldgrid-auto .mos-subhead { grid-column: 1 / -1; margin-top: 8px; padding-bottom: 4px; border-bottom: 1px solid $mos-line; color: $mos-navy; font-weight: 700; font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.mos-fieldgrid > .mos-fieldgrid-wide { grid-column: 1 / -1; }
+.mos-fieldgrid-auto .o_field_widget:not(.o_field_boolean):not(.o_field_x2many) { min-height: 32px; }
+
+// "More actions": the buttons beyond the first few wait in a menu that opens upwards from the action bar.
+.mos-bar-more { position: relative; }
+.mos-bar-more > summary { list-style: none; cursor: pointer; &::-webkit-details-marker { display: none; } &::after { content: " \25BE"; } }
+.mos-bar-more[open] > summary { background: #e6efff; border-color: $mos-blue; color: $mos-blue; }
+.mos-bar-more .mos-more-menu {
+    position: absolute; right: 0; bottom: calc(100% + 6px); z-index: 20; min-width: 15rem; padding: 6px;
+    display: flex; flex-direction: column; gap: 2px; background: #fff; border: 1px solid $mos-line; border-radius: 10px; box-shadow: 0 8px 24px rgba($mos-navy, 0.18);
+    .btn { width: 100%; min-width: 0; text-align: left; border: 0; background: transparent; color: $mos-navy; font-weight: 500; &:hover { background: #f1f5fc; } }
+}
+// With nothing in the menu for this record (every button hidden by its state) the menu itself is not shown.
+.mos-bar-more:not(:has(.mos-more-menu > button)) { display: none; }

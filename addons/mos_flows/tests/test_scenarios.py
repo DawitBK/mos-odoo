@@ -397,6 +397,9 @@ class TestScenarios(TransactionCase):
         voucher = self._voucher(order, 'P-1')
         payment = self.env['mos.payment'].with_user(self.cashier).create({'voucher_id': voucher.id, 'amount': voucher.net_amount, 'account_id': self.account.id})
         self.assertEqual(voucher.state, 'paid')
+        self.env.flush_all()
+        balance = self.env['mos.supplier.balance'].search([('supplier_id', '=', self.supplier.id)])
+        self.assertGreater(balance.paid, 0, 'the payment counts as paid in the supplier balance')
         cert = payment.certificate_ids
         self.assertEqual(len(cert), 1)
         self.assertRegex(cert.name, r'^WHT-\d{4}-\d{5}$')
@@ -408,6 +411,8 @@ class TestScenarios(TransactionCase):
         self.assertEqual((cert.state, cert.name[:4]), ('void', 'WHT-'), 'the certificate is voided and keeps its number')
         self.assertEqual(voucher.state, 'approved')
         self.assertEqual(voucher.remaining_amount, voucher.net_amount)
+        self.env.flush_all()
+        self.assertEqual(balance.paid, 0, 'a reversed payment no longer counts as paid in the supplier balance and ageing')
         again = self.env['mos.payment'].with_user(self.cashier).create({'voucher_id': voucher.id, 'amount': voucher.net_amount, 'account_id': self.account.id})
         self.assertEqual(voucher.state, 'paid')
         self.assertNotEqual(again.certificate_ids.name, cert.name, 'a new certificate is issued')

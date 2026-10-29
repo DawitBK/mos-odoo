@@ -192,11 +192,13 @@
                 <field name="product_id"/>
                 <field name="safety_stock"/>
                 <field name="reorder_min"/>
+                <field name="reorder_qty" optional="show"/>
                 <field name="max_level"/>
                 <field name="on_hand"/>
                 <field name="on_order"/>
                 <field name="shortfall"/>
                 <field name="suggested_qty"/>
+                <field name="below_safety" optional="show"/>
             </list>
         </field>
     </record>

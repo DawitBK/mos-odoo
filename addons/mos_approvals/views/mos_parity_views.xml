@@ -33,7 +33,17 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="eligible_user_ids"/><field name="eligible_user_ids" readonly="1"/></div>
+                    <div><label for="eligible_user_ids"/>
+                    <field name="eligible_user_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="partner_id"/>
+                            <field name="login"/>
+                            <field name="password"/>
+                            <field name="new_password"/>
+                            <field name="active_partner"/>
+                            <field name="action_id"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>

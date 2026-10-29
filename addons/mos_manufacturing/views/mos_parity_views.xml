@@ -15,8 +15,24 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="child_link_ids"/><field name="child_link_ids" readonly="1"/></div>
-                    <div><label for="inspection_ids"/><field name="inspection_ids" readonly="1"/></div>
+                    <div><label for="child_link_ids"/>
+                    <field name="child_link_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="child_id"/>
+                            <field name="qty"/>
+                        </list>
+                    </field></div>
+                    <div><label for="inspection_ids"/>
+                    <field name="inspection_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="spec_id"/>
+                            <field name="state" widget="badge"/>
+                            <field name="suggested"/>
+                            <field name="tested_by_id"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>

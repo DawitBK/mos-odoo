@@ -9,8 +9,28 @@
             <xpath expr="//sheet" position="inside">
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="dip_ids"/><field name="dip_ids" readonly="1"/></div>
-                    <div><label for="hold_ids"/><field name="hold_ids" readonly="1"/></div>
+                    <div><label for="dip_ids"/>
+                    <field name="dip_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="height_cm"/>
+                            <field name="density"/>
+                            <field name="volume_m3"/>
+                            <field name="measured_kg"/>
+                        </list>
+                    </field></div>
+                    <div><label for="hold_ids"/>
+                    <field name="hold_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="reason"/>
+                            <field name="chemical"/>
+                            <field name="started_at"/>
+                            <field name="planned_end"/>
+                            <field name="released_at"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>

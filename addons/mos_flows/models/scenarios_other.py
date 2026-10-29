@@ -311,6 +311,18 @@ class MosPaymentVoucherLine(models.Model):
         return super()._compute_paid()
 
 
+class MosSupplierBalance(models.Model):
+    _inherit = 'mos.supplier.balance'
+
+    def _mos_allocation_filter(self):
+        # a reversed payment frees its invoices: it no longer counts as paid in the balance and the ageing.
+        # On a new database this view is first built before the reversal table exists; the reversal model rebuilds it once the table is there.
+        self.env.cr.execute("SELECT to_regclass('mos_payment_reversal')")
+        if not self.env.cr.fetchone()[0]:
+            return super()._mos_allocation_filter()
+        return super()._mos_allocation_filter() + ' AND NOT EXISTS (SELECT 1 FROM mos_payment_reversal r WHERE r.payment_id = a.payment_id)'
+
+
 class MosPayment(models.Model):
     """Payment refusals that follow from changes after approval, and a reversal that voids the withholding certificate (FRD 9.5 #29-#31, #34)."""
 
@@ -374,6 +386,10 @@ class MosPaymentReversal(models.Model):
     _description = 'MOS payment reversal'
     _order = 'id desc'
     _mos_final_states = ('posted',)
+
+    def init(self):
+        super().init()
+        self.env['mos.supplier.balance'].init()  # the balance view leaves out reversed payments, so it is rebuilt once this table exists
 
     name = fields.Char(readonly=True, copy=False, default='New')
     payment_id = fields.Many2one('mos.payment', required=True, ondelete='restrict')

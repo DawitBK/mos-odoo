@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Facts the commercial rules keep about a sale: the credit notes raised against an invoice, and until when the delivery's proof-of-delivery link works. -->
+    <record id="view_mos_customer_invoice_form_credit_notes" model="ir.ui.view">
+        <field name="name">mos.customer.invoice.form.credit.notes</field>
+        <field name="model">mos.customer.invoice</field>
+        <field name="inherit_id" ref="mos_sales.view_mos_customer_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-receipt"/> Credit notes</div>
+                    <field name="credit_note_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="date"/>
+                            <field name="amount"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_delivery_order_form_pod_link" model="ir.ui.view">
+        <field name="name">mos.delivery.order.form.pod.link</field>
+        <field name="model">mos.delivery.order</field>
+        <field name="inherit_id" ref="mos_sales.view_mos_delivery_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-clock"/> Proof of delivery link</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="pod_token_expires" string="The link works until"/><field name="pod_token_expires" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

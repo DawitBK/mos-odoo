@@ -32,8 +32,28 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="revision_ids"/><field name="revision_ids" readonly="1"/></div>
-                    <div><label for="concession_ids"/><field name="concession_ids" readonly="1"/></div>
+                    <div><label for="revision_ids"/>
+                    <field name="revision_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="old_decision"/>
+                            <field name="old_deduction_pct"/>
+                            <field name="old_payable_qty"/>
+                            <field name="new_decision"/>
+                            <field name="new_deduction_pct"/>
+                        </list>
+                    </field></div>
+                    <div><label for="concession_ids"/>
+                    <field name="concession_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="mos_my_step_id"/>
+                            <field name="name"/>
+                            <field name="visit_id"/>
+                            <field name="product_id"/>
+                            <field name="decision"/>
+                            <field name="deduction_pct"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>

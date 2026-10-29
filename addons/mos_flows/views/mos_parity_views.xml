@@ -32,8 +32,27 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="reversal_ids"/><field name="reversal_ids" readonly="1"/></div>
-                    <div><label for="certificate_ids"/><field name="certificate_ids" readonly="1"/></div>
+                    <div><label for="reversal_ids"/>
+                    <field name="reversal_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="amount"/>
+                            <field name="reason"/>
+                            <field name="reversed_by_id"/>
+                            <field name="state" widget="badge"/>
+                        </list>
+                    </field></div>
+                    <div><label for="certificate_ids"/>
+                    <field name="certificate_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="supplier_id"/>
+                            <field name="base_amount"/>
+                            <field name="wht_amount"/>
+                            <field name="state" widget="badge"/>
+                            <field name="void_reason"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>

@@ -32,9 +32,39 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="incident_ids"/><field name="incident_ids" readonly="1"/></div>
-                    <div><label for="coa_ids"/><field name="coa_ids" readonly="1"/></div>
-                    <div><label for="inspection_ids"/><field name="inspection_ids" readonly="1"/></div>
+                    <div><label for="incident_ids"/>
+                    <field name="incident_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="kind"/>
+                            <field name="severity"/>
+                            <field name="reported_by_id"/>
+                            <field name="state" widget="badge"/>
+                            <field name="closed_at"/>
+                        </list>
+                    </field></div>
+                    <div><label for="coa_ids"/>
+                    <field name="coa_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="inspection_id"/>
+                            <field name="partner_id"/>
+                            <field name="product_id"/>
+                            <field name="grade_id"/>
+                            <field name="score"/>
+                        </list>
+                    </field></div>
+                    <div><label for="inspection_ids"/>
+                    <field name="inspection_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="name"/>
+                            <field name="product_id"/>
+                            <field name="spec_id"/>
+                            <field name="state" widget="badge"/>
+                            <field name="tested_by_id"/>
+                            <field name="suggested_outcome"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>
@@ -54,7 +84,13 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="doc_ids"/><field name="doc_ids" readonly="1"/></div>
+                    <div><label for="doc_ids"/>
+                    <field name="doc_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="res_model"/>
+                            <field name="res_id"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>
@@ -74,7 +110,17 @@
                 </div>
                 <div class="mos-section">
                     <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
-                    <div><label for="voucher_line_ids"/><field name="voucher_line_ids" readonly="1"/></div>
+                    <div><label for="voucher_line_ids"/>
+                    <field name="voucher_line_ids" readonly="1">
+                        <list create="0" delete="0" edit="0">
+                            <field name="voucher_id"/>
+                            <field name="gross"/>
+                            <field name="vat"/>
+                            <field name="wht"/>
+                            <field name="net"/>
+                            <field name="paid_amount"/>
+                        </list>
+                    </field></div>
                 </div>
             </xpath>
         </field>
