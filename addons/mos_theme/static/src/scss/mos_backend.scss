@@ -246,3 +246,48 @@ $mos-info-bg: #dbeafe;
 .mos-step-done .mos-step-dot { background: $mos-green-bg; border-color: $mos-green; color: $mos-green; }
 .mos-wizard-body { flex: 1 1 auto; padding: 1.2rem 1.5rem; }
 .mos-wizard-title { color: $mos-navy; font-weight: 700; margin-bottom: 1rem; }
+
+// A row of labelled fields, the label above the box ("Payment No.", "Payment Date" …).
+.mos-fieldgrid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 16px; margin-bottom: 8px; }
+.mos-fieldgrid-3 { grid-template-columns: repeat(3, 1fr); }
+.mos-fieldgrid > div > label { display: block; font-weight: 600; color: $mos-navy; font-size: 0.85rem; margin-bottom: 2px; }
+.mos-fieldgrid .o_field_widget { width: 100%; }
+@media (max-width: 900px) { .mos-fieldgrid, .mos-fieldgrid-3 { grid-template-columns: 1fr; } }
+.mos-section-hint { margin: -4px 0 10px; color: rgba($mos-navy, 0.65); font-size: 0.85rem; }
+.mos-summary-4 > div { flex: 1 1 12rem; }
+.mos-sum-red .o_field_widget { color: #b42318; }
+.mos-sum-green .o_field_widget { color: $mos-green; }
+
+// The payment methods: a rail of choices on the left, the details of the chosen one on the right (client screen 25).
+.mos-methods { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+.mos-method-panel { flex: 1 1 24rem; background: $mos-soft; border: 1px solid $mos-line; border-radius: 10px; padding: 14px; }
+.mos-method-rail { flex: 0 0 13rem; }
+.mos-method-rail .o_field_radio, .mos-method-rail.o_field_radio { display: flex; flex-direction: column; gap: 8px; }
+.mos-method-rail .o_radio_item {
+    margin: 0 !important;
+    padding: 10px 14px;
+    border: 1px solid $mos-line;
+    border-radius: 8px;
+    background: #fff;
+    font-weight: 600;
+    color: $mos-navy;
+    &:has(input:checked) { background: $mos-blue; border-color: $mos-blue; color: #fff; }
+    label { cursor: pointer; }
+}
+
+// A place to drop a file ("Click to upload or drag and drop").
+.mos-upload { border: 2px dashed $mos-line; border-radius: 10px; background: #fff; padding: 14px; text-align: center; color: rgba($mos-navy, 0.75); }
+.mos-upload .mos-upload-hint { font-size: 0.8rem; color: rgba($mos-navy, 0.55); }
+
+// Inputs of a card show as boxes, like the mock-ups, and the radio dot of the method rail gives way to the highlight.
+.mos-fieldgrid .o_field_widget .o_input,
+.mos-fieldgrid .o_field_widget input,
+.mos-fieldgrid .o_field_widget textarea {
+    border: 1px solid $mos-line;
+    border-radius: 8px;
+    background: #fff;
+    padding: 4px 10px;
+}
+.mos-fieldgrid .o_field_widget.o_readonly_modifier { color: $mos-navy; }
+.mos-method-rail .o_radio_item input { position: absolute; opacity: 0; pointer-events: none; }
+.mos-method-rail .o_radio_item { position: relative; }

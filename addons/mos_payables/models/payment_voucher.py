@@ -124,13 +124,20 @@ class MosPaymentVoucherLine(models.Model):
     vat = fields.Float(related='invoice_id.vat_amount', store=True)
     wht = fields.Float(related='invoice_id.wht_amount', store=True)
     net = fields.Float(related='invoice_id.payable_amount', store=True)
+    allocation_ids = fields.One2many('mos.payment.line', 'voucher_line_id')
     paid_amount = fields.Float(compute='_compute_paid')
+    balance = fields.Float(compute='_compute_paid', string='Balance due')
 
     live = fields.Boolean(default=True, help='False once the voucher is cancelled or rejected: the invoice is free again.')
 
     _invoice_once = models.UniqueIndex('(invoice_id) WHERE live', 'An invoice can be on only one live voucher.')
 
+    def _paying_allocations(self):
+        """The part of the payments that stands: a model that can void a payment narrows this."""
+        return self.allocation_ids
+
+    @api.depends('allocation_ids.amount', 'net')
     def _compute_paid(self):
         for line in self:
-            total = line.voucher_id.net_amount
-            line.paid_amount = (line.voucher_id.paid_amount * line.net / total) if total else 0.0
+            line.paid_amount = round(sum(line._paying_allocations().mapped('amount')), 2)
+            line.balance = round(line.net - line.paid_amount, 2)

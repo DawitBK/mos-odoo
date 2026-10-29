@@ -49,6 +49,7 @@ class MosSupplierInvoice(models.Model):
     debit_note_ids = fields.One2many('mos.debit.note', 'invoice_id')
     voucher_line_ids = fields.One2many('mos.payment.voucher.line', 'invoice_id', domain=[('live', '=', True)])
     paid_amount = fields.Float(compute='_compute_paid', string='Paid')
+    grn_numbers = fields.Char(compute='_compute_grn_numbers', string='Goods receipts', help='The receipts of the purchase order that brought the goods in.')
 
     @api.depends('supplier_ref')
     def _compute_ref_norm(self):
@@ -64,6 +65,11 @@ class MosSupplierInvoice(models.Model):
             inv.wht_amount = round(net * inv.wht_pct / 100.0, 2)
             debited = sum(inv.debit_note_ids.filtered(lambda d: d.state == 'posted').mapped('amount'))
             inv.payable_amount = round(net + vat - inv.wht_amount - debited, 2)
+
+    def _compute_grn_numbers(self):
+        for inv in self:
+            receipts = inv.purchase_id.sudo().picking_ids.filtered(lambda p: p.picking_type_id.code == 'incoming' and p.state == 'done')
+            inv.grn_numbers = ', '.join(receipts.mapped('name'))
 
     def _compute_paid(self):
         for inv in self:

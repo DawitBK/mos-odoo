@@ -300,6 +300,17 @@ class MosPaymentVoucher(models.Model):
             v.remaining_amount = round(v.net_amount - v.paid_amount, 2)
 
 
+class MosPaymentVoucherLine(models.Model):
+    _inherit = 'mos.payment.voucher.line'
+
+    def _paying_allocations(self):
+        return self.allocation_ids.filtered(lambda a: not a.payment_id.reversal_ids)
+
+    @api.depends('allocation_ids.payment_id.reversal_ids')
+    def _compute_paid(self):
+        return super()._compute_paid()
+
+
 class MosPayment(models.Model):
     """Payment refusals that follow from changes after approval, and a reversal that voids the withholding certificate (FRD 9.5 #29-#31, #34)."""
 

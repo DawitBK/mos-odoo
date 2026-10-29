@@ -146,3 +146,95 @@ class TestPayables(TransactionCase):
         self.assertEqual(balance.balance, inv.payable_amount)
         self.assertEqual(balance.days_31_60, inv.payable_amount)
         self.assertFalse(balance.current)
+
+    # -- the payment screen: several invoices, an amount for each (client screen 25) ---------------------------------------------
+    def _two_invoice_voucher(self):
+        first = self._invoice(self._received_po(qty=10000, received=10000), 10000, 10.0, ref='INV-A')
+        second = self._invoice(self._received_po(qty=5000, received=5000), 5000, 10.0, ref='INV-B')
+        (first | second).action_match()
+        voucher = self.env['mos.payment.voucher'].with_user(self.clerk).create({'supplier_id': self.supplier.id, 'line_ids': [Command.create({'invoice_id': first.id}), Command.create({'invoice_id': second.id})]})
+        voucher.action_submit()
+        return voucher, first, second
+
+    def _pay(self, voucher, **extra):
+        return self.env['mos.payment'].with_user(self.cashier).create({'voucher_id': voucher.id, 'account_id': self.account.id, **extra})
+
+    def test_a_payment_without_a_table_pays_the_oldest_invoice_first(self):
+        voucher, first, second = self._two_invoice_voucher()
+        self.assertEqual((first.payable_amount, second.payable_amount), (113000.0, 56500.0))
+        pay = self._pay(voucher, amount=first.payable_amount + 5000)
+        by_invoice = {line.invoice_id: line for line in pay.allocation_ids}
+        self.assertEqual(by_invoice[first].amount, first.payable_amount)
+        self.assertEqual(by_invoice[second].amount, 5000)
+        self.assertEqual(by_invoice[second].previously_paid, 0)
+        self.assertEqual(by_invoice[second].balance_due, second.payable_amount)
+        self.assertEqual(sum(pay.allocation_ids.mapped('amount')), pay.amount)
+
+    def test_a_payment_pays_the_invoices_the_person_chose_by_the_amounts_chosen(self):
+        voucher, first, second = self._two_invoice_voucher()
+        line_b = voucher.line_ids.filtered(lambda l: l.invoice_id == second)
+        line_a = voucher.line_ids.filtered(lambda l: l.invoice_id == first)
+        pay = self._pay(
+            voucher,
+            allocation_ids=[Command.create({'voucher_line_id': line_b.id, 'amount': 20000}), Command.create({'voucher_line_id': line_a.id, 'amount': 0, 'include': False})],
+        )
+        self.assertEqual(pay.amount, 20000, 'the amount is what the invoices are paid')
+        self.assertEqual(pay.allocation_ids.voucher_line_id, line_b, 'a row that pays nothing is not kept')
+        self.assertEqual((line_b.paid_amount, line_b.balance, line_a.paid_amount), (20000, second.payable_amount - 20000, 0))
+        self.assertEqual(voucher.state, 'partially_paid')
+        again = self._pay(voucher, amount=first.payable_amount + 100)
+        by_line = {line.voucher_line_id: line for line in again.allocation_ids}
+        self.assertEqual(by_line[line_a].amount, first.payable_amount, 'with no table the oldest invoice is paid first')
+        self.assertEqual((by_line[line_b].amount, by_line[line_b].previously_paid), (100, 20000), 'the next payment sees what was paid before')
+        self.assertEqual(line_b.paid_amount, 20100)
+
+    def test_an_invoice_cannot_be_paid_beyond_its_balance_or_twice_and_the_amount_must_agree(self):
+        voucher, first, second = self._two_invoice_voucher()
+        line_b = voucher.line_ids.filtered(lambda l: l.invoice_id == second)
+        with self.assertRaisesRegex(UserError, 'left to pay'):
+            self._pay(voucher, allocation_ids=[Command.create({'voucher_line_id': line_b.id, 'amount': second.payable_amount + 1})])
+        with self.assertRaisesRegex(UserError, 'twice'):
+            self._pay(voucher, allocation_ids=[Command.create({'voucher_line_id': line_b.id, 'amount': 100}), Command.create({'voucher_line_id': line_b.id, 'amount': 100})])
+        with self.assertRaisesRegex(UserError, 'must equal'):
+            self._pay(voucher, amount=500, allocation_ids=[Command.create({'voucher_line_id': line_b.id, 'amount': 100})])
+        other, *_ = self._two_invoice_voucher_of_other_supplier()
+        with self.assertRaisesRegex(UserError, 'on the voucher'):
+            self._pay(voucher, allocation_ids=[Command.create({'voucher_line_id': other.line_ids[:1].id, 'amount': 100})])
+        self.assertFalse(voucher.payment_ids)
+
+    def _two_invoice_voucher_of_other_supplier(self):
+        invoice = self._invoice(self._received_po(qty=1000, received=1000), 1000, 10.0, ref='INV-C')
+        invoice.action_match()
+        voucher = self.env['mos.payment.voucher'].with_user(self.clerk).create({'supplier_id': self.supplier.id, 'line_ids': [Command.create({'invoice_id': invoice.id})]})
+        voucher.action_submit()
+        return voucher, invoice
+
+    def test_the_allocation_of_a_payment_never_changes(self):
+        voucher, first, second = self._two_invoice_voucher()
+        pay = self._pay(voucher, amount=1000)
+        with self.assertRaises(UserError):
+            pay.allocation_ids.write({'amount': 5})
+        with self.assertRaises(UserError):
+            pay.allocation_ids.unlink()
+
+    def test_the_payment_screen_fills_the_table_from_the_voucher_and_says_the_amount_in_words(self):
+        voucher, first, second = self._two_invoice_voucher()
+        form = self.env['mos.payment'].with_user(self.cashier).new({'voucher_id': voucher.id})
+        form._onchange_voucher_id()
+        self.assertEqual(len(form.allocation_ids), 2)
+        self.assertEqual(sum(form.allocation_ids.mapped('amount')), first.payable_amount + second.payable_amount)
+        self.assertEqual(form.amount, first.payable_amount + second.payable_amount, 'the amount follows the table')
+        self.assertEqual(form.total_balance, form.total_invoice)
+        self.assertIn('Hundred', form.amount_in_words)
+        row = form.allocation_ids[:1]
+        row.include = False
+        row._onchange_include()
+        self.assertEqual(row.amount, 0)
+        self.assertEqual(form.allocation_ids[:1].grn_numbers, first.grn_numbers)
+        self.assertRegex(first.grn_numbers, r'/IN/')
+
+    def test_the_payment_shows_the_documents_it_belongs_to(self):
+        voucher, first, second = self._two_invoice_voucher()
+        pay = self._pay(voucher, amount=voucher.net_amount)
+        self.assertEqual(pay.invoice_refs, 'INV-A, INV-B')
+        self.assertEqual(set(pay.purchase_refs.split(', ')), {first.purchase_id.name, second.purchase_id.name})

@@ -20,3 +20,5 @@ access_mos_payment_voucher_line_clerk,Voucher line: payables clerk,mos.payment.v
 access_mos_payment_user,Payment: read,mos.payment,mos_core.group_mos_user,r,
 access_mos_payment_cashier,Payment: cashier,mos.payment,group_mos_cashier,cr,
 access_mos_supplier_balance_user,Supplier balance: read,mos.supplier.balance,mos_core.group_mos_user,r,
+access_mos_payment_line_user,Payment invoice paid: read,mos.payment.line,mos_core.group_mos_user,r,
+access_mos_payment_line_cashier,Payment invoice paid: cashier,mos.payment.line,group_mos_cashier,cru,

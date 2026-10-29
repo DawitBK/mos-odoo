@@ -121,6 +121,29 @@
             </xpath>
         </field>
     </record>
+    <record id="view_mos_payment_form_documents" model="ir.ui.view">
+        <field name="name">mos.payment.form.documents</field>
+        <field name="model">mos.payment</field>
+        <field name="inherit_id" ref="mos_payables.view_mos_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@id='deposit_slip_area']" position="inside">
+                <label for="deposit_slip" string="Upload deposit slip"/>
+                <div class="mos-upload" invisible="id">
+                    <field name="deposit_slip" filename="deposit_slip_name"/>
+                    <field name="deposit_slip_name" invisible="1"/>
+                    <div class="mos-upload-hint"><field name="slip_hint"/></div>
+                </div>
+                <field name="slip_ids" nolabel="1" invisible="not id">
+                    <list create="0" delete="0" edit="0">
+                        <field name="name"/>
+                        <field name="file" string="File" filename="name"/>
+                        <field name="size"/>
+                        <field name="verify_state" widget="badge" decoration-success="verify_state == 'verified'" decoration-warning="verify_state == 'unverified'"/>
+                    </list>
+                </field>
+            </xpath>
+        </field>
+    </record>
     <record id="view_mos_supplier_invoice_form_documents" model="ir.ui.view">
         <field name="name">mos.supplier.invoice.form.documents</field>
         <field name="model">mos.supplier.invoice</field>

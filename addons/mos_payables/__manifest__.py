@@ -1,6 +1,6 @@
 {
     'name': 'MOS Payables',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.0.1',
     'category': 'Manufacturing/MOS',
     'summary': 'Supplier invoices with three-way match, debit notes, payment vouchers, payments, cheque books, ageing (FR-AP-001..019)',
     'license': 'LGPL-3',

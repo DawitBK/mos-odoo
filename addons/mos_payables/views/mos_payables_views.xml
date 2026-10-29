@@ -167,22 +167,83 @@
         <field name="model">mos.payment</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button string="Make Payment" special="save" class="btn-primary" invisible="id"/>
+                    <button string="Cancel" special="cancel" invisible="id"/>
+                </header>
                 <sheet>
-                    <h1><field name="name"/></h1>
-                    <group>
-                        <group>
-                            <field name="voucher_id"/>
-                            <field name="amount"/>
-                            <field name="date"/>
-                        </group>
-                        <group>
-                            <field name="method"/>
-                            <field name="account_id"/>
-                            <field name="cheque_book_id" invisible="method != 'cheque'"/>
-                            <field name="cheque_number" invisible="method != 'cheque'"/>
-                            <field name="reference"/>
-                        </group>
-                    </group>
+                    <field name="currency_id" invisible="1"/>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-bank"/> Payment Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="name" string="Payment no."/><field name="name"/><div class="text-muted small">(Auto generated)</div></div>
+                            <div><label for="date"/><field name="date" readonly="id"/></div>
+                            <div><label for="voucher_id" string="Payment request"/><field name="voucher_id" readonly="id" options="{'no_create': True, 'no_open': True}" domain="[('state', 'in', ('approved', 'partially_paid'))]"/></div>
+                            <div><label for="supplier_id"/><field name="supplier_id"/></div>
+                            <div><label for="currency_id" string="Currency"/><field name="currency_id" readonly="1"/></div>
+                            <div><label for="amount" string="Payment amount"/><field name="amount" readonly="1" force_save="1"/></div>
+                            <div><label for="amount_in_words"/><field name="amount_in_words"/></div>
+                            <div><label for="notes"/><field name="notes" readonly="id" placeholder="Payment against supplier invoice(s)."/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-money"/> Payment Methods</div>
+                        <p class="mos-section-hint">Select the payment method and provide the required details.</p>
+                        <div class="mos-methods">
+                            <field name="method" widget="radio" nolabel="1" readonly="id" class="mos-method-rail"/>
+                            <div class="mos-method-panel">
+                                <div class="mos-fieldgrid">
+                                    <div><label for="account_id" string="Paying account"/><field name="account_id" readonly="id" options="{'no_create': True, 'no_open': True}"/></div>
+                                    <div invisible="method != 'cheque'"><label for="cheque_book_id"/><field name="cheque_book_id" readonly="id" required="method == 'cheque'" options="{'no_create': True, 'no_open': True}"/></div>
+                                    <div invisible="method != 'cheque' or not id"><label for="cheque_number"/><field name="cheque_number"/></div>
+                                    <div invisible="method == 'cheque'"><label for="reference" string="Transaction reference"/><field name="reference" readonly="id"/></div>
+                                </div>
+                                <div id="deposit_slip_area" invisible="method != 'transfer'"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Related Documents</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="voucher_id" string="Payment request"/><field name="voucher_id" readonly="1"/></div>
+                            <div><label for="purchase_refs"/><field name="purchase_refs"/></div>
+                            <div><label for="invoice_refs"/><field name="invoice_refs"/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-receipt"/> Invoices to be Paid</div>
+                        <field name="allocation_ids" nolabel="1" readonly="id">
+                            <list editable="bottom" create="false" delete="false">
+                                <field name="voucher_line_id" column_invisible="1" force_save="1"/>
+                                <field name="previously_paid" column_invisible="1" force_save="1"/>
+                                <field name="balance_due" column_invisible="1" force_save="1"/>
+                                <field name="include" column_invisible="parent.id"/>
+                                <field name="invoice_id"/>
+                                <field name="invoice_date"/>
+                                <field name="purchase_id"/>
+                                <field name="grn_numbers"/>
+                                <field name="invoice_amount"/>
+                                <field name="previously_paid"/>
+                                <field name="balance_due"/>
+                                <field name="amount" readonly="not include" force_save="1"/>
+                            </list>
+                        </field>
+                        <div class="mos-summary-row mos-summary-4">
+                            <div><div class="mos-sum-label">Total Invoice Amount</div><div class="mos-sum-value"><field name="total_invoice"/></div></div>
+                            <div><div class="mos-sum-label">Total Previously Paid</div><div class="mos-sum-value"><field name="total_previous"/></div></div>
+                            <div><div class="mos-sum-label">Total Balance Due</div><div class="mos-sum-value mos-sum-red"><field name="total_balance"/></div></div>
+                            <div><div class="mos-sum-label">Total Amount to Pay</div><div class="mos-sum-value mos-sum-green"><field name="amount" readonly="1"/></div></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-shield"/> Approval Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="approval_by"/><field name="approval_by"/></div>
+                            <div><label for="approval_at"/><field name="approval_at"/></div>
+                            <div><label for="approval_state"/><field name="approval_state" widget="badge" decoration-success="approval_state == 'approved'"/></div>
+                            <div><label for="approval_comment" string="Comments"/><field name="approval_comment"/></div>
+                        </div>
+                    </div>
                 </sheet>
             </form>
         </field>
