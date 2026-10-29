@@ -126,7 +126,11 @@
         <field name="model">mos.gate.visit</field>
         <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
         <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_prepare_grn']" position="attributes">
+                <attribute name="name">action_prepare_receipt</attribute>
+            </xpath>
             <xpath expr="//header" position="inside">
+                <button name="action_check_preflight" string="Check before unloading" type="object" invisible="grn_state != 'none' or state not in ('weighing', 'weighed', 'cleared')"/>
                 <button name="action_ui" string="Link purchase order" type="object" context="{'mos_method': 'action_link_po', 'mos_title': 'Link purchase order'}" invisible="state in ('exited', 'cancelled', 'abandoned') or grn_state in ('confirmed', 'rejected')"/>
                 <button name="action_ui" string="Reject at gate" type="object" context="{'mos_method': 'action_reject_at_gate', 'mos_title': 'Reject at the gate'}" invisible="state not in ('expected', 'arrived', 'weighing', 'weighed')"/>
                 <button name="action_ui" string="Receive into quarantine" type="object" context="{'mos_method': 'action_receive_quarantine', 'mos_title': 'Counted in (kg)'}" invisible="flow != 'B' or grn_state == 'confirmed' or state not in ('arrived', 'weighing', 'weighed')"/>

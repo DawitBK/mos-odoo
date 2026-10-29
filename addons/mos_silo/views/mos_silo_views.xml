@@ -66,6 +66,9 @@
                                 <div><label for="active" string="Active"/><field name="active" widget="boolean_toggle"/></div>
                                 <div><label for="location_id" string="Stock location"/><field name="location_id"/></div>
                             </div>
+                            <div class="mos-action-row">
+                                <button name="action_open_stock" type="object" class="btn btn-secondary" string="Stock in this silo"/>
+                            </div>
                         </div>
                     </div>
                 </sheet>

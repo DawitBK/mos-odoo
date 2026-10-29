@@ -86,11 +86,15 @@ class MosGateVisit(models.Model):
         return problems
 
     def action_check_preflight(self):
+        """The button 'Check before unloading': says what stands in the way, or that nothing does."""
         self.ensure_one()
         problems = self._mos_preflight(self.inspection_id.product_id if self.inspection_id else None, self.inspection_id.payable_qty if self.inspection_id else 0.0)
         if problems:
             raise UserError(self.env._('Unloading cannot be authorised: %s.', '; '.join(problems)))
-        return True
+        return self._mos_notify(self.env._('Ready to unload'), self.env._('The silo, the supplier and the order allow this load to be unloaded.'), 'success')
+
+    def _mos_notify(self, title, message, kind='info', sticky=False):
+        return {'type': 'ir.actions.client', 'tag': 'display_notification', 'params': {'title': title, 'message': message, 'type': kind, 'sticky': sticky}}
 
     def _mos_check_receipt(self, order, product, qty):
         super()._mos_check_receipt(order, product, qty)
@@ -106,17 +110,27 @@ class MosGateVisit(models.Model):
                 visit.with_user(SUPERUSER_ID).action_confirm_grn()
                 self.env['mos.audit.event'].record('grn_auto_confirmed', visit, visit.name)
 
-    def action_prepare_grn_safely(self):
-        """Prepare the receipt; on failure keep the weighing, mark the visit and open an exception (FR-INB-005)."""
+    def _prepare_grn_catching(self):
+        """Prepare the receipt; if a rule refuses it, keep the weighing, mark the visit and open an exception (FR-INB-005). Returns (result, message)."""
         self.ensure_one()
         try:
             with self.env.cr.savepoint():
-                return self.action_prepare_grn()
+                return self.action_prepare_grn(), None
         except UserError as error:
             message = str(error.args[0])
             self.sudo().write({'receipt_exception_note': message[:200]})
             self.env['mos.exception'].raise_for('receipt_exception', self, message[:200], severity='high', due_days=1)
-            return False
+            return False, message
+
+    def action_prepare_grn_safely(self):
+        return self._prepare_grn_catching()[0]
+
+    def action_prepare_receipt(self):
+        """The button 'Prepare goods receipt': the same, and the person is told why when a rule refuses it."""
+        result, message = self._prepare_grn_catching()
+        if message:
+            return self._mos_notify(self.env._('The receipt could not be prepared'), message, 'warning', sticky=True)
+        return True
 
     def _mos_after_confirm(self):
         super()._mos_after_confirm()

@@ -14,7 +14,7 @@
                             <div class="mos-stage-count"><field name="count"/><span class="mos-stage-caption"><field name="caption"/></span></div>
                             <div class="text-muted small"><field name="description"/></div>
                             <div class="mos-stage-foot">
-                                <span class="mos-stage-attention" invisible="attention == 0"><field name="attention"/> need attention</span>
+                                <button type="object" name="action_open_attention" class="btn btn-link p-0 mos-stage-attention" invisible="attention == 0"><field name="attention"/> need attention</button>
                                 <span class="text-muted ms-auto">In all: <field name="total"/></span>
                             </div>
                         </div>
