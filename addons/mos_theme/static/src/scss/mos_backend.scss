@@ -18,11 +18,7 @@ $mos-info-bg: #dbeafe;
     background-color: $mos-soft;
 }
 
-// The top bar is navy, as in the screens.
-.o_main_navbar {
-    background-color: $mos-navy;
-    border-bottom: 0;
-}
+// The top bar and the side menu are in mos_shell.scss.
 
 // Page title and the control bar.
 .o_control_panel {

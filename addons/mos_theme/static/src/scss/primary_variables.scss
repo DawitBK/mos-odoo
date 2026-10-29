@@ -5,3 +5,10 @@ $o-brand-primary: #1a62d8;
 $o-main-link-color: #1a62d8;
 $o-view-background-color: #ffffff;
 $o-webclient-background-color: #eef3fb;
+
+// The top bar is white with navy text, like the rest of the page; the brand sits at the top of the side menu.
+$o-navbar-background: #ffffff;
+$o-navbar-entry-color: #12305f;
+$o-navbar-entry-color--hover: #1a62d8;
+$o-navbar-entry-bg--hover: rgba(#12305f, 0.06);
+$o-navbar-brand-color: #12305f;

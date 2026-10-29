@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="mos_theme.Sidebar">
+        <aside t-if="this.app" class="mos-sidebar" t-att-class="{ 'is-collapsed': this.state.collapsed }">
+            <a class="mos-side-brand" t-att-href="'/odoo'" t-on-click.prevent="() => this.goHome()" title="Home">
+                <span class="mos-side-logo"><i class="mos-ico mos-ico-factory"/></span>
+                <span class="mos-side-brandtext">
+                    <b t-out="this.isMos ? 'MOS' : this.app.name"/>
+                    <small t-out="this.isMos ? 'Mill Operating System' : ''"/>
+                </span>
+            </a>
+
+            <div class="mos-side-search">
+                <i class="mos-ico mos-ico-search"/>
+                <input type="search" placeholder="Find a screen..." t-att-value="this.state.query" t-on-input="(ev) => this.onSearch(ev)" aria-label="Find a screen"/>
+            </div>
+
+            <nav class="mos-side-nav">
+                <t t-if="this.state.query.trim()">
+                    <div class="mos-side-group">Matching screens</div>
+                    <a t-foreach="this.found" t-as="hit" t-key="hit.key" class="mos-side-link mos-side-hit"
+                       t-att-href="this.href(hit.menu)" t-on-click="(ev) => this.open(hit.menu, ev)">
+                        <span t-out="hit.menu.name"/>
+                        <small t-out="hit.section"/>
+                    </a>
+                    <div t-if="!this.found.length" class="mos-side-empty">No screen has these words in its name.</div>
+                </t>
+                <t t-else="">
+                    <t t-foreach="this.groups" t-as="group" t-key="group_index">
+                        <div t-if="group.label" class="mos-side-group" t-out="group.label"/>
+                        <t t-foreach="group.items" t-as="item" t-key="item.id">
+                            <a t-if="item.menu" class="mos-side-item" t-att-class="{ 'is-active': this.isActive(item.menu) }"
+                               t-att-href="this.href(item.menu)" t-att-title="item.name" t-on-click="(ev) => this.open(item.menu, ev)">
+                                <i t-att-class="'mos-ico mos-ico-' + item.icon"/>
+                                <span class="mos-side-label" t-out="item.name"/>
+                            </a>
+                            <t t-else="">
+                                <button type="button" class="mos-side-item mos-side-section" t-att-class="{ 'is-open': this.isOpen(item) }"
+                                        t-att-title="item.name" t-on-click="() => this.toggle(item)">
+                                    <i t-att-class="'mos-ico mos-ico-' + item.icon"/>
+                                    <span class="mos-side-label" t-out="item.name"/>
+                                    <i class="mos-ico mos-ico-chevron mos-side-chevron"/>
+                                </button>
+                                <div t-if="this.isOpen(item) and !this.state.collapsed" class="mos-side-sub">
+                                    <t t-foreach="item.entries" t-as="entry" t-key="entry.key">
+                                        <div t-if="entry.type === 'label'" class="mos-side-sublabel" t-out="entry.name"/>
+                                        <a t-else="" class="mos-side-link" t-att-class="{ 'is-active': this.isActive(entry.menu) }"
+                                           t-att-href="this.href(entry.menu)" t-on-click="(ev) => this.open(entry.menu, ev)"
+                                           t-out="entry.menu.name"/>
+                                    </t>
+                                </div>
+                            </t>
+                        </t>
+                    </t>
+                </t>
+            </nav>
+
+            <button type="button" class="mos-side-collapse" t-on-click="() => this.setCollapsed(!this.state.collapsed)"
+                    t-att-title="this.state.collapsed ? 'Expand the menu' : 'Collapse the menu'">
+                <i class="mos-ico mos-ico-panel"/>
+                <span class="mos-side-label">Collapse menu</span>
+            </button>
+        </aside>
+    </t>
+
+    <t t-inherit="web.WebClient" t-inherit-mode="extension">
+        <xpath expr="//NavBar" position="before">
+            <MosSidebar/>
+        </xpath>
+    </t>
+
+</templates>

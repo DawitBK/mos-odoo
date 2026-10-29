@@ -1,0 +1,115 @@
+// The shell: a side menu that groups the screens by how work flows, and a quiet white top bar (breadcrumbs, notifications, the person).
+// Odoo lays the page out as a column (top bar, then the screen); here it becomes two columns, the side menu spanning the full height.
+$mos-navy: #12305f;
+$mos-blue: #1a62d8;
+$mos-line: #d9e2f1;
+$mos-muted: #8a97b3;
+$mos-side-w: 272px;
+$mos-side-w-collapsed: 68px;
+
+html .o_web_client {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr);
+    > .mos-sidebar { grid-column: 1; grid-row: 1 / span 2; }
+    > .o_navbar { grid-column: 2; grid-row: 1; min-width: 0; }
+    > .o_action_manager { grid-column: 2; grid-row: 2; min-width: 0; }
+    > :not(.mos-sidebar):not(.o_navbar):not(.o_action_manager) { grid-column: 1 / -1; grid-row: 3; }
+}
+
+// The top bar: white with a hairline, the apps button and breadcrumbs on the left, the systray on the right.
+.o_main_navbar {
+    border-bottom: 1px solid $mos-line;
+    .o_menu_brand { display: none !important; }  // the brand is at the top of the side menu
+}
+
+.mos-sidebar {
+    width: $mos-side-w;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border-right: 1px solid $mos-line;
+    overflow: hidden;
+    transition: width 0.15s ease;
+
+    .mos-side-brand {
+        display: flex; align-items: center; gap: 12px;
+        height: 62px; padding: 0 18px; flex: 0 0 auto;
+        color: $mos-navy; text-decoration: none;
+        border-bottom: 1px solid $mos-line;
+    }
+    .mos-side-logo {
+        flex: 0 0 auto; width: 36px; height: 36px; border-radius: 10px;
+        display: grid; place-items: center; font-size: 18px;
+        background: $mos-blue; color: #fff;
+    }
+    .mos-side-brandtext {
+        display: flex; flex-direction: column; line-height: 1.15; min-width: 0;
+        b { font-size: 1.1rem; letter-spacing: 0.02em; }
+        small { color: $mos-muted; font-size: 0.72rem; white-space: nowrap; }
+    }
+
+    .mos-side-search {
+        position: relative; flex: 0 0 auto; margin: 12px 14px 2px;
+        .mos-ico { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: $mos-muted; pointer-events: none; }
+        input {
+            width: 100%; height: 36px; padding: 0 12px 0 34px;
+            border: 1px solid $mos-line; border-radius: 10px; background: #f6f9fe; color: $mos-navy; font-size: 0.9rem;
+            &:focus { outline: 0; background: #fff; border-color: $mos-blue; box-shadow: 0 0 0 3px rgba($mos-blue, 0.12); }
+        }
+    }
+
+    .mos-side-nav { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 2px 10px 12px; }
+    .mos-side-group {
+        padding: 16px 10px 6px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: $mos-muted;
+    }
+    .mos-side-empty { padding: 10px; color: $mos-muted; font-size: 0.88rem; }
+
+    .mos-side-item {
+        display: flex; align-items: center; gap: 12px; width: 100%;
+        padding: 9px 12px; margin: 1px 0; border: 0; border-radius: 10px;
+        background: transparent; color: #2b3d63; font-weight: 500; text-align: left; text-decoration: none; cursor: pointer;
+        .mos-ico { flex: 0 0 auto; width: 1.2em; height: 1.2em; color: #6b7a99; }
+        .mos-side-label { flex: 1 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        &:hover { background: #f1f5fc; color: $mos-navy; }
+        &.is-active { background: #e6efff; color: $mos-blue; font-weight: 600; .mos-ico { color: $mos-blue; } }
+        &.is-open { color: $mos-navy; font-weight: 600; }
+    }
+    .mos-side-chevron { margin-left: auto; width: 0.9em !important; height: 0.9em !important; opacity: 0.55; transition: transform 0.15s; }
+    .is-open > .mos-side-chevron { transform: rotate(90deg); }
+
+    .mos-side-sub { margin: 2px 0 8px 22px; padding-left: 12px; border-left: 2px solid $mos-line; }
+    .mos-side-sublabel { padding: 10px 10px 4px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: $mos-muted; }
+    .mos-side-link {
+        display: block; padding: 7px 10px; margin: 1px 0; border-radius: 8px;
+        color: #4a5b80; font-size: 0.92rem; text-decoration: none;
+        &:hover { background: #f1f5fc; color: $mos-navy; }
+        &.is-active { background: #e6efff; color: $mos-blue; font-weight: 600; }
+        small { display: block; color: $mos-muted; font-size: 0.72rem; }
+    }
+
+    .mos-side-collapse {
+        flex: 0 0 auto; display: flex; align-items: center; gap: 12px; margin: 0; padding: 12px 22px;
+        border: 0; border-top: 1px solid $mos-line; background: transparent; color: #6b7a99; font-size: 0.88rem; text-align: left;
+        &:hover { color: $mos-navy; background: #f6f9fe; }
+    }
+
+    &.is-collapsed {
+        width: $mos-side-w-collapsed;
+        .mos-side-brandtext, .mos-side-search, .mos-side-label, .mos-side-chevron, .mos-side-sub { display: none; }
+        .mos-side-brand { justify-content: center; padding: 0; }
+        .mos-side-group { height: 1px; padding: 0; margin: 12px 8px; background: $mos-line; font-size: 0; }
+        .mos-side-item { justify-content: center; padding: 11px 0; }
+        .mos-side-collapse { justify-content: center; padding: 12px 0; .mos-ico { transform: scaleX(-1); } }
+    }
+}
+
+// On a phone Odoo's own burger menu is used; the side menu steps aside and the page is a column again.
+@media (max-width: 991.98px) {
+    html .o_web_client {
+        display: flex;
+        flex-flow: column nowrap;
+        > .mos-sidebar { display: none; }
+    }
+}
