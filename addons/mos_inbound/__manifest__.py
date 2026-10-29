@@ -1,6 +1,6 @@
 {
     'name': 'MOS Inbound',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.0.1',
     'category': 'Manufacturing/MOS',
     'summary': 'Inbound raw-material flow: gate, weighing, inspection and a system-prepared goods receipt',
     'license': 'LGPL-3',

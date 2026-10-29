@@ -229,6 +229,7 @@
     </record>
 
     <menuitem id="menu_mos_flows" name="Receiving" parent="mos_core.menu_mos_root" sequence="25"/>
+    <menuitem id="menu_mos_goods_receiving" name="Goods receiving" parent="menu_mos_flows" action="mos_inbound.action_mos_goods_receiving" sequence="5"/>
     <menuitem id="menu_mos_lab_revisions" name="Decision revisions" parent="menu_mos_flows" action="action_mos_lab_revision" sequence="30"/>
     <menuitem id="menu_mos_wht_certificates" name="Withholding certificates" parent="menu_mos_flows" action="action_mos_wht_certificate" sequence="40"/>
     <menuitem id="menu_mos_payment_reversals" name="Payment reversals" parent="menu_mos_flows" action="action_mos_payment_reversal" sequence="50"/>

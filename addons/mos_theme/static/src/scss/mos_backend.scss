@@ -292,3 +292,4 @@ $mos-info-bg: #dbeafe;
 .mos-method-rail .o_radio_item input { position: absolute; opacity: 0; pointer-events: none; }
 .mos-method-rail .o_radio_item { position: relative; }
 .mos-fieldgrid-2 { grid-template-columns: repeat(2, 1fr); }
+.mos-fieldgrid-wide { grid-column: 1 / -1; }

@@ -236,3 +236,27 @@ class TestInboundFlow(TransactionCase):
                 self.assertIsNotNone(audit.verify_chain())
                 raise UserError('rolled back on purpose')
         self.assertIsNone(audit.verify_chain())
+
+    # -- the goods receiving page (client screen 9) --------------------------------------------------------------------------------
+    def test_the_receiving_page_says_what_is_waiting_short_and_issued(self):
+        picking = self.po.picking_ids
+        self.assertEqual((picking.mos_receiving_status, picking.mos_item_count), ('waiting', 1))
+        self.assertIn('40,000.0', picking.mos_ordered_totals)
+        self.assertEqual(picking.mos_warehouse_id, picking.picking_type_id.warehouse_id)
+        visit = self._visit_weighed()
+        insp = self._inspect(visit)
+        insp.with_user(self.manager).decide('accept_deduction', 2.0, 'Slight foreign matter')
+        visit.with_user(self.guard).action_prepare_grn()
+        self.assertEqual(picking.mos_receiving_status, 'short', 'the receipt is ready, with less accepted than ordered')
+        self.assertEqual(picking.move_ids.mos_short_qty, 40000.0 - 34300.0)
+        self.assertIn('34,300.0', picking.mos_accepted_totals)
+        self.assertIn('5,700.0', picking.mos_short_totals)
+
+    def test_the_person_who_generates_the_grn_is_the_receiving_officer(self):
+        visit = self._visit_weighed()
+        insp = self._inspect(visit)
+        insp.with_user(self.manager).decide('accept_deduction', 2.0, 'Slight foreign matter')
+        picking = visit.with_user(self.guard).action_prepare_grn()
+        self.assertFalse(picking.user_id)
+        picking.with_user(self.store).with_context(skip_backorder=True, picking_ids_not_to_backorder=picking.ids).button_validate()
+        self.assertEqual((picking.state, picking.user_id, picking.mos_receiving_status), ('done', self.store, 'done'))

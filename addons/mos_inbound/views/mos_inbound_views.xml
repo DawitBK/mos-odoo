@@ -13,9 +13,107 @@
             <field name="net_weight" position="after">
                 <field name="silo_id"/>
                 <field name="inspection_id"/>
-                <field name="grn_picking_id"/>
+                <field name="grn_picking_id" context="{'form_view_ref': 'mos_inbound.view_mos_goods_receiving_form'}"/>
                 <field name="grn_state"/>
             </field>
         </field>
+    </record>
+
+    <!-- Goods receiving (client page 9): the receipt of a purchase order as a page of its own -->
+    <record id="view_mos_goods_receiving_list" model="ir.ui.view">
+        <field name="name">mos.goods.receiving.list</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state == 'cancel'" decoration-success="state == 'done'">
+                <field name="name" string="GRN / receipt"/>
+                <field name="scheduled_date" string="Receiving date"/>
+                <field name="partner_id" string="Supplier"/>
+                <field name="origin" string="PO / reference"/>
+                <field name="mos_warehouse_id"/>
+                <field name="location_dest_id" string="Receiving location"/>
+                <field name="mos_receiving_status" widget="badge" decoration-success="mos_receiving_status in ('ready', 'done')" decoration-warning="mos_receiving_status in ('short', 'waiting')" decoration-danger="mos_receiving_status == 'cancel'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_goods_receiving_form" model="ir.ui.view">
+        <field name="name">mos.goods.receiving.form</field>
+        <field name="model">stock.picking</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,assigned,done"/>
+                </header>
+                <sheet>
+                    <field name="picking_type_code" invisible="1"/>
+                    <field name="picking_type_id" invisible="1"/>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-truck"/></span>
+                        <div class="mos-page-title"><h2>Goods Receiving</h2><p>Record and manage received goods from the supplier</p></div>
+                        <div class="mos-page-crumb">Procurement › Goods Receiving</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> General Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="name" string="GRN / receipt no."/><field name="name"/></div>
+                            <div><label for="origin" string="PO / supplier delivery reference"/><field name="origin" readonly="state in ('done', 'cancel')"/></div>
+                            <div><label for="partner_id" string="Supplier"/><field name="partner_id" readonly="state in ('done', 'cancel')" options="{'no_create': True}"/></div>
+                            <div><label for="mos_warehouse_id"/><field name="mos_warehouse_id"/></div>
+                            <div><label for="location_dest_id" string="Receiving location / bin"/><field name="location_dest_id" readonly="state in ('done', 'cancel')" options="{'no_create': True}"/></div>
+                            <div><label for="user_id" string="Receiving officer"/><field name="user_id" readonly="state in ('done', 'cancel')" options="{'no_create': True}"/></div>
+                            <div invisible="state == 'done'"><label for="scheduled_date" string="Receiving date"/><field name="scheduled_date" readonly="state == 'cancel'"/></div>
+                            <div invisible="state != 'done'"><label for="date_done" string="Receiving date"/><field name="date_done" readonly="1"/></div>
+                            <div class="mos-fieldgrid-wide"><label for="note" string="Remarks (optional)"/><field name="note" readonly="state in ('done', 'cancel')" placeholder="Enter remarks..."/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Item Details</div>
+                        <field name="move_ids" nolabel="1" readonly="state in ('done', 'cancel')">
+                            <list editable="bottom" create="0" delete="0" decoration-danger="mos_short_qty > 0.0001">
+                                <field name="product_id" string="Item / Raw material" readonly="1"/>
+                                <field name="product_uom_qty" string="Ordered quantity" readonly="1"/>
+                                <field name="quantity" string="Accepted quantity"/>
+                                <field name="uom_id" string="Unit" readonly="1"/>
+                                <field name="mos_short_qty" string="Rejected / short quantity"/>
+                                <field name="lot_ids" string="Lot / batch number" widget="many2many_tags" readonly="1" optional="show"/>
+                            </list>
+                        </field>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Receiving Summary</div>
+                            <div class="mos-summary-row">
+                                <div><div class="mos-sum-label">Total Items</div><div class="mos-sum-value"><field name="mos_item_count"/></div></div>
+                                <div><div class="mos-sum-label">Total Ordered Quantity</div><div class="mos-sum-value"><field name="mos_ordered_totals"/></div></div>
+                                <div><div class="mos-sum-label">Total Accepted Quantity</div><div class="mos-sum-value mos-sum-green"><field name="mos_accepted_totals"/></div></div>
+                                <div><div class="mos-sum-label">Total Rejected / Short Quantity</div><div class="mos-sum-value mos-sum-red"><field name="mos_short_totals"/></div></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-check"/> Status</div>
+                            <field name="mos_receiving_status" widget="badge" decoration-success="mos_receiving_status in ('ready', 'done')" decoration-warning="mos_receiving_status in ('short', 'waiting')" decoration-danger="mos_receiving_status == 'cancel'"/>
+                            <p class="text-muted mt-2 mb-0" invisible="mos_receiving_status not in ('ready', 'short')">All items are received. You can now generate the GRN / receiving voucher.</p>
+                            <p class="text-muted mt-2 mb-0" invisible="mos_receiving_status != 'waiting'">The accepted quantity of every item is entered when the goods are received.</p>
+                            <p class="text-muted mt-2 mb-0" invisible="mos_receiving_status != 'done'">The goods are in stock; the bin card and stock card show the receipt.</p>
+                        </div>
+                    </div>
+                    <div class="mos-action-bar">
+                        <button name="action_cancel" string="Reject" type="object" class="btn-danger" invisible="state in ('done', 'cancel')" confirm="Reject this receipt? The goods are not received."/>
+                        <button name="%(stock.action_report_picking)d" string="Print" type="action" class="btn-secondary"/>
+                        <button name="button_validate" string="Generate GRN / Receiving voucher" type="object" class="btn-primary" invisible="state in ('done', 'cancel', 'draft') or mos_receiving_status == 'waiting'"/>
+                    </div>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="action_mos_goods_receiving" model="ir.actions.act_window">
+        <field name="name">Goods receiving</field>
+        <field name="res_model">stock.picking</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('picking_type_code', '=', 'incoming')]</field>
+        <field name="context">{'default_picking_type_code': 'incoming', 'restricted_picking_type_code': 'incoming'}</field>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_goods_receiving_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('view_mos_goods_receiving_form')})]"/>
     </record>
 </odoo>
