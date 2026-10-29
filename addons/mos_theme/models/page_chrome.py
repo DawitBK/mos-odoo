@@ -74,6 +74,27 @@ def _icon_for(text, table, default):
     return default
 
 
+# The colour of a status pill, chosen by what the value says. A view that colours a value itself keeps its choice; this only fills what it left out.
+TONE_WORDS = (
+    ('danger', ('reject', 'cancel', 'fail', 'block', 'overdue', 'void', 'revers', 'lost', 'refus', 'expire', 'error', 'variance', 'declin', 'abandon', 'fraud', 'breach', 'full')),
+    ('warning', ('pending', 'wait', 'hold', 'partial', 'review', 'quarantine', 'await', 'due', 'low', 'high', 'unmatched', 'not_matched', 'dispute', 'escalat', 'weigh', 'approval')),
+    ('success', ('done', 'approved', 'paid', 'posted', 'confirm', 'match', 'active', 'releas', 'accept', 'closed', 'complete', 'passed', 'ok', 'available', 'receiv', 'sign', 'valid', 'settled', 'exited', 'cleared', 'payable', 'decided', 'applied', 'issued', 'delivered', 'sent', 'verified')),
+    ('info', ('draft', 'new', 'open', 'expected', 'plan', 'submit', 'arrived', 'assign', 'running', 'progress', 'ready', 'requested', 'invited', 'candidate', 'voucher')),
+)
+
+
+def _tone_of(value):
+    key = str(value).lower()
+    for tone, words in TONE_WORDS:
+        if any(word in key for word in words):
+            return tone
+    return None
+
+
+def _is_status_field(name):
+    return name in ('state', 'status') or name.endswith('_state') or name.endswith('_status')
+
+
 class Base(models.AbstractModel):
     _inherit = 'base'
 
@@ -83,7 +104,39 @@ class Base(models.AbstractModel):
         # Every MOS record is a full page; a transient model is a dialog, unless it is one of the listed screens. Odoo's own documents get the layout only when they are listed.
         if (view_type or view.type) == 'form' and (self._name in PAGES or (self._name.startswith('mos.') and not self._transient)):
             self._mos_page_chrome(arch)
+        if (view_type or view.type) == 'list' and self._name.startswith('mos.'):
+            self._mos_status_pills(arch)
         return arch, view
+
+    @api.model
+    def _mos_status_pills(self, arch):
+        """Every status column of a MOS list is a coloured pill, the same colour for the same meaning in every list."""
+        for node in arch.iter('field'):
+            name = node.get('name')
+            field = self._fields.get(name)
+            if field is None or field.type != 'selection' or not _is_status_field(name):
+                continue
+            if node.get('widget') not in (None, 'badge'):
+                continue
+            try:
+                values = [key for key, _label in field._description_selection(self.env)]
+            except Exception:  # a selection that cannot be listed here keeps the view's own look
+                continue
+            covered = ' '.join(node.get(attr) or '' for attr in node.attrib if attr.startswith('decoration-'))
+            missing = {}
+            for value in values:
+                if "'%s'" % value in covered or '"%s"' % value in covered:
+                    continue
+                tone = _tone_of(value)
+                if tone:
+                    missing.setdefault(tone, []).append(value)
+            if not missing and node.get('widget') == 'badge':
+                continue
+            node.set('widget', 'badge')
+            for tone, keys in missing.items():
+                attr = 'decoration-%s' % tone
+                condition = '%s in (%s)' % (name, ', '.join("'%s'" % k for k in keys))
+                node.set(attr, '%s or %s' % (node.get(attr), condition) if node.get(attr) else condition)
 
     @api.model
     def _mos_page_chrome(self, arch):
@@ -93,6 +146,7 @@ class Base(models.AbstractModel):
         if self._name.startswith('mos.'):  # the buttons of Odoo's own documents stay where Odoo's flows expect them
             self._mos_move_buttons_to_the_foot(arch, sheet)
         self._mos_wrap_parts_in_cards(sheet)
+        self._mos_wrap_loose_blocks(sheet)
         sheet.insert(0, self._mos_page_head())
 
     @api.model
@@ -134,6 +188,29 @@ class Base(models.AbstractModel):
             sheet.insert(start, card)
             for node in body:
                 card.append(node)  # moves the node out of the sheet into the card
+
+    @api.model
+    def _mos_wrap_loose_blocks(self, sheet):
+        """A group or notebook that sits directly in the sheet, outside every card, becomes a card of its own (its string is the card title)."""
+        for node in list(sheet):
+            if node.tag not in ('group', 'notebook'):
+                continue
+            if 'mos-' in (node.get('class') or ''):
+                continue
+            card = etree.Element('div', {'class': 'mos-section mos-section-loose'})
+            for attribute in ('invisible', 'groups'):
+                if node.get(attribute):
+                    card.set(attribute, node.get(attribute))
+            title = node.get('string') if node.tag == 'group' else None
+            if title:
+                head = etree.SubElement(card, 'div', {'class': 'mos-section-title'})
+                etree.SubElement(head, 'i', {'class': 'mos-ico mos-ico-%s' % _icon_for(title, SECTION_ICONS, 'doc')}).text = ''
+                etree.SubElement(head, 'span').text = title
+                del node.attrib['string']
+            index = list(sheet).index(node)
+            sheet.remove(node)
+            sheet.insert(index, card)
+            card.append(node)
 
     @api.model
     def _mos_move_buttons_to_the_foot(self, arch, sheet):

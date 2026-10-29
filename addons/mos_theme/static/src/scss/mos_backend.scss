@@ -310,3 +310,11 @@ $mos-info-bg: #dbeafe;
 .o_field_badges_selection .o_selection_badge[value='"high"'] { background: #f6c9c4; color: $mos-red; }
 .o_field_badges_selection .o_selection_badge[value='"urgent"'] { background: $mos-red-bg; color: $mos-red; }
 .o_field_badges_selection .o_selection_badge.active { border-color: $mos-navy; box-shadow: 0 0 0 1px $mos-navy; }
+
+// Labels of the plain form layout: quiet and muted, so the values are what the eye finds (the hand-built pages set their own).
+.o_form_view .o_form_label { font-weight: 500; color: #5b6b8c; }
+.o_form_view .mos-section-loose { padding-top: 6px; }
+.o_form_view .mos-section-loose .o_group { margin-bottom: 0; }
+.o_form_view .mos-section-loose .o_notebook .nav-tabs { border-bottom: 1px solid $mos-line; }
+.o_form_view .mos-section-loose .o_notebook .nav-link.active { color: $mos-blue; border-bottom: 2px solid $mos-blue; font-weight: 600; }
+.o_form_view .o_inner_group .o_form_label, .o_form_view .o_group .o_form_label.fw-bold { font-weight: 500 !important; }
