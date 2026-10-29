@@ -205,6 +205,15 @@
         <field name="model">purchase.order</field>
         <field name="inherit_id" ref="purchase.purchase_order_form"/>
         <field name="arch" type="xml">
+            <!-- The client's order screen shows Draft / Issued / Pending / Canceled as a pill, not Odoo's step bar -->
+            <xpath expr="//field[@name='state'][@widget='statusbar']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="before">
+                <div class="mos-status-row">
+                    <field name="mos_po_status" widget="badge" decoration-info="mos_po_status == 'draft'" decoration-warning="mos_po_status == 'pending'" decoration-success="mos_po_status == 'issued'" decoration-danger="mos_po_status == 'canceled'"/>
+                </div>
+            </xpath>
             <xpath expr="//notebook" position="inside">
                 <page string="Sourcing" name="mos_sourcing">
                     <group>
@@ -405,6 +414,48 @@
         </field>
     </record>
 
+    <!-- Purchase orders: the client's page 6, reachable from MOS (it was only in Odoo's own Purchase app) -->
+    <record id="view_mos_purchase_order_list" model="ir.ui.view">
+        <field name="name">purchase.order.list.mos</field>
+        <field name="model">purchase.order</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="mos_po_status == 'canceled'" create="1">
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="date_order"/>
+                <field name="date_planned" optional="show"/>
+                <field name="amount_total" sum="Total" widget="monetary"/>
+                <field name="currency_id" column_invisible="1"/>
+                <field name="mos_po_status" widget="badge" decoration-info="mos_po_status == 'draft'" decoration-warning="mos_po_status == 'pending'" decoration-success="mos_po_status == 'issued'" decoration-danger="mos_po_status == 'canceled'"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_purchase_order_search" model="ir.ui.view">
+        <field name="name">purchase.order.search.mos</field>
+        <field name="model">purchase.order</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" string="Order"/>
+                <field name="partner_id" string="Supplier"/>
+                <filter name="draft" string="Draft" domain="[('mos_po_status', '=', 'draft')]"/>
+                <filter name="pending" string="Pending" domain="[('mos_po_status', '=', 'pending')]"/>
+                <filter name="issued" string="Issued" domain="[('mos_po_status', '=', 'issued')]"/>
+                <filter name="canceled" string="Canceled" domain="[('mos_po_status', '=', 'canceled')]"/>
+                <group>
+                    <filter name="group_status" string="Status" context="{'group_by': 'mos_po_status'}"/>
+                    <filter name="group_supplier" string="Supplier" context="{'group_by': 'partner_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_purchase_order" model="ir.actions.act_window">
+        <field name="name">Purchase orders</field>
+        <field name="res_model">purchase.order</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_mos_purchase_order_search"/>
+        <field name="view_ids" eval="[(5, 0, 0), (0, 0, {'view_mode': 'list', 'view_id': ref('view_mos_purchase_order_list')}), (0, 0, {'view_mode': 'form', 'view_id': ref('purchase.purchase_order_form')})]"/>
+    </record>
+    <menuitem id="menu_mos_purchase_orders" name="Purchase orders" parent="menu_mos_procurement" action="action_mos_purchase_order" sequence="15"/>
     <menuitem id="menu_mos_purchase_requests" name="Purchase requests" parent="menu_mos_procurement" action="action_mos_purchase_request" sequence="10"/>
     <menuitem id="menu_mos_suppliers" name="Approved supplier list" parent="menu_mos_procurement" action="action_mos_suppliers" sequence="20"/>
     <menuitem id="menu_mos_bank_changes" name="Bank changes" parent="menu_mos_procurement" action="action_mos_bank_change" sequence="30"/>

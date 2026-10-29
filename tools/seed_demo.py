@@ -74,10 +74,10 @@ apclerk, cashier, salesrep = users['apclerk'], users['cashier'], users['salesrep
 # --- the approval matrix (data, never code) ---------------------------------------------------------------------
 G = lambda x: env.ref(x).id
 Rule = env['mos.approval.rule']
-for seq, lo, group, fallback in ((10, 0, 'mos_approvals.group_mos_dept_manager', None), (20, 30000.01, 'mos_approvals.group_mos_finance_manager', 'mos_approvals.group_mos_general_manager'), (30, 150000.01, 'mos_approvals.group_mos_general_manager', None)):
+for seq, lo, group, fallback in ((10, 0, 'mos_approvals.group_mos_dept_manager', None), (20, 4200000.01, 'mos_approvals.group_mos_finance_manager', 'mos_approvals.group_mos_general_manager'), (30, 21000000.01, 'mos_approvals.group_mos_general_manager', None)):
     Rule.create({'doc_type': 'purchase.order', 'sequence': seq, 'amount_from': lo, 'group_id': G(group), 'fallback_group_id': G(fallback) if fallback else False, 'sla_hours': 24})
 Rule.create({'doc_type': 'mos.payment.voucher', 'sequence': 10, 'amount_from': 0, 'group_id': G('mos_approvals.group_mos_finance_manager'), 'sla_hours': 24})
-Rule.create({'doc_type': 'mos.payment.voucher', 'sequence': 20, 'amount_from': 200000.01, 'group_id': G('mos_approvals.group_mos_general_manager')})
+Rule.create({'doc_type': 'mos.payment.voucher', 'sequence': 20, 'amount_from': 28000000.01, 'group_id': G('mos_approvals.group_mos_general_manager')})
 Rule.create({'doc_type': 'mos.supplier.invoice', 'sequence': 10, 'amount_from': 0, 'group_id': G('mos_approvals.group_mos_finance_manager')})
 Rule.create({'doc_type': 'sale.order', 'sequence': 10, 'amount_from': 0, 'group_id': G('mos_approvals.group_mos_general_manager')})
 APPROVER_BY_GROUP = {G('mos_approvals.group_mos_dept_manager'): deptmgr, G('mos_approvals.group_mos_finance_manager'): finance, G('mos_approvals.group_mos_general_manager'): gm}
@@ -123,14 +123,14 @@ def product(name, categ, cost, price=None):
     )
 
 
-durum = product('Durum wheat (local)', wheat_cat, 0.42)
-bread = product('Bread wheat (local)', wheat_cat, 0.38)
-hrw = product('Hard red wheat (imported)', wheat_cat, 0.47)
-semolina = product('Semolina', flour_cat, 0.62)
-bread_flour = product('Bread flour 72%', flour_cat, 0.58)
-whole_flour = product('Whole-wheat flour', flour_cat, 0.55)
-bran = product('Wheat bran', byprod_cat, 0.16)
-offal = product('Wheat germ and offal', byprod_cat, 0.12)
+durum = product('Durum wheat (local)', wheat_cat, 59.0)
+bread = product('Bread wheat (local)', wheat_cat, 53.0)
+hrw = product('Hard red wheat (imported)', wheat_cat, 66.0)
+semolina = product('Semolina', flour_cat, 87.0)
+bread_flour = product('Bread flour 72%', flour_cat, 81.0)
+whole_flour = product('Whole-wheat flour', flour_cat, 77.0)
+bran = product('Wheat bran', byprod_cat, 22.0)
+offal = product('Wheat germ and offal', byprod_cat, 17.0)
 
 for code, name in (('RW-SCALE', 'Scale drift'), ('RW-ENTRY', 'Keying error'), ('RW-TARE', 'Wrong tare')):
     env['mos.reason'].create({'domain': 'reweigh', 'code': code, 'name': name})

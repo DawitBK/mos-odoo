@@ -113,13 +113,13 @@ def contracts():
     existing = env['mos.purchase.contract'].search([], limit=1)
     wheat = product('Bread wheat (local)')
     rift = partner_model.search([('name', 'like', 'Rift')], limit=1)
-    active = env['mos.purchase.contract'].with_user(buyer).create({'supplier_id': rift.id, 'product_id': wheat.id, 'qty': 600000, 'price': 0.436, 'valid_from': today - timedelta(days=30), 'valid_to': today + timedelta(days=150), 'quality_note': 'Moisture at most 13.5%, no live insects.'})
+    active = env['mos.purchase.contract'].with_user(buyer).create({'supplier_id': rift.id, 'product_id': wheat.id, 'qty': 600000, 'price': 61.0, 'valid_from': today - timedelta(days=30), 'valid_to': today + timedelta(days=150), 'quality_note': 'Moisture at most 13.5%, no live insects.'})
     active.with_user(manager).action_activate()
     active.with_user(buyer).action_new_calloff(30000.0)
-    closed = env['mos.purchase.contract'].with_user(buyer).create({'supplier_id': rift.id, 'product_id': wheat.id, 'qty': 100000, 'price': 0.42, 'valid_from': today - timedelta(days=200), 'valid_to': today - timedelta(days=20)})
+    closed = env['mos.purchase.contract'].with_user(buyer).create({'supplier_id': rift.id, 'product_id': wheat.id, 'qty': 100000, 'price': 59.0, 'valid_from': today - timedelta(days=200), 'valid_to': today - timedelta(days=20)})
     closed.with_user(manager).action_activate()
     closed.with_user(manager).action_close('Season ended; the full quantity was not called off')
-    env['mos.purchase.contract'].with_user(buyer).create({'supplier_id': rift.id, 'product_id': wheat.id, 'qty': 250000, 'price': 0.44, 'valid_from': today + timedelta(days=30), 'valid_to': today + timedelta(days=210)})  # a draft for next season
+    env['mos.purchase.contract'].with_user(buyer).create({'supplier_id': rift.id, 'product_id': wheat.id, 'qty': 250000, 'price': 62.0, 'valid_from': today + timedelta(days=30), 'valid_to': today + timedelta(days=210)})  # a draft for next season
     if not existing:
         raise RuntimeError('expected the first contract from the base demo')
 
@@ -133,8 +133,8 @@ def quotes():
 
 
 def amendments():
-    if not env['mos.approval.rule'].search([('doc_type', '=', 'mos.po.amendment'), ('amount_from', '=', 5000)]):
-        env['mos.approval.rule'].create({'doc_type': 'mos.po.amendment', 'sequence': 5, 'amount_from': 5000, 'group_id': env.ref('mos_approvals.group_mos_dept_manager').id, 'sla_hours': 24})
+    if not env['mos.approval.rule'].search([('doc_type', '=', 'mos.po.amendment'), ('amount_from', '=', 700000)]):
+        env['mos.approval.rule'].create({'doc_type': 'mos.po.amendment', 'sequence': 5, 'amount_from': 700000, 'group_id': env.ref('mos_approvals.group_mos_dept_manager').id, 'sla_hours': 24})
     orders = env['purchase.order'].search([('state', '=', 'purchase'), ('receipt_status', '=', 'pending'), ('mos_contract_id', '=', False)], order='id desc', limit=5)
     if len(orders) < 4:
         raise RuntimeError('not enough open orders to amend')
@@ -165,7 +165,7 @@ def returns():
         order = invoice.purchase_id
         line = order.order_line[:1]
         quants = env['stock.quant'].sudo().search([('product_id', '=', line.product_id.id), ('location_id.usage', '=', 'internal'), ('quantity', '>', 6000)], order='quantity desc', limit=1)
-        if quants and order.picking_ids and invoice.payable_amount > 3000:
+        if quants and order.picking_ids and invoice.payable_amount > 420000:
             candidates.append((invoice, order, line.product_id, quants.location_id))
     if len(candidates) < 5:
         raise RuntimeError(f'only {len(candidates)} invoices with returnable stock')

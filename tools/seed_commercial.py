@@ -35,19 +35,19 @@ env.cr.commit()
 # --- credit limit requests ----------------------------------------------------------------------------------------------------
 if customers:
     first, second = customers[0], customers[-1]
-    first.with_context(mos_credit_change=True).write({'mos_credit_limit': max(first.mos_credit_limit, 400000.0)})
-    applied = env['mos.credit.change'].with_user(salesmgr).create({'partner_id': first.id, 'new_limit': 650000.0, 'reason': 'Twelve months of on-time payment, volume doubled'})
+    first.with_context(mos_credit_change=True).write({'mos_credit_limit': max(first.mos_credit_limit, 56000000.0)})
+    applied = env['mos.credit.change'].with_user(salesmgr).create({'partner_id': first.id, 'new_limit': 91000000.0, 'reason': 'Twelve months of on-time payment, volume doubled'})
     applied.with_user(finance).action_approve()
-    env['mos.credit.change'].with_user(salesmgr).create({'partner_id': second.id, 'new_limit': 900000.0, 'reason': 'New contract with a hotel chain'})
+    env['mos.credit.change'].with_user(salesmgr).create({'partner_id': second.id, 'new_limit': 126000000.0, 'reason': 'New contract with a hotel chain'})
 
 # --- credit notes ----------------------------------------------------------------------------------------------------------------
 reasons = {}
 for code, name in (('SHORT', 'Shortage on delivery'), ('DMG', 'Damaged bags'), ('PRICE', 'Price correction')):
     reasons[code] = env['mos.reason'].create({'domain': 'credit', 'code': code, 'name': name})
 return_reason = env['mos.reason'].create({'domain': 'customer_return', 'code': 'RET-DMG', 'name': 'Damaged in transit'})
-env['mos.approval.rule'].create({'doc_type': 'mos.credit.note', 'sequence': 10, 'amount_from': 5000, 'group_id': env.ref('mos_approvals.group_mos_finance_manager').id, 'sla_hours': 24})
-invoices = env['mos.customer.invoice'].search([('balance', '>', 15000)], order='id desc', limit=4)
-for invoice, code, amount, finish in zip(invoices, ('SHORT', 'PRICE', 'DMG', 'SHORT'), (1800.0, 3200.0, 9500.0, 12000.0), (True, True, False, None)):
+env['mos.approval.rule'].create({'doc_type': 'mos.credit.note', 'sequence': 10, 'amount_from': 700000, 'group_id': env.ref('mos_approvals.group_mos_finance_manager').id, 'sla_hours': 24})
+invoices = env['mos.customer.invoice'].search([('balance', '>', 2100000)], order='id desc', limit=4)
+for invoice, code, amount, finish in zip(invoices, ('SHORT', 'PRICE', 'DMG', 'SHORT'), (252000.0, 448000.0, 1330000.0, 1680000.0), (True, True, False, None)):
     note = env['mos.credit.note'].with_user(salesrep).create({'customer_id': invoice.customer_id.id, 'invoice_id': invoice.id, 'reason_id': reasons[code].id, 'amount': amount, 'note': 'Raised from the delivery documents'})
     if finish is None:
         continue

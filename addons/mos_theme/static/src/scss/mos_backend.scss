@@ -337,3 +337,6 @@ $mos-info-bg: #dbeafe;
 }
 // With nothing in the menu for this record (every button hidden by its state) the menu itself is not shown.
 .mos-bar-more:not(:has(.mos-more-menu > button)) { display: none; }
+
+// The status pill row at the top of a document page (purchase order: Draft / Pending / Issued / Canceled).
+.mos-status-row { display: flex; justify-content: flex-end; margin: 0 0 8px; .o_field_badge .badge { font-size: 0.85rem; padding: 0.35em 1em; } }

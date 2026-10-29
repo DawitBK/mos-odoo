@@ -49,6 +49,27 @@ class TestProcurement(TransactionCase):
         )
         return order
 
+    # -- the four states the order screen shows --------------------------------------------------------------
+    def test_the_order_status_is_draft_pending_issued_or_canceled(self):
+        order = self._order()
+        self.assertEqual(order.mos_po_status, 'draft')
+        order.sudo().mos_approval_state = 'pending'
+        self.assertEqual(order.mos_po_status, 'pending', 'waiting for an approval decision')
+        order.sudo().mos_approval_state = 'none'
+        order.sudo().state = 'to approve'
+        self.assertEqual(order.mos_po_status, 'pending', "Odoo's own approval step also counts as pending")
+        order.sudo().state = 'purchase'
+        self.assertEqual(order.mos_po_status, 'issued')
+        order.sudo().state = 'cancel'
+        self.assertEqual(order.mos_po_status, 'canceled')
+        found = self.env['purchase.order'].search([('mos_po_status', '=', 'canceled'), ('id', '=', order.id)])
+        self.assertEqual(found, order, 'the status can be searched and grouped')
+
+    def test_the_orders_are_reachable_from_the_procurement_menu(self):
+        menu = self.env.ref('mos_procurement.menu_mos_purchase_orders')
+        self.assertEqual(menu.action.res_model, 'purchase.order')
+        self.assertEqual(menu.parent_id, self.env.ref('mos_procurement.menu_mos_procurement'))
+
     # -- supplier approval ---------------------------------------------------------------------------------
     def test_supplier_approval_needs_documents_and_a_different_person(self):
         with self.assertRaises(UserError):

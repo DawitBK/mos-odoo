@@ -33,7 +33,7 @@ def sales():
     dropped = _order(mercato, whole, 9000, 0.88)
     dropped.with_user(salesrep).action_cancel()
     # confirmed and waiting to be delivered: the demand the planner works from
-    for customer, prod, qty, price in ((addis, semolina, 40000, 0.98), (mercato, whole, 50000, 0.89), (golden, bread, 60000, 0.85)):
+    for customer, prod, qty, price in ((addis, semolina, 40000, 137.0), (mercato, whole, 50000, 125.0), (golden, bread, 60000, 119.0)):
         order = _order(customer, prod, qty, price)
         if order._mos_approval_required():
             submit(order, salesrep, 'action_mos_submit_approval')
@@ -45,7 +45,7 @@ def sales():
         raise RuntimeError('no flour in stock to load a truck')
     for number, (customer, plate, driver) in enumerate(((golden, 'AA-48213', 'Fitsum'), (mercato, 'OR-30944', 'Abel'))):
         prod = stock_flour[number % len(stock_flour)]
-        order = _order(customer, prod, 5000, prod.list_price or 0.85)
+        order = _order(customer, prod, 5000, prod.list_price or 119.0)
         if order._mos_approval_required():
             submit(order, salesrep, 'action_mos_submit_approval')
             decide(order)
@@ -57,7 +57,7 @@ def sales():
             visit.action_arrive()
             visit.action_start_weighing()
             visit.ticket_id.record_first(15240.0)
-    Partner.create({'name': 'Bole Hotels Group', 'is_company': True, 'customer_rank': 1, 'mos_credit_limit': 250000.0, 'mos_credit_mode': 'block', 'email': 'purchasing@bolehotels.example'})
+    Partner.create({'name': 'Bole Hotels Group', 'is_company': True, 'customer_rank': 1, 'mos_credit_limit': 35000000.0, 'mos_credit_mode': 'block', 'email': 'purchasing@bolehotels.example'})
 
 
 def customer_returns():

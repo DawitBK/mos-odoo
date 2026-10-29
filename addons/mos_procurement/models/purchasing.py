@@ -224,6 +224,26 @@ class PurchaseOrder(models.Model):
     mos_quote_count = fields.Integer(compute='_compute_quote_count')
     mos_sole_source_reason = fields.Char(string='Why no competing quotes')
     mos_amendment_ids = fields.One2many('mos.po.amendment', 'purchase_id')
+    # The four states the client's order screen shows. Odoo's own state keeps driving the workflow; this is what the person reads.
+    mos_po_status = fields.Selection(
+        [('draft', 'Draft'), ('pending', 'Pending'), ('issued', 'Issued'), ('canceled', 'Canceled')],
+        string='Status',
+        compute='_compute_mos_po_status',
+        store=True,
+        index=True,
+    )
+
+    @api.depends('state', 'mos_approval_state')
+    def _compute_mos_po_status(self):
+        for order in self:
+            if order.state == 'cancel':
+                order.mos_po_status = 'canceled'
+            elif order.state in ('purchase', 'done'):
+                order.mos_po_status = 'issued'
+            elif order.state == 'to approve' or order.mos_approval_state == 'pending':
+                order.mos_po_status = 'pending'
+            else:
+                order.mos_po_status = 'draft'
 
     @api.depends('mos_quote_ids')
     def _compute_quote_count(self):

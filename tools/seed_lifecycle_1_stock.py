@@ -62,7 +62,7 @@ def holds():
 
 def delegations():
     gm, dept = user('gm'), user('deptmanager')
-    env['mos.approval.delegation'].with_user(gm).create({'delegator_id': gm.id, 'delegate_id': dept.id, 'date_from': now - timedelta(days=1), 'date_to': now + timedelta(days=6), 'doc_type': 'purchase.order', 'max_amount': 20000})
+    env['mos.approval.delegation'].with_user(gm).create({'delegator_id': gm.id, 'delegate_id': dept.id, 'date_from': now - timedelta(days=1), 'date_to': now + timedelta(days=6), 'doc_type': 'purchase.order', 'max_amount': 2800000})
     env['mos.approval.delegation'].with_user(finance).create({'delegator_id': finance.id, 'delegate_id': gm.id, 'date_from': now - timedelta(days=30), 'date_to': now - timedelta(days=16)})
     env['mos.approval.delegation'].with_user(gm).create({'delegator_id': gm.id, 'delegate_id': finance.id, 'date_from': now + timedelta(days=20), 'date_to': now + timedelta(days=27), 'active': False})
 

@@ -113,17 +113,17 @@ env.cr.execute("UPDATE mos_payment p SET date = v.date + 2 FROM mos_payment_vouc
 
 # --- customers and sales ---------------------------------------------------------------------------------------------
 CUSTOMERS = [
-    ('Golden Crust Bakeries', 3_000_000),
-    ('Addis Pasta and Noodles', 2_000_000),
-    ('Sunrise Retail Cooperative', 800_000),
-    ('Harvest Biscuit Co.', 1_500_000),
-    ('Corner Shops Union', 120_000),
-    ('Mercato Wholesale', 2_500_000),
+    ('Golden Crust Bakeries', 420_000_000),
+    ('Addis Pasta and Noodles', 280_000_000),
+    ('Sunrise Retail Cooperative', 112_000_000),
+    ('Harvest Biscuit Co.', 210_000_000),
+    ('Corner Shops Union', 16_800_000),
+    ('Mercato Wholesale', 350_000_000),
 ]
 customers = [env['res.partner'].create({'name': n, 'is_company': True, 'customer_rank': 1, 'mos_credit_limit': lim, 'mos_credit_mode': 'block'}) for n, lim in CUSTOMERS]
 flour = {p.name: p for p in env['product.product'].search([('categ_id.name', '=', 'Flour')])}
 bran = env['product.product'].search([('name', '=', 'Wheat bran')], limit=1)
-catalogue = [(flour['Bread flour 72%'], 0.84, 5), (flour['Semolina'], 0.98, 3), (flour['Whole-wheat flour'], 0.88, 2), (bran, 0.24, 2)]
+catalogue = [(flour['Bread flour 72%'], 118.0, 5), (flour['Semolina'], 137.0, 3), (flour['Whole-wheat flour'], 123.0, 2), (bran, 34.0, 2)]
 warehouse = site.warehouse_id
 plates = ['AA-', 'OR-', 'AM-', 'TG-']
 delivered = env['mos.delivery.order']
@@ -164,7 +164,7 @@ for i in range(30):
 env['mos.customer.invoice'].invalidate_model()
 open_invoices = env['mos.customer.invoice'].search([], order='date')
 Receipt = env['mos.receipt']
-session = env['mos.cash.session'].with_user(cashier).create({'float_amount': 5000})
+session = env['mos.cash.session'].with_user(cashier).create({'float_amount': 700000})
 paid = 0
 for n, inv in enumerate(open_invoices):
     r = n % 7
@@ -172,14 +172,14 @@ for n, inv in enumerate(open_invoices):
         continue
     method = ('transfer', 'cheque', 'cash', 'wallet', 'transfer')[n % 5]
     amount = inv.balance if r != 3 else round(inv.balance * 0.5, 2)
-    if method == 'cash' and amount > 60000:
+    if method == 'cash' and amount > 8400000:
         method = 'transfer'
     Receipt.with_user(cashier).create({'customer_id': inv.customer_id.id, 'invoice_id': inv.id, 'amount': amount, 'method': method, 'reference': f'SLIP-{1000 + n}' if method != 'cash' else False})
     paid += 1
 # A customer pays ahead of delivery.
-Receipt.with_user(cashier).create({'customer_id': customers[0].id, 'amount': 12000, 'method': 'transfer', 'reference': 'ADVANCE-GCB-17'})
-session.with_user(cashier).action_close(session.expected_cash - 150, 'Change given to a customer was not recorded')
-env['mos.cash.session'].with_user(cashier).create({'float_amount': 5000})  # today's till is open
+Receipt.with_user(cashier).create({'customer_id': customers[0].id, 'amount': 1680000, 'method': 'transfer', 'reference': 'ADVANCE-GCB-17'})
+session.with_user(cashier).action_close(session.expected_cash - 21000, 'Change given to a customer was not recorded')
+env['mos.cash.session'].with_user(cashier).create({'float_amount': 700000})  # today's till is open
 env.cr.execute("UPDATE mos_receipt r SET date = i.date + 3 FROM mos_customer_invoice i WHERE i.id = r.invoice_id")
 
 env.cr.commit()
