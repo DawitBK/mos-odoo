@@ -73,6 +73,10 @@ class MosMillingRun(models.Model):
                     raise UserError(
                         self.env._('Silo %(silo)s holds %(have)s kg but the run draws %(want)s kg.', silo=silo.code, have=round(silo.level_kg), want=round(qty))
                     )
+                if silo.safety_stock_kg and silo.level_kg - qty < silo.safety_stock_kg - 0.0001:
+                    raise UserError(
+                        self.env._('Silo %(silo)s must keep a safety stock of %(safe)s kg: the run would leave %(left)s kg.', silo=silo.code, safe=round(silo.safety_stock_kg), left=round(silo.level_kg - qty))
+                    )
             for line in run.input_ids:
                 run._move(line.product_id, line.qty_kg, line.silo_id.location_id, line.product_id.property_stock_production)
             stock_location = run.site_id.warehouse_id.lot_stock_id

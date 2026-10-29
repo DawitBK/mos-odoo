@@ -1,5 +1,5 @@
 from odoo import Command
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
 
@@ -104,3 +104,23 @@ class TestMill(TransactionCase):
         mine = self.env['mos.overview'].with_user(person).create({})
         self.assertEqual(mine.silo_capacity_kg, 100000, 'only the silos of their own unit')
         self.assertIn('Mill', mine.title)
+
+    def test_the_levels_of_a_silo_are_kept(self):
+        self.silo.write({'min_level_kg': 20000, 'max_level_kg': 70000, 'safety_stock_kg': 5000})
+        self.silo.fresh()
+        self.assertEqual(self.silo.free_kg, 10000, 'a load may take it up to the maximum, 70,000, not to the capacity')
+        self.assertEqual(self.silo.status, 'ok')
+        with self.assertRaises(ValidationError):
+            self.silo.max_level_kg = 120000  # above the capacity
+        with self.assertRaises(ValidationError):
+            self.silo.safety_stock_kg = 25000  # above the minimum level
+        self.silo.write({'min_level_kg': 80000, 'max_level_kg': 90000})
+        self.silo.fresh()
+        self.assertEqual(self.silo.status, 'low', 'below the minimum level the silo is low, whatever the percentage')
+
+    def test_a_milling_run_cannot_draw_a_silo_below_its_safety_stock(self):
+        self.silo.write({'safety_stock_kg': 15000})
+        with self.assertRaisesRegex(UserError, 'safety stock'):
+            self._run(wheat=50000).action_complete()  # 60,000 in the silo: 10,000 would be left
+        self.silo.safety_stock_kg = 10000
+        self._run(wheat=50000).action_complete()

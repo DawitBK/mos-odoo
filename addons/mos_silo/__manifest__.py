@@ -1,6 +1,6 @@
 {
     'name': 'MOS Silos',
-    'version': '20.0.1.0.0',
+    'version': '20.0.1.0.1',
     'category': 'Manufacturing/MOS',
     'summary': 'Grain silos with capacity, live level from the stock ledger and fill status (FR-INV-019)',
     'license': 'LGPL-3',
