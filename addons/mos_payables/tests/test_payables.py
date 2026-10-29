@@ -316,3 +316,32 @@ class TestPayables(TransactionCase):
         self.assertEqual(inv.payment_terms_days, 45)
         self.assertEqual((inv.due_date - inv.invoice_date).days, 45)
         self.assertEqual(inv.amount_due, inv.payable_amount)
+
+    # -- the payment request review (client screens 23 and 24) ----------------------------------------------------------------------
+    def test_a_voucher_shows_the_reviewer_the_documents_the_match_and_the_account(self):
+        voucher, first, second = self._two_invoice_voucher()
+        self.assertEqual(voucher.invoice_refs, 'INV-A, INV-B')
+        self.assertEqual(len(voucher.invoice_item_ids), 2)
+        self.assertEqual(voucher.match_summary, 'full')
+        self.assertEqual(voucher.grn_refs.count('/IN/'), 2)
+        self.assertEqual(set(voucher.purchase_refs.split(', ')), {first.purchase_id.name, second.purchase_id.name})
+        self.assertTrue(voucher.approval_terms)
+        self.assertFalse(voucher.requester_id, 'below every approval band: nobody asked')
+
+    def test_the_person_whose_turn_it_is_decides_from_the_voucher_itself(self):
+        self.env['mos.approval.rule'].create({'doc_type': 'mos.payment.voucher', 'amount_from': 0, 'group_id': self.env.ref('mos_approvals.group_mos_finance_manager').id})
+        inv = self._payable(ref='INV-REV')
+        voucher = self.env['mos.payment.voucher'].with_user(self.clerk).create({'supplier_id': self.supplier.id, 'line_ids': [Command.create({'invoice_id': inv.id})]})
+        voucher.with_context(mos_attestation='test').action_submit()
+        self.assertEqual(voucher.mos_approval_state, 'pending')
+        self.assertFalse(voucher.with_user(self.clerk).mos_my_step_id, 'the clerk who raised it may not decide')
+        mine = voucher.with_user(self.fin)
+        self.assertTrue(mine.mos_my_step_id)
+        dialog = mine.action_mos_decide_approve()
+        self.assertEqual((dialog['res_model'], dialog['context']['default_outcome'], dialog['context']['default_step_id']), ('mos.approval.decide', 'approved', mine.mos_my_step_id.id))
+        with self.assertRaises(UserError):
+            voucher.with_user(self.clerk).action_mos_decide_reject()
+        wizard = self.env['mos.approval.decide'].with_user(self.fin).create({'step_id': mine.mos_my_step_id.id, 'outcome': 'approved', 'comment': 'Checked.', 'agree': True})
+        wizard.action_confirm()
+        self.assertEqual(voucher.state, 'approved')
+        self.assertIn('Checked.', voucher.mos_approval_comment)

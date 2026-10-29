@@ -17,6 +17,7 @@ class MosApprovable(models.AbstractModel):
         copy=False,
         string='Approval status',
     )
+    mos_my_step_id = fields.Many2one('mos.approval.step', compute='_compute_my_step', string='Your decision', help='The step of the approval waiting for the person looking at the document, if there is one.')
     mos_approval_comment = fields.Text(compute='_compute_approval_comment', string='Approval comments', help='What the approvers wrote when they decided.')
 
     @api.depends('mos_approval_request_id.step_ids.comment')
@@ -24,6 +25,37 @@ class MosApprovable(models.AbstractModel):
         for doc in self:
             steps = doc.mos_approval_request_id.sudo().step_ids.sorted('sequence')
             doc.mos_approval_comment = '\n'.join(comment for comment in steps.mapped('comment') if comment)
+
+    @api.depends('mos_approval_request_id.step_ids.state')
+    @api.depends_context('uid')
+    def _compute_my_step(self):
+        user = self.env.user
+        for doc in self:
+            steps = doc.mos_approval_request_id.sudo().step_ids.filtered(lambda s: s.state == 'pending' and s._my_authority(user)[0])
+            doc.mos_my_step_id = steps[:1]
+
+    def _mos_decide_dialog(self, outcome):
+        self.ensure_one()
+        step = self.mos_my_step_id
+        if not step:
+            raise UserError(self.env._('This document is not waiting for your decision.'))
+        return {
+            'type': 'ir.actions.act_window',
+            'name': {'approved': self.env._('Approve'), 'rejected': self.env._('Reject'), 'returned': self.env._('Send back for changes')}[outcome],
+            'res_model': 'mos.approval.decide',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {'default_step_id': step.id, 'default_outcome': outcome},
+        }
+
+    def action_mos_decide_approve(self):
+        return self._mos_decide_dialog('approved')
+
+    def action_mos_decide_return(self):
+        return self._mos_decide_dialog('returned')
+
+    def action_mos_decide_reject(self):
+        return self._mos_decide_dialog('rejected')
 
     # -- what a model provides ---------------------------------------------------------------------------------------
     def _mos_doc_type(self):

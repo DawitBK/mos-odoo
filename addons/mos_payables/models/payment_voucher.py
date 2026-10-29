@@ -30,6 +30,15 @@ class MosPaymentVoucher(models.Model):
         tracking=True,
     )
     payment_ids = fields.One2many('mos.payment', 'voucher_id')
+    requester_id = fields.Many2one(related='mos_approval_request_id.requester_id', string='Requested by')
+    invoice_item_ids = fields.Many2many('mos.supplier.invoice.line', compute='_compute_review', string='Invoice items')
+    invoice_refs = fields.Char(compute='_compute_review', string='Supplier invoices')
+    purchase_refs = fields.Char(compute='_compute_review', string='Purchase orders')
+    grn_refs = fields.Char(compute='_compute_review', string='Goods receipts')
+    delivery_note_refs = fields.Char(compute='_compute_review', string='Delivery notes')
+    match_summary = fields.Selection([('full', 'Full match'), ('variance', 'Accepted with a variance')], compute='_compute_review', string='Match status')
+    bank_account = fields.Char(compute='_compute_review', string='Account number')
+    approval_terms = fields.Char(compute='_compute_review', string='Submission terms')
 
     @api.depends('line_ids.gross', 'line_ids.vat', 'line_ids.wht', 'line_ids.net')
     def _compute_totals(self):
@@ -38,6 +47,20 @@ class MosPaymentVoucher(models.Model):
             v.vat_amount = sum(v.line_ids.mapped('vat'))
             v.wht_amount = sum(v.line_ids.mapped('wht'))
             v.net_amount = sum(v.line_ids.mapped('net'))
+
+    @api.depends('line_ids.invoice_id.line_ids', 'line_ids.invoice_id.match_state', 'supplier_id')
+    def _compute_review(self):
+        terms = self.env['mos.approval.request']._attestation_text('approve')
+        for v in self:
+            invoices = v.line_ids.invoice_id.sudo()
+            v.invoice_item_ids = invoices.line_ids
+            v.invoice_refs = ', '.join(invoices.mapped('supplier_ref'))
+            v.purchase_refs = ', '.join(sorted(set(invoices.purchase_id.mapped('name'))))
+            v.grn_refs = ', '.join(sorted(set(filter(None, invoices.mapped('grn_numbers')))))
+            v.delivery_note_refs = ', '.join(filter(None, invoices.mapped('delivery_note_ref')))
+            v.match_summary = ('variance' if any(i.match_state == 'exception' for i in invoices) else 'full') if invoices else False
+            v.bank_account = v.supplier_id.sudo().mos_bank_account
+            v.approval_terms = terms
 
     @api.depends('payment_ids.amount', 'net_amount')
     def _compute_paid(self):

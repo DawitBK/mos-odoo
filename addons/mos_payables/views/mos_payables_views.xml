@@ -149,37 +149,86 @@
                 <header>
                     <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
                     <button name="action_cancel" string="Cancel" type="object" invisible="state not in ('draft', 'submitted', 'approved')"/>
+                    <button name="action_mos_decide_return" string="Send back" type="object" invisible="not mos_my_step_id"/>
+                    <button name="action_mos_decide_reject" string="Reject" type="object" class="btn-danger" invisible="not mos_my_step_id"/>
+                    <button name="action_mos_decide_approve" string="Approve" type="object" class="btn-primary" invisible="not mos_my_step_id"/>
                     <field name="state" widget="statusbar" statusbar_visible="draft,submitted,approved,paid"/>
                 </header>
                 <sheet>
-                    <h1><field name="name"/></h1>
-                    <group>
-                        <group>
-                            <field name="supplier_id"/>
-                            <field name="date"/>
-                            <field name="mos_approval_state" widget="badge"/>
-                        </group>
-                        <group>
-                            <field name="gross_amount"/>
-                            <field name="vat_amount"/>
-                            <field name="wht_amount"/>
-                            <field name="net_amount"/>
-                            <field name="paid_amount"/>
-                            <field name="remaining_amount"/>
-                        </group>
-                    </group>
-                    <field name="line_ids">
+                    <field name="mos_my_step_id" invisible="1"/>
+                    <separator string="Approval summary"/>
+                    <div class="mos-fieldgrid">
+                        <div><label for="name" string="PRQ no."/><field name="name"/></div>
+                        <div><label for="supplier_id"/><field name="supplier_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                        <div><label for="net_amount" string="Amount to pay"/><div class="mos-sum-value mos-sum-red"><field name="net_amount"/></div></div>
+                        <div><label for="match_summary"/><field name="match_summary" widget="badge" decoration-success="match_summary == 'full'" decoration-warning="match_summary == 'variance'"/></div>
+                        <div><label for="date" string="Request date"/><field name="date" readonly="state != 'draft'"/></div>
+                        <div><label for="requester_id"/><field name="requester_id"/></div>
+                        <div><label for="mos_approval_state"/><field name="mos_approval_state" widget="badge" decoration-success="mos_approval_state == 'approved'" decoration-warning="mos_approval_state == 'pending'" decoration-danger="mos_approval_state == 'rejected'"/></div>
+                        <div><label for="mos_approval_comment" string="Reviewer remarks"/><field name="mos_approval_comment"/></div>
+                    </div>
+                    <separator string="Verified source documents summary"/>
+                    <div class="mos-fieldgrid mos-fieldgrid-4">
+                        <div><label for="purchase_refs" string="Purchase order(s)"/><field name="purchase_refs"/></div>
+                        <div><label for="grn_refs" string="Goods receipt(s)"/><field name="grn_refs"/></div>
+                        <div><label for="invoice_refs" string="Supplier invoice(s)"/><field name="invoice_refs"/></div>
+                        <div><label for="delivery_note_refs" string="Delivery note(s)"/><field name="delivery_note_refs"/></div>
+                    </div>
+                    <separator string="Detailed 3-way match verification"/>
+                    <field name="invoice_item_ids" nolabel="1" readonly="1">
+                        <list create="0" delete="0" edit="0" decoration-danger="match_state == 'exception'">
+                            <field name="invoice_id"/>
+                            <field name="product_id" string="Item"/>
+                            <field name="ordered_qty" string="PO qty"/>
+                            <field name="received_qty" string="GRN qty"/>
+                            <field name="qty" string="Invoice qty"/>
+                            <field name="unit_price" string="Invoice unit price"/>
+                            <field name="ordered_price" string="PO unit price"/>
+                            <field name="price_variance_pct" string="Price diff (%)"/>
+                            <field name="qty_variance" string="Qty diff"/>
+                            <field name="match_state" widget="badge" decoration-success="match_state == 'matched'" decoration-danger="match_state == 'exception'"/>
+                        </list>
+                    </field>
+                    <separator string="Payment request details and bank verification"/>
+                    <div class="mos-split">
+                        <div class="mos-fieldgrid mos-fieldgrid-2">
+                            <div><label for="invoice_refs" string="Invoice ref"/><field name="invoice_refs"/></div>
+                            <div><label for="purchase_refs" string="PO ref"/><field name="purchase_refs"/></div>
+                            <div><label for="grn_refs" string="GRN ref"/><field name="grn_refs"/></div>
+                        </div>
+                        <div class="mos-fieldgrid mos-fieldgrid-2">
+                            <div><label for="bank_account" string="Payment method: account number"/><field name="bank_account"/></div>
+                            <div><label for="supplier_id" string="Account name"/><field name="supplier_id" readonly="1"/></div>
+                        </div>
+                    </div>
+                    <separator string="Invoices on the voucher"/>
+                    <field name="line_ids" nolabel="1" readonly="state != 'draft'">
                         <list editable="bottom">
                             <field name="invoice_id"/>
                             <field name="gross"/>
                             <field name="vat"/>
                             <field name="wht"/>
                             <field name="net"/>
+                            <field name="paid_amount"/>
+                            <field name="balance"/>
                         </list>
                     </field>
-                    <field name="payment_ids">
+                    <div class="mos-summary-row mos-summary-4">
+                        <div><div class="mos-sum-label">Gross</div><div class="mos-sum-value"><field name="gross_amount"/></div></div>
+                        <div><div class="mos-sum-label">VAT</div><div class="mos-sum-value"><field name="vat_amount"/></div></div>
+                        <div><div class="mos-sum-label">Withheld</div><div class="mos-sum-value"><field name="wht_amount"/></div></div>
+                        <div><div class="mos-sum-label">Net payable</div><div class="mos-sum-value mos-sum-green"><field name="net_amount"/></div></div>
+                    </div>
+                    <separator string="Payments made"/>
+                    <field name="payment_ids" nolabel="1" readonly="1">
                         <list><field name="name"/><field name="date"/><field name="method"/><field name="cheque_number"/><field name="amount"/></list>
                     </field>
+                    <div class="mos-summary-row mos-summary-4">
+                        <div><div class="mos-sum-label">Paid</div><div class="mos-sum-value"><field name="paid_amount"/></div></div>
+                        <div><div class="mos-sum-label">Still to pay</div><div class="mos-sum-value mos-sum-red"><field name="remaining_amount"/></div></div>
+                    </div>
+                    <separator string="Submission terms"/>
+                    <p><field name="approval_terms"/></p>
                 </sheet>
                 <chatter/>
             </form>
