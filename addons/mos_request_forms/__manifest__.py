@@ -7,6 +7,7 @@
     'depends': ['mos_procurement', 'mos_documents', 'mos_theme'],
     'data': [
         'views/mos_request_forms_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

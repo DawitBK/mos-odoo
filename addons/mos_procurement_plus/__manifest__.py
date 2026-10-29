@@ -9,6 +9,7 @@
         'security/ir.access.csv',
         'data/mos_procurement_plus_data.xml',
         'views/mos_procurement_plus_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

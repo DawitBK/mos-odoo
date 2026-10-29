@@ -9,6 +9,7 @@
         'security/ir.access.csv',
         'views/mos_counts_views.xml',
         'report/mos_counts_report.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

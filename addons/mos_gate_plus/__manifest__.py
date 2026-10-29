@@ -11,6 +11,7 @@
         'data/mos_gate_plus_data.xml',
         'views/mos_gate_plus_views.xml',
         'report/mos_gate_plus_reports.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

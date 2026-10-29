@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_concession_parity" model="ir.ui.view">
+        <field name="name">mos.concession.form.parity</field>
+        <field name="model">mos.concession</field>
+        <field name="inherit_id" ref="view_mos_concession_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="visit_id"/><field name="visit_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_lab_inspection_parity" model="ir.ui.view">
+        <field name="name">mos.lab.inspection.form.parity</field>
+        <field name="model">mos.lab.inspection</field>
+        <field name="inherit_id" ref="mos_lab.view_mos_lab_inspection_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="decision_note"/><field name="decision_note" readonly="1"/></div>
+                        <div><label for="auto_price_adjust_pct"/><field name="auto_price_adjust_pct" readonly="1"/></div>
+                        <div><label for="partial_accept_qty"/><field name="partial_accept_qty" readonly="1"/></div>
+                    </div>
+                </div>
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="revision_ids"/><field name="revision_ids" readonly="1"/></div>
+                    <div><label for="concession_ids"/><field name="concession_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

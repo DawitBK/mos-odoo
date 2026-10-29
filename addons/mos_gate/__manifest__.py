@@ -11,6 +11,7 @@
         'data/mos_gate_sequences.xml',
         'views/mos_gate_views.xml',
         'views/mos_gate_control_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

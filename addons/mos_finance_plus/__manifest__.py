@@ -10,6 +10,7 @@
         'data/mos_finance_plus_data.xml',
         'views/mos_finance_plus_views.xml',
         'report/mos_finance_plus_reports.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

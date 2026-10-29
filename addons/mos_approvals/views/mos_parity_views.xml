@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_approval_request_parity" model="ir.ui.view">
+        <field name="name">mos.approval.request.form.parity</field>
+        <field name="model">mos.approval.request</field>
+        <field name="inherit_id" ref="view_mos_approval_request_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="current_step_id"/><field name="current_step_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_approval_step_parity" model="ir.ui.view">
+        <field name="name">mos.approval.step.form.parity</field>
+        <field name="model">mos.approval.step</field>
+        <field name="inherit_id" ref="view_mos_approval_step_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="fallback_group_id"/><field name="fallback_group_id" readonly="1"/></div>
+                        <div><label for="sla_hours"/><field name="sla_hours" readonly="1"/></div>
+                        <div><label for="allow_bulk"/><field name="allow_bulk" readonly="1"/></div>
+                        <div><label for="request_state"/><field name="request_state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="eligible_user_ids"/><field name="eligible_user_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_po_amendment_parity" model="ir.ui.view">
+        <field name="name">mos.po.amendment.form.parity</field>
+        <field name="model">mos.po.amendment</field>
+        <field name="inherit_id" ref="view_mos_po_amendment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="mos_approval_state"/><field name="mos_approval_state" readonly="1" widget="badge"/></div>
+                        <div><label for="requested_by_id"/><field name="requested_by_id" readonly="1"/></div>
+                        <div><label for="applied_by_id"/><field name="applied_by_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

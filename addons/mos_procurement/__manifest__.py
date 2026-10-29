@@ -11,6 +11,7 @@
         'data/mos_procurement_data.xml',
         'data/mos_procurement_cron.xml',
         'views/mos_procurement_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

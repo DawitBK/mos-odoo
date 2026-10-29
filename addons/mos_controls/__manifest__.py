@@ -10,6 +10,7 @@
         'security/ir.access.csv',
         'data/mos_controls_data.xml',
         'views/mos_controls_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

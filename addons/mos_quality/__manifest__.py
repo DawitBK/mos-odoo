@@ -10,6 +10,7 @@
         'data/mos_quality_data.xml',
         'views/mos_quality_views.xml',
         'report/mos_quality_reports.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

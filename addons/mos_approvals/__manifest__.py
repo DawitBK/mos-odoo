@@ -11,6 +11,7 @@
         'data/mos_approvals_data.xml',
         'views/mos_approvals_views.xml',
         'views/purchase_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

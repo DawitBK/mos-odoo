@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_weigh_ticket_parity" model="ir.ui.view">
+        <field name="name">mos.weigh.ticket.form.parity</field>
+        <field name="model">mos.weigh.ticket</field>
+        <field name="inherit_id" ref="view_mos_weigh_ticket_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="verify_attempts"/><field name="verify_attempts" readonly="1"/></div>
+                        <div><label for="reweigh_reason_id"/><field name="reweigh_reason_id" readonly="1"/></div>
+                        <div><label for="provisional"/><field name="provisional" readonly="1"/></div>
+                        <div><label for="photo_pending"/><field name="photo_pending" readonly="1"/></div>
+                        <div><label for="photo_pending_at"/><field name="photo_pending_at" readonly="1"/></div>
+                        <div><label for="tare_confirmed_by_id"/><field name="tare_confirmed_by_id" readonly="1"/></div>
+                        <div><label for="reweigh_approved_by_id"/><field name="reweigh_approved_by_id" readonly="1"/></div>
+                        <div><label for="tolerance_note"/><field name="tolerance_note" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

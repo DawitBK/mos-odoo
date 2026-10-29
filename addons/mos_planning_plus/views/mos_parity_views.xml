@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_purchase_contract_parity" model="ir.ui.view">
+        <field name="name">mos.purchase.contract.form.parity</field>
+        <field name="model">mos.purchase.contract</field>
+        <field name="inherit_id" ref="view_mos_purchase_contract_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="approved_by_id"/><field name="approved_by_id" readonly="1"/></div>
+                        <div><label for="closed_note"/><field name="closed_note" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_routing_parity" model="ir.ui.view">
+        <field name="name">mos.routing.form.parity</field>
+        <field name="model">mos.routing</field>
+        <field name="inherit_id" ref="view_mos_routing_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="approved_by_id"/><field name="approved_by_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

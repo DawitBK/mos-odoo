@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_gate_visit_parity" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.parity</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="ticket_id"/><field name="ticket_id" readonly="1"/></div>
+                        <div><label for="shift_id"/><field name="shift_id" readonly="1"/></div>
+                        <div><label for="vehicle_id"/><field name="vehicle_id" readonly="1"/></div>
+                        <div><label for="excess_approved_by_id"/><field name="excess_approved_by_id" readonly="1"/></div>
+                        <div><label for="receipt_override_by_id"/><field name="receipt_override_by_id" readonly="1"/></div>
+                        <div><label for="pv_draft_id"/><field name="pv_draft_id" readonly="1"/></div>
+                        <div><label for="weight_dispute_note"/><field name="weight_dispute_note" readonly="1"/></div>
+                        <div><label for="qc_waived"/><field name="qc_waived" readonly="1"/></div>
+                        <div><label for="qc_waiver_note"/><field name="qc_waiver_note" readonly="1"/></div>
+                        <div><label for="qc_waiver_checked"/><field name="qc_waiver_checked" readonly="1"/></div>
+                        <div><label for="clearance_override_by_id"/><field name="clearance_override_by_id" readonly="1"/></div>
+                        <div><label for="clearance_override_reason"/><field name="clearance_override_reason" readonly="1"/></div>
+                        <div><label for="expected_auto"/><field name="expected_auto" readonly="1"/></div>
+                        <div><label for="arrived_at"/><field name="arrived_at" readonly="1"/></div>
+                        <div><label for="exited_at"/><field name="exited_at" readonly="1"/></div>
+                        <div><label for="from_paper"/><field name="from_paper" readonly="1"/></div>
+                        <div><label for="tolerance_blocked"/><field name="tolerance_blocked" readonly="1"/></div>
+                        <div><label for="self_bill_id"/><field name="self_bill_id" readonly="1"/></div>
+                    </div>
+                </div>
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="incident_ids"/><field name="incident_ids" readonly="1"/></div>
+                    <div><label for="coa_ids"/><field name="coa_ids" readonly="1"/></div>
+                    <div><label for="inspection_ids"/><field name="inspection_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_journal_batch_parity" model="ir.ui.view">
+        <field name="name">mos.journal.batch.form.parity</field>
+        <field name="model">mos.journal.batch</field>
+        <field name="inherit_id" ref="view_mos_journal_batch_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                        <div><label for="filename"/><field name="filename" readonly="1"/></div>
+                    </div>
+                </div>
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="doc_ids"/><field name="doc_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_supplier_invoice_parity" model="ir.ui.view">
+        <field name="name">mos.supplier.invoice.form.parity</field>
+        <field name="model">mos.supplier.invoice</field>
+        <field name="inherit_id" ref="mos_payables.view_mos_supplier_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="self_billed"/><field name="self_billed" readonly="1"/></div>
+                        <div><label for="source_visit_id"/><field name="source_visit_id" readonly="1"/></div>
+                    </div>
+                </div>
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="voucher_line_ids"/><field name="voucher_line_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

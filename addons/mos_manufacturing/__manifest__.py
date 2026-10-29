@@ -11,6 +11,7 @@
         'data/mos_manufacturing_data.xml',
         'views/mos_manufacturing_views.xml',
         'report/mos_manufacturing_reports.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

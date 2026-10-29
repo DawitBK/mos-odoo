@@ -11,6 +11,7 @@
         'data/mos_inventory_data.xml',
         'views/mos_inventory_views.xml',
         'report/mos_labels.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_silo_parity" model="ir.ui.view">
+        <field name="name">mos.silo.form.parity</field>
+        <field name="model">mos.silo</field>
+        <field name="inherit_id" ref="mos_silo.view_mos_silo_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="dip_ids"/><field name="dip_ids" readonly="1"/></div>
+                    <div><label for="hold_ids"/><field name="hold_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_silo_dip_parity" model="ir.ui.view">
+        <field name="name">mos.silo.dip.form.parity</field>
+        <field name="model">mos.silo.dip</field>
+        <field name="inherit_id" ref="view_mos_silo_dip_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="read_by_id"/><field name="read_by_id" readonly="1"/></div>
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

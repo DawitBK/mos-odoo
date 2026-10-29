@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_rfq_parity" model="ir.ui.view">
+        <field name="name">mos.rfq.form.parity</field>
+        <field name="model">mos.rfq</field>
+        <field name="inherit_id" ref="view_mos_rfq_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="awarded_quote_id"/><field name="awarded_quote_id" readonly="1"/></div>
+                        <div><label for="awarded_by_id"/><field name="awarded_by_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_service_receipt_parity" model="ir.ui.view">
+        <field name="name">mos.service.receipt.form.parity</field>
+        <field name="model">mos.service.receipt</field>
+        <field name="inherit_id" ref="view_mos_service_receipt_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_supplier_invite_parity" model="ir.ui.view">
+        <field name="name">mos.supplier.invite.form.parity</field>
+        <field name="model">mos.supplier.invite</field>
+        <field name="inherit_id" ref="view_mos_supplier_invite_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="invited_by_id"/><field name="invited_by_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

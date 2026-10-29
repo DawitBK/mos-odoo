@@ -11,6 +11,7 @@
         'data/mos_commercial_data.xml',
         'views/mos_commercial_views.xml',
         'report/mos_commercial_reports.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_customer_invoice_parity" model="ir.ui.view">
+        <field name="name">mos.customer.invoice.form.parity</field>
+        <field name="model">mos.customer.invoice</field>
+        <field name="inherit_id" ref="view_mos_customer_invoice_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="vat_pct"/><field name="vat_pct" readonly="1"/></div>
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_delivery_order_parity" model="ir.ui.view">
+        <field name="name">mos.delivery.order.form.parity</field>
+        <field name="model">mos.delivery.order</field>
+        <field name="inherit_id" ref="view_mos_delivery_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="picking_id"/><field name="picking_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_gate_visit_parity" model="ir.ui.view">
+        <field name="name">mos.gate.visit.form.parity</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_visit_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="delivery_order_id"/><field name="delivery_order_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_receipt_parity" model="ir.ui.view">
+        <field name="name">mos.receipt.form.parity</field>
+        <field name="model">mos.receipt</field>
+        <field name="inherit_id" ref="view_mos_receipt_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="received_by_id"/><field name="received_by_id" readonly="1"/></div>
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

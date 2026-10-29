@@ -10,6 +10,7 @@
         'security/ir.access.csv',
         'data/mos_flows_data.xml',
         'views/mos_flows_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }

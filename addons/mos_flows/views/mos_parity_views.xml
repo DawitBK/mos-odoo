@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_lab_revision_parity" model="ir.ui.view">
+        <field name="name">mos.lab.revision.form.parity</field>
+        <field name="model">mos.lab.revision</field>
+        <field name="inherit_id" ref="view_mos_lab_revision_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="requested_by_id"/><field name="requested_by_id" readonly="1"/></div>
+                        <div><label for="approved_by_id"/><field name="approved_by_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_payment_parity" model="ir.ui.view">
+        <field name="name">mos.payment.form.parity</field>
+        <field name="model">mos.payment</field>
+        <field name="inherit_id" ref="mos_payables.view_mos_payment_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="cheque_leaf_id"/><field name="cheque_leaf_id" readonly="1"/></div>
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-list"/> Related records</div>
+                    <div><label for="reversal_ids"/><field name="reversal_ids" readonly="1"/></div>
+                    <div><label for="certificate_ids"/><field name="certificate_ids" readonly="1"/></div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_payment_reversal_parity" model="ir.ui.view">
+        <field name="name">mos.payment.reversal.form.parity</field>
+        <field name="model">mos.payment.reversal</field>
+        <field name="inherit_id" ref="view_mos_payment_reversal_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="state"/><field name="state" readonly="1" widget="badge"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

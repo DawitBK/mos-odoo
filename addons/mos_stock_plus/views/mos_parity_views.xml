@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Everything the record keeps is shown on its screen: the fields below were stored and used by the rules but appeared on no form. -->
+    <record id="view_mos_goods_transfer_parity" model="ir.ui.view">
+        <field name="name">mos.goods.transfer.form.parity</field>
+        <field name="model">mos.goods.transfer</field>
+        <field name="inherit_id" ref="view_mos_goods_transfer_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="posted_by_id"/><field name="posted_by_id" readonly="1"/></div>
+                        <div><label for="posted_at"/><field name="posted_at" readonly="1"/></div>
+                        <div><label for="picking_id"/><field name="picking_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+    <record id="view_mos_transfer_order_parity" model="ir.ui.view">
+        <field name="name">mos.transfer.order.form.parity</field>
+        <field name="model">mos.transfer.order</field>
+        <field name="inherit_id" ref="view_mos_transfer_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <div class="mos-section">
+                    <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> More details</div>
+                    <div class="mos-fieldgrid mos-fieldgrid-2">
+                        <div><label for="dispatch_picking_id"/><field name="dispatch_picking_id" readonly="1"/></div>
+                        <div><label for="receipt_picking_id"/><field name="receipt_picking_id" readonly="1"/></div>
+                        <div><label for="loss_picking_id"/><field name="loss_picking_id" readonly="1"/></div>
+                    </div>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -11,6 +11,7 @@
         'data/mos_lab_sequences.xml',
         'views/mos_lab_views.xml',
         'views/mos_lab_quality_views.xml',
+        'views/mos_parity_views.xml',
     ],
     'installable': True,
 }
