@@ -4,7 +4,7 @@ from odoo import fields, models, tools
 class MosSupplierBalance(models.Model):
     """What we owe each supplier, aged by invoice date: a statement and an ageing in one view (FR-AP-009).
 
-    Owed = payable amount of every invoice not yet paid, less payments already made against its voucher.
+    Owed = payable amount of every invoice not yet paid, less what the payments allocated to that invoice.
     Built in the database from the ledger tables, so it can never disagree with them."""
 
     _name = 'mos.supplier.balance'
@@ -29,10 +29,9 @@ class MosSupplierBalance(models.Model):
             CREATE VIEW mos_supplier_balance AS
             WITH inv AS (
                 SELECT i.id, i.supplier_id, i.payable_amount AS amount, i.invoice_date,
-                       COALESCE((SELECT sum(p.amount) * i.payable_amount / NULLIF(v.net_amount, 0)
-                                   FROM mos_payment p JOIN mos_payment_voucher v ON v.id = p.voucher_id
-                                   JOIN mos_payment_voucher_line l ON l.voucher_id = v.id AND l.invoice_id = i.id
-                                  WHERE v.id = l.voucher_id GROUP BY v.net_amount), 0) AS paid
+                       COALESCE((SELECT sum(a.amount)
+                                   FROM mos_payment_line a JOIN mos_payment_voucher_line l ON l.id = a.voucher_line_id
+                                  WHERE l.invoice_id = i.id), 0) AS paid
                   FROM mos_supplier_invoice i
                  WHERE i.state NOT IN ('draft', 'cancelled')
             ), aged AS (

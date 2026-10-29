@@ -238,3 +238,81 @@ class TestPayables(TransactionCase):
         pay = self._pay(voucher, amount=voucher.net_amount)
         self.assertEqual(pay.invoice_refs, 'INV-A, INV-B')
         self.assertEqual(set(pay.purchase_refs.split(', ')), {first.purchase_id.name, second.purchase_id.name})
+
+    # -- the invoice with several items (client screen 21) ----------------------------------------------------------------------
+    def _two_item_order(self, received_bran=2000):
+        bran = self.env['product.product'].create({'name': 'Bran', 'type': 'consu', 'is_storable': True, 'uom_id': self.env.ref('uom.product_uom_kgm').id, 'standard_price': 5})
+        po = self.env['purchase.order'].create(
+            {
+                'partner_id': self.supplier.id,
+                'order_line': [
+                    Command.create({'product_id': self.product.id, 'product_qty': 10000, 'price_unit': 10.0}),
+                    Command.create({'product_id': bran.id, 'product_qty': 2000, 'price_unit': 5.0}),
+                ],
+            }
+        )
+        po.button_confirm()
+        picking = po.picking_ids
+        for move in picking.move_ids:
+            move.write({'quantity': 10000 if move.product_id == self.product else received_bran, 'picked': True})
+        picking.with_context(skip_backorder=True, picking_ids_not_to_backorder=picking.ids).button_validate()
+        return po, bran
+
+    def test_an_invoice_bills_several_items_and_adds_them_up(self):
+        po, bran = self._two_item_order()
+        inv = self.env['mos.supplier.invoice'].with_user(self.clerk).create(
+            {
+                'supplier_id': self.supplier.id,
+                'supplier_ref': 'MULTI-1',
+                'purchase_id': po.id,
+                'line_ids': [Command.create({'product_id': self.product.id, 'qty': 10000, 'unit_price': 10.0}), Command.create({'product_id': bran.id, 'qty': 2000, 'unit_price': 5.0})],
+            }
+        )
+        self.assertEqual((inv.net_amount, inv.vat_amount, inv.gross_amount, inv.wht_amount), (110000.0, 16500.0, 126500.0, 2200.0))
+        self.assertEqual(inv.line_ids.mapped('total_amount'), [115000.0, 11500.0])
+        self.assertEqual(inv.payable_amount, 124300.0)
+        inv.action_match()
+        self.assertEqual((inv.match_state, inv.state), ('matched', 'payable'))
+        self.assertEqual(inv.line_ids.mapped('received_qty'), [10000.0, 2000.0], 'each item is matched against its own receipt')
+        self.assertEqual(inv.line_ids.mapped('match_state'), ['matched', 'matched'])
+        self.assertFalse(inv.product_id, 'an invoice with several items has no single item')
+
+    def test_one_item_with_a_variance_makes_the_invoice_a_variance_and_the_debit_covers_it(self):
+        po, bran = self._two_item_order(received_bran=1500)
+        inv = self.env['mos.supplier.invoice'].with_user(self.clerk).create(
+            {
+                'supplier_id': self.supplier.id,
+                'supplier_ref': 'MULTI-2',
+                'purchase_id': po.id,
+                'line_ids': [Command.create({'product_id': self.product.id, 'qty': 10000, 'unit_price': 10.0}), Command.create({'product_id': bran.id, 'qty': 2000, 'unit_price': 5.0})],
+            }
+        )
+        inv.action_match()
+        self.assertEqual((inv.match_state, inv.state), ('exception', 'draft'))
+        by_item = {line.product_id: line for line in inv.line_ids}
+        self.assertEqual((by_item[self.product].match_state, by_item[bran].match_state), ('matched', 'exception'))
+        self.assertEqual(by_item[bran].qty_variance, 500)
+        inv.action_debit_excess()
+        self.assertEqual(inv.debit_note_ids.amount, 2875.0, '500 kg x 5 plus 15% VAT')
+        self.assertEqual(inv.state, 'payable')
+
+    def test_an_invoice_bills_at_least_one_item_and_each_item_once(self):
+        po, bran = self._two_item_order()
+        with self.assertRaises(Exception):
+            self.env['mos.supplier.invoice'].create({'supplier_id': self.supplier.id, 'supplier_ref': 'NONE', 'purchase_id': po.id})
+        with self.assertRaises(Exception):
+            self.env['mos.supplier.invoice'].create(
+                {
+                    'supplier_id': self.supplier.id,
+                    'supplier_ref': 'TWICE',
+                    'purchase_id': po.id,
+                    'line_ids': [Command.create({'product_id': bran.id, 'qty': 1, 'unit_price': 5.0}), Command.create({'product_id': bran.id, 'qty': 1, 'unit_price': 5.0})],
+                }
+            )
+
+    def test_the_due_date_follows_the_terms_of_the_supplier(self):
+        self.supplier.mos_payment_terms_days = 45
+        inv = self._invoice(self._received_po(), 40000, 10.0)
+        self.assertEqual(inv.payment_terms_days, 45)
+        self.assertEqual((inv.due_date - inv.invoice_date).days, 45)
+        self.assertEqual(inv.amount_due, inv.payable_amount)

@@ -32,41 +32,87 @@
                     <field name="state" widget="statusbar" statusbar_visible="draft,payable,vouchered,paid"/>
                 </header>
                 <sheet>
-                    <h1><field name="name"/></h1>
-                    <group>
-                        <group>
-                            <field name="supplier_id"/>
-                            <field name="supplier_ref"/>
-                            <field name="invoice_date"/>
-                            <field name="purchase_id"/>
-                            <field name="product_id"/>
-                        </group>
-                        <group>
-                            <field name="qty"/>
-                            <field name="unit_price"/>
-                            <field name="vat_pct"/>
-                            <field name="wht_pct"/>
-                            <field name="gross_amount"/>
-                            <field name="wht_amount"/>
-                            <field name="payable_amount"/>
-                        </group>
-                    </group>
-                    <group string="Three-way match">
-                        <group>
-                            <field name="ordered_qty"/>
-                            <field name="received_qty"/>
-                            <field name="qty_variance"/>
-                        </group>
-                        <group>
-                            <field name="ordered_price"/>
-                            <field name="price_variance_pct"/>
-                            <field name="match_state" widget="badge"/>
-                            <field name="mos_approval_state" widget="badge"/>
-                        </group>
-                    </group>
-                    <field name="debit_note_ids">
-                        <list><field name="name"/><field name="date"/><field name="amount"/><field name="reason"/></list>
-                    </field>
+                    <field name="currency_id" invisible="1"/>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-receipt"/> Invoice Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="name" string="Invoice no."/><field name="name"/><div class="text-muted small">(Auto generated)</div></div>
+                            <div><label for="invoice_date"/><field name="invoice_date" readonly="state != 'draft'"/></div>
+                            <div><label for="supplier_id"/><field name="supplier_id" readonly="state != 'draft'" options="{'no_create': True, 'no_open': True}"/></div>
+                            <div><label for="supplier_ref"/><field name="supplier_ref" readonly="state != 'draft'"/></div>
+                            <div><label for="currency_id" string="Currency"/><field name="currency_id" readonly="1"/></div>
+                            <div><label for="vat_pct"/><field name="vat_pct" readonly="state != 'draft'"/></div>
+                            <div><label for="wht_pct"/><field name="wht_pct" readonly="state != 'draft'"/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Source Documents</div>
+                        <div class="mos-fieldgrid mos-fieldgrid-3">
+                            <div><label for="purchase_id"/><field name="purchase_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="grn_numbers" string="Goods receipt(s)"/><field name="grn_numbers"/></div>
+                            <div><label for="delivery_note_ref"/><field name="delivery_note_ref" readonly="state not in ('draft', 'payable')"/></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Invoice Items</div>
+                        <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                            <list editable="bottom">
+                                <field name="sequence" widget="handle"/>
+                                <field name="product_id" options="{'no_create': True}"/>
+                                <field name="description"/>
+                                <field name="qty"/>
+                                <field name="uom_id"/>
+                                <field name="unit_price"/>
+                                <field name="tax_pct"/>
+                                <field name="total_amount"/>
+                            </list>
+                        </field>
+                        <div class="mos-summary-row mos-summary-4">
+                            <div><div class="mos-sum-label">Subtotal</div><div class="mos-sum-value"><field name="net_amount"/></div></div>
+                            <div><div class="mos-sum-label">VAT</div><div class="mos-sum-value"><field name="vat_amount"/></div></div>
+                            <div><div class="mos-sum-label">Withholding</div><div class="mos-sum-value"><field name="wht_amount"/></div></div>
+                            <div><div class="mos-sum-label">Total</div><div class="mos-sum-value mos-sum-green"><field name="gross_amount"/></div></div>
+                        </div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-scales"/> Three-way Match</div>
+                        <field name="match_state" widget="badge" decoration-success="match_state == 'matched'" decoration-danger="match_state == 'exception'" decoration-warning="match_state not in ('matched', 'exception', 'unmatched')"/>
+                        <field name="line_ids" nolabel="1" readonly="1" invisible="match_state == 'unmatched'">
+                            <list create="0" delete="0" edit="0" decoration-danger="match_state == 'exception'">
+                                <field name="product_id"/>
+                                <field name="ordered_qty" string="PO quantity"/>
+                                <field name="received_qty" string="GRN accepted"/>
+                                <field name="qty" string="Invoice quantity"/>
+                                <field name="ordered_price" string="PO price"/>
+                                <field name="unit_price" string="Invoice price"/>
+                                <field name="qty_variance" string="Quantity difference"/>
+                                <field name="price_variance_pct" string="Price difference (%)"/>
+                                <field name="match_state" widget="badge" decoration-success="match_state == 'matched'" decoration-danger="match_state == 'exception'"/>
+                            </list>
+                        </field>
+                        <field name="debit_note_ids" nolabel="1" invisible="not debit_note_ids">
+                            <list><field name="name"/><field name="date"/><field name="amount"/><field name="reason"/></list>
+                        </field>
+                    </div>
+                    <div class="mos-split">
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-money"/> Payment Information</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-3">
+                                <div><label for="payment_terms_days"/><field name="payment_terms_days" readonly="state not in ('draft', 'payable')"/></div>
+                                <div><label for="due_date"/><field name="due_date"/></div>
+                                <div><label for="payable_amount" string="Payable to supplier"/><field name="payable_amount"/></div>
+                                <div><label for="paid_amount"/><field name="paid_amount"/></div>
+                                <div><label for="amount_due"/><field name="amount_due"/></div>
+                            </div>
+                        </div>
+                        <div class="mos-section">
+                            <div class="mos-section-title"><i class="mos-ico mos-ico-shield"/> Approval</div>
+                            <div class="mos-fieldgrid mos-fieldgrid-2">
+                                <div><label for="mos_approval_state"/><field name="mos_approval_state" widget="badge" decoration-success="mos_approval_state == 'approved'" decoration-warning="mos_approval_state == 'pending'" decoration-danger="mos_approval_state == 'rejected'"/></div>
+                                <div><label for="mos_approval_comment" string="Comment"/><field name="mos_approval_comment"/></div>
+                            </div>
+                        </div>
+                    </div>
                 </sheet>
                 <chatter/>
             </form>

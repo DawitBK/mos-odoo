@@ -85,9 +85,9 @@ class MosGrni(models.TransientModel):
                 moves = order.picking_ids.move_ids.filtered(lambda m: m.state == 'done' and m.product_id == line.product_id and m.picking_type_id.code == 'incoming' and m.date <= end)
                 received_qty = sum(moves.mapped('quantity'))
                 invoices = self.env['mos.supplier.invoice'].sudo().search(
-                    [('purchase_id', '=', order.id), ('product_id', '=', line.product_id.id), ('state', 'not in', ('draft', 'cancelled')), ('invoice_date', '<=', self.as_of)]
+                    [('purchase_id', '=', order.id), ('line_ids.product_id', '=', line.product_id.id), ('state', 'not in', ('draft', 'cancelled')), ('invoice_date', '<=', self.as_of)]
                 )
-                invoiced_qty = sum(invoices.mapped('qty'))
+                invoiced_qty = sum(invoices.line_ids.filtered(lambda l: l.product_id == line.product_id).mapped('qty'))
                 if not received_qty and not invoiced_qty:
                     continue
                 price = line.price_unit

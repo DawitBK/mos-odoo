@@ -44,8 +44,8 @@ class PurchaseOrder(models.Model):
                 if line.qty_received < line.product_qty * (1 - tolerance) - 0.0001:
                     done = False
                     break
-                invoices = self.env['mos.supplier.invoice'].sudo().search([('purchase_id', '=', order.id), ('product_id', '=', line.product_id.id), ('state', 'not in', ('draft', 'cancelled'))])
-                if sum(invoices.mapped('qty')) < line.qty_received - 0.0001:
+                invoices = self.env['mos.supplier.invoice'].sudo().search([('purchase_id', '=', order.id), ('line_ids.product_id', '=', line.product_id.id), ('state', 'not in', ('draft', 'cancelled'))])
+                if sum(invoices.line_ids.filtered(lambda l: l.product_id == line.product_id).mapped('qty')) < line.qty_received - 0.0001:
                     done = False
                     break
             if done:

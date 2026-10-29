@@ -291,3 +291,4 @@ $mos-info-bg: #dbeafe;
 .mos-fieldgrid .o_field_widget.o_readonly_modifier { color: $mos-navy; }
 .mos-method-rail .o_radio_item input { position: absolute; opacity: 0; pointer-events: none; }
 .mos-method-rail .o_radio_item { position: relative; }
+.mos-fieldgrid-2 { grid-template-columns: repeat(2, 1fr); }

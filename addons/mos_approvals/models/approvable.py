@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
@@ -17,6 +17,13 @@ class MosApprovable(models.AbstractModel):
         copy=False,
         string='Approval status',
     )
+    mos_approval_comment = fields.Text(compute='_compute_approval_comment', string='Approval comments', help='What the approvers wrote when they decided.')
+
+    @api.depends('mos_approval_request_id.step_ids.comment')
+    def _compute_approval_comment(self):
+        for doc in self:
+            steps = doc.mos_approval_request_id.sudo().step_ids.sorted('sequence')
+            doc.mos_approval_comment = '\n'.join(comment for comment in steps.mapped('comment') if comment)
 
     # -- what a model provides ---------------------------------------------------------------------------------------
     def _mos_doc_type(self):
