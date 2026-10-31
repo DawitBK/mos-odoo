@@ -1,0 +1,123 @@
+{
+ "areas": {
+  "gate": "mos_gate.menu_mos_gate",
+  "lab": "mos_lab.menu_mos_lab",
+  "receiving": "mos_flows.menu_mos_flows",
+  "procurement": "mos_procurement.menu_mos_procurement",
+  "stock": "mos_silo.menu_mos_stock",
+  "payables": "mos_payables.menu_mos_payables",
+  "sales": "mos_sales.menu_mos_sales",
+  "finance": "mos_finance_plus.menu_mos_finance",
+  "production": "mos_production.menu_mos_production",
+  "inventory": "mos_inventory.menu_mos_inventory",
+  "controls": "mos_controls.menu_mos_controls"
+ },
+ "roles": {
+  "mos_approvals.group_mos_dept_manager": [
+   "procurement"
+  ],
+  "mos_gate.group_mos_gate_guard": [
+   "gate"
+  ],
+  "mos_gate.group_mos_gate_verifier": [
+   "gate"
+  ],
+  "mos_gate.group_mos_gate_pass_approver": [
+   "gate"
+  ],
+  "mos_flows.group_mos_gate_supervisor": [
+   "gate",
+   "receiving",
+   "controls"
+  ],
+  "mos_lab.group_mos_lab_analyst": [
+   "lab",
+   "receiving"
+  ],
+  "mos_lab.group_mos_lab_manager": [
+   "lab",
+   "receiving",
+   "controls"
+  ],
+  "mos_inbound.group_mos_storekeeper": [
+   "receiving",
+   "stock",
+   "inventory"
+  ],
+  "mos_inventory.group_mos_inventory_manager": [
+   "inventory",
+   "stock",
+   "receiving",
+   "controls"
+  ],
+  "mos_procurement.group_mos_procurement_user": [
+   "procurement",
+   "receiving",
+   "stock"
+  ],
+  "mos_procurement.group_mos_procurement_manager": [
+   "procurement",
+   "receiving",
+   "stock",
+   "payables",
+   "controls"
+  ],
+  "mos_payables.group_mos_ap_clerk": [
+   "payables",
+   "receiving",
+   "procurement"
+  ],
+  "mos_payables.group_mos_cashier": [
+   "payables"
+  ],
+  "mos_approvals.group_mos_finance_manager": [
+   "finance",
+   "payables",
+   "sales",
+   "controls",
+   "procurement"
+  ],
+  "mos_approvals.group_mos_general_manager": [
+   "gate",
+   "lab",
+   "receiving",
+   "procurement",
+   "stock",
+   "payables",
+   "sales",
+   "finance",
+   "production",
+   "inventory",
+   "controls"
+  ],
+  "mos_manufacturing.group_mos_production_supervisor": [
+   "production",
+   "stock",
+   "inventory",
+   "lab"
+  ],
+  "mos_sales.group_mos_sales_rep": [
+   "sales"
+  ],
+  "mos_sales.group_mos_sales_cashier": [
+   "sales"
+  ],
+  "mos_commercial.group_mos_sales_manager": [
+   "sales",
+   "stock"
+  ],
+  "mos_core.group_mos_admin": [
+   "gate",
+   "lab",
+   "receiving",
+   "procurement",
+   "stock",
+   "payables",
+   "sales",
+   "finance",
+   "production",
+   "inventory",
+   "controls"
+  ]
+ }
+}
