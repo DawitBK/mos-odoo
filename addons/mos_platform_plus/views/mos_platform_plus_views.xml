@@ -314,4 +314,14 @@
     <menuitem id="menu_mos_access_review" name="Access review" parent="mos_core.menu_mos_config" action="action_mos_access_review" sequence="60"/>
     <menuitem id="menu_mos_access_event" name="Role grants and removals" parent="mos_core.menu_mos_config" action="action_mos_access_event" sequence="61"/>
     <menuitem id="menu_mos_idp_group_map" name="Identity provider groups" parent="mos_core.menu_mos_config" action="action_mos_idp_group_map" sequence="62"/>
+    <record id="view_users_form_mos_password" model="ir.ui.view">
+        <field name="name">res.users.form.mos.password</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="mos_core.view_users_form_mos"/>
+        <field name="arch" type="xml">
+            <xpath expr="//group[@name='mos_people']/group[2]" position="inside">
+                <field name="mos_must_change_password"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
