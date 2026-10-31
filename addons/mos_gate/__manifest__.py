@@ -9,6 +9,7 @@
         'security/mos_gate_security.xml',
         'security/ir.access.csv',
         'data/mos_gate_sequences.xml',
+        'data/mos_gate_cron.xml',
         'views/mos_gate_views.xml',
         'views/mos_gate_control_views.xml',
         'views/mos_parity_views.xml',

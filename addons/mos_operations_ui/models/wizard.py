@@ -17,6 +17,8 @@ ALLOWED.update(
         ('mos.lab.coa', 'action_revoke'): ('reason',),
         ('mos.cheque.leaf', 'action_void'): ('reason',),
         ('mos.cheque.leaf', 'action_clear'): ('date',),
+        ('mos.gate.pass', 'action_reject'): ('reason',),
+        ('mos.receipt', 'action_reverse'): ('reason',),
         ('mos.cheque.leaf', 'action_report_missing'): ('reason',),
         ('mos.purchase.contract', 'action_new_calloff'): ('number',),
         ('mos.purchase.contract', 'action_close'): ('reason',),
@@ -72,6 +74,16 @@ class CoaUi(models.Model):
 class ChequeLeafUi(models.Model):
     _name = 'mos.cheque.leaf'
     _inherit = ['mos.cheque.leaf', 'mos.action.opener']
+
+
+class CustomerReceiptUi(models.Model):
+    _name = 'mos.receipt'
+    _inherit = ['mos.receipt', 'mos.action.opener']
+
+
+class GatePassUi(models.Model):
+    _name = 'mos.gate.pass'
+    _inherit = ['mos.gate.pass', 'mos.action.opener']
 
 
 class ContractUi(models.Model):

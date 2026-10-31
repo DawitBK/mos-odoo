@@ -167,6 +167,28 @@
         </field>
     </record>
 
+    <record id="view_mos_gate_pass_form_reject" model="ir.ui.view">
+        <field name="name">mos.gate.pass.form.reject</field>
+        <field name="model">mos.gate.pass</field>
+        <field name="inherit_id" ref="mos_gate.view_mos_gate_pass_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//button[@name='action_out']" position="before">
+                <button name="action_ui" string="Reject" type="object" context="{'mos_method': 'action_reject', 'mos_title': 'Why is the pass rejected?'}" invisible="state != 'draft'"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_mos_receipt_form_reverse" model="ir.ui.view">
+        <field name="name">mos.receipt.form.reverse</field>
+        <field name="model">mos.receipt</field>
+        <field name="inherit_id" ref="mos_sales.view_mos_receipt_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button name="action_ui" string="Reverse the receipt" type="object" context="{'mos_method': 'action_reverse', 'mos_title': 'Why is the receipt reversed (a bounced cheque, a wrong entry)?'}" invisible="state != 'posted'"/>
+            </xpath>
+        </field>
+    </record>
+
     <!-- Contracts, conversions, locks -->
     <record id="view_mos_purchase_contract_form_actions" model="ir.ui.view">
         <field name="name">mos.purchase.contract.form.actions</field>

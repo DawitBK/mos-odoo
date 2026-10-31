@@ -202,13 +202,15 @@ class MosGatePass(models.Model):
     requested_by_id = fields.Many2one('res.users', default=lambda self: self.env.user, readonly=True)
     approved_by_id = fields.Many2one('res.users', readonly=True)
     state = fields.Selection(
-        [('draft', 'Draft'), ('approved', 'Approved'), ('out', 'Out'), ('returned', 'Returned'), ('closed', 'Closed'), ('cancelled', 'Cancelled')],
+        [('draft', 'Draft'), ('approved', 'Approved'), ('rejected', 'Rejected'), ('expired', 'Expired'), ('out', 'Out'), ('returned', 'Returned'), ('closed', 'Closed'), ('cancelled', 'Cancelled')],
         default='draft',
         required=True,
         tracking=True,
         readonly=True,
     )
     expected_return = fields.Date()
+    valid_until = fields.Date(string='Valid until', help='An approved pass that has not been used by this day expires. Empty means it does not expire.')
+    reject_reason = fields.Char(readonly=True)
     out_at = fields.Datetime(readonly=True)
     returned_at = fields.Datetime(readonly=True)
     overdue = fields.Boolean(compute='_compute_overdue', search='_search_overdue')
@@ -252,12 +254,43 @@ class MosGatePass(models.Model):
                 raise UserError(self.env._('List at least one item.'))
             if gp.requested_by_id == self.env.user:
                 raise UserError(self.env._('You cannot approve a pass you requested yourself.'))
+            if gp.valid_until and gp.valid_until < fields.Date.context_today(self):
+                raise UserError(self.env._('The validity of this pass has already passed.'))
             gp.write({'state': 'approved', 'approved_by_id': self.env.uid})
+
+    def action_reject(self, reason):
+        user = self.env.user
+        if not (user.has_group('mos_gate.group_mos_gate_pass_approver') or user.has_group('mos_core.group_mos_admin')):
+            raise UserError(self.env._('Only a gate pass approver can reject a pass.'))
+        if not (reason or '').strip():
+            raise UserError(self.env._('Say why the pass is rejected.'))
+        for gp in self:
+            if gp.state != 'draft':
+                raise UserError(self.env._('Only a draft pass can be rejected.'))
+            gp.write({'state': 'rejected', 'reject_reason': reason})
+
+    @api.model
+    def _cron_expire(self):
+        """Daily: an approved pass nobody used by its last valid day expires (FR-GATE-019)."""
+        stale = self.sudo().search([('state', '=', 'approved'), ('valid_until', '!=', False), ('valid_until', '<', fields.Date.context_today(self))])
+        stale.write({'state': 'expired'})
+        return len(stale)
 
     def action_out(self):
         for gp in self:
             if gp.state != 'approved':
                 raise UserError(self.env._('The pass must be approved before the goods leave.'))
+            if gp.valid_until and gp.valid_until < fields.Date.context_today(self):
+                raise UserError(self.env._('This pass is no longer valid.'))
+            for line in gp.line_ids:
+                if not line.qty_out:
+                    line.qty_out = line.quantity
+            if not any(gp.line_ids.mapped('qty_out')):
+                raise UserError(self.env._('Nothing leaves: every quantity out is zero.'))
+            if gp.kind == 'final':
+                missing = gp.line_ids.filtered(lambda l: l.qty_out and l.product_id and not l._inventory_posted())
+                if missing:
+                    raise UserError(self.env._('%s is a stock item: the pass cannot leave without its posted inventory document (an issue or a delivery).', missing[0].product_id.display_name))
             gp.write({'state': 'out', 'out_at': fields.Datetime.now()})
             self.env['mos.audit.event'].record('gate_pass_out', gp, gp.name)
 
@@ -265,6 +298,15 @@ class MosGatePass(models.Model):
         for gp in self:
             if gp.state != 'out' or gp.kind != 'returnable':
                 raise UserError(self.env._('Only goods out on a returnable pass can be returned.'))
+            if not any(gp.line_ids.mapped('qty_returned')):
+                # Nothing was entered line by line: everything that left has come back.
+                for line in gp.line_ids:
+                    line.qty_returned = line.qty_out
+            outstanding = gp.line_ids.filtered(lambda l: l.qty_returned < l.qty_out)
+            if outstanding:
+                # A part came back: the pass stays out, and the form shows what is still missing.
+                gp.message_post(body=self.env._('Partial return recorded. Still out: %s', ', '.join(f'{l.name} {l.qty_out - l.qty_returned:g}' for l in outstanding)))
+                continue
             gp.write({'state': 'returned', 'returned_at': fields.Datetime.now()})
 
     def action_close(self):
@@ -288,6 +330,28 @@ class MosGatePassLine(models.Model):
     name = fields.Char(string='Item', required=True)
     quantity = fields.Float(default=1.0, required=True)
     unit = fields.Char(default='pcs')
+    asset_tag = fields.Char(string='Asset tag')
+    serial = fields.Char(string='Serial number')
+    est_value = fields.Float(string='Estimated value')
+    product_id = fields.Many2one('product.product', string='Stock item', help='Set when the line is a stock item: a final pass for it needs its posted inventory document.')
+    inventory_picking_id = fields.Many2one('stock.picking', string='Delivery or issue document', domain="[('state', '=', 'done')]")
+    qty_out = fields.Float(string='Quantity out', help='What actually leaves. Empty means all of it when the goods go out.')
+    qty_returned = fields.Float(string='Quantity returned')
+
+    def _inventory_posted(self):
+        """True when the stock item on this line has left the books through a posted document."""
+        self.ensure_one()
+        return bool(self.inventory_picking_id and self.inventory_picking_id.state == 'done')
+
+    @api.constrains('qty_out', 'qty_returned', 'quantity')
+    def _check_partials(self):
+        for line in self:
+            if line.qty_out < 0 or line.qty_returned < 0:
+                raise ValidationError(self.env._('A quantity cannot be negative.'))
+            if line.qty_out > line.quantity + 0.0005:
+                raise ValidationError(self.env._('%s: more is going out than the pass lists.', line.name))
+            if line.qty_returned > line.qty_out + 0.0005:
+                raise ValidationError(self.env._('%s: more came back than went out.', line.name))
 
     @api.constrains('quantity')
     def _check_quantity(self):

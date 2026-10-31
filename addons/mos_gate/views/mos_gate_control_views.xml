@@ -235,6 +235,8 @@
                             <field name="carrier"/>
                             <field name="destination"/>
                             <field name="expected_return" invisible="kind != 'returnable'"/>
+                            <field name="valid_until"/>
+                            <field name="reject_reason" invisible="not reject_reason"/>
                         </group>
                         <group>
                             <field name="requested_by_id"/>
@@ -247,8 +249,15 @@
                     <field name="line_ids">
                         <list editable="bottom">
                             <field name="name"/>
+                            <field name="asset_tag" optional="show"/>
+                            <field name="serial" optional="show"/>
+                            <field name="product_id" optional="show"/>
+                            <field name="inventory_picking_id" optional="show"/>
                             <field name="quantity"/>
                             <field name="unit"/>
+                            <field name="est_value" optional="show"/>
+                            <field name="qty_out" optional="show"/>
+                            <field name="qty_returned" optional="show"/>
                         </list>
                     </field>
                 </sheet>
