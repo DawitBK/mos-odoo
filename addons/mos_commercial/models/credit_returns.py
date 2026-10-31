@@ -101,11 +101,11 @@ class MosCustomerInvoice(models.Model):
 
     credit_note_ids = fields.One2many('mos.credit.note', 'invoice_id')
 
-    @api.depends('receipt_ids.amount', 'gross_amount', 'credit_note_ids.amount', 'credit_note_ids.state')
+    @api.depends('receipt_ids.amount', 'receipt_ids.state', 'gross_amount', 'credit_note_ids.amount', 'credit_note_ids.state')
     def _compute_paid(self):
         for inv in self:
             credited = sum(inv.credit_note_ids.filtered(lambda c: c.state == 'posted').mapped('amount'))
-            inv.paid_amount = sum(inv.receipt_ids.mapped('amount'))
+            inv.paid_amount = sum(inv.receipt_ids.filtered(lambda r: r.state == 'posted').mapped('amount'))
             inv.balance = round(inv.gross_amount - inv.paid_amount - credited, 2)
 
 

@@ -36,7 +36,7 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     mos_supplier_state = fields.Selection(
-        [('candidate', 'Candidate'), ('approved', 'Approved'), ('suspended', 'Suspended'), ('blocked', 'Blocked')],
+        [('candidate', 'Candidate'), ('approved', 'Approved'), ('rejected', 'Rejected'), ('suspended', 'Suspended'), ('blocked', 'Blocked')],
         string='Supplier standing',
         default='candidate',
         copy=False,
@@ -82,6 +82,8 @@ class ResPartner(models.Model):
         for partner in self:
             if partner.mos_supplier_state == 'blocked':
                 raise UserError(self.env._('A blocked supplier must be reinstated by a general manager first.'))
+            if partner.mos_supplier_state == 'rejected':
+                raise UserError(self.env._('A rejected supplier must be reinstated as a candidate first.'))
             if not partner.mos_documents_ok:
                 raise UserError(self.env._('%(name)s cannot be approved: missing or expired %(docs)s.', name=partner.display_name, docs=partner.mos_missing_documents))
             if partner.create_uid == self.env.user and not self.env.user.has_group('mos_core.group_mos_admin'):
@@ -97,6 +99,17 @@ class ResPartner(models.Model):
                 }
             )
             self.env['mos.audit.event'].record('supplier_approved', partner, partner.display_name)
+
+    def action_reject_supplier(self, reason=''):
+        """A candidate that is turned down (lifecycle 6.2): it can be put forward again only by reinstating it as a candidate."""
+        self._mos_require_procurement_manager()
+        if not reason:
+            raise UserError(self.env._('Give the reason for rejecting the supplier.'))
+        for partner in self:
+            if partner.mos_supplier_state != 'candidate':
+                raise UserError(self.env._('Only a candidate can be rejected; suspend or block an approved supplier.'))
+            partner.sudo().write({'mos_supplier_state': 'rejected', 'mos_status_reason': reason})
+            self.env['mos.audit.event'].record('supplier_rejected', partner, f'{partner.display_name}: {reason}')
 
     def action_suspend_supplier(self, reason=''):
         self._mos_require_procurement_manager()

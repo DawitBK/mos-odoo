@@ -98,7 +98,7 @@
                         </list>
                     </field>
                     <button name="action_approve_supplier" type="object" string="Approve supplier" class="btn-primary" invisible="mos_supplier_state == 'approved'"/>
-                    <button name="action_open_status" type="object" string="Suspend / block / reinstate"/>
+                    <button name="action_open_status" type="object" string="Reject / suspend / block / reinstate"/>
                 </page>
             </xpath>
         </field>

@@ -146,6 +146,55 @@ class TestSales(TransactionCase):
         self.assertEqual(session.variance, -100.0)
         self.assertEqual(session.state, 'closed')
 
+    def test_a_bounced_cheque_reverses_the_receipt_and_the_invoice_owes_again(self):
+        """E55 and lifecycle 6.15: the number stays, the invoice and the customer balance take the money back, the till loses a reversed cash receipt."""
+        order = self._order(qty=10000, price=1.0)
+        order.with_user(self.rep).action_confirm()
+        delivery = self._truck(order)
+        delivery.with_user(self.rep).action_dispatch()
+        invoice = delivery.invoice_id
+        Receipt = self.env['mos.receipt']
+        finance = new_test_user(self.env, login='s_fin', groups='mos_approvals.group_mos_finance_manager')
+        cheque = Receipt.with_user(self.cashier).create({'customer_id': self.customer.id, 'invoice_id': invoice.id, 'amount': 4000, 'method': 'cheque', 'reference': 'CHQ-9'})
+        advance = Receipt.with_user(self.cashier).create({'customer_id': self.customer.id, 'amount': 1000, 'method': 'transfer', 'reference': 'ADV-9'})
+        self.assertEqual(invoice.balance, 7500.0)
+        with self.assertRaises(UserError):
+            cheque.with_user(self.cashier).action_reverse('bounced')  # not a finance manager
+        with self.assertRaises(UserError):
+            cheque.with_user(finance).action_reverse('')
+        cheque.with_user(finance).action_reverse('Cheque bounced')
+        self.assertEqual((cheque.state, cheque.reverse_reason, cheque.reversed_by_id), ('reversed', 'Cheque bounced', finance))
+        self.assertEqual(invoice.balance, 11500.0)
+        self.assertEqual(invoice.paid_amount, 0.0)
+        with self.assertRaises(UserError):
+            cheque.with_user(finance).action_reverse('again')
+        with self.assertRaises(UserError):
+            cheque.write({'amount': 1})
+        balance = self.env['mos.customer.balance'].search([('customer_id', '=', self.customer.id)])
+        self.assertEqual(balance.balance, 11500.0 - 1000.0)
+        advance.with_user(finance).action_reverse('Entered twice')
+        self.env.flush_all()  # the view reads the table, so the pending write must reach it first
+        self.env.invalidate_all()
+        balance = self.env['mos.customer.balance'].search([('customer_id', '=', self.customer.id)])
+        self.assertEqual(balance.balance, 11500.0)
+
+    def test_a_reversed_cash_receipt_leaves_the_till_and_a_closed_session_refuses_it(self):
+        order = self._order(qty=10000, price=1.0)
+        order.with_user(self.rep).action_confirm()
+        delivery = self._truck(order)
+        delivery.with_user(self.rep).action_dispatch()
+        invoice = delivery.invoice_id
+        finance = new_test_user(self.env, login='s_fin2', groups='mos_approvals.group_mos_finance_manager')
+        session = self.env['mos.cash.session'].with_user(self.cashier).create({'float_amount': 500})
+        cash = self.env['mos.receipt'].with_user(self.cashier).create({'customer_id': self.customer.id, 'invoice_id': invoice.id, 'amount': 2000, 'method': 'cash'})
+        self.assertEqual(session.expected_cash, 2500.0)
+        cash.with_user(finance).action_reverse('Wrong customer')
+        self.assertEqual(session.expected_cash, 500.0)
+        again = self.env['mos.receipt'].with_user(self.cashier).create({'customer_id': self.customer.id, 'invoice_id': invoice.id, 'amount': 1000, 'method': 'cash'})
+        session.with_user(self.cashier).action_close(1500, '')
+        with self.assertRaises(UserError):
+            again.with_user(finance).action_reverse('Late')
+
     def test_posted_documents_are_final_except_the_fiscal_reference(self):
         order = self._order(qty=1000, price=1.0)
         order.with_user(self.rep).action_confirm()

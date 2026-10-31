@@ -12,7 +12,6 @@ REACHED_ANOTHER_WAY = {
     ('mos.gate.visit', 'action_entry_reject'): 'called by the delivery-entry dialog',
     ('mos.gate.visit', 'action_prepare_grn_safely'): 'the receipt button calls it through action_prepare_receipt',
     ('mos.gate.visit.share', 'action_prepare'): 'called for each share when the visit prepares its receipts',
-    ('mos.pv.draft', 'action_reverse'): 'called when the receipt it came from is reversed',
     ('mos.rfq', 'action_award'): 'called by the award dialog',
     ('mos.overview', 'action_open_figures'): 'opened by the "All figures" button of the home screen',
 }

@@ -67,6 +67,43 @@ class TestCommercial(CommercialSetup, TransactionCase):
         with self.assertRaises(UserError):
             self._order().with_user(self.rep).action_confirm()
 
+    def test_a_customer_can_be_rejected_suspended_reinstated_blocked_and_unblocked(self):
+        """Lifecycle 6.2: each way out of a standing has its rule about who may do it."""
+        with self.assertRaises(UserError):
+            self.customer.with_user(self.rep).action_reject_customer('no')
+        with self.assertRaises(UserError):
+            self.customer.with_user(self.smgr).action_reject_customer('')
+        rejected = self.env['res.partner'].with_user(self.rep).create({'name': 'Doubtful Co', 'customer_rank': 1})
+        rejected.with_user(self.smgr).action_reject_customer('No trade licence')
+        self.assertEqual((rejected.mos_customer_state, rejected.mos_customer_reason), ('rejected', 'No trade licence'))
+
+        self.customer.with_user(self.smgr).action_approve_customer()
+        with self.assertRaises(UserError):
+            self.customer.with_user(self.smgr).action_reinstate_customer()  # not suspended
+        self.customer.with_user(self.smgr).action_suspend_customer('Late payments')
+        self.assertEqual(self.customer.mos_customer_state, 'suspended')
+        with self.assertRaises(UserError):
+            self.customer.with_user(self.smgr).action_reinstate_customer()  # the one who suspended it
+        self.customer.with_user(self.fin).action_reinstate_customer()
+        self.assertEqual(self.customer.mos_customer_state, 'approved')
+
+        self.customer.with_user(self.fin).action_block_customer('Bounced cheques')
+        with self.assertRaises(UserError):
+            self.customer.with_user(self.smgr).action_unblock_customer()  # not finance
+        with self.assertRaises(UserError):
+            self.customer.with_user(self.fin).action_unblock_customer()  # the one who blocked it
+        fin2 = new_test_user(self.env, login='cfin2', groups='mos_approvals.group_mos_finance_manager')
+        self.customer.with_user(fin2).action_unblock_customer()
+        self.assertEqual(self.customer.mos_customer_state, 'approved')
+        self.assertFalse(self.customer.mos_customer_held_by_id)
+
+    def test_a_suspended_customer_cannot_have_an_order_confirmed(self):
+        self._params(enforce_customer_approval=True)
+        self.customer.with_user(self.smgr).action_approve_customer()
+        self.customer.with_user(self.smgr).action_suspend_customer('Review')
+        with self.assertRaises(UserError):
+            self._order().with_user(self.rep).action_confirm()
+
     def test_credit_limit_changes_only_through_an_approved_request(self):
         self._params(control_credit_changes=True)
         with self.assertRaises(UserError):

@@ -12,11 +12,17 @@
                         <group>
                             <field name="mos_customer_state" widget="badge"/>
                             <field name="mos_customer_approved_by_id"/>
+                            <field name="mos_customer_reason" invisible="not mos_customer_reason"/>
+                            <field name="mos_customer_held_by_id" invisible="not mos_customer_held_by_id"/>
                             <field name="mos_credit_limit" readonly="1"/>
                         </group>
                     </group>
-                    <button name="action_approve_customer" type="object" string="Approve customer" class="btn-primary" invisible="mos_customer_state == 'approved'"/>
-                    <button name="action_commercial_ui" type="object" string="Block customer" context="{'mos_method': 'action_block_customer', 'mos_title': 'Block the customer'}" invisible="mos_customer_state == 'blocked'"/>
+                    <button name="action_approve_customer" type="object" string="Approve customer" class="btn-primary" invisible="mos_customer_state != 'draft'"/>
+                    <button name="action_commercial_ui" type="object" string="Reject customer" context="{'mos_method': 'action_reject_customer', 'mos_title': 'Why is the customer rejected?'}" invisible="mos_customer_state != 'draft'"/>
+                    <button name="action_commercial_ui" type="object" string="Suspend customer" context="{'mos_method': 'action_suspend_customer', 'mos_title': 'Suspend the customer'}" invisible="mos_customer_state != 'approved'"/>
+                    <button name="action_reinstate_customer" type="object" string="Reinstate customer" invisible="mos_customer_state != 'suspended'"/>
+                    <button name="action_commercial_ui" type="object" string="Block customer" context="{'mos_method': 'action_block_customer', 'mos_title': 'Block the customer'}" invisible="mos_customer_state in ('blocked', 'rejected')"/>
+                    <button name="action_unblock_customer" type="object" string="Unblock customer" invisible="mos_customer_state != 'blocked'"/>
                     <field name="mos_credit_change_ids">
                         <list create="0" delete="0">
                             <field name="name"/>

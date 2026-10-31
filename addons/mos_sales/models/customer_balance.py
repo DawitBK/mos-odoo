@@ -28,7 +28,7 @@ class MosCustomerBalance(models.Model):
                 SELECT customer_id, balance AS open_amount, (CURRENT_DATE - date) AS age, gross_amount AS gross
                   FROM mos_customer_invoice
             ), adv AS (
-                SELECT customer_id, sum(amount) AS advances FROM mos_receipt WHERE invoice_id IS NULL GROUP BY customer_id
+                SELECT customer_id, sum(amount) AS advances FROM mos_receipt WHERE invoice_id IS NULL AND state = 'posted' GROUP BY customer_id
             ), per AS (
                 SELECT customer_id,
                        sum(gross) AS invoiced,

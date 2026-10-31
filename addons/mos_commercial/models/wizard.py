@@ -16,6 +16,8 @@ class MosCommercialWizard(models.TransientModel):
     ALLOWED = {
         ('sale.order', 'action_approve_prices'),
         ('res.partner', 'action_block_customer'),
+        ('res.partner', 'action_reject_customer'),
+        ('res.partner', 'action_suspend_customer'),
         ('mos.customer.return', 'action_decide_restock'),
         ('mos.customer.return', 'action_decide_scrap'),
     }

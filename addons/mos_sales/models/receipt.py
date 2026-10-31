@@ -10,7 +10,8 @@ class MosReceipt(models.Model):
     _inherit = ['mos.posted']
     _description = 'MOS customer receipt'
     _order = 'id desc'
-    _mos_final_states = ('posted',)
+    _mos_final_states = ('posted', 'reversed')
+    _mos_editable_after_post = {'state', 'reversed_by_id', 'reversed_on', 'reverse_reason'}
 
     name = fields.Char(readonly=True, copy=False, default='New')
     customer_id = fields.Many2one('res.partner', required=True)
@@ -21,7 +22,28 @@ class MosReceipt(models.Model):
     reference = fields.Char(string='Slip or reference')
     session_id = fields.Many2one('mos.cash.session', readonly=True)
     received_by_id = fields.Many2one('res.users', default=lambda s: s.env.user, readonly=True)
-    state = fields.Selection([('posted', 'Posted')], default='posted', readonly=True)
+    state = fields.Selection([('posted', 'Posted'), ('reversed', 'Reversed')], default='posted', readonly=True)
+    reversed_by_id = fields.Many2one('res.users', readonly=True)
+    reversed_on = fields.Date(readonly=True)
+    reverse_reason = fields.Char(readonly=True)
+
+    def action_reverse(self, reason=''):
+        """A receipt that was wrong, or a cheque that bounced: the invoice owes the money again and the customer's balance rises (E55, FR-SAL-008).
+        The number stays; only a finance manager other than the person who took the money reverses it."""
+        user = self.env.user
+        if not (user.has_group('mos_approvals.group_mos_finance_manager') or user.has_group('mos_core.group_mos_admin')):
+            raise UserError(self.env._('Only a finance manager can reverse a receipt.'))
+        if not (reason or '').strip():
+            raise UserError(self.env._('Say why the receipt is reversed.'))
+        for receipt in self:
+            if receipt.state != 'posted':
+                raise UserError(self.env._('This receipt is already reversed.'))
+            if receipt.received_by_id == user and not user.has_group('mos_core.group_mos_admin'):
+                raise UserError(self.env._('The person who took the money cannot reverse the receipt.'))
+            if receipt.session_id and receipt.session_id.state == 'closed':
+                raise UserError(self.env._('The cash session of this receipt is closed: a cash refund is made through a new entry, not by reversing the receipt.'))
+            receipt.sudo().write({'state': 'reversed', 'reversed_by_id': user.id, 'reversed_on': fields.Date.context_today(self), 'reverse_reason': reason})
+            self.env['mos.audit.event'].record('receipt_reversed', receipt, f'{receipt.name}: {receipt.amount} from {receipt.customer_id.display_name}: {reason}')
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -65,10 +87,10 @@ class MosCashSession(models.Model):
     variance_reason = fields.Char()
     state = fields.Selection([('open', 'Open'), ('closed', 'Closed')], default='open', readonly=True, tracking=True)
 
-    @api.depends('receipt_ids.amount', 'float_amount', 'counted_cash', 'state')
+    @api.depends('receipt_ids.amount', 'receipt_ids.state', 'float_amount', 'counted_cash', 'state')
     def _compute_expected(self):
         for s in self:
-            s.cash_received = sum(s.receipt_ids.filtered(lambda r: r.method == 'cash').mapped('amount'))
+            s.cash_received = sum(s.receipt_ids.filtered(lambda r: r.method == 'cash' and r.state == 'posted').mapped('amount'))
             s.expected_cash = s.float_amount + s.cash_received
             s.variance = round(s.counted_cash - s.expected_cash, 2) if s.state == 'closed' else 0.0
 

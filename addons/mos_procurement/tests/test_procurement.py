@@ -103,6 +103,18 @@ class TestProcurement(TransactionCase):
         self.supplier.with_user(self.gm).action_reinstate_supplier()
         self.assertEqual(self.supplier.mos_supplier_state, 'candidate')
 
+    def test_a_candidate_can_be_rejected_and_put_forward_again_only_by_reinstating(self):
+        with self.assertRaises(UserError):
+            self.supplier.with_user(self.manager).action_reject_supplier('')
+        self.supplier.with_user(self.manager).action_reject_supplier('Could not verify the business')
+        self.assertEqual((self.supplier.mos_supplier_state, self.supplier.mos_status_reason), ('rejected', 'Could not verify the business'))
+        with self.assertRaises(UserError):
+            self.supplier.with_user(self.manager).action_approve_supplier()
+        with self.assertRaises(UserError):
+            self.supplier.with_user(self.manager).action_reject_supplier('again')  # no longer a candidate
+        self.supplier.with_user(self.gm).action_reinstate_supplier()
+        self.assertEqual(self.supplier.mos_supplier_state, 'candidate')
+
     def test_document_expiry_cron_notifies_and_suspends(self):
         self._approve(self.supplier)
         tin = self.supplier.mos_document_ids.filtered(lambda d: d.doc_type == 'tin')

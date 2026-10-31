@@ -6,7 +6,7 @@ class MosSupplierStatusWizard(models.TransientModel):
     _description = 'MOS change supplier standing'
 
     partner_id = fields.Many2one('res.partner', required=True, readonly=True)
-    action = fields.Selection([('suspend', 'Suspend'), ('block', 'Block'), ('reinstate', 'Reinstate as candidate')], required=True, default='suspend')
+    action = fields.Selection([('suspend', 'Suspend'), ('block', 'Block'), ('reject', 'Reject the candidate'), ('reinstate', 'Reinstate as candidate')], required=True, default='suspend')
     reason = fields.Char()
 
     def action_confirm(self):
@@ -16,6 +16,8 @@ class MosSupplierStatusWizard(models.TransientModel):
             partner.action_suspend_supplier(self.reason)
         elif self.action == 'block':
             partner.action_block_supplier(self.reason)
+        elif self.action == 'reject':
+            partner.action_reject_supplier(self.reason)
         else:
             partner.action_reinstate_supplier()
         return {'type': 'ir.actions.act_window_close'}

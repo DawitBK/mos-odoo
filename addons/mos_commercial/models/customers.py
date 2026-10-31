@@ -12,13 +12,15 @@ class ResPartner(models.Model):
     _inherit = 'res.partner'
 
     mos_customer_state = fields.Selection(
-        [('draft', 'Not approved'), ('approved', 'Approved'), ('blocked', 'Blocked')],
+        [('draft', 'Not approved'), ('approved', 'Approved'), ('rejected', 'Rejected'), ('suspended', 'Suspended'), ('blocked', 'Blocked')],
         string='Customer standing',
         default='draft',
         copy=False,
         tracking=True,
     )
     mos_customer_approved_by_id = fields.Many2one('res.users', readonly=True, copy=False)
+    mos_customer_reason = fields.Char(string='Reason for the standing', readonly=True, copy=False)
+    mos_customer_held_by_id = fields.Many2one('res.users', string='Suspended or blocked by', readonly=True, copy=False)
     mos_credit_change_ids = fields.One2many('mos.credit.change', 'partner_id', string='Credit limit changes')
 
     def action_approve_customer(self):
@@ -37,8 +39,56 @@ class ResPartner(models.Model):
         if not reason:
             raise UserError(self.env._('Give the reason.'))
         for partner in self:
-            partner.sudo().write({'mos_customer_state': 'blocked'})
+            partner.sudo().write({'mos_customer_state': 'blocked', 'mos_customer_reason': reason, 'mos_customer_held_by_id': self.env.uid})
             self.env['mos.audit.event'].record('customer_blocked', partner, f'{partner.display_name}: {reason}')
+
+    def action_reject_customer(self, reason=''):
+        if not _has(self.env.user, 'mos_approvals.group_mos_finance_manager', 'mos_commercial.group_mos_sales_manager', 'mos_core.group_mos_admin'):
+            raise UserError(self.env._('Only a sales or finance manager can reject a customer.'))
+        if not reason:
+            raise UserError(self.env._('Give the reason.'))
+        for partner in self:
+            if partner.mos_customer_state != 'draft':
+                raise UserError(self.env._('Only a customer waiting for approval can be rejected.'))
+            partner.sudo().write({'mos_customer_state': 'rejected', 'mos_customer_reason': reason})
+            self.env['mos.audit.event'].record('customer_rejected', partner, f'{partner.display_name}: {reason}')
+
+    def action_suspend_customer(self, reason=''):
+        if not _has(self.env.user, 'mos_approvals.group_mos_finance_manager', 'mos_commercial.group_mos_sales_manager', 'mos_core.group_mos_admin'):
+            raise UserError(self.env._('Only a sales or finance manager can suspend a customer.'))
+        if not reason:
+            raise UserError(self.env._('Give the reason.'))
+        for partner in self:
+            if partner.mos_customer_state != 'approved':
+                raise UserError(self.env._('Only an approved customer can be suspended.'))
+            partner.sudo().write({'mos_customer_state': 'suspended', 'mos_customer_reason': reason, 'mos_customer_held_by_id': self.env.uid})
+            self.env['mos.audit.event'].record('customer_suspended', partner, f'{partner.display_name}: {reason}')
+
+    def action_reinstate_customer(self):
+        """A suspended customer is approved again; whoever suspended it does not lift it alone."""
+        user = self.env.user
+        if not _has(user, 'mos_approvals.group_mos_finance_manager', 'mos_commercial.group_mos_sales_manager', 'mos_core.group_mos_admin'):
+            raise UserError(self.env._('Only a sales or finance manager can reinstate a customer.'))
+        for partner in self:
+            if partner.mos_customer_state != 'suspended':
+                raise UserError(self.env._('Only a suspended customer is reinstated.'))
+            if partner.mos_customer_held_by_id == user and not user.has_group('mos_core.group_mos_admin'):
+                raise UserError(self.env._('The person who suspended a customer cannot reinstate it.'))
+            partner.sudo().write({'mos_customer_state': 'approved', 'mos_customer_reason': False, 'mos_customer_held_by_id': False})
+            self.env['mos.audit.event'].record('customer_reinstated', partner, partner.display_name)
+
+    def action_unblock_customer(self):
+        """A blocked customer is approved again only by a finance manager other than the one who blocked it."""
+        user = self.env.user
+        if not _has(user, 'mos_approvals.group_mos_finance_manager', 'mos_core.group_mos_admin'):
+            raise UserError(self.env._('Only a finance manager can unblock a customer.'))
+        for partner in self:
+            if partner.mos_customer_state != 'blocked':
+                raise UserError(self.env._('Only a blocked customer is unblocked.'))
+            if partner.mos_customer_held_by_id == user and not user.has_group('mos_core.group_mos_admin'):
+                raise UserError(self.env._('The person who blocked a customer cannot unblock it.'))
+            partner.sudo().write({'mos_customer_state': 'approved', 'mos_customer_reason': False, 'mos_customer_held_by_id': False})
+            self.env['mos.audit.event'].record('customer_unblocked', partner, partner.display_name)
 
     def write(self, vals):
         if 'mos_credit_limit' in vals and not self.env.context.get('mos_credit_change'):

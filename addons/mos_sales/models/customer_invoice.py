@@ -39,10 +39,10 @@ class MosCustomerInvoice(models.Model):
             vat = round(net * inv.vat_pct / 100.0, 2)
             inv.net_amount, inv.vat_amount, inv.gross_amount = net, vat, net + vat
 
-    @api.depends('receipt_ids.amount', 'gross_amount')
+    @api.depends('receipt_ids.amount', 'receipt_ids.state', 'gross_amount')
     def _compute_paid(self):
         for inv in self:
-            inv.paid_amount = sum(inv.receipt_ids.mapped('amount'))
+            inv.paid_amount = sum(inv.receipt_ids.filtered(lambda r: r.state == 'posted').mapped('amount'))
             inv.balance = round(inv.gross_amount - inv.paid_amount, 2)
 
     @api.model_create_multi
