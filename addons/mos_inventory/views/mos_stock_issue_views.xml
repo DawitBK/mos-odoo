@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_stock_issue_list" model="ir.ui.view">
+        <field name="name">mos.stock.issue.list</field>
+        <field name="model">mos.stock.issue</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('cancelled', 'rejected')" decoration-success="state == 'issued'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="kind"/>
+                <field name="site_id"/>
+                <field name="location_id"/>
+                <field name="department_id"/>
+                <field name="amount"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_stock_issue_form" model="ir.ui.view">
+        <field name="name">mos.stock.issue.form</field>
+        <field name="model">mos.stock.issue</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_issue" string="Issue from stock" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('issued', 'rejected', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,issued"/>
+                </header>
+                <sheet>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-cube"/></span>
+                        <div class="mos-page-title"><h2>Goods Issue</h2><p>Take goods out of the store for a department, or scrap them, valued at the current average cost.</p></div>
+                        <div class="mos-page-crumb">Inventory › Goods Issue</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Issue Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="name" string="Issue no."/><field name="name"/></div>
+                            <div><label for="kind"/><field name="kind" readonly="state != 'draft'" widget="radio" options="{'horizontal': true}"/></div>
+                            <div><label for="site_id"/><field name="site_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="location_id"/><field name="location_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div invisible="kind != 'consumption'"><label for="department_id"/><field name="department_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div invisible="kind != 'scrap'"><label for="reason_id" string="Reason for scrapping"/><field name="reason_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="date" string="Issue date"/><field name="date" readonly="state != 'draft'"/></div>
+                            <div><label for="requested_by_id" string="Created by"/><field name="requested_by_id"/></div>
+                            <div><label for="approved_by_id"/><field name="approved_by_id"/></div>
+                            <div><label for="issued_by_id" string="Issued by"/><field name="issued_by_id"/></div>
+                            <div><label for="mos_approval_state" string="Approval"/><field name="mos_approval_state" widget="badge"/></div>
+                            <div class="mos-fieldgrid-wide"><label for="note" string="Comments"/><field name="note" readonly="state != 'draft'" placeholder="Add any additional notes or comments..."/></div>
+                        </div>
+                    </div>
+                    <div class="mos-summary-row mos-summary-3">
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total items</div><div class="mos-sum-value"><field name="item_count"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total quantity</div><div class="mos-sum-value"><field name="totals"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Value at average cost</div><div class="mos-sum-value"><field name="amount"/></div></div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Items</div>
+                        <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                            <list editable="bottom">
+                                <field name="code" string="Item code"/>
+                                <field name="product_id" string="Item name"/>
+                                <field name="uom_id" string="UOM"/>
+                                <field name="available_qty" string="Available there"/>
+                                <field name="qty" string="Quantity to issue"/>
+                                <field name="unit_cost" string="Average cost"/>
+                                <field name="value" string="Value"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_stock_issue_search" model="ir.ui.view">
+        <field name="name">mos.stock.issue.search</field>
+        <field name="model">mos.stock.issue</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="department_id"/>
+                <field name="site_id"/>
+                <field name="location_id"/>
+                <filter name="consumption" string="Consumption" domain="[('kind', '=', 'consumption')]"/>
+                <filter name="scrap" string="Scrap" domain="[('kind', '=', 'scrap')]"/>
+                <separator/>
+                <filter name="waiting" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="to_issue" string="Ready to issue" domain="[('state', '=', 'approved')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_department" string="Department" context="{'group_by': 'department_id'}"/>
+                    <filter name="by_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_stock_issue" model="ir.actions.act_window">
+        <field name="name">Goods issues</field>
+        <field name="res_model">mos.stock.issue</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_mos_stock_issues" name="Goods issues" parent="menu_mos_inventory" action="action_mos_stock_issue" sequence="15"/>
+
+    <!-- Miscellaneous receipts and opening balances -->
+    <record id="view_mos_stock_receipt_list" model="ir.ui.view">
+        <field name="name">mos.stock.receipt.list</field>
+        <field name="model">mos.stock.receipt</field>
+        <field name="arch" type="xml">
+            <list decoration-muted="state in ('cancelled', 'rejected')" decoration-success="state == 'received'">
+                <field name="name"/>
+                <field name="date"/>
+                <field name="kind"/>
+                <field name="site_id"/>
+                <field name="location_id"/>
+                <field name="reason_id"/>
+                <field name="amount"/>
+                <field name="state" widget="badge"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_stock_receipt_form" model="ir.ui.view">
+        <field name="name">mos.stock.receipt.form</field>
+        <field name="model">mos.stock.receipt</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_submit" string="Submit" type="object" class="btn-primary" invisible="state != 'draft'"/>
+                    <button name="action_receive" string="Receive into stock" type="object" class="btn-primary" invisible="state != 'approved'"/>
+                    <button name="action_cancel" string="Cancel" type="object" invisible="state in ('received', 'rejected', 'cancelled')"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,pending,approved,received"/>
+                </header>
+                <sheet>
+                    <div class="mos-page-head">
+                        <span class="mos-page-icon"><i class="mos-ico mos-ico-cube"/></span>
+                        <div class="mos-page-title"><h2>Miscellaneous Receipt</h2><p>Put goods into stock that arrive without an order: a reason and a cost are required. Also used for the opening balance at go-live.</p></div>
+                        <div class="mos-page-crumb">Inventory › Miscellaneous Receipt</div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-doc"/> Receipt Information</div>
+                        <div class="mos-fieldgrid">
+                            <div><label for="name" string="Receipt no."/><field name="name"/></div>
+                            <div><label for="kind"/><field name="kind" readonly="state != 'draft'" widget="radio" options="{'horizontal': true}"/></div>
+                            <div><label for="site_id"/><field name="site_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="location_id"/><field name="location_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div invisible="kind != 'misc'"><label for="reason_id" string="Reason"/><field name="reason_id" readonly="state != 'draft'" options="{'no_create': True}"/></div>
+                            <div><label for="date" string="Receipt date"/><field name="date" readonly="state != 'draft'"/></div>
+                            <div><label for="requested_by_id" string="Created by"/><field name="requested_by_id"/></div>
+                            <div><label for="approved_by_id"/><field name="approved_by_id"/></div>
+                            <div><label for="received_by_id" string="Received by"/><field name="received_by_id"/></div>
+                            <div><label for="mos_approval_state" string="Approval"/><field name="mos_approval_state" widget="badge"/></div>
+                            <div class="mos-fieldgrid-wide"><label for="note" string="Comments"/><field name="note" readonly="state != 'draft'" placeholder="Add any additional notes or comments..."/></div>
+                        </div>
+                    </div>
+                    <div class="mos-summary-row mos-summary-3">
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total items</div><div class="mos-sum-value"><field name="item_count"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Total quantity</div><div class="mos-sum-value"><field name="totals"/></div></div>
+                        <div class="mos-sum-card"><div class="mos-sum-label">Value</div><div class="mos-sum-value"><field name="amount"/></div></div>
+                    </div>
+                    <div class="mos-section">
+                        <div class="mos-section-title"><i class="mos-ico mos-ico-cube"/> Items</div>
+                        <field name="line_ids" nolabel="1" readonly="state != 'draft'">
+                            <list editable="bottom">
+                                <field name="code" string="Item code"/>
+                                <field name="product_id" string="Item name"/>
+                                <field name="uom_id" string="UOM"/>
+                                <field name="qty" string="Quantity"/>
+                                <field name="unit_cost" string="Cost per unit"/>
+                                <field name="value" string="Value"/>
+                                <field name="lot_name" string="Lot"/>
+                                <field name="mfg_date" string="Made on"/>
+                                <field name="expiry_date" string="Expires on"/>
+                            </list>
+                        </field>
+                    </div>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_stock_receipt_search" model="ir.ui.view">
+        <field name="name">mos.stock.receipt.search</field>
+        <field name="model">mos.stock.receipt</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="site_id"/>
+                <field name="location_id"/>
+                <field name="reason_id"/>
+                <filter name="misc" string="Miscellaneous" domain="[('kind', '=', 'misc')]"/>
+                <filter name="opening" string="Opening balance" domain="[('kind', '=', 'opening')]"/>
+                <separator/>
+                <filter name="waiting" string="Waiting for approval" domain="[('state', '=', 'pending')]"/>
+                <filter name="to_receive" string="Ready to receive" domain="[('state', '=', 'approved')]"/>
+                <group>
+                    <filter name="by_kind" string="Kind" context="{'group_by': 'kind'}"/>
+                    <filter name="by_state" string="Status" context="{'group_by': 'state'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_stock_receipt" model="ir.actions.act_window">
+        <field name="name">Miscellaneous receipts</field>
+        <field name="res_model">mos.stock.receipt</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <menuitem id="menu_mos_stock_receipts" name="Miscellaneous receipts" parent="menu_mos_inventory" action="action_mos_stock_receipt" sequence="16"/>
+</odoo>

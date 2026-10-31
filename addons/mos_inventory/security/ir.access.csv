@@ -18,3 +18,17 @@ access_mos_cycle_count_line_user,mos.cycle.count.line: group_mos_user,mos.cycle.
 access_mos_cycle_count_line_storekeeper,mos.cycle.count.line: group_mos_storekeeper,mos.cycle.count.line,mos_inbound.group_mos_storekeeper,crud,
 access_mos_cycle_count_line_inventory_manager,mos.cycle.count.line: group_mos_inventory_manager,mos.cycle.count.line,group_mos_inventory_manager,crud,
 access_mos_reorder_report_user,mos.reorder.report: group_mos_user,mos.reorder.report,mos_core.group_mos_user,r,
+access_mos_stock_issue_user,mos.stock.issue: group_mos_user,mos.stock.issue,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_issue_storekeeper,mos.stock.issue: group_mos_storekeeper,mos.stock.issue,mos_inbound.group_mos_storekeeper,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_issue_inventory_manager,mos.stock.issue: group_mos_inventory_manager,mos.stock.issue,group_mos_inventory_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_issue_admin,mos.stock.issue: group_mos_admin,mos.stock.issue,mos_core.group_mos_admin,r,
+access_mos_stock_issue_line_user,mos.stock.issue.line: group_mos_user,mos.stock.issue.line,mos_core.group_mos_user,r,
+access_mos_stock_issue_line_storekeeper,mos.stock.issue.line: group_mos_storekeeper,mos.stock.issue.line,mos_inbound.group_mos_storekeeper,crud,
+access_mos_stock_issue_line_inventory_manager,mos.stock.issue.line: group_mos_inventory_manager,mos.stock.issue.line,group_mos_inventory_manager,crud,
+access_mos_stock_issue_line_admin,mos.stock.issue.line: group_mos_admin,mos.stock.issue.line,mos_core.group_mos_admin,r,
+access_mos_stock_receipt_user,mos.stock.receipt: group_mos_user,mos.stock.receipt,mos_core.group_mos_user,r,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_receipt_inventory_manager,mos.stock.receipt: group_mos_inventory_manager,mos.stock.receipt,group_mos_inventory_manager,cru,"[('site_id', 'in', user.mos_site_ids.ids)]"
+access_mos_stock_receipt_admin,mos.stock.receipt: group_mos_admin,mos.stock.receipt,mos_core.group_mos_admin,r,
+access_mos_stock_receipt_line_user,mos.stock.receipt.line: group_mos_user,mos.stock.receipt.line,mos_core.group_mos_user,r,
+access_mos_stock_receipt_line_inventory_manager,mos.stock.receipt.line: group_mos_inventory_manager,mos.stock.receipt.line,group_mos_inventory_manager,crud,
+access_mos_stock_receipt_line_admin,mos.stock.receipt.line: group_mos_admin,mos.stock.receipt.line,mos_core.group_mos_admin,r,

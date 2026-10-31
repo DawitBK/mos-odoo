@@ -1,5 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo noupdate="1">
+    <record id="seq_stock_receipt" model="ir.sequence">
+        <field name="name">MOS miscellaneous receipt</field>
+        <field name="code">mos.stock.receipt</field>
+        <field name="prefix">MR-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <record id="location_misc_receipts" model="stock.location">
+        <field name="name">Miscellaneous receipts and opening balances</field>
+        <field name="usage">inventory</field>
+        <field name="company_id"></field>
+    </record>
+    <record id="seq_stock_issue" model="ir.sequence">
+        <field name="name">MOS goods issue</field>
+        <field name="code">mos.stock.issue</field>
+        <field name="prefix">GI-%(range_year)s-</field>
+        <field name="padding">5</field>
+        <field name="implementation">no_gap</field>
+        <field name="use_date_range" eval="True"/>
+    </record>
+    <!-- Where goods go when a department consumes them or they are scrapped: virtual places, valued out of stock at the average cost. -->
+    <record id="location_consumed" model="stock.location">
+        <field name="name">Consumed by departments</field>
+        <field name="usage">inventory</field>
+        <field name="company_id"></field>
+    </record>
+    <record id="location_scrapped" model="stock.location">
+        <field name="name">Scrapped</field>
+        <field name="usage">inventory</field>
+        <field name="company_id"></field>
+    </record>
     <record id="seq_stock_adjustment" model="ir.sequence">
         <field name="name">MOS stock adjustment</field>
         <field name="code">mos.stock.adjustment</field>

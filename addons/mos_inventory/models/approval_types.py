@@ -1,6 +1,6 @@
 from odoo import fields, models
 
-TYPES = [('mos.stock.adjustment', 'Stock adjustment')]
+TYPES = [('mos.stock.adjustment', 'Stock adjustment'), ('mos.stock.issue', 'Goods issue'), ('mos.stock.receipt', 'Miscellaneous receipt')]
 
 
 class MosApprovalRule(models.Model):
