@@ -85,6 +85,7 @@
 
     <!-- Shared pieces -->
     <template id="doc_head">
+        <img t-att-src="'/report/barcode/?barcode_type=QR&amp;value=%s&amp;width=90&amp;height=90' % qr" style="float: right; width: 90px; height: 90px;" alt="QR"/>
         <h2><t t-out="title"/> <span t-out="number"/></h2>
         <p class="text-muted"><t t-out="subtitle"/></p>
     </template>
@@ -109,6 +110,7 @@
                     <div class="page">
                         <t t-set="visit" t-value="visits.get(o.id)"/>
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(o)"/>
                             <t t-set="title">Goods receipt note</t>
                             <t t-set="number" t-value="o.name"/>
                             <t t-set="subtitle" t-value="'Status: ' + (o.state or '').title() + ((' · Done ' + str(o.date_done)[:16]) if o.date_done else '')"/>
@@ -144,6 +146,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(v)"/>
                             <t t-set="title">Supplier receipt</t>
                             <t t-set="number" t-value="v.name"/>
                             <t t-set="subtitle" t-value="'Arrived ' + (str(v.arrived_at)[:16] if v.arrived_at else '—')"/>
@@ -195,6 +198,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(v)"/>
                             <t t-set="title">Rejection note</t>
                             <t t-set="number" t-value="v.name"/>
                             <t t-set="subtitle" t-value="'Gate visit state: ' + (v.state or '').replace('_', ' ')"/>
@@ -235,6 +239,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(inv)"/>
                             <t t-set="title">Purchase voucher</t>
                             <t t-set="number" t-value="inv.name or 'draft'"/>
                             <t t-set="subtitle" t-value="('Self-billed on behalf of the supplier · ' if inv.self_billed else 'Supplier invoice ' + (inv.supplier_ref or '') + ' · ') + (str(inv.invoice_date) if inv.invoice_date else '')"/>
@@ -279,6 +284,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(d)"/>
                             <t t-set="title">Debit note</t>
                             <t t-set="number" t-value="d.name or 'draft'"/>
                             <t t-set="subtitle" t-value="str(d.date or '') + ' · ' + (d.state or '').title()"/>
@@ -303,6 +309,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(c)"/>
                             <t t-set="title">Withholding tax certificate</t>
                             <t t-set="number" t-value="c.name"/>
                             <t t-set="subtitle" t-value="'VOID: ' + (c.void_reason or '') if c.state == 'void' else 'Issued'"/>
@@ -332,6 +339,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(inv)"/>
                             <t t-set="title">Invoice</t>
                             <t t-set="number" t-value="inv.name or 'draft'"/>
                             <t t-set="subtitle" t-value="str(inv.date or '') + ' · ' + (inv.state or '').title()"/>
@@ -374,6 +382,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(r)"/>
                             <t t-set="title">Receipt</t>
                             <t t-set="number" t-value="r.name or 'draft'"/>
                             <t t-set="subtitle" t-value="str(r.date or '') + ' · ' + (r.state or '').title()"/>
@@ -401,6 +410,7 @@
                 <t t-call="web.external_layout">
                     <div class="page">
                         <t t-call="mos_print.doc_head">
+                            <t t-set="qr" t-value="mos_qr(d)"/>
                             <t t-set="title">Delivery note</t>
                             <t t-set="number" t-value="d.name or 'draft'"/>
                             <t t-set="subtitle" t-value="'Status: ' + (d.state or '').replace('_', ' ')"/>

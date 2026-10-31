@@ -36,12 +36,26 @@ class TestPrintedDocuments(TransactionCase):
         }
         for name, model in REPORTS.items():
             doc = self.env[model].new(rows.get(model, {}))
-            values = {'docs': doc, 'doc_ids': [], 'doc_model': model, 'visits': {doc.id: doc.env['mos.gate.visit'].new({})}, 'res_company': self.env.company, 'company': self.env.company}
+            values = {'docs': doc, 'doc_ids': [], 'doc_model': model, 'visits': {doc.id: doc.env['mos.gate.visit'].new({})}, 'res_company': self.env.company, 'company': self.env.company, 'mos_qr': lambda d: 'MOS|test'}
             html = self.env['ir.qweb']._render(name, values)
             self.assertTrue(str(html).strip(), f'{name} rendered nothing')
 
     def test_the_documents_carry_the_company_name(self):
         self.env.company.name = 'Print Test Mills'
         doc = self.env['mos.debit.note'].new({})
-        html = str(self.env['ir.qweb']._render('mos_print.report_debit_note', {'docs': doc, 'doc_ids': [], 'doc_model': 'mos.debit.note', 'res_company': self.env.company, 'company': self.env.company}))
+        html = str(self.env['ir.qweb']._render('mos_print.report_debit_note', {'docs': doc, 'doc_ids': [], 'doc_model': 'mos.debit.note', 'res_company': self.env.company, 'company': self.env.company, 'mos_qr': lambda d: 'MOS|test'}))
         self.assertIn('Print Test Mills', html)
+
+    def test_the_qr_value_carries_the_document_and_a_hash_only_this_database_can_make(self):
+        report = self.env['ir.actions.report']
+        note = self.env['mos.debit.note'].new({})
+        first = report._mos_qr_value(note)
+        self.assertTrue(first.startswith('MOS|mos.debit.note|'))
+        self.assertEqual(first, report._mos_qr_value(note), 'the same document gives the same code')
+        self.env['ir.config_parameter'].sudo().set_str('database.secret', 'another-database')
+        self.assertNotEqual(first.split('|')[-1], report._mos_qr_value(note).split('|')[-1])
+
+    def test_a_real_print_goes_through_the_rendering_context(self):
+        report = self.env['ir.actions.report']._get_report_from_name('mos_print.report_debit_note')
+        context = report._get_rendering_context(report, [], None)
+        self.assertTrue(callable(context['mos_qr']))
