@@ -54,7 +54,7 @@ writes the small version it needs rather than waiting.
 | `mos_theme` | The blue and navy look of the client screens: colours, status pills, section headers, summary cards and tables, for every MOS screen | - |
 
 42 addons. The table is generated from each addon's manifest and the requirement ids its code cites; the status of every FRD requirement
-(built, partial, gap) is in `MOS/docs/3-design/IMPLEMENTATION-STATUS.md`. The order of the work is in `docs/ROADMAP.md`.
+(built, partial, gap) is in `MOS/docs/3-design/IMPLEMENTATION-STATUS.md`.
 
 **Known limit (fit-gap section 4):** Odoo connects to its database as the owner, so "not even an administrator can
 change a posted row, enforced by database grants" cannot be kept. The addons enforce it in the application and add a
