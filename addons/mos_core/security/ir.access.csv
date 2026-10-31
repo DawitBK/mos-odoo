@@ -6,3 +6,5 @@ access_mos_reason_admin,MOS reason: administrators,mos.reason,group_mos_admin,cr
 access_mos_audit_admin,MOS audit: administrators read,mos.audit.event,group_mos_admin,r,
 access_mos_attachment_user,Attachment: assigned records,mos.attachment,group_mos_user,cr,
 access_mos_attachment_admin,Attachment: administrators,mos.attachment,group_mos_admin,crud,
+access_mos_department_user,MOS department: read,mos.department,group_mos_user,r,
+access_mos_department_admin,MOS department: administrators,mos.department,group_mos_admin,crud,

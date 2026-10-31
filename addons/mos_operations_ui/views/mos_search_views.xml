@@ -1052,7 +1052,7 @@
         <field name="arch" type="xml">
             <search>
                 <field name="name"/>
-                <field name="department"/>
+                <field name="department_id"/>
                 <field name="site_id"/>
                 <field name="requester_id"/>
                 <separator/>

@@ -11,7 +11,7 @@
                 <field name="name"/>
                 <field name="site_id"/>
                 <field name="requester_id"/>
-                <field name="department"/>
+                <field name="department_id"/>
                 <field name="needed_by"/>
                 <field name="amount"/>
                 <field name="state" widget="badge"/>
@@ -34,7 +34,7 @@
                     <group>
                         <group>
                             <field name="site_id"/>
-                            <field name="department"/>
+                            <field name="department_id"/>
                             <field name="needed_by"/>
                         </group>
                         <group>

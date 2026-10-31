@@ -31,7 +31,7 @@ class MosPurchaseRequest(models.Model):
         if self.state == 'approved' and not any(line.qty_to_purchase > 0 for line in self.line_ids):
             raise UserError(self.env._('Stock already covers every item on this request: there is nothing to order.'))
         order = super().action_convert(supplier)
-        order.mos_department = self.department
+        order.mos_department_id = self.department_id
         wanted = {}
         for line in self.line_ids:
             wanted.setdefault(line.product_id.id, []).append(line)
@@ -109,4 +109,15 @@ class MosPurchaseRequestLine(models.Model):
 class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
-    mos_department = fields.Char(string='Purchasing department')
+    mos_department_id = fields.Many2one('mos.department', string='Purchasing department', default=lambda self: self.env.user.mos_department_id)
+    mos_department = fields.Char(compute='_compute_mos_department', inverse='_inverse_mos_department', store=True)
+
+    @api.depends('mos_department_id.complete_name')
+    def _compute_mos_department(self):
+        for order in self:
+            order.mos_department = order.mos_department_id.complete_name or order.mos_department or False
+
+    def _inverse_mos_department(self):
+        for order in self:
+            if order.mos_department and order.mos_department_id.complete_name != order.mos_department:
+                order.mos_department_id = self.env['mos.department'].by_name(order.mos_department)

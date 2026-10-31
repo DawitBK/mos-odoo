@@ -16,7 +16,9 @@ class MosPurchaseRequest(models.Model):
     name = fields.Char(readonly=True, copy=False, default='New')
     site_id = fields.Many2one('mos.site', required=True)
     requester_id = fields.Many2one('res.users', default=lambda self: self.env.user, readonly=True)
-    department = fields.Char()
+    department_id = fields.Many2one('mos.department', string='Department', default=lambda self: self.env.user.mos_department_id)
+    # The name as text, kept for what still writes it (seeds, imports, reports): it follows the department and, when written, finds or makes it.
+    department = fields.Char(compute='_compute_department', inverse='_inverse_department', store=True)
     needed_by = fields.Date()
     reason = fields.Text(required=True)
     line_ids = fields.One2many('mos.purchase.request.line', 'request_id', string='Items')
@@ -29,6 +31,16 @@ class MosPurchaseRequest(models.Model):
         tracking=True,
     )
     order_id = fields.Many2one('purchase.order', readonly=True, copy=False)
+
+    @api.depends('department_id.complete_name')
+    def _compute_department(self):
+        for req in self:
+            req.department = req.department_id.complete_name or req.department or False
+
+    def _inverse_department(self):
+        for req in self:
+            if req.department and req.department_id.complete_name != req.department:
+                req.department_id = self.env['mos.department'].by_name(req.department)
 
     @api.depends('line_ids.qty', 'line_ids.estimated_price')
     def _compute_amount(self):

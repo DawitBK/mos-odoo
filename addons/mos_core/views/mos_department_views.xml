@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_mos_department_list" model="ir.ui.view">
+        <field name="name">mos.department.list</field>
+        <field name="model">mos.department</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="complete_name"/>
+                <field name="code"/>
+                <field name="head_id"/>
+                <field name="member_count"/>
+            </list>
+        </field>
+    </record>
+    <record id="view_mos_department_form" model="ir.ui.view">
+        <field name="name">mos.department.form</field>
+        <field name="model">mos.department</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_open_members" type="object" class="oe_stat_button" icon="fa-users">
+                            <field name="member_count" widget="statinfo" string="People"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="parent_id"/>
+                        </group>
+                        <group>
+                            <field name="head_id"/>
+                            <field name="company_id" groups="base.group_multi_company"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="member_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="mos_employee_ref"/>
+                            <field name="login"/>
+                        </list>
+                    </field>
+                    <field name="child_ids" readonly="1">
+                        <list>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="head_id"/>
+                        </list>
+                    </field>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record id="view_mos_department_search" model="ir.ui.view">
+        <field name="name">mos.department.search</field>
+        <field name="model">mos.department</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="complete_name"/>
+                <field name="code"/>
+                <field name="head_id"/>
+                <filter name="inactive" string="Archived" domain="[('active', '=', False)]"/>
+                <group>
+                    <filter name="by_parent" string="Part of" context="{'group_by': 'parent_id'}"/>
+                    <filter name="by_head" string="Head" context="{'group_by': 'head_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    <record id="action_mos_department" model="ir.actions.act_window">
+        <field name="name">Departments</field>
+        <field name="res_model">mos.department</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- The people-side of the same facts, on the user form: employee number, home department and the sites they work at. -->
+    <record id="view_users_form_mos" model="ir.ui.view">
+        <field name="name">res.users.form.mos</field>
+        <field name="model">res.users</field>
+        <field name="inherit_id" ref="base.view_users_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//notebook" position="inside">
+                <page string="MOS" name="mos" groups="mos_core.group_mos_admin">
+                    <group name="mos_people">
+                        <group>
+                            <field name="mos_employee_ref"/>
+                            <field name="mos_department_id"/>
+                        </group>
+                        <group>
+                            <field name="mos_site_ids" widget="many2many_tags"/>
+                        </group>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

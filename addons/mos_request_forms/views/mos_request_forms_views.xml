@@ -12,7 +12,7 @@
                 <field name="request_date"/>
                 <field name="priority" widget="badges_selection"/>
             </xpath>
-            <xpath expr="//field[@name='department']" position="attributes">
+            <xpath expr="//field[@name='department_id']" position="attributes">
                 <attribute name="string">Requesting department</attribute>
             </xpath>
             <xpath expr="//field[@name='needed_by']" position="attributes">
@@ -69,7 +69,7 @@
                 <separator string="Part 1: Purchase order header"/>
             </xpath>
             <xpath expr="//field[@name='partner_ref']" position="after">
-                <field name="mos_department"/>
+                <field name="mos_department_id"/>
             </xpath>
             <xpath expr="//notebook" position="before">
                 <separator string="Part 2: Purchase order line items"/>
