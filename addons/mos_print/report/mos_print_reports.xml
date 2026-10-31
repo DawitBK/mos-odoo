@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- One record per document; every template uses the company layout, so the logo, name, address and TIN come from the company profile. -->
+    <record id="action_report_grn" model="ir.actions.report">
+        <field name="name">Goods receipt note</field>
+        <field name="model">stock.picking</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_grn</field>
+        <field name="print_report_name">'GRN-%s' % (object.name or '').replace('/', '-')</field>
+        <field name="binding_model_id" ref="stock.model_stock_picking"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_supplier_receipt" model="ir.actions.report">
+        <field name="name">Supplier receipt (with deductions)</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_supplier_receipt</field>
+        <field name="print_report_name">'Receipt-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_gate.model_mos_gate_visit"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_rejection_note" model="ir.actions.report">
+        <field name="name">Rejection note</field>
+        <field name="model">mos.gate.visit</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_rejection_note</field>
+        <field name="print_report_name">'Rejection-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_gate.model_mos_gate_visit"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_self_billed_voucher" model="ir.actions.report">
+        <field name="name">Self-billed voucher</field>
+        <field name="model">mos.supplier.invoice</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_self_billed_voucher</field>
+        <field name="print_report_name">'Voucher-%s' % (object.name or object.supplier_ref or '')</field>
+        <field name="binding_model_id" ref="mos_payables.model_mos_supplier_invoice"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_debit_note" model="ir.actions.report">
+        <field name="name">Debit note</field>
+        <field name="model">mos.debit.note</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_debit_note</field>
+        <field name="print_report_name">'Debit-note-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_payables.model_mos_debit_note"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_wht_certificate" model="ir.actions.report">
+        <field name="name">Withholding certificate</field>
+        <field name="model">mos.wht.certificate</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_wht_certificate</field>
+        <field name="print_report_name">'WHT-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_flows.model_mos_wht_certificate"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_customer_invoice" model="ir.actions.report">
+        <field name="name">Customer invoice</field>
+        <field name="model">mos.customer.invoice</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_customer_invoice</field>
+        <field name="print_report_name">'Invoice-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_sales.model_mos_customer_invoice"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_customer_receipt" model="ir.actions.report">
+        <field name="name">Customer receipt</field>
+        <field name="model">mos.receipt</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_customer_receipt</field>
+        <field name="print_report_name">'Receipt-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_sales.model_mos_receipt"/>
+        <field name="binding_type">report</field>
+    </record>
+    <record id="action_report_delivery_note" model="ir.actions.report">
+        <field name="name">Delivery note</field>
+        <field name="model">mos.delivery.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">mos_print.report_delivery_note</field>
+        <field name="print_report_name">'Delivery-%s' % (object.name or '')</field>
+        <field name="binding_model_id" ref="mos_sales.model_mos_delivery_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <!-- Shared pieces -->
+    <template id="doc_head">
+        <h2><t t-out="title"/> <span t-out="number"/></h2>
+        <p class="text-muted"><t t-out="subtitle"/></p>
+    </template>
+
+    <template id="signatures">
+        <table class="table table-borderless mt-5" style="page-break-inside: avoid;">
+            <tr>
+                <td t-foreach="names" t-as="who" style="width: 33%; padding-top: 40px;">
+                    <div style="border-top: 1px solid #333;"><t t-out="who"/></div>
+                </td>
+            </tr>
+        </table>
+    </template>
+
+    <!-- 1. Goods receipt note -->
+    <template id="report_grn">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="o">
+                <t t-set="company" t-value="o.company_id or res_company"/>
+                <t t-call="web.external_layout">
+                    <t t-set="o" t-value="o"/>
+                    <div class="page">
+                        <t t-set="visit" t-value="visits.get(o.id)"/>
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Goods receipt note</t>
+                            <t t-set="number" t-value="o.name"/>
+                            <t t-set="subtitle" t-value="'Status: ' + (o.state or '').title() + ((' · Done ' + str(o.date_done)[:16]) if o.date_done else '')"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Supplier</th><td t-out="o.partner_id.display_name or '—'"/><th style="width: 22%;">Purchase order</th><td t-out="o.origin or '—'"/></tr>
+                            <tr><th>Warehouse</th><td t-out="o.location_dest_id.display_name or '—'"/><th>Delivery note</th><td t-out="visit.delivery_note if visit else '—'"/></tr>
+                            <tr t-if="visit"><th>Vehicle</th><td t-out="visit.plate"/><th>Gate visit</th><td t-out="visit.name"/></tr>
+                        </table>
+                        <table class="table table-sm">
+                            <thead><tr><th>Item</th><th class="text-end">Ordered</th><th class="text-end">Received</th><th>Unit</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="o.move_ids" t-as="m">
+                                    <td t-out="m.product_id.display_name"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(m.product_uom_qty)"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(m.quantity)"/>
+                                    <td t-out="m.uom_id.name"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Received by (storekeeper)', 'Checked by', 'Supplier representative']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 2. Supplier receipt with the deduction breakdown -->
+    <template id="report_supplier_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="v">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Supplier receipt</t>
+                            <t t-set="number" t-value="v.name"/>
+                            <t t-set="subtitle" t-value="'Arrived ' + (str(v.arrived_at)[:16] if v.arrived_at else '—')"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Supplier</th><td t-out="v.partner_id.display_name or '—'"/><th style="width: 22%;">Purchase order</th><td t-out="v.purchase_id.name or '—'"/></tr>
+                            <tr><th>Vehicle</th><td t-out="v.plate"/><th>Driver</th><td t-out="v.driver_name or '—'"/></tr>
+                            <tr><th>Delivery note</th><td t-out="v.delivery_note or '—'"/><th>Declared quantity</th><td t-out="'{:,.1f} kg'.format(v.declared_qty or 0)"/></tr>
+                        </table>
+                        <h4>Weighing</h4>
+                        <table class="table table-sm">
+                            <thead><tr><th>Ticket</th><th class="text-end">First weight (kg)</th><th class="text-end">Second weight (kg)</th><th class="text-end">Net (kg)</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="v.ticket_ids" t-as="t">
+                                    <td t-out="t.name"/>
+                                    <td class="text-end" t-out="'{:,.1f}'.format(t.first_weight or 0)"/>
+                                    <td class="text-end" t-out="'{:,.1f}'.format(t.second_weight or 0)"/>
+                                    <td class="text-end" t-out="'{:,.1f}'.format(t.net_weight or 0)"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <h4>Quality and what is payable</h4>
+                        <table class="table table-sm">
+                            <thead><tr><th>Inspection</th><th>Decision</th><th class="text-end">Net (kg)</th><th class="text-end">Deduction</th><th class="text-end">Deducted (kg)</th><th class="text-end">Payable (kg)</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="v.inspection_ids" t-as="i">
+                                    <td t-out="i.name"/>
+                                    <td t-out="(i.decision or 'pending').replace('_', ' ').title()"/>
+                                    <td class="text-end" t-out="'{:,.1f}'.format(i.net_weight or 0)"/>
+                                    <td class="text-end" t-out="'{:.2f} %'.format(i.deduction_pct or 0)"/>
+                                    <td class="text-end" t-out="'{:,.1f}'.format((i.net_weight or 0) - (i.payable_qty or 0))"/>
+                                    <td class="text-end"><strong t-out="'{:,.1f}'.format(i.payable_qty or 0)"/></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p>Received into stock: <strong t-out="'{:,.1f} kg'.format(v.received_qty or 0)"/></p>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Weighbridge operator', 'Laboratory', 'Supplier / driver']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 3. Rejection note -->
+    <template id="report_rejection_note">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="v">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Rejection note</t>
+                            <t t-set="number" t-value="v.name"/>
+                            <t t-set="subtitle" t-value="'Gate visit state: ' + (v.state or '').replace('_', ' ')"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Supplier</th><td t-out="v.partner_id.display_name or '—'"/><th style="width: 22%;">Purchase order</th><td t-out="v.purchase_id.name or '—'"/></tr>
+                            <tr><th>Vehicle</th><td t-out="v.plate"/><th>Driver</th><td t-out="v.driver_name or '—'"/></tr>
+                            <tr><th>Delivery note</th><td t-out="v.delivery_note or '—'"/><th>Declared quantity</th><td t-out="'{:,.1f} kg'.format(v.declared_qty or 0)"/></tr>
+                            <tr><th>Reason given at the gate</th><td colspan="3" t-out="v.entry_reject_reason or '—'"/></tr>
+                        </table>
+                        <t t-if="v.inspection_ids">
+                            <h4>Laboratory findings</h4>
+                            <table class="table table-sm">
+                                <thead><tr><th>Inspection</th><th>Decision</th><th>Note</th><th class="text-end">Parameters failed</th></tr></thead>
+                                <tbody>
+                                    <tr t-foreach="v.inspection_ids" t-as="i">
+                                        <td t-out="i.name"/>
+                                        <td t-out="(i.decision or 'pending').replace('_', ' ').title()"/>
+                                        <td t-out="i.decision_note or '—'"/>
+                                        <td class="text-end" t-out="i.params_failed"/>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </t>
+                        <p>The goods were not received. A retention sample is kept by the laboratory where one was drawn.</p>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Gate officer', 'Laboratory', 'Driver / supplier']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 4. Self-billed voucher -->
+    <template id="report_self_billed_voucher">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="inv">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Purchase voucher</t>
+                            <t t-set="number" t-value="inv.name or 'draft'"/>
+                            <t t-set="subtitle" t-value="('Self-billed on behalf of the supplier · ' if inv.self_billed else 'Supplier invoice ' + (inv.supplier_ref or '') + ' · ') + (str(inv.invoice_date) if inv.invoice_date else '')"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Supplier</th><td t-out="inv.supplier_id.display_name"/><th style="width: 22%;">Supplier TIN</th><td t-out="inv.supplier_id.vat or '—'"/></tr>
+                            <tr><th>Purchase order</th><td t-out="inv.purchase_id.name or '—'"/><th>Goods receipts</th><td t-out="inv.grn_numbers or '—'"/></tr>
+                            <tr><th>Payment terms</th><td t-out="'%s days' % inv.payment_terms_days"/><th>Due date</th><td t-out="inv.due_date or '—'"/></tr>
+                        </table>
+                        <table class="table table-sm">
+                            <thead><tr><th>Item</th><th class="text-end">Quantity</th><th class="text-end">Unit price</th><th class="text-end">Tax %</th><th class="text-end">Total</th></tr></thead>
+                            <tbody>
+                                <tr t-foreach="inv.line_ids" t-as="l">
+                                    <td t-out="l.description or l.product_id.display_name"/>
+                                    <td class="text-end" t-out="'{:,.2f} {}'.format(l.qty or 0, l.uom_id.name or '')"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(l.unit_price or 0)"/>
+                                    <td class="text-end" t-out="'{:.1f}'.format(l.tax_pct or 0)"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(l.total_amount or 0)"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-sm" style="width: 55%; margin-left: auto;">
+                            <tr><th>Net amount</th><td class="text-end" t-out="'{:,.2f}'.format(inv.net_amount or 0)"/></tr>
+                            <tr><th>VAT</th><td class="text-end" t-out="'{:,.2f}'.format(inv.vat_amount or 0)"/></tr>
+                            <tr><th>Gross amount</th><td class="text-end" t-out="'{:,.2f}'.format(inv.gross_amount or 0)"/></tr>
+                            <tr><th>Withholding</th><td class="text-end" t-out="'-{:,.2f}'.format(inv.wht_amount or 0)"/></tr>
+                            <tr><th>Payable to the supplier</th><td class="text-end"><strong t-out="'{:,.2f}'.format(inv.payable_amount or 0)"/></td></tr>
+                        </table>
+                        <p t-if="inv.self_billed">The supplier signs below to accept this voucher in place of an invoice.</p>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Prepared by', 'Confirmed by (payables)', 'Supplier signature']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 5. Debit note -->
+    <template id="report_debit_note">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="d">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Debit note</t>
+                            <t t-set="number" t-value="d.name or 'draft'"/>
+                            <t t-set="subtitle" t-value="str(d.date or '') + ' · ' + (d.state or '').title()"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Supplier</th><td t-out="d.supplier_id.display_name"/><th style="width: 22%;">Supplier TIN</th><td t-out="d.supplier_id.vat or '—'"/></tr>
+                            <tr><th>Against voucher / invoice</th><td t-out="d.invoice_id.name or d.invoice_id.supplier_ref or '—'"/><th>Reason</th><td t-out="d.reason or '—'"/></tr>
+                            <tr><th>Amount debited</th><td colspan="3"><strong t-out="'{:,.2f}'.format(d.amount or 0)"/></td></tr>
+                        </table>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Prepared by', 'Approved by', 'Received by the supplier']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 6. Withholding certificate -->
+    <template id="report_wht_certificate">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="c">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Withholding tax certificate</t>
+                            <t t-set="number" t-value="c.name"/>
+                            <t t-set="subtitle" t-value="'VOID: ' + (c.void_reason or '') if c.state == 'void' else 'Issued'"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 30%;">Withheld from (supplier)</th><td t-out="c.supplier_id.display_name"/></tr>
+                            <tr><th>Supplier TIN</th><td t-out="c.supplier_id.vat or '—'"/></tr>
+                            <tr><th>Withheld by</th><td><span t-out="company.name"/> · TIN <span t-out="company.vat or '—'"/></td></tr>
+                            <tr><th>Payment</th><td t-out="c.payment_id.name or '—'"/></tr>
+                            <tr><th>Amount the tax is worked on</th><td t-out="'{:,.2f}'.format(c.base_amount or 0)"/></tr>
+                            <tr><th>Rate</th><td t-out="'{:.2f} %'.format((c.wht_amount / c.base_amount * 100) if c.base_amount else 0)"/></tr>
+                            <tr><th>Tax withheld</th><td><strong t-out="'{:,.2f}'.format(c.wht_amount or 0)"/></td></tr>
+                        </table>
+                        <p t-if="c.state == 'void'" style="color: #b00020;"><strong>This certificate is void; its number is kept and a new one is issued.</strong></p>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Prepared by', 'Authorised signatory', 'Company stamp']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 7. Customer invoice -->
+    <template id="report_customer_invoice">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="inv">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Invoice</t>
+                            <t t-set="number" t-value="inv.name or 'draft'"/>
+                            <t t-set="subtitle" t-value="str(inv.date or '') + ' · ' + (inv.state or '').title()"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Customer</th><td t-out="inv.customer_id.display_name"/><th style="width: 22%;">Customer TIN</th><td t-out="inv.customer_id.vat or '—'"/></tr>
+                            <tr><th>Sales order</th><td t-out="inv.sale_id.name or '—'"/><th>Delivery</th><td t-out="inv.delivery_id.name or '—'"/></tr>
+                            <tr t-if="inv.fiscal_receipt_ref"><th>Fiscal receipt number</th><td colspan="3" t-out="inv.fiscal_receipt_ref"/></tr>
+                        </table>
+                        <table class="table table-sm">
+                            <thead><tr><th>Item</th><th class="text-end">Quantity</th><th class="text-end">Unit price</th><th class="text-end">Net</th></tr></thead>
+                            <tbody>
+                                <tr>
+                                    <td t-out="inv.product_id.display_name"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(inv.qty or 0)"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(inv.unit_price or 0)"/>
+                                    <td class="text-end" t-out="'{:,.2f}'.format(inv.net_amount or 0)"/>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table class="table table-sm" style="width: 55%; margin-left: auto;">
+                            <tr><th>Net</th><td class="text-end" t-out="'{:,.2f}'.format(inv.net_amount or 0)"/></tr>
+                            <tr><th t-out="'VAT {:.1f} %'.format(inv.vat_pct or 0)"/><td class="text-end" t-out="'{:,.2f}'.format(inv.vat_amount or 0)"/></tr>
+                            <tr><th>Total</th><td class="text-end"><strong t-out="'{:,.2f}'.format(inv.gross_amount or 0)"/></td></tr>
+                            <tr><th>Paid</th><td class="text-end" t-out="'{:,.2f}'.format(inv.paid_amount or 0)"/></tr>
+                            <tr><th>Balance due</th><td class="text-end"><strong t-out="'{:,.2f}'.format(inv.balance or 0)"/></td></tr>
+                        </table>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Prepared by', 'Authorised signatory', 'Customer']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 8. Customer receipt -->
+    <template id="report_customer_receipt">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="r">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Receipt</t>
+                            <t t-set="number" t-value="r.name or 'draft'"/>
+                            <t t-set="subtitle" t-value="str(r.date or '') + ' · ' + (r.state or '').title()"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 30%;">Received from</th><td t-out="r.customer_id.display_name"/></tr>
+                            <tr><th>For invoice</th><td t-out="r.invoice_id.name or '—'"/></tr>
+                            <tr><th>Method</th><td t-out="(r.method or '').replace('_', ' ').title()"/></tr>
+                            <tr t-if="r.reference"><th>Reference</th><td t-out="r.reference"/></tr>
+                            <tr><th>Amount received</th><td><strong t-out="'{:,.2f}'.format(r.amount or 0)"/></td></tr>
+                            <tr><th>Received by</th><td t-out="r.received_by_id.name or '—'"/></tr>
+                        </table>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Cashier', 'Customer']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+
+    <!-- 9. Delivery note -->
+    <template id="report_delivery_note">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="d">
+                <t t-set="company" t-value="env.company"/>
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <t t-call="mos_print.doc_head">
+                            <t t-set="title">Delivery note</t>
+                            <t t-set="number" t-value="d.name or 'draft'"/>
+                            <t t-set="subtitle" t-value="'Status: ' + (d.state or '').replace('_', ' ')"/>
+                        </t>
+                        <table class="table table-sm">
+                            <tr><th style="width: 22%;">Customer</th><td t-out="d.partner_id.display_name"/><th style="width: 22%;">Sales order</th><td t-out="d.sale_id.name or '—'"/></tr>
+                            <tr><th>Vehicle</th><td t-out="d.plate or '—'"/><th>Driver</th><td t-out="d.driver_name or '—'"/></tr>
+                            <tr><th>Item</th><td t-out="d.product_id.display_name"/><th>Invoice</th><td t-out="d.invoice_id.name or '—'"/></tr>
+                            <tr><th>Ordered</th><td t-out="'{:,.1f} kg'.format(d.ordered_qty or 0)"/><th>Loaded</th><td><strong t-out="'{:,.1f} kg'.format(d.loaded_qty or 0)"/></td></tr>
+                        </table>
+                        <p t-if="d.pod_signed_at">Received by <strong t-out="d.pod_receiver"/> on <span t-out="str(d.pod_signed_at)[:16]"/>. <span t-out="d.pod_note"/></p>
+                        <t t-call="mos_print.signatures"><t t-set="names" t-value="['Dispatched by (store)', 'Driver', 'Received by the customer']"/></t>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
