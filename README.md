@@ -8,25 +8,52 @@ This exists because the owner decided to build MOS on Odoo even though the fit-g
 on Odoo, the parts Odoo does not have. Where a requirement needs a community module that is not on 20.0, this repo
 writes the small version it needs rather than waiting.
 
-| Addon | What it adds | Requirements |
+| Addon | What it adds | Requirements it cites |
 |---|---|---|
-| `mos_core` | Sites and per-site scoping, reason codes, **hash-chained append-only audit log** (daily verification), posting rules (a posted record cannot be changed or deleted), gap-free sequences | FR-PLT-002..004, 012, 021, 022, 041, 046, FR-MD-009 |
-| `mos_gate` | Gate visits (one open visit per vehicle), **weigh tickets**: first and second weighing, blind verification by a second person, superseding re-weigh with a reason, gap-free numbers | FR-GATE-001..014, 030 |
-| `mos_lab` | Versioned, approved **specifications**, inspections frozen to the spec in force, results that are never overwritten, automatic pass/fail, usage decision by a different person, quality deduction, concession needs a lab manager | FR-QC-001..003, 008..014 |
-| `mos_inbound` | **Flow A**: the receipt is prepared by the system at the payable quantity and confirmed by a storekeeper (not the buyer); exit clearance checks the decision and the receipt | FR-INB-001..007, FR-PRC-013 |
-| `mos_theme` | The look of the client screens: colours, status pills, section bars, summary cards | - |
-| `mos_stock_cards` | **Bin card** and **Stock card** (filters, stock by bin, transactions with running balance, print, export) from the one stock ledger | FR-INV-014, 023, 024 |
-| `mos_dashboards` | Approvals dashboard (KPI cards, six-month trend, drill-down) and the mill overview as cards | FR-PLT-030, FR-RPT-001 |
-| `mos_documents` | Typed attachment slots with Verify on the main documents; optional approval of every supplier invoice; optional document rules | FR-PLT-044, FR-AP-020 |
-| `mos_deliveries` | Supplier delivery entry: items from the order, totals per unit, approve to inspection or reject | FR-PRC-023 |
-| `mos_request_forms` | The purchase requisition as drawn by the client: priority, available stock, quantity to purchase; PART 1 / PART 2 forms | FR-PRC-007 |
-| `mos_counts` | Blind counting, a printable count sheet, import of counts from CSV or Excel, a recount by another person for large variances, and a review that can ask for changes | FR-INV-009 |
-| `mos_process_map` | The whole mill on one board (supplier to payment, wheat to flour, order to cash, controls) with what is waiting at each stage and a click into its list; the document trail of a purchase or sales order | beyond the FRD |
-| `mos_auth_oidc` | Sign in through the identity provider: authorization code flow with PKCE; users must already exist | FR-PLT-010, 011 |
+| `mos_approvals` | Approval matrix by amount, site and role, segregation of duties, delegation, escalation, approvals inbox (FR-PLT-023..032, 054) | FR-PLT: 8 |
+| `mos_auth_oidc` | Sign in through an OpenID Connect identity provider; users must already exist (FR-PLT-010, 011); signs out with it | FR-PLT: 2 |
+| `mos_commercial` | Customer approval and credit-limit changes, price floors and discount limits, approved price lists, credit notes, customer returns, proof of delivery, statements | FR-SAL: 7 |
+| `mos_controls` | Period close and lock dates, backdating windows, date sanity checks, the process exceptions queue and global search | FR-PLT: 4 |
+| `mos_core` | Sites, scoping, reason codes, hash-chained audit log and posting rules for MOS | FR-MD: 1; FR-PLT: 8 |
+| `mos_counts` | Blind counting, a printable count sheet, import of counts from a spreadsheet, a recount by a different person when a variance is large, and a review that can ask for changes (FR-INV-009) | FR-INV: 1 |
+| `mos_dashboard` | The flour mill at a glance: trucks, inspections, tonnes received, silos, milling and extraction | FR-PLT: 1 |
+| `mos_dashboards` | The approvals dashboard (total, pending, approved, rejected, average approval time with a six-month trend, each figure opening its list) and the mill overview as cards | FR-PLT: 1; FR-RPT: 1 |
+| `mos_deliveries` | The supplier delivery entry screen (FR-PRC-023): delivery note, supplier and items taken from the purchase order, declared quantities with totals per unit, approve to inspection or reject with a reason | FR-PRC: 1; FR-RPT: 1 |
+| `mos_documents` | Typed attachment slots with a Verify status on purchase requests and orders, deliveries, supplier invoices and payment vouchers; optional approval of every supplier invoice (FR-AP-020); optional deposit slip and verified invoice rules | FR-AP: 1; FR-PLT: 1 |
+| `mos_finance_plus` | Self-billing, supplier statements, GRNI reconciliation, VAT and withholding registers, journal export for the external accounts, payment runs | FR-AP: 6 |
+| `mos_flows` | Flow B (packaged goods into quarantine), flow C (lab-led, gate off), automatic receipts, pre-flight checks, receipt exceptions, payables drafted from receipts | FR-INB: 6; FR-QC: 1 |
+| `mos_gate` | Gate visits, weigh tickets, watch list, shifts, exit pass, incidents, stored tare, material gate passes and throughput report | FR-GATE: 16 |
+| `mos_gate_multi` | One truck delivering against several purchase orders: intermediate weighings, allocation of the net weight, a receipt per document | FR-GATE: 1 |
+| `mos_gate_plus` | Gate posts and weighbridges, plate search and expected arrivals, tolerance rules, clearance log with supervisor override, service visits, paper mode with back-entry, gate registers | FR-GATE: 12 |
+| `mos_home` | The first screen of MOS: what needs the person today, the day in figures, quick actions, silos, trucks at the gate and the latest milling runs | - |
+| `mos_inbound` | Inbound raw-material flow: gate, weighing, inspection and a system-prepared goods receipt | FR-INB: 2 |
+| `mos_inventory` | Stock adjustments with approval, cycle counts, quarantine and blocked stock, reorder report, archive rules, labels | FR-INV: 5; FR-MD: 1 |
+| `mos_lab` | Versioned specifications, inspections, rule-based deductions, grading, sampling plans, retention samples, certificates of analysis and lab reports | FR-QC: 11 |
+| `mos_manufacturing` | Batches and traceability, finished-goods release, packing, fortification dosing, work centres, downtime, cost settlement, production and planner reports | FR-MFG: 8; FR-QC: 1 |
+| `mos_master_plus` | Unique tax numbers and duplicate warnings, individual suppliers, item conversions that never change once used, quality concessions through the approval matrix, heavy reports as background jobs | FR-MD: 4; FR-QC: 1; FR-RPT: 1 |
+| `mos_notify` | E-mail to suppliers: arrival acknowledged, rejection note with results, receipt with deductions, payment advice; queued until a mail server exists | FR-INB: 1 |
+| `mos_operations_ui` | The dialogs and buttons that let people do from the browser what the models already allow: weigh a truck, verify the weights, re-weigh, resolve or dismiss an exception, void a cheque, split a lot, order from a request, call off a contract and more | FR-GATE: 1 |
+| `mos_payables` | Supplier invoices with three-way match, debit notes, payment vouchers, payments, cheque books, ageing (FR-AP-001..019) | FR-AP: 9 |
+| `mos_planning_plus` | Versioned routings on the work order, MRP-lite suggestions with pegging, labour and overhead costing with variances, soft stock reservations for sales orders, purchase contracts with call-offs | FR-MFG: 3; FR-PRC: 1; FR-SAL: 1 |
+| `mos_platform_plus` | Role dashboards, access review, site switching, identity-group role mapping, session limits, stock position and balance reports, period-close checklist, exception notifications, Ethiopian dates | FR-INV: 4; FR-PLT: 8; FR-RPT: 2 |
+| `mos_print` | The branded PDFs the requirements list and the first modules left out (FR-PLT-049): goods receipt note, supplier receipt with the deduction breakdown, self-billed voucher, debit note, withholding certificate, rejection note, customer invoice, customer receipt, delivery note | FR-PLT: 1 |
+| `mos_process_map` | The whole mill on one board, from the supplier to the payment, from the wheat to the flour and from the order to the cash: every stage with what is waiting in it, and a click into its list; and the document trail of an order, every linked document in the order the work happened | - |
+| `mos_procurement` | Purchase requests, supplier approval and documents, bank-change control, sourcing and receipt policies, PO amendments, supplier returns, GRN reassignment | FR-PRC: 9 |
+| `mos_procurement_plus` | Quotation comparison and award, purchase order closure, bag tare, service receipts, supplier registration by invitation, procurement reports | FR-PRC: 6 |
+| `mos_production` | Milling runs: wheat drawn from silos, flour and bran produced, extraction rate (FR-MFG-005..015) | FR-MFG: 2; FR-PLT: 2 |
+| `mos_production_plus` | Versioned recipes with grist ratios, work orders, silo dip readings against the ledger, fumigation and treatment holds | FR-INV: 2; FR-MFG: 3 |
+| `mos_quality` | Test methods and parameters, QC policy with waived and skip-lot inspection, calculated parameters, instruments and calibration, sample labels, lab queue | FR-QC: 4 |
+| `mos_reports` | Weigh ticket, exit pass with QR, material gate pass, certificate of analysis, payment voucher | - |
+| `mos_request_forms` | The purchase requisition as the client draws it (FR-PRC-007): request date, priority, requester ID, remarks, live available stock and quantity to purchase per item, specification and notes; PART 1 / PART 2 layout on the request and the purchase order | FR-PRC: 1 |
+| `mos_sales` | Sales orders with credit control and approval, delivery orders through the gate, invoices, receipts, cash sessions, ageing (FR-SAL-001..018) | FR-SAL: 8 |
+| `mos_silo` | Grain silos with capacity, live level from the stock ledger and fill status (FR-INV-019) | FR-INV: 1 |
+| `mos_stock_cards` | The client's Bin card and Stock card screens: filters, summary cards, stock by bin and the transaction history with a running balance, all read from the one stock ledger; printable | FR-INV: 3 |
+| `mos_stock_plus` | Lots with batch numbering, supplier lot, expiry and category attributes, lot split and expiry list, transfers between sites with stock in transit, supplier service categories | FR-INV: 3; FR-MD: 3 |
+| `mos_supplier_portal` | A supplier signs in to see its own orders, promise delivery dates, answer requests for quotation, submit invoices and read its statement | - |
+| `mos_theme` | The blue and navy look of the client screens: colours, status pills, section headers, summary cards and tables, for every MOS screen | - |
 
-**Not built yet:** the approvals and segregation-of-duties matrix (`mos_approvals`), payables (self-billing, PV, cheque
-books), production, sales gate hand-off, exception queue, reports. See the fit-gap for the full list; the order is in
-`docs/ROADMAP.md`.
+41 addons. The table is generated from each addon's manifest and the requirement ids its code cites; the status of every FRD requirement
+(built, partial, gap) is in `MOS/docs/3-design/IMPLEMENTATION-STATUS.md`.
 
 **Known limit (fit-gap section 4):** Odoo connects to its database as the owner, so "not even an administrator can
 change a posted row, enforced by database grants" cannot be kept. The addons enforce it in the application and add a
@@ -51,6 +78,18 @@ docker compose --env-file C:\Users\$env:USERNAME\runtime\mos\mos.env up -d odoo
 Sign-in through the identity provider: `tools/register-sso-client.mjs` registers the client and the accounts; set the
 four `mos_auth_oidc.*` system parameters (issuer, client id, client secret, optional redirect URI) and enable the
 "SSO" provider under Settings, Users, OAuth providers.
+
+## Backup and restore test
+
+```powershell
+node tools/backup.mjs backup --mos-env $env --out C:\Users\$env:USERNAME\runtime\mos\backups --keep 14 [--copy-to <a second place>]
+node tools/backup.mjs check  --mos-env $env --out C:\Users\$env:USERNAME\runtime\mos\backups
+```
+
+`backup` writes one folder with the database dump, a copy of the attached files and a manifest (sizes, the dump's SHA-256 and the head of the audit hash chain,
+which is the external copy of the chain that the known limit above relies on). It refuses to finish when the database refers to files it could not copy.
+`check` restores the newest backup into a scratch database, compares it with the manifest, runs the chain verification on it and drops it again.
+Schedule `backup` nightly (Windows Task Scheduler or cron) and `check` weekly, and keep a second copy off the machine.
 
 ## After you change a model, a view or a data file
 

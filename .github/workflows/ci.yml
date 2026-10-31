@@ -1,0 +1,31 @@
+# Every push installs the addons from nothing in a throw-away database and runs all their tests (ADR-0022 item 5).
+# Odoo exits 0 even when a test fails, so the job reads the result line itself.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  suite:
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Settings file (a random password that lives for this run only)
+        run: |
+          printf 'MOS_DB_PASSWORD=%s\nMOS_DB_PORT=5450\nMOS_ODOO_PORT=8069\n' "$(openssl rand -hex 16)" > "$RUNNER_TEMP/mos.env"
+
+      - name: Install the addons and run the tests
+        run: bash tools/run-tests.sh "$RUNNER_TEMP/mos.env" 2>&1 | tee "$RUNNER_TEMP/suite.log"
+
+      - name: Fail on any failed or errored test
+        run: |
+          result="$(grep -E 'odoo.tests.result: [0-9]+ failed' "$RUNNER_TEMP/suite.log" | tail -1 || true)"
+          echo "$result"
+          echo "$result" | grep -q ' 0 failed, 0 error(s)' || { grep -E ' ERROR |FAIL:' "$RUNNER_TEMP/suite.log" | head -40; exit 1; }
+
+      - name: Python files compile
+        run: python3 -m compileall -q addons tools

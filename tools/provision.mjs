@@ -101,6 +101,9 @@ console.log('loading quality (methods, instruments, QC policy)...');
 const quality = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_quality.py'), 'utf8'));
 must(quality, 'quality seed');
 console.log((quality.stdout ?? '').trim().split('\n').slice(-1)[0]);
+const flourSpecs = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_flour_specs.py'), 'utf8'));
+must(flourSpecs, 'flour specifications seed');
+console.log((flourSpecs.stdout ?? '').trim().split('\n').slice(-1)[0]);
 
 console.log('loading gate operations (posts, weighbridge, paper slips)...');
 const gate = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_gate.py'), 'utf8'));
@@ -125,8 +128,7 @@ console.log((extras.stdout ?? '').trim().split('\n').slice(-1)[0]);
 console.log('loading the screens drawn in the client documents (items, documents, rules)...');
 const screens = odooShell(fs.readFileSync(path.join(root, 'tools', 'seed_ui.py'), 'utf8'));
 must(screens, 'screens seed');
-console.log((screens.stdout ?? '').trim().split('
-').slice(-1)[0]);
+console.log((screens.stdout ?? '').trim().split('\n').slice(-1)[0]);
 
 console.log('configuring sign-in and passwords...');
 const configure = `
