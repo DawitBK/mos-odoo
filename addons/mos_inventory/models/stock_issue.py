@@ -21,7 +21,7 @@ class MosStockIssue(models.Model):
     name = fields.Char(readonly=True, copy=False, default='New')
     kind = fields.Selection([('consumption', 'Consumption by a department'), ('scrap', 'Scrap')], default='consumption', required=True, tracking=True)
     site_id = fields.Many2one('mos.site', required=True, default=lambda self: self.env.user._mos_current_site())
-    location_id = fields.Many2one('stock.location', string='Issue from', required=True, domain="[('usage', '=', 'internal'), ('mos_stock_status', '=', 'available')]")
+    location_id = fields.Many2one('stock.location', string='Issue from', required=True, domain="[('usage', '=', 'internal'), ('mos_stock_status', 'in', ['available', 'damaged', 'rejected'] if kind == 'scrap' else ['available'])]")
     department_id = fields.Many2one('mos.department', string='Issued to (department)', default=lambda self: self.env.user.mos_department_id)
     reason_id = fields.Many2one('mos.reason', domain=[('domain', '=', 'scrap')])
     note = fields.Char(string='Comments')
@@ -66,11 +66,12 @@ class MosStockIssue(models.Model):
             if issue.kind == 'scrap' and not issue.reason_id:
                 raise ValidationError(self.env._('Scrapping needs a reason.'))
 
-    @api.constrains('location_id')
+    @api.constrains('location_id', 'kind')
     def _check_location_available(self):
         for issue in self:
-            if issue.location_id.mos_stock_status != 'available':
-                raise ValidationError(self.env._('Only stock in an available location can be issued; %s is on hold.', issue.location_id.display_name))
+            allowed = ('available', 'damaged', 'rejected') if issue.kind == 'scrap' else ('available',)
+            if issue.location_id.mos_stock_status not in allowed:
+                raise ValidationError(self.env._('Only stock in an available location can be issued (damaged and rejected stock can be scrapped); %s is on hold.', issue.location_id.display_name))
 
     @api.model_create_multi
     def create(self, vals_list):

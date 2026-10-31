@@ -78,8 +78,8 @@ def _icon_for(text, table, default):
 
 # The colour of a status pill, chosen by what the value says. A view that colours a value itself keeps its choice; this only fills what it left out.
 TONE_WORDS = (
-    ('danger', ('reject', 'cancel', 'fail', 'block', 'overdue', 'void', 'revers', 'lost', 'refus', 'expire', 'error', 'variance', 'declin', 'abandon', 'fraud', 'breach', 'full')),
-    ('warning', ('pending', 'wait', 'hold', 'partial', 'review', 'quarantine', 'await', 'due', 'low', 'high', 'unmatched', 'not_matched', 'dispute', 'escalat', 'weigh', 'approval')),
+    ('danger', ('reject', 'cancel', 'fail', 'block', 'overdue', 'void', 'revers', 'lost', 'refus', 'expire', 'error', 'variance', 'declin', 'abandon', 'fraud', 'breach', 'full', 'damag', 'missing')),
+    ('warning', ('suspend', 'stale', 'pending', 'wait', 'hold', 'partial', 'review', 'quarantine', 'await', 'due', 'low', 'high', 'unmatched', 'not_matched', 'dispute', 'escalat', 'weigh', 'approval')),
     ('success', ('done', 'approved', 'paid', 'posted', 'confirm', 'match', 'active', 'releas', 'accept', 'closed', 'complete', 'passed', 'ok', 'available', 'receiv', 'sign', 'valid', 'settled', 'exited', 'cleared', 'payable', 'decided', 'applied', 'issued', 'delivered', 'sent', 'verified')),
     ('info', ('draft', 'new', 'open', 'expected', 'plan', 'submit', 'arrived', 'assign', 'running', 'progress', 'ready', 'requested', 'invited', 'candidate', 'voucher')),
 )

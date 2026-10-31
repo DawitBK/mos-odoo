@@ -1,6 +1,6 @@
 {
     'name': 'MOS Inventory Control',
-    'version': '20.0.1.0.2',
+    'version': '20.0.1.0.3',
     'category': 'Manufacturing/MOS',
     'summary': 'Stock adjustments with approval, cycle counts, quarantine and blocked stock, reorder report, archive rules, labels',
     'license': 'LGPL-3',
@@ -14,5 +14,6 @@
         'report/mos_labels.xml',
         'views/mos_parity_views.xml',
     ],
+    'post_init_hook': 'post_init_hook',
     'installable': True,
 }

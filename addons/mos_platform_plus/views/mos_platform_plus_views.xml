@@ -167,7 +167,7 @@
         <field name="name">mos.stock.position.list</field>
         <field name="model">mos.stock.position</field>
         <field name="arch" type="xml">
-            <list decoration-warning="status == 'quarantine'" decoration-danger="status == 'blocked'">
+            <list decoration-warning="status == 'quarantine'" decoration-danger="status in ('blocked', 'rejected', 'damaged')">
                 <field name="product_id"/>
                 <field name="location_id"/>
                 <field name="status" widget="badge"/>
@@ -184,7 +184,7 @@
             <search>
                 <field name="product_id"/>
                 <field name="location_id"/>
-                <filter name="quarantine" string="Quarantine or blocked" domain="[('status', '!=', 'available')]"/>
+                <filter name="quarantine" string="Quarantine, blocked, damaged or rejected" domain="[('status', '!=', 'available')]"/>
                 <group>
                     <filter name="by_product" string="Product" context="{'group_by': 'product_id'}"/>
                     <filter name="by_location" string="Location" context="{'group_by': 'location_id'}"/>
@@ -243,6 +243,8 @@
                             <field name="reserved" optional="show"/>
                             <field name="quarantine" optional="show"/>
                             <field name="blocked" optional="show"/>
+                            <field name="damaged" optional="show"/>
+                            <field name="rejected" optional="show"/>
                             <button name="action_history" type="object" string="History" icon="fa-history"/>
                         </list>
                     </field>

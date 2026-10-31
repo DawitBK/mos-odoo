@@ -94,7 +94,7 @@ class MosStockBalance(models.TransientModel):
         status = {}
         if self.date_to >= fields.Date.context_today(self):
             for quant in self.env['stock.quant'].sudo().search([('location_id.usage', '=', 'internal')]):
-                bucket = status.setdefault(quant.product_id.id, {'available': 0.0, 'quarantine': 0.0, 'blocked': 0.0, 'reserved': 0.0})
+                bucket = status.setdefault(quant.product_id.id, {'available': 0.0, 'quarantine': 0.0, 'blocked': 0.0, 'damaged': 0.0, 'rejected': 0.0, 'reserved': 0.0})
                 bucket[quant.location_id.mos_stock_status] += quant.quantity
                 if quant.location_id.mos_stock_status == 'available':
                     bucket['reserved'] += quant.reserved_quantity
@@ -116,6 +116,8 @@ class MosStockBalance(models.TransientModel):
                     'reserved': round(s.get('reserved', 0.0), 3),
                     'quarantine': round(s.get('quarantine', 0.0), 3),
                     'blocked': round(s.get('blocked', 0.0), 3),
+                    'damaged': round(s.get('damaged', 0.0), 3),
+                    'rejected': round(s.get('rejected', 0.0), 3),
                 }
             )
         self.line_ids.unlink()
@@ -140,6 +142,8 @@ class MosStockBalanceLine(models.TransientModel):
     reserved = fields.Float(digits=(14, 3), string='of which reserved')
     quarantine = fields.Float(digits=(14, 3))
     blocked = fields.Float(digits=(14, 3))
+    damaged = fields.Float(digits=(14, 3))
+    rejected = fields.Float(digits=(14, 3))
 
     def action_history(self):
         self.ensure_one()

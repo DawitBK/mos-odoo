@@ -146,6 +146,9 @@ class MosStockReceipt(models.Model):
             move.write({'quantity': line.qty})
         move.write({'picked': True})
         move._action_done()
+        # Odoo 20 values a receipt from its order, its bill or a value set on the move: this one has neither, so the cost entered is set on the move,
+        # which also moves the item's average cost.
+        move.value_manual = line.value
         return move
 
 

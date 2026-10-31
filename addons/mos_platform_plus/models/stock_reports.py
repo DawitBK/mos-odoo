@@ -11,7 +11,7 @@ class MosStockPosition(models.Model):
 
     product_id = fields.Many2one('product.product', readonly=True)
     location_id = fields.Many2one('stock.location', readonly=True)
-    status = fields.Selection([('available', 'Available'), ('quarantine', 'Quarantine'), ('blocked', 'Blocked')], readonly=True)
+    status = fields.Selection([('available', 'Available'), ('quarantine', 'Quarantine'), ('blocked', 'Blocked'), ('damaged', 'Damaged'), ('rejected', 'Rejected')], readonly=True)
     on_hand = fields.Float(readonly=True, aggregator='sum')
     reserved = fields.Float(readonly=True, aggregator='sum')
     free = fields.Float(readonly=True, aggregator='sum')

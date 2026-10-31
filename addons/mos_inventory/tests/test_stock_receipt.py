@@ -107,3 +107,16 @@ class TestStockReceipt(TransactionCase):
             receipt.action_cancel()
         with self.assertRaises(UserError):
             receipt.write({'note': 'edited after posting'})
+
+    def test_stock_is_valued_at_a_moving_weighted_average(self):
+        """FR-INV-010: two receipts at different costs leave the item at the weighted average, not at the last price."""
+        self.env['product.category']._mos_set_average_costing()
+        self.assertEqual(set(self.env['product.category'].search([]).mapped('property_cost_method')), {'average'})
+        category = self.env['product.category'].create({'name': 'Averaged goods'})
+        self.assertEqual(category.property_cost_method, 'average', 'a new category starts on the average method')
+        item = self.env['product.product'].create({'name': 'Averaged wheat', 'type': 'consu', 'is_storable': True, 'categ_id': category.id, 'uom_id': self.env.ref('uom.product_uom_kgm').id, 'standard_price': 0.0})
+        for qty, cost in ((10.0, 10.0), (10.0, 20.0)):
+            receipt = self._receipt(qty=qty, cost=cost, product=item)
+            receipt.action_submit()
+            receipt.with_user(self.manager2).action_receive()
+        self.assertAlmostEqual(item.standard_price, 15.0, places=2)

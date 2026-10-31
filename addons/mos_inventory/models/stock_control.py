@@ -1,13 +1,14 @@
 from odoo import api, fields, models, tools
 from odoo.exceptions import UserError, ValidationError
 
-STATUSES = [('available', 'Available'), ('quarantine', 'Quarantine'), ('blocked', 'Blocked')]
+STATUSES = [('available', 'Available'), ('quarantine', 'Quarantine'), ('blocked', 'Blocked'), ('damaged', 'Damaged'), ('rejected', 'Rejected')]
+LABELS = {'quarantine': 'MOS Quarantine', 'blocked': 'MOS Blocked', 'damaged': 'MOS Damaged', 'rejected': 'MOS Rejected'}
 
 
 class StockLocation(models.Model):
     _inherit = 'stock.location'
 
-    mos_stock_status = fields.Selection(STATUSES, string='MOS stock status', default='available', required=True, help='Stock held in a quarantine or blocked location is not available to use.')
+    mos_stock_status = fields.Selection(STATUSES, string='MOS stock status', default='available', required=True, help='Only stock in an available location can be issued, sold, transferred or reserved. Damaged and rejected stock leaves only by scrap, supplier return or (damaged) an approved recovery.')
 
 
 class ProductTemplate(models.Model):
@@ -93,7 +94,7 @@ class MosReorderReport(models.Model):
 
 
 class MosStatusChange(models.Model):
-    """Move stock between available, quarantine and blocked, with a reason, and release it only on a second person's say-so (FR-INV-010..012)."""
+    """Move stock between available, quarantine, blocked, damaged and rejected, with a reason, and release it only on a second person's say-so (FR-INV-010..012)."""
 
     _name = 'mos.stock.status.change'
     _inherit = ['mos.posted', 'mail.thread']
@@ -128,6 +129,12 @@ class MosStatusChange(models.Model):
                 raise ValidationError(self.env._('Move a quantity above zero.'))
             if change.from_status == change.to_status:
                 raise ValidationError(self.env._('The stock is already in that status.'))
+            if change.from_status == 'rejected':
+                raise ValidationError(self.env._('Rejected stock leaves only by scrap, supplier return or concession, not by a status change.'))
+            if change.from_status == 'damaged' and change.to_status != 'available':
+                raise ValidationError(self.env._('Damaged stock can be recovered to available (with approval), or scrapped; it cannot move to another hold.'))
+            if change.to_status == 'rejected' and change.from_status != 'quarantine':
+                raise ValidationError(self.env._('Only stock in quarantine is rejected, by a quality decision.'))
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -141,7 +148,7 @@ class MosStatusChange(models.Model):
         warehouse = site.warehouse_id
         if status == 'available':
             return warehouse.lot_stock_id
-        label = 'MOS Quarantine' if status == 'quarantine' else 'MOS Blocked'
+        label = LABELS[status]
         location = self.env['stock.location'].sudo().search([('name', '=', label), ('location_id', '=', warehouse.view_location_id.id)], limit=1)
         return location or self.env['stock.location'].sudo().create(
             {'name': label, 'location_id': warehouse.view_location_id.id, 'usage': 'internal', 'mos_stock_status': status}
@@ -193,3 +200,15 @@ class MosStatusChange(models.Model):
             if change.state not in ('draft', 'approved'):
                 raise UserError(self.env._('This change is closed.'))
             change.state = 'rejected'
+
+
+class StockQuant(models.Model):
+    _inherit = 'stock.quant'
+
+    @api.constrains('quantity', 'location_id')
+    def _check_never_negative(self):
+        """Stock in a store is never below zero (FR-INV-011). Virtual places (suppliers, customers, production, inventory loss) are meant to go negative."""
+        if self.env.context.get('mos_allow_negative_stock'):
+            return
+        for quant in self.filtered(lambda q: q.location_id.usage == 'internal' and q.quantity < -0.0005):
+            raise ValidationError(self.env._('%(item)s would go below zero at %(place)s (%(qty)s). Stock is never negative: receive or transfer the goods first.', item=quant.product_id.display_name, place=quant.location_id.display_name, qty=quant.quantity))
