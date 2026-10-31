@@ -37,6 +37,36 @@ def product(name):
     return found
 
 
+def weighed_delivery(supplier, plate, product_name='Bread wheat (local)', qty=30000, gross=40000.0, tare=15000.0):
+    """A truck of this supplier's wheat, against a new order of its own, weighed in and verified (the quantity stays under the quote threshold)."""
+    wheat = product(product_name)
+    buyer_ = user('buyer')
+    order = env['purchase.order'].with_user(buyer_).create({'partner_id': supplier.id, 'order_line': [Command.create({'product_id': wheat.id, 'product_qty': qty, 'price_unit': wheat.standard_price})]})
+    confirm_po(order, buyer_)
+    visit = env['mos.gate.visit'].with_user(user('guard')).create({'site_id': site.id, 'plate': plate, 'purchase_id': order.id, 'partner_id': supplier.id})
+    visit.action_start_weighing()
+    visit.ticket_id.record_first(gross)
+    visit.ticket_id.record_second(tare)
+    visit.ticket_id.with_user(user('verifier')).verify_blind(gross, tare)
+    return visit
+
+
+def received_delivery(supplier, plate, **kw):
+    """A weighed truck taken the whole way: tested inside the limits, accepted, and received into stock by the storekeeper."""
+    visit = weighed_delivery(supplier, plate, **kw)
+    analyst_, labmgr_ = user('analyst'), user('labmanager')
+    insp = visit.with_user(analyst_).action_open_inspection().with_user(analyst_)
+    for line in insp.spec_id.line_ids:
+        insp.record_result(line, round((line.min_value + line.max_value) / 2.0, 3))
+    if insp.samples_taken < insp.samples_required:
+        insp.sudo().write({'samples_taken': insp.samples_required})
+    insp.action_submit_results()
+    insp.with_user(labmgr_).decide('accept', 0.0, 'Inside the specification')
+    visit.with_user(user('guard')).action_prepare_grn()
+    visit.with_user(user('storekeeper')).action_confirm_grn()
+    return visit
+
+
 def decide(record, outcome='approve', comment='Checked against the documents.'):
     """Walk the approval request of ``record`` to its end: every pending step is decided by the first person it is waiting for."""
     request = record.mos_approval_request_id

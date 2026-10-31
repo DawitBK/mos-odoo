@@ -7,7 +7,9 @@ Inspection = env['mos.lab.inspection']
 
 def deduction_bands():
     labels = {'Moisture': ((13.51, 14.5, 1.0, 0.0), (14.51, 16.0, 3.0, -2.0)), 'Protein': ((9.0, 10.99, 0.0, -1.5),)}
-    for spec in env['mos.lab.spec'].search([('state', '=', 'approved'), ('product_id.name', 'like', 'wheat')]):
+    for spec in env['mos.lab.spec'].search([('state', '=', 'approved'), ('product_id.categ_id.name', '=', 'Wheat')]):
+        if spec.line_ids.rule_ids:
+            continue  # bands are already on this version
         draft = spec.action_new_version()
         for line in draft.line_ids:
             for key, bands in labels.items():
@@ -29,6 +31,10 @@ def _fill(insp, failing=(), who=None):
 
 
 def inspections():
+    open_ones = Inspection.search([('state', '=', 'open')], order='id desc')
+    suppliers_ = env['res.partner'].search([('supplier_rank', '>', 0), ('mos_supplier_state', '=', 'approved')], order='id', limit=5)
+    for n in range(max(0, 5 - len(open_ones))):
+        weighed_delivery(suppliers_[n % len(suppliers_)], f'AA-QI{n}{len(open_ones)}', qty=25000, gross=38000.0).with_user(analyst).action_open_inspection()
     open_ones = Inspection.search([('state', '=', 'open')], order='id desc')
     if len(open_ones) < 5:
         raise RuntimeError('not enough open inspections')

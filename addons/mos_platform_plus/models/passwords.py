@@ -25,7 +25,8 @@ class ResUsers(models.Model):
 
     def _check_password_policy(self, passwords):
         # The suites create hundreds of throw-away users with short passwords; only the test of the rules themselves turns the rules on.
-        if config['test_enable'] and not self.env.context.get('mos_enforce_password_policy'):
+        # The suites and the demo provisioning set many throw-away passwords; only the tests of the rules themselves turn the rules on.
+        if self.env.context.get('mos_skip_password_policy') or (config['test_enable'] and not self.env.context.get('mos_enforce_password_policy')):
             return
         super()._check_password_policy(passwords)
         if self.env['ir.config_parameter'].sudo().get_str('mos_platform_plus.password_complexity', '1') == '0':

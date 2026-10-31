@@ -4,9 +4,9 @@
  *
  *   node provision.mjs --mos-env <file with MOS_DB_PASSWORD> --runtime <dir with secrets.json> \
  *        --mos-origin https://mos.example.com --issuer https://portal.example.com/sso [--password <demo password>] [--reset] \
- *        [--visitor-email <public sandbox login>] [--visitor-name <its name>]
+ *        [--visitor-email <public sandbox login>] [--visitor-name <its name>] [--db <database name>]
  *
- *   1. (with --reset) drops the database "mos"
+ *   1. (with --reset) drops the database (default "mos"; --db <name> builds a different one beside it, which is how a rebuild is checked before it replaces the live one)
  *   2. installs the MOS addons
  *   3. loads the flour-mill demo data (tools/seed_demo.py)
  *   4. points sign-in at the identity provider (system parameters, never in code) and sets the public address
@@ -31,6 +31,7 @@ const mosOrigin = (arg('mos-origin') ?? '').replace(/\/+$/, '');
 const issuer = (arg('issuer') ?? '').replace(/\/+$/, '');
 const password = arg('password');
 const reset = args.includes('--reset');
+const db = arg('db') ?? 'mos';
 const visitorEmail = arg('visitor-email');
 const visitorName = arg('visitor-name');
 if (!envFile || !runtime || !mosOrigin || !issuer) {
@@ -44,7 +45,7 @@ if (!dbPassword || !clientSecret) throw new Error('MOS_DB_PASSWORD or mos.client
 
 const compose = (...a) => spawnSync('docker', ['compose', '--env-file', envFile, ...a], { cwd: root, encoding: 'utf8', input: undefined });
 const odooShell = (script) =>
-  spawnSync('docker', ['compose', '--env-file', envFile, 'exec', '-T', 'odoo', 'odoo', 'shell', '-d', 'mos', '--db_host', 'db', '--db_user', 'odoo', '--db_password', dbPassword, '--no-http'], {
+  spawnSync('docker', ['compose', '--env-file', envFile, 'exec', '-T', 'odoo', 'odoo', 'shell', '-d', db, '--db_host', 'db', '--db_user', 'odoo', '--db_password', dbPassword, '--no-http'], {
     cwd: root,
     encoding: 'utf8',
     input: script,
@@ -60,11 +61,11 @@ const must = (r, what) => {
 must(compose('up', '-d', 'db'), 'start database');
 if (reset) {
   compose('stop', 'odoo');
-  const drop = spawnSync('docker', ['compose', '--env-file', envFile, 'exec', '-T', '-e', `PGPASSWORD=${dbPassword}`, 'db', 'psql', '-U', 'odoo', '-d', 'postgres', '-c', 'DROP DATABASE IF EXISTS mos'], { cwd: root, encoding: 'utf8' });
+  const drop = spawnSync('docker', ['compose', '--env-file', envFile, 'exec', '-T', '-e', `PGPASSWORD=${dbPassword}`, 'db', 'psql', '-U', 'odoo', '-d', 'postgres', '-c', `DROP DATABASE IF EXISTS ${db}`], { cwd: root, encoding: 'utf8' });
   must(drop, 'drop database');
 }
 console.log('installing the addons...');
-must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', 'mos', '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_gate_plus,mos_production_plus,mos_finance_plus,mos_procurement_plus,mos_reports,mos_platform_plus,mos_planning_plus,mos_stock_plus,mos_gate_multi,mos_notify,mos_master_plus,mos_supplier_portal,mos_operations_ui,mos_theme,mos_stock_cards,mos_dashboards,mos_documents,mos_deliveries,mos_request_forms,mos_counts,mos_process_map', '--stop-after-init', '--without-demo=all'), 'install');
+must(compose('run', '--rm', '-T', 'odoo', 'odoo', '-d', db, '-i', 'mos_dashboard,mos_auth_oidc,mos_payables,mos_sales,mos_procurement,mos_inventory,mos_controls,mos_flows,mos_manufacturing,mos_commercial,mos_quality,mos_gate_plus,mos_production_plus,mos_finance_plus,mos_procurement_plus,mos_reports,mos_platform_plus,mos_planning_plus,mos_stock_plus,mos_gate_multi,mos_notify,mos_master_plus,mos_supplier_portal,mos_operations_ui,mos_theme,mos_stock_cards,mos_dashboards,mos_documents,mos_deliveries,mos_request_forms,mos_counts,mos_process_map,mos_home,mos_print,mos_areas', '--stop-after-init', '--without-demo=all'), 'install');
 must(compose('up', '-d', 'odoo'), 'start odoo');
 await new Promise((r) => setTimeout(r, 8000));
 
@@ -142,7 +143,7 @@ env.ref('mos_auth_oidc.provider_mos_sso').sudo().enabled = True
 env['res.lang']._activate_lang('am_ET')
 env['ir.module.module']._load_module_terms(env['ir.module.module'].search([('name', '=like', 'mos_%'), ('state', '=', 'installed')]).mapped('name'), ['am_ET'], overwrite=True)
 ${password ? `
-for u in env['res.users'].sudo().search([('login', '=like', 'mos.%@examplecorp.com')]):
+for u in env['res.users'].sudo().with_context(mos_skip_password_policy=True).search([('login', '=like', 'mos.%@examplecorp.com')]):
     u.password = ${JSON.stringify(password)}
 ` : ''}
 env.cr.commit()

@@ -24,13 +24,13 @@ def sales():
     bread, semolina, whole = product('Bread flour 72%'), product('Semolina'), product('Whole-wheat flour')
     golden, addis, corner, mercato, harvest = (_customer(n) for n in ('Golden Crust', 'Addis Pasta', 'Corner Shops', 'Mercato', 'Harvest'))
 
-    _order(golden, bread, 12000, 0.85)  # a quotation nobody has submitted
-    waiting = _order(corner, bread, 200000, 0.84)  # over this customer's credit limit: the general manager decides
+    _order(golden, bread, 12000, 106.0)  # a quotation nobody has submitted
+    waiting = _order(corner, bread, 200000, 105.0)  # over this customer's credit limit: the general manager decides
     submit(waiting, salesrep, 'action_mos_submit_approval')
-    refused = _order(harvest, semolina, 15000, 0.99)
+    refused = _order(harvest, semolina, 15000, 125.0)
     submit(refused, salesrep, 'action_mos_submit_approval')
     decide(refused, 'reject', 'The customer still has two overdue invoices.')
-    dropped = _order(mercato, whole, 9000, 0.88)
+    dropped = _order(mercato, whole, 9000, 100.0)
     dropped.with_user(salesrep).action_cancel()
     # confirmed and waiting to be delivered: the demand the planner works from
     for customer, prod, qty, price in ((addis, semolina, 40000, 137.0), (mercato, whole, 50000, 125.0), (golden, bread, 60000, 119.0)):
@@ -109,6 +109,13 @@ def invoices():
     billed = env['mos.supplier.invoice'].search([]).purchase_id
     free = (orders - billed)[:2]
     if len(free) < 2:
+        # The base demo data bills everything it receives: receive two more deliveries, which the clerk then bills.
+        suppliers_ = env['res.partner'].search([('supplier_rank', '>', 0), ('mos_supplier_state', '=', 'approved')], order='id', limit=2)
+        for n in range(2 - len(free)):
+            received_delivery(suppliers_[n % len(suppliers_)], f'AA-IN{n}{len(orders)}', qty=20000, gross=35000.0)
+        orders = env['purchase.order'].search([('state', '=', 'purchase'), ('receipt_status', '=', 'full')], order='id desc')
+        free = (orders - billed)[:2]
+    if len(free) < 2:
         raise RuntimeError('every received order already has an invoice')
     for index, order in enumerate(free):
         line = order.order_line[:1]
@@ -133,7 +140,7 @@ def reversal():
 
 
 def planning():
-    tender = _order(_customer('Mercato'), product('Whole-wheat flour'), 600000, 0.89)  # more than the stock covers: the planner has work to do
+    tender = _order(_customer('Mercato'), product('Whole-wheat flour'), 600000, 100.0)  # more than the stock covers: the planner has work to do
     if tender._mos_approval_required():
         submit(tender, salesrep, 'action_mos_submit_approval')
         decide(tender)

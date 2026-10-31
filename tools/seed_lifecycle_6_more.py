@@ -27,6 +27,14 @@ def lot_attributes():
         raise RuntimeError('no lot attribute value was recorded')
 
 
+def _flour_results(insp, ash, moisture, gluten):
+    """A result for every check of the flour specification: the three the story is about by name, every other one in the middle of its limits."""
+    named = {'ash': ash, 'moisture': moisture, 'wet gluten': gluten}
+    for line in insp.spec_id.line_ids:
+        value = next((v for key, v in named.items() if line.name.lower().startswith(key)), round((line.min_value + line.max_value) / 2.0, 3))
+        insp.record_result(line, value)
+
+
 def finished_goods():
     flour_recipe = env['mos.recipe'].search([('state', '=', 'approved')], limit=1)
     flour, bran = flour_recipe.product_id, product('Wheat bran')
@@ -54,13 +62,11 @@ def finished_goods():
     released, rejected, waiting = batches[:3]
     for batch, values, outcome in ((released, (0.58, 12.6, 30.5), 'release'), (rejected, (0.95, 15.8, 22.0), 'reject')):
         insp = env['mos.batch.inspection'].with_user(analyst).create({'batch_id': batch.id})
-        for line, value in zip(insp.spec_id.line_ids, values):
-            insp.record_result(line, value)
+        _flour_results(insp, *values)
         insp.action_submit()
         insp.with_user(labmgr).decide(outcome, 'Meets the specification' if outcome == 'release' else 'Ash and moisture above the limits: not for sale')
     waiting_insp = env['mos.batch.inspection'].with_user(analyst).create({'batch_id': waiting.id})
-    for line, value in zip(waiting_insp.spec_id.line_ids, (0.61, 12.9, 29.8)):
-        waiting_insp.record_result(line, value)
+    _flour_results(waiting_insp, 0.61, 12.9, 29.8)
     waiting_insp.action_submit()  # tested, waiting for the lab manager
     bag50 = product('Bread flour 50 kg bag')
     bag25 = product('Bread flour 25 kg bag')

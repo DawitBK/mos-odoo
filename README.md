@@ -11,10 +11,11 @@ writes the small version it needs rather than waiting.
 | Addon | What it adds | Requirements it cites |
 |---|---|---|
 | `mos_approvals` | Approval matrix by amount, site and role, segregation of duties, delegation, escalation, approvals inbox (FR-PLT-023..032, 054) | FR-PLT: 8 |
+| `mos_areas` | Each role sees the menus of the areas it works in, not every screen of the mill | - |
 | `mos_auth_oidc` | Sign in through an OpenID Connect identity provider; users must already exist (FR-PLT-010, 011); signs out with it | FR-PLT: 2 |
 | `mos_commercial` | Customer approval and credit-limit changes, price floors and discount limits, approved price lists, credit notes, customer returns, proof of delivery, statements | FR-SAL: 7 |
 | `mos_controls` | Period close and lock dates, backdating windows, date sanity checks, the process exceptions queue and global search | FR-PLT: 4 |
-| `mos_core` | Sites, scoping, reason codes, hash-chained audit log and posting rules for MOS | FR-MD: 1; FR-PLT: 8 |
+| `mos_core` | Sites, scoping, reason codes, hash-chained audit log and posting rules for MOS | FR-MD: 1; FR-PLT: 9 |
 | `mos_counts` | Blind counting, a printable count sheet, import of counts from a spreadsheet, a recount by a different person when a variance is large, and a review that can ask for changes (FR-INV-009) | FR-INV: 1 |
 | `mos_dashboard` | The flour mill at a glance: trucks, inspections, tonnes received, silos, milling and extraction | FR-PLT: 1 |
 | `mos_dashboards` | The approvals dashboard (total, pending, approved, rejected, average approval time with a six-month trend, each figure opening its list) and the mill overview as cards | FR-PLT: 1; FR-RPT: 1 |
@@ -22,12 +23,12 @@ writes the small version it needs rather than waiting.
 | `mos_documents` | Typed attachment slots with a Verify status on purchase requests and orders, deliveries, supplier invoices and payment vouchers; optional approval of every supplier invoice (FR-AP-020); optional deposit slip and verified invoice rules | FR-AP: 1; FR-PLT: 1 |
 | `mos_finance_plus` | Self-billing, supplier statements, GRNI reconciliation, VAT and withholding registers, journal export for the external accounts, payment runs | FR-AP: 6 |
 | `mos_flows` | Flow B (packaged goods into quarantine), flow C (lab-led, gate off), automatic receipts, pre-flight checks, receipt exceptions, payables drafted from receipts | FR-INB: 6; FR-QC: 1 |
-| `mos_gate` | Gate visits, weigh tickets, watch list, shifts, exit pass, incidents, stored tare, material gate passes and throughput report | FR-GATE: 16 |
+| `mos_gate` | Gate visits, weigh tickets, watch list, shifts, exit pass, incidents, stored tare, material gate passes and throughput report | FR-GATE: 17 |
 | `mos_gate_multi` | One truck delivering against several purchase orders: intermediate weighings, allocation of the net weight, a receipt per document | FR-GATE: 1 |
 | `mos_gate_plus` | Gate posts and weighbridges, plate search and expected arrivals, tolerance rules, clearance log with supervisor override, service visits, paper mode with back-entry, gate registers | FR-GATE: 12 |
 | `mos_home` | The first screen of MOS: what needs the person today, the day in figures, quick actions, silos, trucks at the gate and the latest milling runs | - |
 | `mos_inbound` | Inbound raw-material flow: gate, weighing, inspection and a system-prepared goods receipt | FR-INB: 2 |
-| `mos_inventory` | Stock adjustments with approval, cycle counts, quarantine and blocked stock, reorder report, archive rules, labels | FR-INV: 5; FR-MD: 1 |
+| `mos_inventory` | Stock adjustments with approval, cycle counts, quarantine and blocked stock, reorder report, archive rules, labels | FR-GATE: 1; FR-INV: 7; FR-MD: 1; FR-PLT: 1 |
 | `mos_lab` | Versioned specifications, inspections, rule-based deductions, grading, sampling plans, retention samples, certificates of analysis and lab reports | FR-QC: 11 |
 | `mos_manufacturing` | Batches and traceability, finished-goods release, packing, fortification dosing, work centres, downtime, cost settlement, production and planner reports | FR-MFG: 8; FR-QC: 1 |
 | `mos_master_plus` | Unique tax numbers and duplicate warnings, individual suppliers, item conversions that never change once used, quality concessions through the approval matrix, heavy reports as background jobs | FR-MD: 4; FR-QC: 1; FR-RPT: 1 |
@@ -52,8 +53,8 @@ writes the small version it needs rather than waiting.
 | `mos_supplier_portal` | A supplier signs in to see its own orders, promise delivery dates, answer requests for quotation, submit invoices and read its statement | - |
 | `mos_theme` | The blue and navy look of the client screens: colours, status pills, section headers, summary cards and tables, for every MOS screen | - |
 
-41 addons. The table is generated from each addon's manifest and the requirement ids its code cites; the status of every FRD requirement
-(built, partial, gap) is in `MOS/docs/3-design/IMPLEMENTATION-STATUS.md`.
+42 addons. The table is generated from each addon's manifest and the requirement ids its code cites; the status of every FRD requirement
+(built, partial, gap) is in `MOS/docs/3-design/IMPLEMENTATION-STATUS.md`. The order of the work is in `docs/ROADMAP.md`.
 
 **Known limit (fit-gap section 4):** Odoo connects to its database as the owner, so "not even an administrator can
 change a posted row, enforced by database grants" cannot be kept. The addons enforce it in the application and add a

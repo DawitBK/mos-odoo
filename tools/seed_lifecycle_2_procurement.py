@@ -25,12 +25,12 @@ def suppliers():
                 'vat': tin,
                 'trade_licence': f'TL/2026/{tin[-4:]}',
                 'licence_expires': today + timedelta(days=300),
-                'contact': 'Sales office',
+                'contact_ids': [Command.create({'name': 'Sales office', 'role': 'Sales', 'phone': '+251 11 555 01' + tin[-2:]})],
                 'phone': '+251 11 555 01' + tin[-2:],
                 'email': 'sales@' + ''.join(ch for ch in name.lower() if ch.isalnum())[:18] + '.example',
+                'country_id': env.ref('base.et').id,
                 'address': 'Industrial zone, Addis Ababa',
-                'bank_name': 'Commercial Bank',
-                'bank_account': account or False,
+                'bank_ids': [Command.create({'bank_name': 'Commercial Bank', 'account_name': name, 'account_number': account})] if account else [],
                 'activity': 'Supplies ' + ('wheat and barley' if 'Grain' in name or 'Commodit' in name else 'the mill'),
             }
         )
@@ -190,10 +190,24 @@ def returns():
 
 
 def reassignments():
-    visits = env['mos.gate.visit'].search([('purpose', '=', 'inbound_po'), ('state', '=', 'weighed'), ('grn_state', '=', 'none'), ('purchase_id.partner_id.name', 'like', 'Plains')], order='id desc')
-    target = env['purchase.order'].search([('state', '=', 'purchase'), ('receipt_status', '!=', 'full'), ('partner_id.name', 'like', 'Plains')], order='id desc', limit=1)
-    if len(visits) < 3 or not target:
-        raise RuntimeError('no weighed deliveries from one supplier to move')
+    # The base demo data picks its suppliers at random: use the supplier that has the most weighed, unreceived deliveries.
+    waiting_visits = env['mos.gate.visit'].search([('purpose', '=', 'inbound_po'), ('state', '=', 'weighed'), ('grn_state', '=', 'none')], order='id desc')
+    visits = env['mos.gate.visit']
+    for supplier in waiting_visits.mapped('purchase_id.partner_id'):
+        mine = waiting_visits.filtered(lambda v: v.purchase_id.partner_id == supplier)
+        target = env['purchase.order'].search([('state', '=', 'purchase'), ('receipt_status', '!=', 'full'), ('partner_id', '=', supplier.id), ('id', 'not in', mine.mapped('purchase_id').ids)], order='id desc', limit=1) or env['purchase.order'].search([('state', '=', 'purchase'), ('receipt_status', '!=', 'full'), ('partner_id', '=', supplier.id)], order='id desc', limit=1)
+        if len(mine) >= 3 and target and len(mine) > len(visits):
+            visits, best_target = mine, target
+    if len(visits) < 3:
+        # Not enough in the base data: weigh in the missing deliveries for one supplier, against one order each, and leave an open order to move them to.
+        supplier = partner_model.search([('name', 'like', 'Plains')], limit=1) or waiting_visits.mapped('purchase_id.partner_id')[:1]
+        made = env['mos.gate.visit']
+        for n in range(max(0, 3 - len(visits))):
+            made |= weighed_delivery(supplier, f'AA-RA{n}{len(waiting_visits)}')
+        visits = (visits | made).sorted('id', reverse=True)
+        best_target = env['purchase.order'].with_user(buyer).create({'partner_id': supplier.id, 'order_line': [Command.create({'product_id': product('Bread wheat (local)').id, 'product_qty': 30000, 'price_unit': product('Bread wheat (local)').standard_price})]})
+        confirm_po(best_target, buyer)
+    target = best_target
     moved, waiting, refused = visits[0], visits[1], visits[2]
     for visit, note in ((moved, 'Booked against last month\'s order by mistake'), (waiting, 'The driver\'s papers name the new order'), (refused, 'Supplier asked for it')):
         env['mos.grn.reassignment'].with_user(buyer).create({'visit_id': visit.id, 'to_order_id': target.id, 'reason': note})
