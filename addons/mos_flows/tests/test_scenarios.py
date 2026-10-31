@@ -432,3 +432,18 @@ class TestScenarios(TransactionCase):
         change.with_user(self.finance).action_apply()
         with self.assertRaises(UserError):
             self.env['mos.payment'].with_user(self.cashier).create({'voucher_id': voucher.id, 'amount': 1000.0, 'account_id': self.account.id})
+
+    def test_a_prepared_receipt_nobody_confirms_reaches_the_exception_queue(self):
+        """The GRN-draft SLA job (process model 9.3): a prepared receipt waiting past the limit opens an exception, and confirming clears it."""
+        order = self._order()
+        visit = self._weighed(order, 'SLA-001')
+        visit.sudo().grn_state = 'prepared'
+        self.env.flush_all()  # the state write must reach the table before the date is moved back
+        self.env.cr.execute("UPDATE mos_gate_visit SET write_date = now() - interval '6 hours' WHERE id = %s", [visit.id])
+        visit.invalidate_recordset()
+        self.env['mos.exception']._cron_scan()
+        found = self.env['mos.exception'].search([('kind', '=', 'grn_draft_old'), ('res_model', '=', 'mos.gate.visit'), ('res_id', '=', visit.id), ('state', 'in', ('open', 'assigned'))])
+        self.assertEqual(len(found), 1)
+        visit.sudo().grn_state = 'confirmed'
+        self.env['mos.exception']._cron_scan()
+        self.assertEqual(found.state, 'resolved')

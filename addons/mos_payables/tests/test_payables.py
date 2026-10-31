@@ -1,4 +1,6 @@
-from odoo import Command
+from datetime import timedelta
+
+from odoo import Command, fields
 from odoo.exceptions import UserError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase, new_test_user
@@ -136,6 +138,49 @@ class TestPayables(TransactionCase):
         with self.assertRaises(UserError):
             pay.cheque_leaf_id.action_void('too late')
         self.assertEqual(book.unused, 3)
+
+    def _issued_leaf(self, ref):
+        book = self.env['mos.cheque.book'].create({'account_id': self.account.id, 'prefix': ref, 'first_no': 1, 'last_no': 5})
+        inv = self._payable(ref=f'INV-{ref}', qty=10000)
+        voucher = self.env['mos.payment.voucher'].with_user(self.clerk).create({'supplier_id': self.supplier.id, 'line_ids': [Command.create({'invoice_id': inv.id})]})
+        voucher.action_submit()
+        pay = self.env['mos.payment'].with_user(self.cashier).create(
+            {'voucher_id': voucher.id, 'amount': voucher.net_amount, 'account_id': self.account.id, 'method': 'cheque', 'cheque_book_id': book.id}
+        )
+        return pay.cheque_leaf_id, book
+
+    def test_an_issued_cheque_can_be_cleared_on_a_day_between_issue_and_today(self):
+        leaf, book = self._issued_leaf('CLR')
+        self.assertEqual(leaf.issued_on, fields.Date.context_today(leaf))
+        with self.assertRaises(UserError):
+            leaf.action_clear(fields.Date.context_today(leaf) + timedelta(days=2))
+        with self.assertRaises(UserError):
+            leaf.action_clear(fields.Date.context_today(leaf) - timedelta(days=2))
+        leaf.action_clear(fields.Date.context_today(leaf))
+        self.assertEqual(leaf.state, 'cleared')
+        with self.assertRaises(UserError):
+            leaf.action_clear(fields.Date.context_today(leaf))
+
+    def test_a_cheque_becomes_stale_only_after_the_configured_age_and_the_daily_job_does_it(self):
+        leaf, book = self._issued_leaf('STL')
+        with self.assertRaises(UserError):
+            leaf.action_mark_stale()
+        self.assertEqual(self.env['mos.cheque.leaf']._cron_mark_stale(), 0)
+        self.env['ir.config_parameter'].sudo().set_int('mos_payables.cheque_stale_days', 30)
+        leaf.sudo().issued_on = fields.Date.context_today(leaf) - timedelta(days=31)
+        self.assertEqual(self.env['mos.cheque.leaf']._cron_mark_stale(), 1)
+        self.assertEqual(leaf.state, 'stale')
+
+    def test_a_missing_cheque_is_accounted_for_with_a_reason(self):
+        leaf, book = self._issued_leaf('MIS')
+        spare = book.leaf_ids.filtered(lambda l: l.state == 'unused')[:1]
+        with self.assertRaises(UserError):
+            spare.action_report_missing('')
+        spare.action_report_missing('Lost in the move')
+        self.assertEqual((spare.state, spare.void_reason), ('missing', 'Lost in the move'))
+        leaf.action_clear(fields.Date.context_today(leaf))
+        with self.assertRaises(UserError):
+            leaf.action_report_missing('too late')
 
     def test_supplier_balance_and_ageing(self):
         inv = self._payable(ref='INV-300', qty=10000)

@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
@@ -83,9 +85,15 @@ class MosChequeLeaf(models.Model):
     book_id = fields.Many2one('mos.cheque.book', required=True, ondelete='restrict', index=True)
     number = fields.Integer(required=True)
     full_number = fields.Char(compute='_compute_full', store=True)
-    state = fields.Selection([('unused', 'Unused'), ('issued', 'Issued'), ('void', 'Voided')], default='unused', required=True)
-    void_reason = fields.Char()
+    state = fields.Selection(
+        [('unused', 'Unused'), ('issued', 'Issued'), ('cleared', 'Cleared'), ('stale', 'Stale'), ('void', 'Voided'), ('missing', 'Reported missing')],
+        default='unused',
+        required=True,
+    )
+    void_reason = fields.Char(string='Reason')
     payment_id = fields.Many2one('mos.payment', readonly=True)
+    issued_on = fields.Date(readonly=True)
+    cleared_on = fields.Date(string='Cleared on', readonly=True)
 
     _number_uniq = models.Constraint('unique(book_id, number)', 'A cheque number appears once in a book.')
 
@@ -101,3 +109,48 @@ class MosChequeLeaf(models.Model):
             if not reason:
                 raise UserError(self.env._('A reason is required to void a cheque.'))
             leaf.write({'state': 'void', 'void_reason': reason})
+
+    def action_clear(self, cleared_on):
+        """The bank paid the cheque: record the day (FR-AP-016)."""
+        for leaf in self:
+            if leaf.state != 'issued':
+                raise UserError(self.env._('Only an issued cheque can be cleared.'))
+            if not cleared_on:
+                raise UserError(self.env._('Say the day the bank cleared it.'))
+            cleared_on = fields.Date.to_date(cleared_on)
+            if cleared_on > fields.Date.context_today(self):
+                raise UserError(self.env._('A cheque cannot clear in the future.'))
+            if leaf.issued_on and cleared_on < leaf.issued_on:
+                raise UserError(self.env._('A cheque cannot clear before the day it was issued.'))
+            leaf.write({'state': 'cleared', 'cleared_on': cleared_on})
+
+    @api.model
+    def _stale_days(self):
+        return self.env['ir.config_parameter'].sudo().get_int('mos_payables.cheque_stale_days', 180)
+
+    def action_mark_stale(self):
+        """An issued cheque nobody presented within the configured age is stale: the payment is chased or reversed, not waited for."""
+        limit = fields.Date.context_today(self) - timedelta(days=self._stale_days())
+        for leaf in self:
+            if leaf.state != 'issued':
+                raise UserError(self.env._('Only an issued cheque can become stale.'))
+            if not leaf.issued_on or leaf.issued_on > limit:
+                raise UserError(self.env._('%(no)s was issued less than %(days)s days ago.', no=leaf.full_number, days=self._stale_days()))
+            leaf.write({'state': 'stale'})
+
+    def action_report_missing(self, reason):
+        """A leaf nobody can find: it is accounted for as missing, with the reason, so the book has no unexplained gap."""
+        for leaf in self:
+            if leaf.state not in ('unused', 'issued'):
+                raise UserError(self.env._('Only an unused or issued cheque can be reported missing.'))
+            if not reason:
+                raise UserError(self.env._('Say what is known about the missing cheque.'))
+            leaf.write({'state': 'missing', 'void_reason': reason})
+
+    @api.model
+    def _cron_mark_stale(self):
+        """Daily: issued cheques older than the configured age become stale (process model 9.3)."""
+        limit = fields.Date.context_today(self) - timedelta(days=self._stale_days())
+        stale = self.sudo().search([('state', '=', 'issued'), ('issued_on', '<=', limit)])
+        stale.write({'state': 'stale'})
+        return len(stale)

@@ -141,7 +141,7 @@ class MosPayment(models.Model):
         payments = super().create(vals_list)
         for pay in payments:
             if pay.cheque_leaf_id:
-                pay.cheque_leaf_id.sudo().write({'state': 'issued', 'payment_id': pay.id})
+                pay.cheque_leaf_id.sudo().write({'state': 'issued', 'payment_id': pay.id, 'issued_on': pay.date or fields.Date.context_today(pay)})
             pay.voucher_id.invalidate_recordset(['paid_amount', 'remaining_amount'])
             pay.voucher_id._refresh_state()
             self.env['mos.audit.event'].record('payment_posted', pay, f'{pay.name}: {pay.amount} to {pay.supplier_id.name}')

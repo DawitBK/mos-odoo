@@ -376,7 +376,7 @@
                         <group><field name="unused"/><field name="gaps"/></group>
                     </group>
                     <field name="leaf_ids">
-                        <list create="0" delete="0"><field name="full_number"/><field name="state" widget="badge"/><field name="payment_id"/><field name="void_reason"/></list>
+                        <list create="0" delete="0" decoration-muted="state in ('void', 'missing')" decoration-warning="state == 'stale'" decoration-success="state == 'cleared'"><field name="full_number"/><field name="state" widget="badge"/><field name="payment_id"/><field name="issued_on"/><field name="cleared_on"/><field name="void_reason"/></list>
                     </field>
                 </sheet>
             </form>

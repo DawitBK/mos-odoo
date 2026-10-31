@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
@@ -5,7 +7,19 @@ from odoo.exceptions import UserError
 class MosException(models.Model):
     _inherit = 'mos.exception'
 
-    kind = fields.Selection(selection_add=[('receipt_exception', 'Receipt failed'), ('pv_setup', 'Payment set-up missing')], ondelete={'receipt_exception': 'cascade', 'pv_setup': 'cascade'})
+    kind = fields.Selection(
+        selection_add=[('receipt_exception', 'Receipt failed'), ('pv_setup', 'Payment set-up missing'), ('grn_draft_old', 'Goods receipt waiting to be confirmed')],
+        ondelete={'receipt_exception': 'cascade', 'pv_setup': 'cascade', 'grn_draft_old': 'cascade'},
+    )
+
+    @api.model
+    def _detectors(self):
+        """A goods receipt the system prepared and nobody confirmed within the limit (default 4 hours) goes to the storekeepers' queue."""
+        hours = self.env['ir.config_parameter'].sudo().get_int('mos_flows.grn_draft_sla_hours', 4)
+        waiting = fields.Datetime.now() - timedelta(hours=hours)
+        return super()._detectors() + [
+            ('grn_draft_old', 'medium', 'mos.gate.visit', [('grn_state', '=', 'prepared'), ('write_date', '<', waiting)], lambda r: f'{r.name} ({r.plate}): receipt prepared, waiting for the storekeeper since {r.write_date:%Y-%m-%d %H:%M}'),
+        ]
 
 
 class MosFlowSetting(models.Model):

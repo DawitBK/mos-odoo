@@ -16,6 +16,8 @@ ALLOWED.update(
         ('mos.lab.sample', 'action_discard'): ('reason',),
         ('mos.lab.coa', 'action_revoke'): ('reason',),
         ('mos.cheque.leaf', 'action_void'): ('reason',),
+        ('mos.cheque.leaf', 'action_clear'): ('date',),
+        ('mos.cheque.leaf', 'action_report_missing'): ('reason',),
         ('mos.purchase.contract', 'action_new_calloff'): ('number',),
         ('mos.purchase.contract', 'action_close'): ('reason',),
         ('mos.item.conversion', 'action_new_version'): ('number', 'date'),

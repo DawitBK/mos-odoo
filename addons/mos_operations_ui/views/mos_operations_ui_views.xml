@@ -160,6 +160,9 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='leaf_ids']/list/field[@name='void_reason']" position="after">
                 <button name="action_ui" string="Void" type="object" icon="fa-ban" context="{'mos_method': 'action_void', 'mos_title': 'Why is the cheque voided?'}" invisible="state != 'unused'"/>
+                <button name="action_ui" string="Cleared" type="object" icon="fa-check" context="{'mos_method': 'action_clear', 'mos_title': 'The day the bank cleared the cheque'}" invisible="state != 'issued'"/>
+                <button name="action_mark_stale" string="Stale" type="object" icon="fa-hourglass-end" invisible="state != 'issued'"/>
+                <button name="action_ui" string="Missing" type="object" icon="fa-question" context="{'mos_method': 'action_report_missing', 'mos_title': 'What is known about the missing cheque?'}" invisible="state not in ('unused', 'issued')"/>
             </xpath>
         </field>
     </record>
