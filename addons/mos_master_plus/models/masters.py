@@ -10,7 +10,18 @@ def _is_weight(uom, kilogram):
     return uom == kilogram or bool(uom.parent_path and kilogram.parent_path and uom.parent_path.split('/')[0] == kilogram.parent_path.split('/')[0])
 
 
-MATERIAL_TYPES = [('raw', 'Raw material'), ('packaging', 'Packaging'), ('finished', 'Finished goods'), ('spare', 'Spare parts'), ('consumable', 'Consumable'), ('other', 'Other')]
+MATERIAL_TYPES = [
+    ('raw', 'Raw material'),
+    ('packaging', 'Packaging'),
+    ('semi', 'Semi-finished'),
+    ('finished', 'Finished goods'),
+    ('byproduct', 'By-product'),
+    ('scrap', 'Scrap'),
+    ('consumable', 'Consumable'),
+    ('spare', 'Spare part (MRO)'),
+    ('nonstock', 'Non-stock'),
+    ('other', 'Other'),
+]
 
 
 class StockWarehouse(models.Model):

@@ -160,6 +160,9 @@
                         <div class="mos-section-title"><i class="mos-ico mos-ico-clipboard"/> Other Information</div>
                         <div class="mos-fieldgrid mos-fieldgrid-3">
                             <div><label for="mos_inspection_required" string="Inspection required"/><field name="mos_inspection_required"/></div>
+                            <div><label for="tracking" string="Lot tracking"/><field name="tracking"/></div>
+                            <div><label for="mos_shelf_life_days" string="Shelf life (days)"/><field name="mos_shelf_life_days"/></div>
+                            <div><label for="mos_pack_tare_kg" string="Packaging tare (kg)"/><field name="mos_pack_tare_kg"/></div>
                         </div>
                     </div>
                 </sheet>

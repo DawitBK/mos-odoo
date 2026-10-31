@@ -113,6 +113,11 @@ class StockLot(models.Model):
         for vals in vals_list:
             if vals.get('name', '/') in ('/', False, ''):
                 vals['name'] = self._mos_next_name()
+            # A lot made on a day, of an item with a shelf life, expires that many days later unless somebody says otherwise (FR-MD-003).
+            if vals.get('mos_mfg_date') and not vals.get('mos_expiry_date') and vals.get('product_id'):
+                days = self.env['product.product'].browse(vals['product_id']).product_tmpl_id.sudo().mos_shelf_life_days if 'mos_shelf_life_days' in self.env['product.template']._fields else 0
+                if days:
+                    vals['mos_expiry_date'] = fields.Date.to_date(vals['mos_mfg_date']) + timedelta(days=days)
         return super().create(vals_list)
 
     @api.constrains('mos_mfg_date', 'mos_expiry_date')
