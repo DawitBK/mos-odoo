@@ -16,6 +16,10 @@ Settings (system parameters, set by the deployment, never in code):
     mos_auth_oidc.client_secret
     mos_auth_oidc.redirect_uri   optional; defaults to <this server>/mos/oidc/callback
     mos_auth_oidc.logout_redirect_uri  optional; where the browser returns after "use another account"; defaults to <this server>/odoo
+    mos_auth_oidc.internal_url   optional; where THIS SERVER reaches the identity provider when it runs on the same machine or network
+                                 (for example http://host.docker.internal:15080/sso-backend). An address the provider published under its
+                                 public issuer is then called on the same path under this one, so sign-in does not depend on the public
+                                 internet; the browser keeps using the public addresses.
 """
 
 import base64
@@ -38,6 +42,7 @@ from ..oidc_jwt import LogoutTokenError, verify_logout_token
 
 _logger = logging.getLogger(__name__)
 TIMEOUT = 10
+GET_ATTEMPTS = 3
 JWKS_TTL_SECONDS = 600
 _jwks_cache = {}
 
@@ -50,12 +55,47 @@ def _param(name, default=''):
     return request.env['ir.config_parameter'].sudo().get_str(f'mos_auth_oidc.{name}', default)
 
 
+def internal_address(address, issuer, internal):
+    """Where this server calls an address the provider published: under `internal` when one is set and the address lies under the public issuer.
+
+    "Under the issuer" is decided at a path boundary: https://idp.example/sso-other is not under https://idp.example/sso.
+    Any other address, and every address when no internal URL is set, is returned unchanged.
+    """
+    internal = (internal or '').rstrip('/')
+    base = (issuer or '').rstrip('/')
+    if not internal or not base or not address.startswith(base):
+        return address
+    rest = address[len(base):]
+    if rest and rest[0] not in '/?#':
+        return address
+    return internal + rest
+
+
+def _internal(address):
+    return internal_address(address, _param('issuer'), _param('internal_url'))
+
+
+def _get(url, **kwargs):
+    """A read of the provider, tried up to three times when the connection fails or stalls: a reading has no side effect, so repeating it is safe."""
+    last = None
+    for attempt in range(GET_ATTEMPTS):
+        try:
+            response = requests.get(url, timeout=TIMEOUT, **kwargs)
+            response.raise_for_status()
+            return response
+        except (requests.ConnectionError, requests.Timeout) as error:
+            last = error
+            _logger.warning('reading %s failed (attempt %s of %s): %s', url, attempt + 1, GET_ATTEMPTS, error)
+            if attempt + 1 < GET_ATTEMPTS:
+                time.sleep(0.5 * (attempt + 1))
+    raise last
+
+
 def _discovery():
     issuer = _param('issuer').rstrip('/')
     if not issuer:
         raise ValueError('mos_auth_oidc.issuer is not set')
-    response = requests.get(f'{issuer}/.well-known/openid-configuration', timeout=TIMEOUT)
-    response.raise_for_status()
+    response = _get(_internal(f'{issuer}/.well-known/openid-configuration'))
     document = response.json()
     if document.get('issuer', '').rstrip('/') != issuer:
         raise ValueError('The identity provider reports a different issuer than the one configured')
@@ -70,8 +110,7 @@ def _jwks(discovery, force=False):
     cached = _jwks_cache.get(uri)
     if cached and not force and time.time() - cached[0] < JWKS_TTL_SECONDS:
         return cached[1]
-    response = requests.get(uri, timeout=TIMEOUT)
-    response.raise_for_status()
+    response = _get(_internal(uri))
     keys = response.json().get('keys', [])
     _jwks_cache[uri] = (time.time(), keys)
     return keys
@@ -162,7 +201,7 @@ class MosOidcController(http.Controller):
         try:
             discovery = _discovery()
             token = requests.post(
-                discovery['token_endpoint'],
+                _internal(discovery['token_endpoint']),
                 data={
                     'grant_type': 'authorization_code',
                     'code': kw['code'],
@@ -185,8 +224,7 @@ class MosOidcController(http.Controller):
                 or claims.get('exp', 0) < time.time()
             ):
                 raise ValueError('The ID token failed validation')
-            info = requests.get(discovery['userinfo_endpoint'], headers={'Authorization': f"Bearer {tokens['access_token']}"}, timeout=TIMEOUT)
-            info.raise_for_status()
+            info = _get(_internal(discovery['userinfo_endpoint']), headers={'Authorization': f"Bearer {tokens['access_token']}"})
             identity = info.json()
             if identity.get('sub') != claims.get('sub') or not identity.get('email') or identity.get('email_verified') is not True:
                 raise ValueError('The identity has no verified email')
