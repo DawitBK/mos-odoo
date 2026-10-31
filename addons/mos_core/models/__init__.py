@@ -2,5 +2,7 @@ from . import mos_site
 from . import mos_reason
 from . import mos_audit
 from . import mos_mixins
+from . import mos_department
 from . import res_users
 from . import mos_attachment
+from . import ir_sequence
