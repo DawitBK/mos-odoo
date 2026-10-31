@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_ir_sequence_form_mos" model="ir.ui.view">
+        <field name="name">ir.sequence.form.mos</field>
+        <field name="model">ir.sequence</field>
+        <field name="inherit_id" ref="base.sequence_view"/>
+        <field name="arch" type="xml">
+            <field name="use_date_range" position="before">
+                <field name="mos_reset"/>
+            </field>
+        </field>
+    </record>
+</odoo>

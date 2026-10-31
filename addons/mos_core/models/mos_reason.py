@@ -12,6 +12,7 @@ class MosReason(models.Model):
         [
             ('adjustment', 'Stock adjustment'),
             ('scrap', 'Scrap'),
+            ('misc_receipt', 'Miscellaneous receipt'),
             ('status_change', 'Stock status change'),
             ('transit_loss', 'Transit loss'),
             ('count', 'Count difference'),
